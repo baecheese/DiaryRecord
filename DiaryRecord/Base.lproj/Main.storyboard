@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -65,7 +66,21 @@
                     <view key="view" contentMode="scaleToFill" id="KD9-SG-CoP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" indicatorStyle="black" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4ll-ue-CTQ">
+                                <rect key="frame" x="67" y="192" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="0.62702047413793105" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="4ll-ue-CTQ" secondAttribute="trailing" id="Ady-VN-R0j"/>
+                            <constraint firstItem="4ll-ue-CTQ" firstAttribute="top" secondItem="qLJ-yH-tQ5" secondAttribute="bottom" constant="20" id="XrQ-V4-2k6"/>
+                            <constraint firstItem="4ll-ue-CTQ" firstAttribute="leading" secondItem="KD9-SG-CoP" secondAttribute="leadingMargin" id="mU6-Ns-rAm"/>
+                            <constraint firstItem="dR8-jn-f26" firstAttribute="top" secondItem="4ll-ue-CTQ" secondAttribute="bottom" constant="20" id="pcP-lz-Nrc"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="write page" id="MaM-u9-FqP">
                         <barButtonItem key="rightBarButtonItem" title="save" id="3ld-dn-O41"/>
