@@ -85,6 +85,9 @@
                     <navigationItem key="navigationItem" title="write page" id="MaM-u9-FqP">
                         <barButtonItem key="rightBarButtonItem" title="save" id="3ld-dn-O41"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="contentsTextView" destination="4ll-ue-CTQ" id="pXm-Jv-PLQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1S-ct-Vtr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

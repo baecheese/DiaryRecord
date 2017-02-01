@@ -11,7 +11,8 @@ import RealmSwift
 
 class Diary: Object {
     
-    //dynamic var data
+    // data, time, content
+    
     
     
 }

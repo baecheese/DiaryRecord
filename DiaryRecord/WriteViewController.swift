@@ -10,12 +10,31 @@ import UIKit
 
 class WriteViewController: UIViewController {
 
+    @IBOutlet var contentsTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        makeContentsTextView()
+        
     }
-
+    
+    func makeContentsTextView() {
+        /* 텍스트뷰 상단 떨어지지 않게 */
+        self.automaticallyAdjustsScrollViewInsets = false
+        contentsTextView.contentOffset = CGPoint.zero
+    }
+    
+    func makeDate() -> String {
+        let now = NSDate()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
+        
+        return dateFormatter.string(from: now as Date)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
