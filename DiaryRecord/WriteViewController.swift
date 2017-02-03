@@ -19,9 +19,12 @@ class WriteViewController: UIViewController {
         
     }
     
-    //
-    
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
+        
+        // 인디케이터 --
+        
+        // 내용 및 날짜 저장 --
+        
         disappearPopAnimation()
         
     }
