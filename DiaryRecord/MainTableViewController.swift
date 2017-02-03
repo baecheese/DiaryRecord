@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 struct Data {
     
@@ -20,7 +21,6 @@ class MainTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     override func didReceiveMemoryWarning() {

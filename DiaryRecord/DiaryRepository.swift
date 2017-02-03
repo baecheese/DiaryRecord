@@ -15,15 +15,26 @@ class DiaryRepository: NSObject {
         super.init()
     }
     
+    
+    enum RuntimeJingError: Error {
+        case invalidCheese
+        case insufficientCrown(crown: Int)
+        case outOfPPU
+    }
+    
     func saveDiaryToRealm(data:String, time:String, content:String) {
         
         let diary = Diary()
+        
         let realm = try! Realm()
         do {
             try realm.write {
                 diary.data = data
                 diary.time = time
                 diary.content = content
+                realm.add(diary)
+                
+                throw RuntimeJingError.outOfPPU
             }
         } catch {
             print("error on")

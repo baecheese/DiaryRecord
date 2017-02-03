@@ -25,13 +25,14 @@ class WriteViewController: UIViewController {
         
         // 내용 및 날짜 저장 --
         
-//        var diaryRepo = DiaryRepository()
-//        diaryRepo.saveDiaryToRealm(data: makeDate(), time: makeTime(), content: ??)
-
+        let nowDate:String = makeDate()
+        let nowTime:String = makeTime()
+        
+        let diaryRepo = DiaryRepository()
+        diaryRepo.saveDiaryToRealm(data: nowDate, time: nowTime, content: contentsTextView.text)
         
         
-        
-        disappearPopAnimation()
+        //disappearPopAnimation()
         
     }
     
