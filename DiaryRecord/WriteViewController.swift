@@ -19,11 +19,15 @@ class WriteViewController: UIViewController {
         
     }
     
-    func makeContentsTextView() {
-        /* 텍스트뷰 상단 떨어지지 않게 */
-        self.automaticallyAdjustsScrollViewInsets = false
-        contentsTextView.contentOffset = CGPoint.zero
+    //
+    
+    @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
+        disappearPopAnimation()
+        
     }
+    
+
+    /* Data 관련 */
     
     func makeDate() -> String {
         let now = NSDate()
@@ -32,6 +36,24 @@ class WriteViewController: UIViewController {
         dateFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
         
         return dateFormatter.string(from: now as Date)
+    }
+    
+    
+    /* UI & 애니메이션 */
+    
+    func makeContentsTextView() {
+        /* 텍스트뷰 상단 떨어지지 않게 */
+        self.automaticallyAdjustsScrollViewInsets = false
+        contentsTextView.contentOffset = CGPoint.zero
+    }
+    
+    func disappearPopAnimation() {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
+        _ = self.navigationController?.popToRootViewController(animated: false)
     }
     
     

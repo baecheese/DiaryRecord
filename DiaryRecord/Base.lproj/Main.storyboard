@@ -83,7 +83,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="write page" id="MaM-u9-FqP">
-                        <barButtonItem key="rightBarButtonItem" title="save" id="3ld-dn-O41"/>
+                        <barButtonItem key="rightBarButtonItem" title="save" id="3ld-dn-O41">
+                            <connections>
+                                <action selector="clickSaveButton:" destination="5fn-gx-OTf" id="ejM-CR-pgp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="contentsTextView" destination="4ll-ue-CTQ" id="pXm-Jv-PLQ"/>
