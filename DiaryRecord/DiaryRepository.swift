@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 class DiaryRepository: NSObject {
     
@@ -14,8 +15,21 @@ class DiaryRepository: NSObject {
         super.init()
     }
     
-//    func saveDiary(data data:??, time time:??, contents contents:String) {
-//    }
+    func saveDiaryToRealm(data:String, time:String, content:String) {
+        
+        let diary = Diary()
+        let realm = try! Realm()
+        do {
+            try realm.write {
+                diary.data = data
+                diary.time = time
+                diary.content = content
+            }
+        } catch {
+            print("error on")
+        }
+        
+    }
     
 //    func getDiarys() -> ??? {
 //    // 일기 목록들 가져오기

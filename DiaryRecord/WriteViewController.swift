@@ -25,6 +25,12 @@ class WriteViewController: UIViewController {
         
         // 내용 및 날짜 저장 --
         
+//        var diaryRepo = DiaryRepository()
+//        diaryRepo.saveDiaryToRealm(data: makeDate(), time: makeTime(), content: ??)
+
+        
+        
+        
         disappearPopAnimation()
         
     }
@@ -35,10 +41,19 @@ class WriteViewController: UIViewController {
     func makeDate() -> String {
         let now = NSDate()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
         
         return dateFormatter.string(from: now as Date)
+    }
+    
+    func makeTime() -> String {
+        let now = NSDate()
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm:ss"
+        timeFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
+        
+        return timeFormatter.string(from: now as Date)
     }
     
     
