@@ -11,13 +11,14 @@ import RealmSwift
 
 class DiaryRepository: NSObject {
     
+    let log = Logger.init(logPlace: DiaryRepository.self)
+    
     override init() {
         super.init()
     }
-    
-    
+        
     enum ContentsSaveError: Error {
-        case contentsSizeIsOver(contents:String)
+        case contentsSizeIsOver
         case contentsIsEmpty
     }
     
@@ -33,21 +34,26 @@ class DiaryRepository: NSObject {
                 diary.content = content
                 if (content == "") {
                     throw ContentsSaveError.contentsIsEmpty
-                } else if (content.characters.count > 1000) {
-                    throw ContentsSaveError.contentsSizeIsOver(contents: content)
+                }
+                else if (content.characters.count > 1000) {
+                    throw ContentsSaveError.contentsSizeIsOver
                 }
                 realm.add(diary)
             }
-        } catch ContentsSaveError.contentsIsEmpty {
-            print("contentsIsEmpty")
+        }
+        catch ContentsSaveError.contentsIsEmpty {
+            log.warn(message: "contentsIsEmpty")
             return (false, "내용이 비어있습니다.")
-        } catch ContentsSaveError.contentsSizeIsOver(let contents) {
-            print("contentsIsOver")
+        }
+        catch ContentsSaveError.contentsSizeIsOver {
+            log.warn(message: "contentsIsOver")
             return (false, "글자수가 1000자를 넘었습니다.")
-        } catch {
-            print("realm error on")
+        }
+        catch {
+            log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
+        log.debug(message: "저장 완료")
         return (true, "저장 완료")
         
     }

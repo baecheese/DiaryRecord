@@ -37,41 +37,12 @@ class WriteViewController: UIViewController {
         if false == saveSuccess {
             showActivityIndicatory(start: false)
             showAlert(message: saveMethodMessage)
-        } else {
+        }
+        else {
             // 저장 성공 시
             showActivityIndicatory(start: false)
             disappearPopAnimation()
         }
-    }
-    
-    func showActivityIndicatory(start:Bool) {
-        let superViewHeight = self.view.frame.height
-        let superViewWidth = self.view.frame.width
-        let activityIndicatorSize: CGFloat = 40
-        activityIndicator.frame = CGRect(x: superViewWidth / 2 - activityIndicatorSize / 2,
-                                        y: superViewHeight / 2 - activityIndicatorSize / 2,
-                                        width: activityIndicatorSize,
-                                        height: activityIndicatorSize)
-        activityIndicator.activityIndicatorViewStyle =
-            UIActivityIndicatorViewStyle.whiteLarge
-        self.view.addSubview(activityIndicator)
-        if true == start {
-            activityIndicator.startAnimating()
-        }
-        else {
-            activityIndicator.stopAnimating()
-            activityIndicator.isHidden = true
-        }
-        
-    }
-    
-    func showAlert(message:String)
-    {
-        let alertController = UIAlertController(title: "error", message:
-            message, preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.default,handler: nil))
-        
-        self.present(alertController, animated: true, completion: nil)
     }
     
 
@@ -112,6 +83,37 @@ class WriteViewController: UIViewController {
         self.navigationController?.view.layer.add(transition, forKey: nil)
         _ = self.navigationController?.popToRootViewController(animated: false)
     }
+    
+    func showActivityIndicatory(start:Bool) {
+        let superViewHeight = self.view.frame.height
+        let superViewWidth = self.view.frame.width
+        let activityIndicatorSize: CGFloat = 40
+        activityIndicator.frame = CGRect(x: superViewWidth / 2 - activityIndicatorSize / 2,
+                                         y: superViewHeight / 2 - activityIndicatorSize / 2,
+                                         width: activityIndicatorSize,
+                                         height: activityIndicatorSize)
+        activityIndicator.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.whiteLarge
+        self.view.addSubview(activityIndicator)
+        if true == start {
+            activityIndicator.startAnimating()
+        }
+        else {
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+        }
+        
+    }
+    
+    func showAlert(message:String)
+    {
+        let alertController = UIAlertController(title: "error", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.default,handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+
     
     
     override func didReceiveMemoryWarning() {

@@ -11,26 +11,16 @@ import XCTest
 
 class DiaryRecordTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    let log = Logger.init(logPlace: DiaryRecordTests.self)
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testLogger() {
+        log.debug(message: "징이가 심심하다")
+        
+        log.info(message: "뭔가 중요한 정보여서 항시 남겨야 한다")
+        
+        log.warn(message: "날 수도 있을 것 같기는 한데 그렇다고 해서 앱이 멈추면 안되는 거다. 근데 자주 나면 체크는 해야겠다")
+        
+        log.error(message: "심각한 에러가 발생했는데, 그 내용을 로그로 남긴다")
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+
 }

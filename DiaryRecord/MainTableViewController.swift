@@ -17,9 +17,12 @@ struct Data {
 }
 
 class MainTableViewController: UITableViewController {
+    
+    let log = Logger.init(logPlace: MainTableViewController.self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        log.info(message: "앱이 시작되었습니다.")
     }
 
     override func didReceiveMemoryWarning() {
