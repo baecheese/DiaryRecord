@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 struct Data {
     
@@ -26,6 +25,12 @@ class MainTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // 임시 저장 목록 보기 버튼
+    @IBAction func tempAction(_ sender: Any) {
+        
+        DiaryRepository().getDiarysAll()
     }
 
     // MARK: - Table view data source

@@ -11,6 +11,7 @@ import UIKit
 class WriteViewController: UIViewController {
 
     @IBOutlet var contentsTextView: UITextView!
+    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,19 +22,56 @@ class WriteViewController: UIViewController {
     
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
         
-        // 인디케이터 --
+        showActivityIndicatory(start: true)
         
-        // 내용 및 날짜 저장 --
-        
+        // 날짜 및 내용 realm 저장
         let nowDate:String = makeDate()
         let nowTime:String = makeTime()
         
         let diaryRepo = DiaryRepository()
-        diaryRepo.saveDiaryToRealm(data: nowDate, time: nowTime, content: contentsTextView.text)
+        let trySaveDiary = diaryRepo.saveDiaryToRealm(data: nowDate, time: nowTime, content: contentsTextView.text)
         
+        let saveSuccess = trySaveDiary.0
+        let saveMethodMessage = trySaveDiary.1
         
-        //disappearPopAnimation()
+        if false == saveSuccess {
+            showActivityIndicatory(start: false)
+            showAlert(message: saveMethodMessage)
+        } else {
+            // 저장 성공 시
+            showActivityIndicatory(start: false)
+            disappearPopAnimation()
+        }
+    }
+    
+    func showActivityIndicatory(start:Bool) {
+        let superViewHeight = self.view.frame.height
+        let superViewWidth = self.view.frame.width
+        let activityIndicatorSize: CGFloat = 40
+        activityIndicator.frame = CGRect(x: superViewWidth / 2 - activityIndicatorSize / 2,
+                                        y: superViewHeight / 2 - activityIndicatorSize / 2,
+                                        width: activityIndicatorSize,
+                                        height: activityIndicatorSize)
+        activityIndicator.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.whiteLarge
+        self.view.addSubview(activityIndicator)
+        if true == start {
+            activityIndicator.startAnimating()
+        }
+        else {
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+        }
         
+    }
+    
+    func showAlert(message:String)
+    {
+        let alertController = UIAlertController(title: "error", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.default,handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
 
