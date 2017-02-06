@@ -16,30 +16,48 @@ class DiaryRepository: NSObject {
     }
     
     
-    enum RuntimeJingError: Error {
-        case invalidCheese
-        case insufficientCrown(crown: Int)
-        case outOfPPU
+    enum ContentsSaveError: Error {
+        case contentsSizeIsOver(contents:String)
+        case contentsIsEmpty
     }
     
-    func saveDiaryToRealm(data:String, time:String, content:String) {
+    var realm = try! Realm()
+    
+    func saveDiaryToRealm(data:String, time:String, content:String) -> (Bool, String) {
         
         let diary = Diary()
-        
-        let realm = try! Realm()
         do {
             try realm.write {
                 diary.data = data
                 diary.time = time
                 diary.content = content
+                if (content == "") {
+                    throw ContentsSaveError.contentsIsEmpty
+                } else if (content.characters.count > 1000) {
+                    throw ContentsSaveError.contentsSizeIsOver(contents: content)
+                }
                 realm.add(diary)
-                
-                throw RuntimeJingError.outOfPPU
             }
+        } catch ContentsSaveError.contentsIsEmpty {
+            print("contentsIsEmpty")
+            return (false, "내용이 비어있습니다.")
+        } catch ContentsSaveError.contentsSizeIsOver(let contents) {
+            print("contentsIsOver")
+            return (false, "글자수가 1000자를 넘었습니다.")
         } catch {
-            print("error on")
+            print("realm error on")
+            return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
+        return (true, "저장 완료")
         
+    }
+
+    
+    func getDiarysAll() {
+        let diarys:Results<Diary> = realm.objects(Diary.self)
+        print(
+            diarys
+        )
     }
     
 //    func getDiarys() -> ??? {
