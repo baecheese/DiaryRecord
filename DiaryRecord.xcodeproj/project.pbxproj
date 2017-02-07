@@ -840,6 +840,7 @@
 				035D7BAB1E48C36700F66B24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

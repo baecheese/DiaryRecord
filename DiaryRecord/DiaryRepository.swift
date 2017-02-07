@@ -23,10 +23,10 @@ class DiaryRepository: NSObject {
     }
     
     var realm = try! Realm()
+    let diary = Diary()
     
     func saveDiaryToRealm(data:String, time:String, content:String) -> (Bool, String) {
         
-        let diary = Diary()
         do {
             try realm.write {
                 diary.data = data
@@ -61,9 +61,14 @@ class DiaryRepository: NSObject {
     
     func getDiarysAll() {
         let diarys:Results<Diary> = realm.objects(Diary.self)
-        print(
-            diarys
-        )
+        log.info(message: "\(diarys)")
+    }
+    
+    
+    func deleteDiary(index:Int) {
+        try! realm.write {
+            
+        }
     }
     
 //    func getDiarys() -> ??? {

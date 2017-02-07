@@ -30,12 +30,18 @@ class MainTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // 임시 저장 목록 보기 버튼
+    // ----- 임시 저장 목록 보기 / 데이터 삭제 버튼 ------//
     @IBAction func tempAction(_ sender: Any) {
         
         DiaryRepository().getDiarysAll()
     }
 
+    @IBAction func deleteAction(_ sender: UIBarButtonItem) {
+        
+    }
+    // ------------------------------------------//
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
