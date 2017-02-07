@@ -64,10 +64,16 @@ class DiaryRepository: NSObject {
         log.info(message: "\(diarys)")
     }
     
-    
+    // -- 특정 데이터 인덱스 접근으로 삭제
     func deleteDiary(index:Int) {
-        try! realm.write {
-            
+        let diarys:Results<Diary> = realm.objects(Diary.self)
+        do {
+            try! realm.write {
+                realm.delete(diarys[index])
+            }
+        }
+        catch {
+            log.error(message: "realm error on")
         }
     }
     

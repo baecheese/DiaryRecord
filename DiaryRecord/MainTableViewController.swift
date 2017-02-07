@@ -37,7 +37,7 @@ class MainTableViewController: UITableViewController {
     }
 
     @IBAction func deleteAction(_ sender: UIBarButtonItem) {
-        
+        DiaryRepository().deleteDiary(index: 1)
     }
     // ------------------------------------------//
     
