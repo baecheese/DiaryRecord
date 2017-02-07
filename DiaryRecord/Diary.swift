@@ -11,8 +11,12 @@ import RealmSwift
 
 class Diary: Object {
     
-    // data, time, content
+    // data, time
+    // : "yyyy-MM-dd" / "HH:mm:ss"
     
     
+    dynamic var data = ""
+    dynamic var time = ""
+    dynamic var content = ""
     
 }

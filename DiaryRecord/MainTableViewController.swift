@@ -17,17 +17,31 @@ struct Data {
 }
 
 class MainTableViewController: UITableViewController {
+    
+    let log = Logger.init(logPlace: MainTableViewController.self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        log.info(message: "앱이 시작되었습니다.")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // ----- 임시 저장 목록 보기 / 데이터 삭제 버튼 ------//
+    @IBAction func tempAction(_ sender: Any) {
+        
+        DiaryRepository().getDiarysAll()
+    }
 
+    @IBAction func deleteAction(_ sender: UIBarButtonItem) {
+        
+    }
+    // ------------------------------------------//
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
