@@ -60,10 +60,55 @@ class DiaryRepository: NSObject {
     }
 
     
-    func getDiarysAll() {
+    func getDiarysAll() -> Results<Diary> {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         log.info(message: "\(diarys)")
+        return diarys
     }
+    
+    /*
+     1. restult <T>  전체 루프 -> dateID 추출
+     2. date 날짜순 정렬
+     3. 필터링으로 날짜순 + 시간 순
+     */
+    
+    // section list (날짜 순 날짜 리스트)
+    func getDateFromEarlierDate() -> Array<Int> {
+        let diaryAllArray = Array(getDiarysAll())
+        var dateList = [Int]()
+        for index in 0...diaryAllArray.count-1 {
+            //하나씩 꺼내서
+            let oneDiary = dateList[index]
+            
+            ///////// ------- one diary 가 딕셔너리인지, 확인해보기. 그래야 아래의 키로 벨류 찾을 수 있는 것 가능
+            
+            // 날짜 부분만
+            //dateList.append(oneDiary.value(forKey: "dateId") as! Int)
+        }
+        let uniqueDateList = removeOverlapObjectOfArray(source: dateList)
+        return uniqueDateList.sorted()
+    }
+    
+    func removeOverlapObjectOfArray<T: Equatable>(source: [T]) -> [T] {
+        var unique = [T]()
+        for item in source {
+            if !unique.contains(item) {
+                unique.append(item)
+            }
+        }
+        return unique
+    }
+    
+    // row
+//    func timeSequenceDiaryOfSameDay() ->  {
+//        // section의 날짜이면서
+//        // 같은 날짜의 모든 데이터 -> 시간만 뺌
+//        // sort 시간 순 리스트
+//        // sort해놓은 시간 순서로 루프
+//    }
+    
+    
+    
     
     // -- 특정 데이터 인덱스 접근으로 삭제 -- cheesing
     func deleteDiary(index:Int) {
@@ -77,6 +122,9 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
         }
     }
+    
+    
+    
     
 //    func getDiarys() -> ??? {
 //    // 일기 목록들 가져오기
