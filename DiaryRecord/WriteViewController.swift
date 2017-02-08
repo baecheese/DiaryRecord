@@ -25,7 +25,7 @@ class WriteViewController: UIViewController {
         showActivityIndicatory(start: true)
         
         // 날짜 및 내용 realm 저장
-        let nowDate:String = makeDate()
+        let nowDate:String = makeDate().1
         let nowTime:String = makeTime()
         
         let diaryRepo = DiaryRepository()
@@ -48,13 +48,22 @@ class WriteViewController: UIViewController {
 
     /* Data 관련 */
     
-    func makeDate() -> String {
-        let now = NSDate()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
+    func makeDate() -> (Int, String) {
         
-        return dateFormatter.string(from: now as Date)
+        let dateNumberFormatter = DateFormatter()
+        dateNumberFormatter.dateFormat = "yyyyMMdd"
+        dateNumberFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
+        
+        let dateNumber = Int(dateNumberFormatter.string(from: now as Date))
+        
+        let now = NSDate()
+        let dateStringFormatter = DateFormatter()
+        dateStringFormatter.dateFormat = "yyyy-MM-dd"
+        dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
+        
+        let dateString = dateStringFormatter.string(from: now as Date)
+        
+        return (dateNumber!, dateString)
     }
     
     func makeTime() -> String {
