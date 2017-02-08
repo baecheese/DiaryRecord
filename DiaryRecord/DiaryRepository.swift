@@ -25,11 +25,13 @@ class DiaryRepository: NSObject {
     var realm = try! Realm()
     let diary = Diary()
     
-    func saveDiaryToRealm(data:String, time:String, content:String) -> (Bool, String) {
+    func saveDiaryToRealm(dateId:Int, timeId:Int, date:String, time:String, content:String) -> (Bool, String) {
         
         do {
             try realm.write {
-                diary.data = data
+                diary.dateId = dateId
+                diary.timeId = timeId
+                diary.data = date
                 diary.time = time
                 diary.content = content
                 if (content == "") {
@@ -53,6 +55,7 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
+        log.info(message: "dateId:\(dateId), timeId:\(timeId), data:\(date), time:\(time), content:\(content)")
         log.debug(message: "저장 완료")
         return (true, "저장 완료")
         
