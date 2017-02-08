@@ -55,10 +55,8 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "dateId:\(dateId), timeId:\(timeId), data:\(date), time:\(time), content:\(content)")
-        log.debug(message: "저장 완료")
+        log.info(message: "저장 완료 - dateId:\(dateId), timeId:\(timeId), data:\(date), time:\(time), content:\(content)")
         return (true, "저장 완료")
-        
     }
 
     
@@ -67,7 +65,7 @@ class DiaryRepository: NSObject {
         log.info(message: "\(diarys)")
     }
     
-    // -- 특정 데이터 인덱스 접근으로 삭제
+    // -- 특정 데이터 인덱스 접근으로 삭제 -- cheesing
     func deleteDiary(index:Int) {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         do {
