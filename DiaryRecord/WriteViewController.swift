@@ -25,61 +25,23 @@ class WriteViewController: UIViewController {
         showActivityIndicatory(start: true)
         
         // 날짜 및 내용 realm 저장
-        let nowDateId = makeDate().0
-        let nowTimeId = makeTime().0
-        let nowDate:String = makeDate().1
-        let nowTime:String = makeTime().1
+        let nowDateTimeID = CalculatorCalendar().nowTimestamp()
         
         let diaryRepo = DiaryRepository()
-        let trySaveDiary:(Bool, String) = diaryRepo.saveDiaryToRealm(dateId: nowDateId, timeId: nowTimeId, date: nowDate, time: nowTime, content: contentsTextView.text)// (저장결과, 메세지)
+        let trySaveDiary:(Bool, String) = diaryRepo.saveDiaryToRealm(dateTimeID: nowDateTimeID, content: contentsTextView.text)// (저장결과, 메세지)
         
         let saveSuccess = trySaveDiary.0
-        let saveMethodMessage = trySaveDiary.1
+        let saveMethodResultMessage = trySaveDiary.1
         
         if false == saveSuccess {
             showActivityIndicatory(start: false)
-            showAlert(message: saveMethodMessage)
+            showAlert(message: saveMethodResultMessage)
         }
         else {
             // 저장 성공 시
             showActivityIndicatory(start: false)
             disappearPopAnimation()
         }
-    }
-    
-
-    /* Data 관련 */
-    
-    func makeDate() -> (Int, String) {
-        let now = NSDate()
-        
-        let dateNumberFormatter = DateFormatter()
-        dateNumberFormatter.dateFormat = "yyyyMMdd"
-        dateNumberFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
-        let dateNumber = Int(dateNumberFormatter.string(from: now as Date))
-        
-        let dateStringFormatter = DateFormatter()
-        dateStringFormatter.dateFormat = "yyyy-MM-dd"
-        dateStringFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
-        let dateString = dateStringFormatter.string(from: now as Date)
-        
-        return (dateNumber!, dateString)
-    }
-    
-    func makeTime() -> (Int, String) {
-        let now = NSDate()
-        
-        let timeNumberFormatter = DateFormatter()
-        timeNumberFormatter.dateFormat = "HHmmss"
-        timeNumberFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
-        let timeNumber = Int(timeNumberFormatter.string(from: now as Date))
-        
-        let timeStrigFormatter = DateFormatter()
-        timeStrigFormatter.dateFormat = "HH:mm:ss"
-        timeStrigFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
-        let timeString = timeStrigFormatter.string(from: now as Date)
-        
-        return (timeNumber!, timeString)
     }
     
     

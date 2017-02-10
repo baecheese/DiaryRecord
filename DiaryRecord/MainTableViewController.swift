@@ -32,12 +32,17 @@ class MainTableViewController: UITableViewController {
     
     // ----- 임시 저장 목록 보기 / 데이터 삭제 버튼 ------//
     @IBAction func tempAction(_ sender: Any) {
-        
-        DiaryRepository().getDiarysAll()
+        log.info(message: "\(DiaryRepository().getDiarysAll())")
     }
 
     @IBAction func deleteAction(_ sender: UIBarButtonItem) {
-        DiaryRepository().deleteDiary(index: 1)
+        
+        // 날짜 생성 테스트 버튼
+        
+        log.info(message: "timeIntervalSince1970 : \(NSDate().timeIntervalSince1970) --- \(NSDate(timeIntervalSince1970: NSDate().timeIntervalSince1970))")
+        
+        
+        //DiaryRepository().deleteDiary(index: 1)
     }
     // ------------------------------------------//
     

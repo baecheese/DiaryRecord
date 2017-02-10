@@ -14,12 +14,7 @@ class Diary: Object {
     // data, time
     // : "yyyy-MM-dd" / "HH:mm:ss"
     
-    
-    dynamic var dateId = 0
-    dynamic var timeId = 0
-    
-    dynamic var data = ""
-    dynamic var time = ""
+    dynamic var dateTimeID = 0.0
     dynamic var content = ""
     
 }
