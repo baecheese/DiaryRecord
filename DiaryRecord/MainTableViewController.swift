@@ -39,7 +39,7 @@ class MainTableViewController: UITableViewController {
         
         // 날짜 생성 테스트 버튼
         
-        log.info(message: "\(CalculatorCalendar().CalculatorDate(dateTimeID: 1486711142.10153))")
+        log.info(message: "\(CalculatorCalendar().CalculatorDate(dateTimeID: 1486711142.10153)) -- \(CalculatorCalendar().CalculatorTime(dateTimeID: 1486711142.10153))")
         
         
 //        log.info(message: "timeIntervalSince1970 : \(NSDate().timeIntervalSince1970) --- \(NSDate(timeIntervalSince1970: NSDate().timeIntervalSince1970))")
