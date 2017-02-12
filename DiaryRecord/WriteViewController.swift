@@ -25,18 +25,17 @@ class WriteViewController: UIViewController {
         showActivityIndicatory(start: true)
         
         // 날짜 및 내용 realm 저장
-        let nowDate:String = makeDate()
-        let nowTime:String = makeTime()
+        let nowDateTimeID = TimeInterval().now()
         
         let diaryRepo = DiaryRepository()
-        let trySaveDiary = diaryRepo.saveDiaryToRealm(data: nowDate, time: nowTime, content: contentsTextView.text)
+        let trySaveDiary:(Bool, String) = diaryRepo.save(dateTimeID: nowDateTimeID, content: contentsTextView.text)// (저장결과, 메세지)
         
         let saveSuccess = trySaveDiary.0
-        let saveMethodMessage = trySaveDiary.1
+        let saveMethodResultMessage = trySaveDiary.1
         
         if false == saveSuccess {
             showActivityIndicatory(start: false)
-            showAlert(message: saveMethodMessage)
+            showAlert(message: saveMethodResultMessage)
         }
         else {
             // 저장 성공 시
@@ -44,28 +43,6 @@ class WriteViewController: UIViewController {
             disappearPopAnimation()
         }
     }
-    
-
-    /* Data 관련 */
-    
-    func makeDate() -> String {
-        let now = NSDate()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
-        
-        return dateFormatter.string(from: now as Date)
-    }
-    
-    func makeTime() -> String {
-        let now = NSDate()
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "HH:mm:ss"
-        timeFormatter.locale = NSLocale(localeIdentifier: "ko_KR") as Locale!
-        
-        return timeFormatter.string(from: now as Date)
-    }
-    
     
     /* UI & 애니메이션 */
     

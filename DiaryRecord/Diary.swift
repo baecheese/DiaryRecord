@@ -11,12 +11,14 @@ import RealmSwift
 
 class Diary: Object {
     
+    dynamic var id = 0
     // data, time
     // : "yyyy-MM-dd" / "HH:mm:ss"
-    
-    
-    dynamic var data = ""
-    dynamic var time = ""
+    dynamic var dateTimeID:TimeInterval = 0.0
     dynamic var content = ""
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
     
 }
