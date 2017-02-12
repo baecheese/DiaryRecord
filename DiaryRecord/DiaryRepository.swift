@@ -66,9 +66,13 @@ class DiaryRepository: NSObject {
     /*
      1. 데이터 꺼내서
      2. key value로 dateTimeID : content 정렬
+     
+     (형식 ex)
+     [1486711142.1015279: "Frist message", 1486711159.7582421: "Second message", 1486872493.6400831: "일요일 메모 입니다.", 1486872516.3069069: "라이온킹 노래를 듣고 있다.", 1486872506.9079449: "날짜가 달라져야겠죠"]
+     
      */
     
-    func makeDiarysDictionary() -> [Double : String] {
+    func makeAllDiarysDictionary() -> [Double : String] {
         
         var diaryDictionary = [Double : String]()
         
@@ -81,6 +85,49 @@ class DiaryRepository: NSObject {
         }
         
         return diaryDictionary
+    }
+    
+    func getDateList() -> [String] {
+        let sortedDate = Array(makeAllDiarysDictionary().keys).sorted(by: <)
+        var dateList = [String]()
+        
+        for index in 0...sortedDate.count-1 {
+            //첫번째는 넣고
+            if 0 == index {
+                let date:String = CalculatorCalendar()
+                    .calculateDateString(dateTimeID: sortedDate[index])
+                dateList.append(date)
+            }
+            else {
+                //두 번째부턴 전꺼랑 같은지 보고
+                let beforeDate:String = CalculatorCalendar()
+                    .calculateDateString(dateTimeID: sortedDate[index-1])
+                let nowDate:String = CalculatorCalendar()
+                    .calculateDateString(dateTimeID: sortedDate[index])
+                
+                if false == checkOverlap(before: beforeDate, now: nowDate) {
+                    dateList.append(nowDate)
+                }
+            }
+        }
+        return dateList
+    }
+    
+    func checkOverlap(before:String, now:String) -> Bool {
+        if before != now {
+            return false
+        }
+        return true
+    }
+    
+    func getContentsCountList() -> [Int] {
+        return [0]
+    }
+    
+    func countSameDayContents() -> [Int] {
+        var contetsCountInSameDay = [Int]()
+        
+        return contetsCountInSameDay
     }
     
     
