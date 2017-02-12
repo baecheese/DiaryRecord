@@ -25,7 +25,7 @@ class DiaryRepository: NSObject {
     var realm = try! Realm()
     let diary = Diary()
     
-    func saveDiaryToRealm(dateTimeID:Double, content:String) -> (Bool, String) {
+    func save(dateTimeID:Double, content:String) -> (Bool, String) {
         var latestId = 0
         do {
             try realm.write {

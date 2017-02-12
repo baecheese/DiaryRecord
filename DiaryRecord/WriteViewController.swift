@@ -28,7 +28,7 @@ class WriteViewController: UIViewController {
         let nowDateTimeID = TimeInterval().now()
         
         let diaryRepo = DiaryRepository()
-        let trySaveDiary:(Bool, String) = diaryRepo.saveDiaryToRealm(dateTimeID: nowDateTimeID, content: contentsTextView.text)// (저장결과, 메세지)
+        let trySaveDiary:(Bool, String) = diaryRepo.save(dateTimeID: nowDateTimeID, content: contentsTextView.text)// (저장결과, 메세지)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
