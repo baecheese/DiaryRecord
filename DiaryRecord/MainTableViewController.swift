@@ -12,6 +12,11 @@ class MainTableViewController: UITableViewController {
     
     let log = Logger.init(logPlace: MainTableViewController.self)
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
