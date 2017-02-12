@@ -14,28 +14,29 @@ class CalculatorCalendar : NSObject {
         super.init()
     }
     
-    
-    func nowTimestamp() -> Double {
+    func nowTimestamp() -> TimeInterval {
         return NSDate().timeIntervalSince1970
     }
     
-    func  calculateDate(dateTimeID:Double) -> String {
-        let timestamp = Date(timeIntervalSince1970: dateTimeID)
+    func  calculateDate(dateTimeID:TimeInterval) -> String {
+        let timestamp = dateTimeID
+        let date = Date(timeIntervalSince1970: timestamp)
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.long
         dateFormatter.locale = NSLocale.current
-        let dateString = dateFormatter.string(from: timestamp as Date)
+        let dateString = dateFormatter.string(from: date as Date)
         
         return dateString
     }
     
-    func calculateTime(dateTimeID:Double) -> String {
-        
-        let timestamp = Date(timeIntervalSince1970: dateTimeID)
+    func calculateTime(dateTimeID:TimeInterval) -> String {
+        let timestamp = dateTimeID
+        let time = Date(timeIntervalSince1970: timestamp)
         let timeFormatter = DateFormatter()
         timeFormatter.timeStyle = DateFormatter.Style.short
         timeFormatter.locale = NSLocale.current
-        let timeString = timeFormatter.string(from: timestamp as Date)
+        let timeString = timeFormatter.string(from: time as Date)
         
         return timeString
     }

@@ -30,7 +30,7 @@ class MainTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // ----- 임시 저장 목록 보기 / 데이터 삭제 버튼 ------//
+    // ----- 테스트용 임시 저장 목록 보기 / 데이터 삭제 버튼 ------//
     @IBAction func tempAction(_ sender: Any) {
         log.info(message: "\(DiaryRepository().getDiarysAll())")
     }
@@ -39,8 +39,7 @@ class MainTableViewController: UITableViewController {
         
         // 날짜 생성 테스트 버튼
         
-        log.info(message: "\(CalculatorCalendar().CalculatorDate(dateTimeID: 1486711142.10153)) -- \(CalculatorCalendar().CalculatorTime(dateTimeID: 1486711142.10153))")
-        
+        //log.info(message: "\(CalculatorCalendar().calculateDate(dateTimeID: 1486711142.10153)) -- \(CalculatorCalendar().calculateTime(dateTimeID: 1486711142.10153))")
         
 //        log.info(message: "timeIntervalSince1970 : \(NSDate().timeIntervalSince1970) --- \(NSDate(timeIntervalSince1970: NSDate().timeIntervalSince1970))")
         //DiaryRepository().deleteDiary(index: 1)

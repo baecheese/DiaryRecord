@@ -44,7 +44,6 @@ class WriteViewController: UIViewController {
         }
     }
     
-    
     /* UI & 애니메이션 */
     
     func makeContentsTextView() {

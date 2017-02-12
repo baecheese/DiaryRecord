@@ -62,14 +62,32 @@ class DiaryRepository: NSObject {
         return diarys
     }
     
+    
     /*
-     1. restult <T>  전체 루프 -> dateID 추출
-     2. date 날짜순 정렬
-     3. 필터링으로 날짜순 + 시간 순
+     1. 데이터 꺼내서
+     2. key value로 dateTimeID : content 정렬
      */
+    
+    func makeDiarysDictionary() -> [Double : String] {
+        
+        var diaryDictionary = [Double : String]()
+        
+        let diarys = getDiarysAll()
+        for index in 0...diarys.count-1 {
+            var diary = diarys[index]
+            let key = diary.value(forKey: "dateTimeID")
+            let value = diary.value(forKey: "content")
+            diaryDictionary.updateValue(value as! String, forKey: key as! Double)
+        }
+        
+        return diaryDictionary
+    }
+    
+    
     
     
     ////------------------------ 공사중 --------------------------------------- //
+    
     
     // section list (날짜 순 날짜 리스트)
     func getDateFromEarlierDate() -> Array<Int> {
