@@ -39,7 +39,7 @@ class MainTableViewController: UITableViewController {
         
         // 날짜 생성 테스트 버튼
         
-        //log.info(message: "\(CalculatorCalendar().calculateDate(dateTimeID: 1486711142.10153)) -- \(CalculatorCalendar().calculateTime(dateTimeID: 1486711142.10153))")
+        log.info(message: "\(DiaryRepository().getSortedDateList())")
         
 //        log.info(message: "timeIntervalSince1970 : \(NSDate().timeIntervalSince1970) --- \(NSDate(timeIntervalSince1970: NSDate().timeIntervalSince1970))")
         //DiaryRepository().deleteDiary(index: 1)
@@ -50,10 +50,11 @@ class MainTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return DiaryRepository().getSortedDateList().count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return 2
     }
 

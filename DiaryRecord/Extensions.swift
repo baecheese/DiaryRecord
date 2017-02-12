@@ -1,29 +1,24 @@
 //
-//  CalculatorCalendar.swift
+//  Extensions.swift
 //  DiaryRecord
 //
-//  Created by 배지영 on 2017. 2. 10..
+//  Created by 배지영 on 2017. 2. 12..
 //  Copyright © 2017년 baecheese. All rights reserved.
 //
 
 import Foundation
 
-class CalculatorCalendar : NSObject {
-    
-    override init() {
-        super.init()
-    }
+
+extension TimeInterval {
     
     // 현재 시간
-    func nowTimestamp() -> TimeInterval {
+    func now() -> TimeInterval {
         return NSDate().timeIntervalSince1970
     }
     
     // 타임스탬프 -> 날짜 계산 (long type)
-    func  calculateDateString(dateTimeID:TimeInterval) -> String {
-        let timestamp = dateTimeID
-        let date = Date(timeIntervalSince1970: timestamp)
-        
+    func getDateString() -> String {
+        let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.long
         dateFormatter.locale = NSLocale.current
@@ -31,9 +26,8 @@ class CalculatorCalendar : NSObject {
     }
     
     // 타임스탬프 -> 시간 계산
-    func calculateTime(dateTimeID:TimeInterval) -> String {
-        let timestamp = dateTimeID
-        let time = Date(timeIntervalSince1970: timestamp)
+    func getTimeString() -> String {
+        let time = Date(timeIntervalSince1970: self)
         let timeFormatter = DateFormatter()
         timeFormatter.timeStyle = DateFormatter.Style.short
         timeFormatter.locale = NSLocale.current
@@ -41,6 +35,4 @@ class CalculatorCalendar : NSObject {
         
         return timeString
     }
-    
-    
 }

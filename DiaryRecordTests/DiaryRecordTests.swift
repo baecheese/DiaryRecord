@@ -22,5 +22,11 @@ class DiaryRecordTests: XCTestCase {
         
         log.error(message: "심각한 에러가 발생했는데, 그 내용을 로그로 남긴다")
     }
+    
+    func testTimeIntervalNow() {
+        let ti = TimeInterval().now()
+        log.debug(message: "\n\(ti)\n")
+        
+    }
 
 }

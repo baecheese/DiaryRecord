@@ -75,10 +75,10 @@ class DiaryRepository: NSObject {
     func makeAllDiarysDictionary() -> [Double : String] {
         
         var diaryDictionary = [Double : String]()
-        
         let diarys = getDiarysAll()
+        
         for index in 0...diarys.count-1 {
-            var diary = diarys[index]
+            let diary = diarys[index]
             let key = diary.value(forKey: "dateTimeID")
             let value = diary.value(forKey: "content")
             diaryDictionary.updateValue(value as! String, forKey: key as! Double)
@@ -87,24 +87,21 @@ class DiaryRepository: NSObject {
         return diaryDictionary
     }
     
-    func getDateList() -> [String] {
+    
+    func getSortedDateList() -> [String] {
         let sortedDate = Array(makeAllDiarysDictionary().keys).sorted(by: <)
         var dateList = [String]()
         
         for index in 0...sortedDate.count-1 {
             //첫번째는 넣고
             if 0 == index {
-                let date:String = CalculatorCalendar()
-                    .calculateDateString(dateTimeID: sortedDate[index])
+                let date:String = sortedDate[index].getDateString()
                 dateList.append(date)
             }
             else {
                 //두 번째부턴 전꺼랑 같은지 보고
-                let beforeDate:String = CalculatorCalendar()
-                    .calculateDateString(dateTimeID: sortedDate[index-1])
-                let nowDate:String = CalculatorCalendar()
-                    .calculateDateString(dateTimeID: sortedDate[index])
-                
+                let beforeDate:String = sortedDate[index-1].getDateString()
+                let nowDate:String = sortedDate[index].getDateString()
                 if false == checkOverlap(before: beforeDate, now: nowDate) {
                     dateList.append(nowDate)
                 }
@@ -121,6 +118,15 @@ class DiaryRepository: NSObject {
     }
     
     func getContentsCountList() -> [Int] {
+        let allDiarys = makeAllDiarysDictionary()
+        let sortedDate = Array(makeAllDiarysDictionary().keys).sorted(by: <)
+        
+        var contentsCountAtSameDay = [Int]()
+        
+//        for index in  {
+//            <#code#>
+//        }
+        
         return [0]
     }
     
