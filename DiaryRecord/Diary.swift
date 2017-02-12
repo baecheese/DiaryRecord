@@ -14,7 +14,7 @@ class Diary: Object {
     // data, time
     // : "yyyy-MM-dd" / "HH:mm:ss"
     
-    dynamic var dateTimeID = 0.0
+    dynamic var dateTimeID:TimeInterval = 0.0
     dynamic var content = ""
     
 }

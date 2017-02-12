@@ -35,4 +35,22 @@ extension TimeInterval {
         
         return timeString
     }
+    
+    func getYYMMDD() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy MM dd"
+        dateFormatter.locale = NSLocale.current
+        return dateFormatter.string(from: date as Date)
+    }
+    
+    //시간 정보
+    func getHHMM() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.locale = NSLocale.current
+        return dateFormatter.string(from: date as Date)
+    }
+    
 }
