@@ -39,7 +39,7 @@ extension TimeInterval {
     func getYYMMDD() -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy MM dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = NSLocale.current
         return dateFormatter.string(from: date as Date)
     }

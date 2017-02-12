@@ -26,9 +26,11 @@ class DiaryRepository: NSObject {
     let diary = Diary()
     
     func saveDiaryToRealm(dateTimeID:Double, content:String) -> (Bool, String) {
-        
+        var latestId = 0
         do {
             try realm.write {
+                latestId = (realm.objects(Diary.self).max(ofProperty: "id") as Int?)!
+                diary.id = latestId + 1
                 diary.dateTimeID = dateTimeID
                 diary.content = content
                 if (content == "") {
@@ -52,7 +54,7 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - dateTimeID: \(dateTimeID), content:\(content)")
+        log.info(message: "저장 완료 - id: \(latestId+1) dateTimeID: \(dateTimeID), content:\(content)")
         return (true, "저장 완료")
     }
 
@@ -61,7 +63,6 @@ class DiaryRepository: NSObject {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         return diarys
     }
-    
     
     /*
      (형식 ex)
@@ -72,6 +73,10 @@ class DiaryRepository: NSObject {
     func findDiarys() -> [String : Array<Diary>] {
         var diarysDict = [String : Array<Diary>]()
         let diarys = getDiarysAll()
+        
+        if (diarys.count < 1) {
+            return diarysDict
+        }
         
         for index in 0...diarys.count-1 {
             let diary:Diary = diarys[index]
