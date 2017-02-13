@@ -13,6 +13,8 @@ class MainTableViewController: UITableViewController {
     let log = Logger.init(logPlace: MainTableViewController.self)
     let diarys = DiaryRepository().findDiarys()
     var sortedDate = [String]()
+    
+    var seletedDiary = Diary()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -76,7 +78,21 @@ class MainTableViewController: UITableViewController {
         return sortedDate[section]
     }
     
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let date = sortedDate[indexPath.section]
+        seletedDiary = (diarys[date]?[indexPath.row])!
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "Read") {
+            let readVC:ReadViewController = segue.destination as! ReadViewController
+            readVC.diary = seletedDiary
+//
+        }
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
