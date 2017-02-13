@@ -11,9 +11,14 @@ import UIKit
 class MainTableViewController: UITableViewController {
     
     let log = Logger.init(logPlace: MainTableViewController.self)
+    let diarys = DiaryRepository().findDiarys()
+    var sortedDate = [String]()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        // 최신 순 날짜 Array 정렬
+        sortedDate = Array(diarys.keys).sorted(by: >)
+        
         self.tableView.reloadData()
     }
     
@@ -48,32 +53,26 @@ class MainTableViewController: UITableViewController {
      */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return DiaryRepository().findDiarys().keys.count
+        return diarys.keys.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let diarys = DiaryRepository().findDiarys()
         let sortedDate = Array(diarys.keys).sorted(by: >)
         let sectionContentRowCount = (diarys[sortedDate[section]]?.count)!
         return sectionContentRowCount
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        let diarys = DiaryRepository().findDiarys()
         let section = indexPath.section
-        let sortedDate = Array(diarys.keys).sorted(by: >)
-        let key = sortedDate[section]
-        cell.textLabel?.text = diarys[key]?[indexPath.row].content
+        let key = sortedDate[section]//날짜
+        cell.textLabel?.text = diarys[key]?[indexPath.row].content//같은 날짜 내에 최신 content
         
         return cell
     }
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let diarys = DiaryRepository().findDiarys()
-        let sortedDate = Array(diarys.keys).sorted(by: >)
         return sortedDate[section]
     }
     

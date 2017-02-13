@@ -99,7 +99,7 @@ class DiaryRepository: NSObject {
             }
         }
         
-        // 날짜 안의 시간 sorting
+        // 날짜 안의 시간 sorting (최신 시간 순)
         for key in diarysDict.keys {
             let diarys = diarysDict[key]
             let sortedDiarys = diarys?.sorted(by: { (diary1, diary2) -> Bool in
