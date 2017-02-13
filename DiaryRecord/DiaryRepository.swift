@@ -29,8 +29,14 @@ class DiaryRepository: NSObject {
         var latestId = 0
         do {
             try realm.write {
-                latestId = (realm.objects(Diary.self).max(ofProperty: "id") as Int?)!
-                diary.id = latestId + 1
+                if (false == realm.isEmpty) {
+                    latestId = (realm.objects(Diary.self).max(ofProperty: "id") as Int?)!
+                    latestId += 1
+                    diary.id = latestId
+                }
+                else if (true == realm.isEmpty) {
+                    diary.id = latestId
+                }
                 diary.dateTimeID = dateTimeID
                 diary.content = content
                 if (content == "") {
@@ -54,7 +60,7 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - id: \(latestId+1) dateTimeID: \(dateTimeID), content:\(content)")
+        log.info(message: "저장 완료 - id: \(latestId) dateTimeID: \(dateTimeID), content:\(content)")
         return (true, "저장 완료")
     }
 
