@@ -14,7 +14,7 @@ class MainTableViewController: UITableViewController {
     let diarys = DiaryRepository().findDiarys()
     var sortedDate = [String]()
     
-    var seletedDiary = Diary()
+    var seletedDiaryID = 0
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -79,18 +79,9 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        // 선택한 diary id 정보
         let date = sortedDate[indexPath.section]
-        seletedDiary = (diarys[date]?[indexPath.row])!
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "Read") {
-            let readVC:ReadViewController = segue.destination as! ReadViewController
-            readVC.diary = seletedDiary
-//
-        }
+        seletedDiaryID = ((diarys[date]?[indexPath.row])?.id)!
     }
     
     /*

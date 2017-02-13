@@ -13,11 +13,22 @@ class ReadViewController: UIViewController {
     @IBOutlet var contentsTextView: UITextView!
 
     let log = Logger.init(logPlace: ReadViewController.self)
-    var diary = Diary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        log.info(message: "\(diary)")
+        makeContentsTextView()
+        showSelectedDairy()
+    }
+    
+    func showSelectedDairy() {
+        let mainVC = getMainVC()
+        contentsTextView.text = String(mainVC.seletedDiaryID)
+    }
+    
+    func getMainVC() -> MainTableViewController {
+        let viewControllers:Array = (self.navigationController?.viewControllers)!
+        let beforeVC:MainTableViewController = viewControllers.first as! MainTableViewController
+        return beforeVC
     }
     
     func makeContentsTextView() {
