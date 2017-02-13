@@ -25,7 +25,7 @@ class DiaryRepository: NSObject {
     var realm = try! Realm()
     let diary = Diary()
     
-    func save(dateTimeID:Double, content:String) -> (Bool, String) {
+    func save(timeStamp:Double, content:String) -> (Bool, String) {
         var latestId = 0
         do {
             try realm.write {
@@ -37,7 +37,7 @@ class DiaryRepository: NSObject {
                 else if (true == realm.isEmpty) {
                     diary.id = latestId
                 }
-                diary.dateTimeID = dateTimeID
+                diary.timeStamp = timeStamp
                 diary.content = content
                 if (content == "") {
                     throw ContentsSaveError.contentsIsEmpty
@@ -60,7 +60,7 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - id: \(latestId) dateTimeID: \(dateTimeID), content:\(content)")
+        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content)")
         return (true, "저장 완료")
     }
 
@@ -86,7 +86,7 @@ class DiaryRepository: NSObject {
         
         for index in 0...diarys.count-1 {
             let diary:Diary = diarys[index]
-            let key:String = diary.dateTimeID.getYYMMDD()
+            let key:String = diary.timeStamp.getYYMMDD()
             if nil == diarysDict[key] {
                 diarysDict.updateValue([diary], forKey: key)
             } else {
@@ -100,7 +100,7 @@ class DiaryRepository: NSObject {
         for key in diarysDict.keys {
             let diarys = diarysDict[key]
             let sortedDiarys = diarys?.sorted(by: { (diary1, diary2) -> Bool in
-                return diary1.dateTimeID > diary2.dateTimeID
+                return diary1.timeStamp > diary2.timeStamp
             })
             diarysDict.updateValue(sortedDiarys!, forKey: key)
         }
