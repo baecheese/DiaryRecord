@@ -80,10 +80,13 @@ class DiaryRepository: NSObject {
         var diarysDict = [String : Array<Diary>]()
         let diarys = getDiarysAll()
         
+        // 비어있을 때
         if (diarys.count < 1) {
             return diarysDict
         }
         
+        // diarysDict = { 날짜 (key) : [diary1, diary2] }
+        // [diary1, diary2] -> dayDiarys (같은 날 다른 시간에 쓰여진 일기)
         for index in 0...diarys.count-1 {
             let diary:Diary = diarys[index]
             let key:String = diary.timeStamp.getYYMMDD()
