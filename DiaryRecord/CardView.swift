@@ -12,6 +12,7 @@ class CardView: UIView {
     
     
     // 날짜 넣을 수 잇는 라벨 만들기 ---
+    // 폰트, 줄 간격 설정
     
     var contentTextView = UITextView()
     
