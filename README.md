@@ -1,5 +1,9 @@
 # LITTLE MOMENTS OF ETERNITY
 ### 영원의 작은 순간들을 기록하세요.
+### Record little moments of eternity.
+
+이 프로젝트는 현재 개발 진행 중입니다.
+This project is being developed by baecheese.
 
 ![](https://raw.githubusercontent.com/baecheese/DiaryRecord/808c59c228e350c57f8b40ac39cda37f37003047/Plan/UI%20%EC%8B%9C%EC%95%88/UI%20%EC%8B%9C%EC%95%88.001.jpg)
 
