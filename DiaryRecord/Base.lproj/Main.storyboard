@@ -123,25 +123,8 @@
                     <view key="view" contentMode="scaleToFill" id="aJL-0r-bYX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" text=" " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="o6B-gj-cYo">
-                                <rect key="frame" x="67" y="167" width="240" height="128"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="o6B-gj-cYo" firstAttribute="top" secondItem="ePP-Dc-rtd" secondAttribute="bottom" constant="20" id="M2L-E2-8e7"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="o6B-gj-cYo" secondAttribute="trailing" id="VGB-tg-Lk7"/>
-                            <constraint firstItem="zsp-Zk-CFg" firstAttribute="top" secondItem="o6B-gj-cYo" secondAttribute="bottom" constant="20" id="aIf-TK-cQb"/>
-                            <constraint firstItem="o6B-gj-cYo" firstAttribute="leading" secondItem="aJL-0r-bYX" secondAttribute="leadingMargin" id="lYL-a3-MAO"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="contentsTextView" destination="o6B-gj-cYo" id="1l9-mc-Vzq"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWY-qz-idz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
