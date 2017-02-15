@@ -22,7 +22,8 @@ class ReadViewController: UIViewController {
     
     func showSelectedDairy() {
         let mainVC = getMainVC()
-        contentsTextView.text = String(mainVC.seletedDiaryID)
+        let diary = DiaryRepository().getDiary(id: mainVC.seletedDiaryID)
+        log.info(message: "\(diary.id) \(diary.timeStamp) \(diary.content)")
     }
     
     func getMainVC() -> MainTableViewController {

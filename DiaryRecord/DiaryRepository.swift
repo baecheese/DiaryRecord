@@ -64,7 +64,7 @@ class DiaryRepository: NSObject {
         return (true, "저장 완료")
     }
 
-    
+    // 테스트 시, 사용
     func getDiarysAll() -> Results<Diary> {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         return diarys
@@ -110,12 +110,12 @@ class DiaryRepository: NSObject {
         return diarysDict
     }
     
-    // 메인 테이블에서 선택한 diaryg
-//    func getDiary(id:Int) -> Diary {
-//        
-//    }
-//    
-    
+    // 메인 테이블에서 선택한 diary
+    func getDiary(id:Int) -> Diary {
+        var seletedDiary = realm.objects(Diary.self).filter("id = \(id)")
+        let diary = seletedDiary[0]
+        return diary
+    }
     
     // -- 특정 데이터 인덱스 접근으로 삭제 -- cheesing
     func deleteDiary(id:Int) {
