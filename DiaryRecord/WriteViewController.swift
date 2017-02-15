@@ -25,10 +25,10 @@ class WriteViewController: UIViewController {
         showActivityIndicatory(start: true)
         
         // 날짜 및 내용 realm 저장
-        let nowDateTimeID = TimeInterval().now()
+        let nowTimeStamp = TimeInterval().now()
         
         let diaryRepo = DiaryRepository()
-        let trySaveDiary:(Bool, String) = diaryRepo.save(dateTimeID: nowDateTimeID, content: contentsTextView.text)// (저장결과, 메세지)
+        let trySaveDiary:(Bool, String) = diaryRepo.save(timeStamp: nowTimeStamp, content: contentsTextView.text)// (저장결과, 메세지)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1

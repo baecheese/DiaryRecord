@@ -24,11 +24,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b18-vE-4st" id="D5a-xT-l6X">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rrj-QG-Vzs">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -36,6 +36,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="fEv-zR-ucC" kind="show" identifier="Read" id="kCO-4i-mn3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -107,7 +110,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1S-ct-Vtr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1943" y="338"/>
+            <point key="canvasLocation" x="1986" y="169"/>
+        </scene>
+        <!--Read View Controller-->
+        <scene sceneID="Jz5-ih-3yL">
+            <objects>
+                <viewController id="fEv-zR-ucC" customClass="ReadViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ePP-Dc-rtd"/>
+                        <viewControllerLayoutGuide type="bottom" id="zsp-Zk-CFg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aJL-0r-bYX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OWY-qz-idz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1986" y="852"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jS2-nW-l7Q">
