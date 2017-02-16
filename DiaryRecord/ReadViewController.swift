@@ -17,35 +17,19 @@ class ReadViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         getSelectedDairy()
         
         // 추후 테마 넣으면 변수 바꾸기
         showContent(themeNumber: 0)
-    }
-    
-    func showContent(themeNumber:Int) {
-        if themeNumber == 0 {
-            makeContentCard(content: diary.content)
-        }
-    }
-    
-    func makeContentCard(content:String) {
-        let margen:CGFloat = 30.0
-        let contentWidth = self.view.frame.size.width - (margen * 2)
-        let contentHeight = self.view.frame.size.height - margen
         
-        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight))
-        card.contentTextView.text = content
-        card.contentTextView.contentOffset = CGPoint.zero
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.backgroundView.addSubview(card)
     }
     
+    /* 필요한 data */
     func getSelectedDairy() {
         let mainVC = getMainVC()
         diary = DiaryRepository().getDiary(id: mainVC.seletedDiaryID)
         log.info(message: "\(diary.id) \(diary.timeStamp) \(diary.content)")
-        
     }
     
     func getMainVC() -> MainTableViewController {
@@ -53,6 +37,28 @@ class ReadViewController: UIViewController {
         let beforeVC:MainTableViewController = viewControllers.first as! MainTableViewController
         return beforeVC
     }
+    
+    /* contents setting 관련 */
+    
+    func showContent(themeNumber:Int) {
+        if themeNumber == 0 {
+            makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content)
+        }
+    }
+    
+    func makeContentCard(date: String, content:String) {
+        let margen:CGFloat = 30.0
+        let contentWidth = self.view.frame.size.width - (margen * 2)
+        let contentHeight = self.view.frame.size.height - (margen * 4)
+        
+        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight))
+        card.contentTextView.text = content
+        card.date.text = date
+        card.contentTextView.contentOffset = CGPoint.zero
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.backgroundView.addSubview(card)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
