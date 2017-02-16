@@ -72,7 +72,7 @@
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		037692901E51BA1E00C0CCCB /* ReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = NanumMyeongjo.ttc; path = DiaryRecord/NanumMyeongjo.ttc; sourceTree = "<group>"; };
+		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = NanumMyeongjo.ttc; path = DiaryRecord/NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		03D2AD9F1E508926002D4287 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
+				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				030DB0CF1E407381004E3532 /* Main.storyboard */,
 				037692961E54888E00C0CCCB /* Main */,
 				037692971E54889A00C0CCCB /* Write */,
@@ -218,7 +219,6 @@
 		0376929F1E55DE5600C0CCCB /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
 			);
 			name = Font;
