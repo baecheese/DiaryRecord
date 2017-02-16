@@ -20,7 +20,6 @@ class MainTableViewController: UITableViewController {
         super.viewWillAppear(true)
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
-        
         self.tableView.reloadData()
     }
     

@@ -15,10 +15,13 @@ class CardView: UIView {
     // 폰트, 줄 간격 설정
     
     var contentTextView = UITextView()
+    var date = UILabel()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeContentsTextView()
+        makeDateLabel()
     }
     
     
@@ -27,10 +30,14 @@ class CardView: UIView {
     }
 
     func makeContentsTextView() {
-        contentTextView = UITextView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+        contentTextView = UITextView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         contentTextView.backgroundColor = UIColor.red
         self.addSubview(contentTextView)
-        /* 텍스트뷰 상단 떨어지지 않게 */
+    }
+    
+    func makeDateLabel() {
+        date = UILabel(frame: CGRect(x: 300, y: 300, width: 100, height: 30))
+        self.contentTextView.addSubview(date)
     }
     
 }

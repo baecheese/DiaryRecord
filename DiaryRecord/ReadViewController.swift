@@ -13,24 +13,32 @@ class ReadViewController: UIViewController {
     let log = Logger.init(logPlace: ReadViewController.self)
     var diary = Diary()
     
+    @IBOutlet var backgroundView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getSelectedDairy()
-        makeContentsView(content: diary.content)
+        
+        // 추후 테마 넣으면 변수 바꾸기
+        showContent(themeNumber: 0)
     }
     
+    func showContent(themeNumber:Int) {
+        if themeNumber == 0 {
+            makeContentCard(content: diary.content)
+        }
+    }
     
-    func makeContentsView(content:String) {
+    func makeContentCard(content:String) {
         let margen:CGFloat = 30.0
-        let offsetY = (self.navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.height
-        let contentWidth = self.view.frame.size.width - margen * 2
+        let contentWidth = self.view.frame.size.width - (margen * 2)
         let contentHeight = self.view.frame.size.height - margen
         
-        let card = CardView(frame: CGRect(x: margen, y: offsetY + 10, width: contentWidth, height: contentHeight))
+        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight))
         card.contentTextView.text = content
         card.contentTextView.contentOffset = CGPoint.zero
         self.automaticallyAdjustsScrollViewInsets = false
-        self.view.addSubview(card)
+        self.backgroundView.addSubview(card)
     }
     
     func getSelectedDairy() {

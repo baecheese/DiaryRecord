@@ -123,8 +123,23 @@
                     <view key="view" contentMode="scaleToFill" id="aJL-0r-bYX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bMI-6j-1Jp">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zsp-Zk-CFg" firstAttribute="top" secondItem="bMI-6j-1Jp" secondAttribute="bottom" id="MhU-fm-q7s"/>
+                            <constraint firstItem="bMI-6j-1Jp" firstAttribute="leading" secondItem="aJL-0r-bYX" secondAttribute="leading" id="QGm-Ko-G0s"/>
+                            <constraint firstAttribute="trailing" secondItem="bMI-6j-1Jp" secondAttribute="trailing" id="pQu-L6-Lge"/>
+                            <constraint firstItem="bMI-6j-1Jp" firstAttribute="top" secondItem="ePP-Dc-rtd" secondAttribute="bottom" id="uGV-BL-yO4"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="bMI-6j-1Jp" id="cdc-IV-Jgc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWY-qz-idz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
