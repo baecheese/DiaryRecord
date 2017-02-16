@@ -34,7 +34,7 @@ class CardView: UIView {
 
     func makeContentsTextView() {
         contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight, width: self.frame.width, height: self.frame.height - dateHight))
-        contentTextView.backgroundColor = UIColor.red// 추후 삭제 ---
+        contentTextView.backgroundColor = UIColor.lightGray// 추후 삭제 ---
         contentTextView.isEditable = false// 컨텐츠 수정 불가 모드가 default
         contentTextView.font = UIFont(name: "NanumMyeongjo", size: 30)
         self.addSubview(contentTextView)
