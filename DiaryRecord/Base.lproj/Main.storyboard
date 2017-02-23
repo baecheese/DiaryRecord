@@ -14,7 +14,7 @@
         <!--Main Table View Controller-->
         <scene sceneID="gEM-tr-gTw">
             <objects>
-                <tableViewController id="96T-12-buO" customClass="MainTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="Main" storyboardIdentifier="Main" id="96T-12-buO" customClass="MainTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aV4-p7-KIf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,11 +24,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b18-vE-4st" id="D5a-xT-l6X">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rrj-QG-Vzs">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -53,9 +53,9 @@
                                     <action selector="tempAction:" destination="96T-12-buO" id="buA-UJ-Q3V"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="삭제" id="WR1-Jr-AS3">
+                            <barButtonItem systemItem="refresh" id="WR1-Jr-AS3">
                                 <connections>
-                                    <action selector="deleteAction:" destination="96T-12-buO" id="fr8-du-phT"/>
+                                    <action selector="refreshAction:" destination="96T-12-buO" id="Vo5-rJ-1sg"/>
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
@@ -73,7 +73,7 @@
         <!--write page-->
         <scene sceneID="Ofg-ZX-hjL">
             <objects>
-                <viewController id="5fn-gx-OTf" customClass="WriteViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WriteViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5fn-gx-OTf" customClass="WriteViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qLJ-yH-tQ5"/>
                         <viewControllerLayoutGuide type="bottom" id="dR8-jn-f26"/>

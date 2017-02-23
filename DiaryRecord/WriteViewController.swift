@@ -10,7 +10,7 @@ import UIKit
 
 struct WriteFrame {
     var margen:CGFloat = 30.0
-    var margenOnKeyborad:CGFloat = 30.0
+    var margenOnKeyborad:CGFloat = 40.0
 }
 
 private extension Selector {
@@ -54,9 +54,16 @@ class WriteViewController: UIViewController {
         }
         else {
             // 저장 성공 시
+            sendSaveMessage(succese: true)
             showActivityIndicatory(start: false)
             disappearPopAnimation()
         }
+    }
+    
+    func sendSaveMessage(succese:Bool) {
+        let viewControllers:Array = (self.navigationController?.viewControllers)!
+        let beforeVC:MainTableViewController = viewControllers.first as! MainTableViewController
+        beforeVC.saveNewDairy = true
     }
     
     /* UI & 애니메이션 */
@@ -64,10 +71,12 @@ class WriteViewController: UIViewController {
     func makeContentsTextView(keyboardHeight: CGFloat) {
         if (0 != keyboardHeight) {
             /* Frame */
-            self.contentTextView.frame.size.height -= keyboardHeight
+            self.contentTextView.frame.size.width = background.frame.width - writeFrame.margen
+            self.contentTextView.frame.size.height -= (writeFrame.margen + writeFrame.margenOnKeyborad + keyboardHeight)
         }
         else {
-            contentTextView = UITextView(frame: CGRect(x: writeFrame.margen, y: writeFrame.margen, width: background.frame.width - writeFrame.margen, height: background.frame.height - writeFrame.margen - writeFrame.margenOnKeyborad))
+            // height는 background 높이를 기준으로 계산하니 자꾸 오차가 나서 [루트 뷰 높이 - 네비 높이] 로 계산
+            contentTextView = UITextView(frame: CGRect(x: writeFrame.margen, y: writeFrame.margen, width: background.frame.width, height: self.view.frame.size.height - (self.navigationController?.navigationBar.frame.size.height)!))
             
             contentTextView.backgroundColor = UIColor.brown
             
