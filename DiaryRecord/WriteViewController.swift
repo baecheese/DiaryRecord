@@ -9,7 +9,8 @@
 import UIKit
 
 struct WriteFrame {
-    var margen:CGFloat = 30
+    var margen:CGFloat = 30.0
+    var margenOnKeyborad:CGFloat = 30.0
 }
 
 private extension Selector {
@@ -18,21 +19,20 @@ private extension Selector {
 
 
 class WriteViewController: UIViewController {
-
+    
+    let log = Logger.init(logPlace: WriteViewController.self)
     @IBOutlet var background: UIView!
     var contentTextView: UITextView!
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     let writeFrame = WriteFrame()
     var keyboardHeight:CGFloat = 0.0
     
-    override func viewWillAppear(_ animated: Bool) {
-        setUpObserver()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeContentsTextView()
+        setUpObserver()
+        makeContentsTextView(keyboardHeight: keyboardHeight)
         contentTextView.becomeFirstResponder()
+        
     }
     
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
@@ -61,25 +61,31 @@ class WriteViewController: UIViewController {
     
     /* UI & 애니메이션 */
     
-    func makeContentsTextView() {
-        
-        /* Frame */
-        contentTextView = UITextView(frame: CGRect(x: 0, y: writeFrame.margen, width: background.frame.width, height: self.view.frame.size.height - keyboardHeight - 200))
-        
-        /* 텍스트뷰 상단 떨어지지 않게 */
-        self.automaticallyAdjustsScrollViewInsets = false
-        contentTextView.contentOffset = CGPoint.zero
-        
-        // 줄간격
-        let attributedString = NSMutableAttributedString(string: "temp text")
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 10.0
-        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        contentTextView.attributedText = attributedString
-        // 폰트 및 크기
-        contentTextView.font = UIFont(name: "NanumMyeongjo", size: 15)
-        
-        self.background.addSubview(contentTextView)
+    func makeContentsTextView(keyboardHeight: CGFloat) {
+        if (0 != keyboardHeight) {
+            /* Frame */
+            self.contentTextView.frame.size.height -= keyboardHeight
+        }
+        else {
+            contentTextView = UITextView(frame: CGRect(x: writeFrame.margen, y: writeFrame.margen, width: background.frame.width - writeFrame.margen, height: background.frame.height - writeFrame.margen - writeFrame.margenOnKeyborad))
+            
+            contentTextView.backgroundColor = UIColor.brown
+            
+            /* 텍스트뷰 상단 떨어지지 않게 */
+            self.automaticallyAdjustsScrollViewInsets = false
+            contentTextView.contentOffset = CGPoint.zero
+            
+            // 줄간격
+            let attributedString = NSMutableAttributedString(string: " ")
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 10.0
+            attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            contentTextView.attributedText = attributedString
+            // 폰트 및 크기
+            contentTextView.font = UIFont(name: "NanumMyeongjo", size: 15)
+            
+            self.background.addSubview(contentTextView)
+        }
     }
     
     func disappearPopAnimation() {
@@ -120,7 +126,7 @@ class WriteViewController: UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
-
+    
     
     /* NSNotification - 키보드 높이 구하기 */
     
@@ -131,6 +137,7 @@ class WriteViewController: UIViewController {
     @objc fileprivate func keyboardWillShow(notification:NSNotification) {
         if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.keyboardHeight = keyboardRectValue.height
+            self.viewDidLoad()
         }
     }
     
@@ -140,15 +147,15 @@ class WriteViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
