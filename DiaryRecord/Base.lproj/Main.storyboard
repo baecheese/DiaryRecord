@@ -9,11 +9,6 @@
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="NanumMyeongjo.ttc">
-            <string>NanumMyeongjo</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Main Table View Controller-->
         <scene sceneID="gEM-tr-gTw">
@@ -86,16 +81,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="  " translatesAutoresizingMaskIntoConstraints="NO" id="zsI-n5-9az">
-                                <rect key="frame" x="67" y="283" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="next"/>
-                            </textView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eFt-bJ-XXy">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eFt-bJ-XXy" secondAttribute="trailing" id="M2c-eG-U7G"/>
+                            <constraint firstItem="eFt-bJ-XXy" firstAttribute="leading" secondItem="KD9-SG-CoP" secondAttribute="leading" id="TrM-55-Awn"/>
+                            <constraint firstItem="dR8-jn-f26" firstAttribute="top" secondItem="eFt-bJ-XXy" secondAttribute="bottom" id="hxs-kz-LTW"/>
+                            <constraint firstItem="eFt-bJ-XXy" firstAttribute="top" secondItem="qLJ-yH-tQ5" secondAttribute="bottom" id="ndP-Ms-wpA"/>
+                        </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="RHb-kZ-25w" appends="YES" id="9EQ-dH-rkd"/>
                         </connections>
@@ -108,7 +106,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="contentTextView" destination="zsI-n5-9az" id="rCO-I6-WGD"/>
+                        <outlet property="background" destination="eFt-bJ-XXy" id="mZU-ca-TRW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1S-ct-Vtr" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -22,7 +22,8 @@ class WriteViewController: UIViewController {
     
     let log = Logger.init(logPlace: WriteViewController.self)
     
-    @IBOutlet var contentTextView: UITextView!
+    @IBOutlet var background: UIView!
+    var contentTextView: UITextView!
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     let writeFrame = WriteFrame()
     var keyboardHeight:CGFloat = 0.0
@@ -87,6 +88,9 @@ class WriteViewController: UIViewController {
             changeHight(writeMode: true)
         }
         else {
+            contentTextView = UITextView(frame: CGRect(x: writeFrame.margen, y: writeFrame.margen, width: view.frame.width - (writeFrame.margen*2), height: self.view.frame.size.height - ((self.navigationController?.navigationBar.frame.size.height)!) - (writeFrame.margen*2)))
+            
+            contentTextView.backgroundColor = .red
             
             // 줄간격
             let attributedString = NSMutableAttributedString(string: " ")
@@ -102,27 +106,17 @@ class WriteViewController: UIViewController {
             
             // 폰트 및 크기
             contentTextView.font = UIFont(name: "NanumMyeongjo", size: 14)
-            view.addSubview(contentTextView)
-            
-            let contentWidth = view.frame.size.width - (writeFrame.margen*2)
-            
-            // autolayout
-            let horizontalConstraint = NSLayoutConstraint(item: contentTextView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
-            let verticalConstraint = NSLayoutConstraint(item: contentTextView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
-            let widthConstraint = NSLayoutConstraint(item: contentTextView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: contentWidth)
-            let heightConstraint = NSLayoutConstraint(item: contentTextView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 100)
-            
-            view.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+            background.addSubview(contentTextView)
         }
     }
     
     func changeHight(writeMode:Bool) {
         if true == writeMode {
-            contentTextView.frame.size.height -= (writeFrame.margenOnKeyborad + keyboardHeight)
+//            self.contentTextView.frame.size.height = self.view.frame.size.height - (writeFrame.margen + writeFrame.margenOnKeyborad + keyboardHeight)
         }
         else {
             if 1 != frist {
-                contentTextView.frame.size.height += (writeFrame.margenOnKeyborad + keyboardHeight)
+//                contentTextView.frame.size.height += (writeFrame.margenOnKeyborad + keyboardHeight)
             }
         }
     }
