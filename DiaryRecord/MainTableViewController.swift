@@ -112,7 +112,14 @@ class MainTableViewController: UITableViewController {
         {
             diaryRepo.deleteDiary(id: seletedDiaryID)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
+            UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+                self.tableView.reloadData()
+                // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
+                let diarys = DiaryRepository().findDiarys()
+                // 최신 순 날짜 Array 정렬
+                self.sortedDate = Array(diarys.keys).sorted(by: >)
+                
+            }, completion: nil)
         }
         
     }
