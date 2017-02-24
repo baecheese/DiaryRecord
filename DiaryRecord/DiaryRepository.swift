@@ -117,14 +117,13 @@ class DiaryRepository: NSObject {
         return diary
     }
     
-    // -- 특정 데이터 인덱스 접근으로 삭제 -- cheesing
+    // 특정 데이터 인덱스 접근으로 삭제
     func deleteDiary(id:Int) {
-        let diarys:Results<Diary> = realm.objects(Diary.self)
+        let diary =  getDiary(id: id)
         do {
             try! realm.write {
-                //realm.delete(diarys) -> id 로 접근할 쿼리
-            }
-        }
+                realm.delete(diary)
+            }        }
         catch {
             log.error(message: "realm error on")
         }

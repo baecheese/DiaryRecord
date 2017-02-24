@@ -20,6 +20,7 @@
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
 		037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692901E51BA1E00C0CCCB /* ReadViewController.swift */; };
 		037692931E54885500C0CCCB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692921E54885500C0CCCB /* CardView.swift */; };
+		0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */; };
 		03D2ADA01E508926002D4287 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D2AD9F1E508926002D4287 /* Extensions.swift */; };
 		7EC717151AD3900DCEEF166F /* Pods_DiaryRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */; };
 		E1012DD687F6A634A1914240 /* Pods_DiaryRecordTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE16B1B79F052D6A31AF112B /* Pods_DiaryRecordTests.framework */; };
@@ -71,6 +72,8 @@
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		037692901E51BA1E00C0CCCB /* ReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
+		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = NanumMyeongjo.ttc; path = DiaryRecord/NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		03D2AD9F1E508926002D4287 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A877916CBD148333D0EB6C /* Pods_DiaryRecordUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecordUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,11 +148,13 @@
 			isa = PBXGroup;
 			children = (
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
+				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				030DB0CF1E407381004E3532 /* Main.storyboard */,
 				037692961E54888E00C0CCCB /* Main */,
 				037692971E54889A00C0CCCB /* Write */,
 				037692981E5488B600C0CCCB /* Read */,
 				037692991E5489C200C0CCCB /* Object */,
+				0376929F1E55DE5600C0CCCB /* Font */,
 				030DB0D21E407381004E3532 /* Assets.xcassets */,
 				030DB0D41E407381004E3532 /* LaunchScreen.storyboard */,
 				030DB0D71E407381004E3532 /* Info.plist */,
@@ -209,6 +214,15 @@
 				030DB1011E4186F3004E3532 /* Diary.swift */,
 			);
 			name = Object;
+			sourceTree = "<group>";
+		};
+		0376929F1E55DE5600C0CCCB /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
+			);
+			name = Font;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		327F24A6340420683E7F6A51 /* Frameworks */ = {
@@ -379,6 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,
+				0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */,
 				030DB0D31E407381004E3532 /* Assets.xcassets in Resources */,
 				030DB0D11E407381004E3532 /* Main.storyboard in Resources */,
 			);

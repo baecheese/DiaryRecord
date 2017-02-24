@@ -8,16 +8,25 @@
 
 import UIKit
 
+struct CardFrame {
+    var dateLabelHight:CGFloat = 30
+    var contentFontSize:CGFloat = 15
+    var contentlineSpacing:CGFloat = 10
+    var dateFontSize:CGFloat = 10
+    
+}
+
 class CardView: UIView {
     
-    
-    // 날짜 넣을 수 잇는 라벨 만들기 ---
-    
     var contentTextView = UITextView()
+    var date = UILabel()
+    let cardFrame = CardFrame()
+    var dateHight = CardFrame().dateLabelHight
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeContentsTextView()
+        makeDateLabel()
     }
     
     
@@ -26,10 +35,26 @@ class CardView: UIView {
     }
 
     func makeContentsTextView() {
-        contentTextView = UITextView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
-        contentTextView.backgroundColor = UIColor.red
+        contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight, width: self.frame.width, height: self.frame.height - dateHight))
+        contentTextView.backgroundColor = UIColor.lightGray// 추후 삭제 ---
+        contentTextView.isEditable = false// 컨텐츠 수정 불가 모드가 default
+        // 줄간격
+        let attributedString = NSMutableAttributedString(string: "temp text")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = cardFrame.contentlineSpacing
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        contentTextView.attributedText = attributedString
+        // 폰트 및 크기
+        contentTextView.font = UIFont(name: "NanumMyeongjo", size: cardFrame.contentFontSize)
         self.addSubview(contentTextView)
-        /* 텍스트뷰 상단 떨어지지 않게 */
+    }
+    
+    func makeDateLabel() {
+        date = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: dateHight))
+        date.backgroundColor = UIColor.blue
+        date.font = UIFont(name: "NanumMyeongjo", size: cardFrame.dateFontSize)
+        date.textAlignment = NSTextAlignment.right
+        self.addSubview(date)
     }
     
 }

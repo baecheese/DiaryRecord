@@ -11,18 +11,24 @@ import UIKit
 class MainTableViewController: UITableViewController {
     
     let log = Logger.init(logPlace: MainTableViewController.self)
-    let diarys = DiaryRepository().findDiarys()
     var sortedDate = [String]()
+    var saveNewDairy = false
     
     var seletedDiaryID = 0
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
+        // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
+        let diarys = DiaryRepository().findDiarys()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
-        
-        self.tableView.reloadData()
+        DispatchQueue.main.async{
+            if true == self.saveNewDairy {
+                self.tableView.reloadData()
+            }
+        }
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,15 +45,15 @@ class MainTableViewController: UITableViewController {
         // 전체보기
         log.info(message: "\(DiaryRepository().getDiarysAll())")
     }
-
-    @IBAction func deleteAction(_ sender: UIBarButtonItem) {
-        // 테스트 버튼
-    }
     // ------------------------------------------//
+
+    /* 새로고침 */
+    @IBAction func refreshAction(_ sender: UIBarButtonItem) {
+        self.tableView.reloadData()
+    }
     
     
     // MARK: - Table view data source
-    
     
     /*
      (형식 ex)
@@ -55,16 +61,19 @@ class MainTableViewController: UITableViewController {
      */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        let diarys = DiaryRepository().findDiarys()
         return diarys.keys.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let diarys = DiaryRepository().findDiarys()
         let sortedDate = Array(diarys.keys).sorted(by: >)
         let sectionContentRowCount = (diarys[sortedDate[section]]?.count)!
         return sectionContentRowCount
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let diarys = DiaryRepository().findDiarys()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         let section = indexPath.section
         let key = sortedDate[section]//날짜
@@ -79,6 +88,7 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diarys = DiaryRepository().findDiarys()
         // 선택한 diary id 정보
         let date = sortedDate[indexPath.section]
         seletedDiaryID = ((diarys[date]?[indexPath.row])?.id)!

@@ -14,7 +14,7 @@
         <!--Main Table View Controller-->
         <scene sceneID="gEM-tr-gTw">
             <objects>
-                <tableViewController id="96T-12-buO" customClass="MainTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="Main" storyboardIdentifier="Main" id="96T-12-buO" customClass="MainTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aV4-p7-KIf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,11 +24,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b18-vE-4st" id="D5a-xT-l6X">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rrj-QG-Vzs">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -53,9 +53,9 @@
                                     <action selector="tempAction:" destination="96T-12-buO" id="buA-UJ-Q3V"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="삭제" id="WR1-Jr-AS3">
+                            <barButtonItem systemItem="refresh" id="WR1-Jr-AS3">
                                 <connections>
-                                    <action selector="deleteAction:" destination="96T-12-buO" id="fr8-du-phT"/>
+                                    <action selector="refreshAction:" destination="96T-12-buO" id="Vo5-rJ-1sg"/>
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
@@ -73,7 +73,7 @@
         <!--write page-->
         <scene sceneID="Ofg-ZX-hjL">
             <objects>
-                <viewController id="5fn-gx-OTf" customClass="WriteViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WriteViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5fn-gx-OTf" customClass="WriteViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qLJ-yH-tQ5"/>
                         <viewControllerLayoutGuide type="bottom" id="dR8-jn-f26"/>
@@ -82,19 +82,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" indicatorStyle="black" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4ll-ue-CTQ">
-                                <rect key="frame" x="67" y="192" width="240" height="128"/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="0.62702047413793105" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6H-36-5qq">
+                                <rect key="frame" x="16" y="107" width="343" height="515"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="4ll-ue-CTQ" secondAttribute="trailing" id="Ady-VN-R0j"/>
-                            <constraint firstItem="4ll-ue-CTQ" firstAttribute="top" secondItem="qLJ-yH-tQ5" secondAttribute="bottom" constant="20" id="XrQ-V4-2k6"/>
-                            <constraint firstItem="4ll-ue-CTQ" firstAttribute="leading" secondItem="KD9-SG-CoP" secondAttribute="leadingMargin" id="mU6-Ns-rAm"/>
-                            <constraint firstItem="dR8-jn-f26" firstAttribute="top" secondItem="4ll-ue-CTQ" secondAttribute="bottom" constant="20" id="pcP-lz-Nrc"/>
+                            <constraint firstItem="dR8-jn-f26" firstAttribute="top" secondItem="e6H-36-5qq" secondAttribute="bottom" id="389-K3-VdP"/>
+                            <constraint firstItem="e6H-36-5qq" firstAttribute="leading" secondItem="KD9-SG-CoP" secondAttribute="leadingMargin" id="ClZ-D4-4rI"/>
+                            <constraint firstItem="e6H-36-5qq" firstAttribute="trailing" secondItem="KD9-SG-CoP" secondAttribute="trailingMargin" id="HON-RS-rnO"/>
+                            <constraint firstItem="e6H-36-5qq" firstAttribute="top" secondItem="qLJ-yH-tQ5" secondAttribute="bottom" id="IlI-tP-vdy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="write page" id="MaM-u9-FqP">
@@ -105,12 +103,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="contentsTextView" destination="4ll-ue-CTQ" id="pXm-Jv-PLQ"/>
+                        <outlet property="background" destination="e6H-36-5qq" id="J0r-rq-geJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1S-ct-Vtr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1986" y="169"/>
+            <point key="canvasLocation" x="1984.8" y="168.6656671664168"/>
         </scene>
         <!--Read View Controller-->
         <scene sceneID="Jz5-ih-3yL">
@@ -123,8 +121,23 @@
                     <view key="view" contentMode="scaleToFill" id="aJL-0r-bYX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bMI-6j-1Jp">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zsp-Zk-CFg" firstAttribute="top" secondItem="bMI-6j-1Jp" secondAttribute="bottom" id="MhU-fm-q7s"/>
+                            <constraint firstItem="bMI-6j-1Jp" firstAttribute="leading" secondItem="aJL-0r-bYX" secondAttribute="leading" id="QGm-Ko-G0s"/>
+                            <constraint firstAttribute="trailing" secondItem="bMI-6j-1Jp" secondAttribute="trailing" id="pQu-L6-Lge"/>
+                            <constraint firstItem="bMI-6j-1Jp" firstAttribute="top" secondItem="ePP-Dc-rtd" secondAttribute="bottom" id="uGV-BL-yO4"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="bMI-6j-1Jp" id="cdc-IV-Jgc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWY-qz-idz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -135,7 +148,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nnp-ki-P8N">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
