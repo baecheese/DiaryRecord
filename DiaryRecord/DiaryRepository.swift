@@ -123,8 +123,8 @@ class DiaryRepository: NSObject {
         do {
             try! realm.write {
                 realm.delete(diary)
-            }        }
-        catch {
+            }
+        } catch {
             log.error(message: "realm error on")
         }
     }
