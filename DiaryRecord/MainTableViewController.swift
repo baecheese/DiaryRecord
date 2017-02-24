@@ -102,10 +102,19 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
+        let diaryRepo = DiaryRepository()
+        let diarys = diaryRepo.findDiarys()
+        // 선택한 diary id 정보
+        let date = sortedDate[indexPath.section]
+        seletedDiaryID = ((diarys[date]?[indexPath.row])?.id)!
+        
         if editingStyle == .delete
         {
-            
+            diaryRepo.deleteDiary(id: seletedDiaryID)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
         }
+        
     }
     
     /*
