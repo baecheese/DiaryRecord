@@ -12,11 +12,15 @@ public struct SharedMemoryContext {
     
     private static var context:[String:Any] = Dictionary()
     
-    public static func getAttribute(key:String) -> Any {
+    public static func get(key:String) -> Any {
         return context[key]!
     }
     
-    public static func setAttribute(key:String, setValue:Any) -> Any {
+    public static func set(key:String, setValue:Any) {
+        context.updateValue(setValue, forKey: key)
+    }
+    
+    public static func setGet(key:String, setValue:Any) -> Any {
         context.updateValue(setValue, forKey: key)
         return setValue
     }

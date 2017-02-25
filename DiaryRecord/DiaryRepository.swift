@@ -9,21 +9,21 @@
 import Foundation
 import RealmSwift
 
+enum ContentsSaveError: Error {
+    case contentsSizeIsOver
+    case contentsIsEmpty
+}
+
 class DiaryRepository: NSObject {
     
     let log = Logger(logPlace: DiaryRepository.self)
+
+    var realm = try! Realm()
+    let diary = Diary()
     
     override init() {
         super.init()
     }
-        
-    enum ContentsSaveError: Error {
-        case contentsSizeIsOver
-        case contentsIsEmpty
-    }
-    
-    var realm = try! Realm()
-    let diary = Diary()
     
     func save(timeStamp:Double, content:String) -> (Bool, String) {
         var latestId = 0
@@ -64,7 +64,6 @@ class DiaryRepository: NSObject {
         return (true, "저장 완료")
     }
 
-    // 테스트 시, 사용
     func getDiarysAll() -> Results<Diary> {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         return diarys
@@ -76,7 +75,7 @@ class DiaryRepository: NSObject {
      */
     // makeAllDiarysDictionary -> findDiarys
     
-    func findDiarys() -> [String : Array<Diary>] {
+    func findAll() -> [String : Array<Diary>] {
         var diarysDict = [String : Array<Diary>]()
         let diarys = getDiarysAll()
         
@@ -111,21 +110,19 @@ class DiaryRepository: NSObject {
     }
     
     // 메인 테이블에서 선택한 diary
-    func getDiary(id:Int) -> Diary {
-        var seletedDiary = realm.objects(Diary.self).filter("id = \(id)")
-        let diary = seletedDiary[0]
-        return diary
+    func findOne(id:Int) -> Diary? {
+        let seletedDiary = realm.objects(Diary.self).filter("id = \(id)")
+        if (seletedDiary.isEmpty) {
+            return nil
+        }
+        return seletedDiary[0]
     }
     
     // 특정 데이터 인덱스 접근으로 삭제
-    func deleteDiary(id:Int) {
-        let diary =  getDiary(id: id)
-        do {
-            try! realm.write {
-                realm.delete(diary)
-            }
-        } catch {
-            log.error(message: "realm error on")
+    func delete(id:Int) {
+        try! realm.write {
+            let diary = findOne(id: id)!
+            realm.delete(diary)
         }
     }
     

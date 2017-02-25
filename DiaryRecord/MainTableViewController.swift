@@ -23,7 +23,7 @@ class MainTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         DispatchQueue.main.async{
@@ -64,19 +64,19 @@ class MainTableViewController: UITableViewController {
      */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         return diarys.keys.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         let sortedDate = Array(diarys.keys).sorted(by: >)
         let sectionContentRowCount = (diarys[sortedDate[section]]?.count)!
         return sectionContentRowCount
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
@@ -91,8 +91,8 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diarys = diaryRepository.findDiarys()
-        SharedMemoryContext.setAttribute(key: "seletedDiaryID"
+        let diarys = diaryRepository.findAll()
+        SharedMemoryContext.set(key: "seletedDiaryID"
             , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
@@ -102,19 +102,19 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
-        let diarys = diaryRepository.findDiarys()
-        let seletedDiaryID = SharedMemoryContext.setAttribute(key: "seletedDiaryID"
+        let diarys = diaryRepository.findAll()
+        let seletedDiaryID = SharedMemoryContext.setGet(key: "seletedDiaryID"
             , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))
         
         if editingStyle == .delete
         {
-            diaryRepository.deleteDiary(id: seletedDiaryID as! Int)
+            diaryRepository.delete(id: seletedDiaryID as! Int)
             
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
             UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
                     self.tableView.reloadData()
-                    let diarys = self.diaryRepository.findDiarys()
+                    let diarys = self.diaryRepository.findAll()
                     // 최신 순 날짜 Array 정렬
                     self.sortedDate = Array(diarys.keys).sorted(by: >)
             }, completion: nil)
