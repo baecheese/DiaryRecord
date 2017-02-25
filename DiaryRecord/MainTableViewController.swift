@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
@@ -16,7 +18,6 @@ class MainTableViewController: UITableViewController {
     
     private var sortedDate = [String]()
     
-    var seletedDiaryID = 0
     var saveNewDairy = false
 
     override func viewWillAppear(_ animated: Bool) {
@@ -91,8 +92,8 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diarys = diaryRepository.findDiarys()
-        seletedDiaryID = selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row)
-    }
+        SharedMemoryContext.setAttribute(key: "seletedDiaryID"
+            , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
     {
@@ -102,11 +103,12 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
         let diarys = diaryRepository.findDiarys()
-        seletedDiaryID = selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row)
+        let seletedDiaryID = SharedMemoryContext.setAttribute(key: "seletedDiaryID"
+            , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))
         
         if editingStyle == .delete
         {
-            diaryRepository.deleteDiary(id: seletedDiaryID)
+            diaryRepository.deleteDiary(id: seletedDiaryID as! Int)
             
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
@@ -123,5 +125,6 @@ class MainTableViewController: UITableViewController {
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
     }
+    
     
 }

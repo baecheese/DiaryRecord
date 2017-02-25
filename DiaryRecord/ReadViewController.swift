@@ -27,15 +27,8 @@ class ReadViewController: UIViewController {
     
     /* 필요한 data */
     func getSelectedDairy() {
-        let mainVC = getMainVC()
-        diary = DiaryRepository().getDiary(id: mainVC.seletedDiaryID)
+        diary = DiaryRepository().getDiary(id: SharedMemoryContext.getAttribute(key: "seletedDiaryID") as! Int)
         log.info(message: "\(diary.id) \(diary.timeStamp) \(diary.content)")
-    }
-    
-    func getMainVC() -> MainTableViewController {
-        let viewControllers:Array = (self.navigationController?.viewControllers)!
-        let beforeVC:MainTableViewController = viewControllers.first as! MainTableViewController
-        return beforeVC
     }
     
     /* contents setting 관련 */
