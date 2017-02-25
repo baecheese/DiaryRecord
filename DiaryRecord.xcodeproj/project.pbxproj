@@ -74,7 +74,7 @@
 		037692901E51BA1E00C0CCCB /* ReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
-		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; name = NanumMyeongjo.ttc; path = DiaryRecord/NanumMyeongjo.ttc; sourceTree = "<group>"; };
+		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		03B6EA861E615D62002CFB29 /* SharedContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedContext.swift; sourceTree = "<group>"; };
 		03D2AD9F1E508926002D4287 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,18 +149,13 @@
 		030DB0CA1E407381004E3532 /* DiaryRecord */ = {
 			isa = PBXGroup;
 			children = (
-				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
-				03B6EA861E615D62002CFB29 /* SharedContext.swift */,
-				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
-				030DB0CF1E407381004E3532 /* Main.storyboard */,
-				037692961E54888E00C0CCCB /* Main */,
-				037692971E54889A00C0CCCB /* Write */,
-				037692981E5488B600C0CCCB /* Read */,
-				037692991E5489C200C0CCCB /* Object */,
-				0376929F1E55DE5600C0CCCB /* Font */,
-				030DB0D21E407381004E3532 /* Assets.xcassets */,
-				030DB0D41E407381004E3532 /* LaunchScreen.storyboard */,
 				030DB0D71E407381004E3532 /* Info.plist */,
+				030DB0CF1E407381004E3532 /* Main.storyboard */,
+				030DB0D41E407381004E3532 /* LaunchScreen.storyboard */,
+				030DB0D21E407381004E3532 /* Assets.xcassets */,
+				03B6EA931E616814002CFB29 /* resources */,
+				03B6EA8D1E61675F002CFB29 /* infra */,
+				03B6EA8B1E61672C002CFB29 /* mvc */,
 			);
 			path = DiaryRecord;
 			sourceTree = "<group>";
@@ -183,49 +178,77 @@
 			path = DiaryRecordUITests;
 			sourceTree = "<group>";
 		};
-		037692961E54888E00C0CCCB /* Main */ = {
+		037692981E5488B600C0CCCB /* view */ = {
 			isa = PBXGroup;
 			children = (
-				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
+				037692921E54885500C0CCCB /* CardView.swift */,
 			);
-			name = Main;
+			name = view;
 			sourceTree = "<group>";
 		};
-		037692971E54889A00C0CCCB /* Write */ = {
+		03B6EA8B1E61672C002CFB29 /* mvc */ = {
+			isa = PBXGroup;
+			children = (
+				037692981E5488B600C0CCCB /* view */,
+				03B6EA921E6167A3002CFB29 /* model */,
+				03B6EA8C1E616745002CFB29 /* controller */,
+			);
+			name = mvc;
+			sourceTree = "<group>";
+		};
+		03B6EA8C1E616745002CFB29 /* controller */ = {
 			isa = PBXGroup;
 			children = (
 				030DB0FD1E4074E1004E3532 /* WriteViewController.swift */,
+				037692901E51BA1E00C0CCCB /* ReadViewController.swift */,
+				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 			);
-			name = Write;
+			name = controller;
 			sourceTree = "<group>";
 		};
-		037692981E5488B600C0CCCB /* Read */ = {
+		03B6EA8D1E61675F002CFB29 /* infra */ = {
 			isa = PBXGroup;
 			children = (
-				037692901E51BA1E00C0CCCB /* ReadViewController.swift */,
-				037692921E54885500C0CCCB /* CardView.swift */,
+				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
+				03B6EA901E61677B002CFB29 /* logger */,
+				03B6EA8E1E616768002CFB29 /* support */,
 			);
-			name = Read;
+			name = infra;
 			sourceTree = "<group>";
 		};
-		037692991E5489C200C0CCCB /* Object */ = {
+		03B6EA8E1E616768002CFB29 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				03B6EA861E615D62002CFB29 /* SharedContext.swift */,
+				03D2AD9F1E508926002D4287 /* Extensions.swift */,
+			);
+			name = support;
+			sourceTree = "<group>";
+		};
+		03B6EA901E61677B002CFB29 /* logger */ = {
 			isa = PBXGroup;
 			children = (
 				035D7B991E48BE6800F66B24 /* Logger.swift */,
-				03D2AD9F1E508926002D4287 /* Extensions.swift */,
+			);
+			name = logger;
+			sourceTree = "<group>";
+		};
+		03B6EA921E6167A3002CFB29 /* model */ = {
+			isa = PBXGroup;
+			children = (
 				030DB1031E42285C004E3532 /* DiaryRepository.swift */,
 				030DB1011E4186F3004E3532 /* Diary.swift */,
 			);
-			name = Object;
+			name = model;
 			sourceTree = "<group>";
 		};
-		0376929F1E55DE5600C0CCCB /* Font */ = {
+		03B6EA931E616814002CFB29 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
 			);
-			name = Font;
-			path = ..;
+			name = resources;
 			sourceTree = "<group>";
 		};
 		327F24A6340420683E7F6A51 /* Frameworks */ = {
