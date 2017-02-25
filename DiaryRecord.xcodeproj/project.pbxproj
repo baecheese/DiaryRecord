@@ -153,9 +153,9 @@
 				030DB0CF1E407381004E3532 /* Main.storyboard */,
 				030DB0D41E407381004E3532 /* LaunchScreen.storyboard */,
 				030DB0D21E407381004E3532 /* Assets.xcassets */,
-				03B6EA931E616814002CFB29 /* resources */,
-				03B6EA8D1E61675F002CFB29 /* infra */,
-				03B6EA8B1E61672C002CFB29 /* mvc */,
+				03B6EA931E616814002CFB29 /* Resources */,
+				03B6EA8D1E61675F002CFB29 /* Infra */,
+				03B6EA8B1E61672C002CFB29 /* MVC */,
 			);
 			path = DiaryRecord;
 			sourceTree = "<group>";
@@ -186,14 +186,14 @@
 			name = view;
 			sourceTree = "<group>";
 		};
-		03B6EA8B1E61672C002CFB29 /* mvc */ = {
+		03B6EA8B1E61672C002CFB29 /* MVC */ = {
 			isa = PBXGroup;
 			children = (
 				037692981E5488B600C0CCCB /* view */,
 				03B6EA921E6167A3002CFB29 /* model */,
 				03B6EA8C1E616745002CFB29 /* controller */,
 			);
-			name = mvc;
+			name = MVC;
 			sourceTree = "<group>";
 		};
 		03B6EA8C1E616745002CFB29 /* controller */ = {
@@ -206,14 +206,14 @@
 			name = controller;
 			sourceTree = "<group>";
 		};
-		03B6EA8D1E61675F002CFB29 /* infra */ = {
+		03B6EA8D1E61675F002CFB29 /* Infra */ = {
 			isa = PBXGroup;
 			children = (
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
 				03B6EA901E61677B002CFB29 /* logger */,
 				03B6EA8E1E616768002CFB29 /* support */,
 			);
-			name = infra;
+			name = Infra;
 			sourceTree = "<group>";
 		};
 		03B6EA8E1E616768002CFB29 /* support */ = {
@@ -242,13 +242,13 @@
 			name = model;
 			sourceTree = "<group>";
 		};
-		03B6EA931E616814002CFB29 /* resources */ = {
+		03B6EA931E616814002CFB29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
 			);
-			name = resources;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		327F24A6340420683E7F6A51 /* Frameworks */ = {
