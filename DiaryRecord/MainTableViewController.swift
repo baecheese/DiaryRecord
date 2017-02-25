@@ -18,6 +18,7 @@ class MainTableViewController: UITableViewController {
     
     private var sortedDate = [String]()
     
+    //TODO cheesing : sharedMemoryContext로 변경
     var saveNewDairy = false
 
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +49,7 @@ class MainTableViewController: UITableViewController {
     */
     @IBAction func tempAction(_ sender: Any) {
         // 전체 다이어리 로그 찍기
-        log.info(message: "\(diaryRepository.getDiarysAll())")
+        log.info(message: "\(diaryRepository.getAll())")
     }
 
     /**
@@ -60,7 +61,13 @@ class MainTableViewController: UITableViewController {
     
     /*
      (형식 ex)
-     [2017.02.12 : [{ts:1486711142.1015279, text:"Frist message"}, {ts:1486711142.1015290, text:"Frist message2"}], 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}]]
+     [
+        2017.02.12 : [
+            {ts:1486711142.1015279, text:"Frist message"}
+            , {ts:1486711142.1015290, text:"Frist message2"}]
+            , 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}
+        ]
+     ]
      */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -91,9 +98,9 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diarys = diaryRepository.findAll()
-        SharedMemoryContext.set(key: "seletedDiaryID"
-            , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))    }
+        let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+        SharedMemoryContext.set(key: "seletedDiaryID", setValue: selectedDiaryID)
+    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
     {
@@ -102,9 +109,8 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
-        let diarys = diaryRepository.findAll()
-        let seletedDiaryID = SharedMemoryContext.setGet(key: "seletedDiaryID"
-            , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))
+        let seletedDiaryID = SharedMemoryContext.setAndGet(key: "seletedDiaryID"
+            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row))
         
         if editingStyle == .delete
         {
@@ -121,7 +127,8 @@ class MainTableViewController: UITableViewController {
         }
     }
     
-    private func selectedDairyID(diarys:[String : Array<Diary>], section:Int, row:Int) -> Int {
+    private func getSelectedDiaryID(section:Int, row:Int) -> Int {
+        let diarys:[String : Array<Diary>] = diaryRepository.findAll()
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
     }

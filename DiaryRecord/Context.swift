@@ -20,7 +20,7 @@ public struct SharedMemoryContext {
         context.updateValue(setValue, forKey: key)
     }
     
-    public static func setGet(key:String, setValue:Any) -> Any {
+    public static func setAndGet(key:String, setValue:Any) -> Any {
         context.updateValue(setValue, forKey: key)
         return setValue
     }
