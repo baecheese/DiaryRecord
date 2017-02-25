@@ -50,19 +50,19 @@ extension TimeInterval {
         return (dayStartTimeInterval(), dayEndTimeInterval())
     }
     
+    /* wiki에 note */
     func dayStartTimeInterval() -> TimeInterval {
-        let format = "yyyy:MM:dd"
-        let dateString = formatString(format: format)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
+        dateFormatter.dateFormat = "yyyy:MM:dd"
         dateFormatter.locale = NSLocale.current
+        let dateString = dateFormatter.string(from: Date(timeIntervalSince1970: self))
         let dayStartDate = dateFormatter.date(from: dateString)
         return (dayStartDate?.timeIntervalSince1970)!
     }
     
     func dayEndTimeInterval() -> TimeInterval {
         let tomorrow = self.plusDay(dayAmount: 1)
-        return tomorrow.dayStartTimeInterval() - 1
+        return tomorrow.dayStartTimeInterval().minusSecond(secondAmount: 1)
     }
     
     func plusDay(dayAmount:Int) -> TimeInterval {

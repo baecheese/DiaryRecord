@@ -41,6 +41,8 @@ class DiaryRecordTests: XCTestCase {
         log.debug(message: "\(dayStartTimeInterval)")
         
         XCTAssertEqual(now.getYYMMDD(), dayStartTimeInterval.getYYMMDD())
+        
+        
     }
     
     func testDayEndTimeIntervalExtension() {
