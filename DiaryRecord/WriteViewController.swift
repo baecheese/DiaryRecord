@@ -22,6 +22,8 @@ class WriteViewController: UIViewController {
     
     let log = Logger.init(logPlace: WriteViewController.self)
     
+    private let diaryRepository = DiaryRepository()
+    
     @IBOutlet var background: UIView!
     var contentTextView: UITextView!
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -49,8 +51,8 @@ class WriteViewController: UIViewController {
         // 날짜 및 내용 realm 저장
         let nowTimeStamp = TimeInterval().now()
         
-        let diaryRepo = DiaryRepository()
-        let trySaveDiary:(Bool, String) = diaryRepo.save(timeStamp: nowTimeStamp, content: contentTextView.text)// (저장결과, 메세지)
+        // (저장결과, 메세지)
+        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: contentTextView.text)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -88,9 +90,18 @@ class WriteViewController: UIViewController {
             changeHight(writeMode: true)
         }
         else {
-            contentTextView = UITextView(frame: CGRect(x: writeFrame.margen, y: writeFrame.margen, width: view.frame.width - (writeFrame.margen*2), height: self.view.frame.size.height - ((self.navigationController?.navigationBar.frame.size.height)!) - (writeFrame.margen*2)))
+            let rect = CGRect(
+                x: writeFrame.margen,
+                y: writeFrame.margen,
+                width: view.frame.width - (writeFrame.margen*2),
+                height: self.view.frame.size.height
+                    - ((self.navigationController?.navigationBar.frame.size.height)!)
+                    - (writeFrame.margen*2)
+            )
+            contentTextView = UITextView(frame: rect)
             
-            contentTextView.backgroundColor = .red
+            contentTextView.layer.borderColor = UIColor.red.cgColor
+            contentTextView.layer.borderWidth = 1
             
             // 줄간격
             let attributedString = NSMutableAttributedString(string: " ")
@@ -112,11 +123,11 @@ class WriteViewController: UIViewController {
     
     func changeHight(writeMode:Bool) {
         if true == writeMode {
-//            self.contentTextView.frame.size.height = self.view.frame.size.height - (writeFrame.margen + writeFrame.margenOnKeyborad + keyboardHeight)
+            // self.contentTextView.frame.size.height = self.view.frame.size.height - (writeFrame.margen + writeFrame.margenOnKeyborad + keyboardHeight)
         }
         else {
             if 1 != frist {
-//                contentTextView.frame.size.height += (writeFrame.margenOnKeyborad + keyboardHeight)
+                // contentTextView.frame.size.height += (writeFrame.margenOnKeyborad + keyboardHeight)
             }
         }
     }

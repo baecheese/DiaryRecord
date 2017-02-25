@@ -18,12 +18,13 @@ class MainTableViewController: UITableViewController {
     
     private var sortedDate = [String]()
     
+    //TODO cheesing : sharedMemoryContext로 변경
     var saveNewDairy = false
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         DispatchQueue.main.async{
@@ -48,7 +49,7 @@ class MainTableViewController: UITableViewController {
     */
     @IBAction func tempAction(_ sender: Any) {
         // 전체 다이어리 로그 찍기
-        log.info(message: "\(diaryRepository.getDiarysAll())")
+        log.info(message: "\(diaryRepository.getAll())")
     }
 
     /**
@@ -60,23 +61,29 @@ class MainTableViewController: UITableViewController {
     
     /*
      (형식 ex)
-     [2017.02.12 : [{ts:1486711142.1015279, text:"Frist message"}, {ts:1486711142.1015290, text:"Frist message2"}], 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}]]
+     [
+        2017.02.12 : [
+            {ts:1486711142.1015279, text:"Frist message"}
+            , {ts:1486711142.1015290, text:"Frist message2"}]
+            , 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}
+        ]
+     ]
      */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         return diarys.keys.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         let sortedDate = Array(diarys.keys).sorted(by: >)
         let sectionContentRowCount = (diarys[sortedDate[section]]?.count)!
         return sectionContentRowCount
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let diarys = diaryRepository.findDiarys()
+        let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
@@ -91,9 +98,9 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diarys = diaryRepository.findDiarys()
-        SharedMemoryContext.setAttribute(key: "seletedDiaryID"
-            , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))    }
+        let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+        SharedMemoryContext.set(key: "seletedDiaryID", setValue: selectedDiaryID)
+    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
     {
@@ -102,26 +109,26 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
-        let diarys = diaryRepository.findDiarys()
-        let seletedDiaryID = SharedMemoryContext.setAttribute(key: "seletedDiaryID"
-            , setValue: selectedDairyID(diarys: diarys, section: indexPath.section, row: indexPath.row))
+        let seletedDiaryID = SharedMemoryContext.setAndGet(key: "seletedDiaryID"
+            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row))
         
         if editingStyle == .delete
         {
-            diaryRepository.deleteDiary(id: seletedDiaryID as! Int)
+            diaryRepository.delete(id: seletedDiaryID as! Int)
             
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
             UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
                     self.tableView.reloadData()
-                    let diarys = self.diaryRepository.findDiarys()
+                    let diarys = self.diaryRepository.findAll()
                     // 최신 순 날짜 Array 정렬
                     self.sortedDate = Array(diarys.keys).sorted(by: >)
             }, completion: nil)
         }
     }
     
-    private func selectedDairyID(diarys:[String : Array<Diary>], section:Int, row:Int) -> Int {
+    private func getSelectedDiaryID(section:Int, row:Int) -> Int {
+        let diarys:[String : Array<Diary>] = diaryRepository.findAll()
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
     }

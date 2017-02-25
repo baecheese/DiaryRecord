@@ -9,21 +9,27 @@
 import Foundation
 import RealmSwift
 
+enum ContentsSaveError: Error {
+    case contentsSizeIsOver
+    case contentsIsEmpty
+}
+
 class DiaryRepository: NSObject {
     
     let log = Logger(logPlace: DiaryRepository.self)
+
+    var realm = try! Realm()
+    let diary = Diary()
     
     override init() {
         super.init()
     }
-        
-    enum ContentsSaveError: Error {
-        case contentsSizeIsOver
-        case contentsIsEmpty
-    }
     
-    var realm = try! Realm()
-    let diary = Diary()
+    //for test
+    func getAll() -> Results<Diary> {
+        let diarys:Results<Diary> = realm.objects(Diary.self)
+        return diarys
+    }
     
     func save(timeStamp:Double, content:String) -> (Bool, String) {
         var latestId = 0
@@ -63,22 +69,14 @@ class DiaryRepository: NSObject {
         log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content)")
         return (true, "저장 완료")
     }
-
-    // 테스트 시, 사용
-    func getDiarysAll() -> Results<Diary> {
-        let diarys:Results<Diary> = realm.objects(Diary.self)
-        return diarys
-    }
     
     /*
      (형식 ex)
      [2017.02.12 : [{ts:1486711142.1015279, text:"Frist message"}, {ts:1486711142.1015290, text:"Frist message2"}], 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}]]
      */
-    // makeAllDiarysDictionary -> findDiarys
-    
-    func findDiarys() -> [String : Array<Diary>] {
+    func findAll() -> [String : Array<Diary>] {
         var diarysDict = [String : Array<Diary>]()
-        let diarys = getDiarysAll()
+        let diarys:Results<Diary> = realm.objects(Diary.self)
         
         // 비어있을 때
         if (diarys.count < 1) {
@@ -111,21 +109,24 @@ class DiaryRepository: NSObject {
     }
     
     // 메인 테이블에서 선택한 diary
-    func getDiary(id:Int) -> Diary {
-        var seletedDiary = realm.objects(Diary.self).filter("id = \(id)")
-        let diary = seletedDiary[0]
-        return diary
+    func findOne(id:Int) -> Diary? {
+        let seletedDiary = realm.objects(Diary.self).filter("id = \(id)")
+        if (seletedDiary.isEmpty) {
+            return nil
+        }
+        return seletedDiary[0]
     }
     
+    //TODO cheesing 구현, [String : Array<Diary>] 로 변형하는 기능은 함수로 분리하여서 findAll과 공통으로 사용하도록 구현
+//    func findByPeriod(start:TimeInterval, end:TimeInterval) -> [String : Array<Diary>] {
+//        
+//    }
+    
     // 특정 데이터 인덱스 접근으로 삭제
-    func deleteDiary(id:Int) {
-        let diary =  getDiary(id: id)
-        do {
-            try! realm.write {
-                realm.delete(diary)
-            }
-        } catch {
-            log.error(message: "realm error on")
+    func delete(id:Int) {
+        try! realm.write {
+            let diary = findOne(id: id)!
+            realm.delete(diary)
         }
     }
     

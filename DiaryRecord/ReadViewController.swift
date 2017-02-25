@@ -27,7 +27,7 @@ class ReadViewController: UIViewController {
     
     /* 필요한 data */
     func getSelectedDairy() {
-        diary = DiaryRepository().getDiary(id: SharedMemoryContext.getAttribute(key: "seletedDiaryID") as! Int)
+        diary = DiaryRepository().findOne(id: SharedMemoryContext.get(key: "seletedDiaryID") as! Int)!
         log.info(message: "\(diary.id) \(diary.timeStamp) \(diary.content)")
     }
     

@@ -36,7 +36,8 @@ class CardView: UIView {
 
     func makeContentsTextView() {
         contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight, width: self.frame.width, height: self.frame.height - dateHight))
-        contentTextView.backgroundColor = UIColor.lightGray// 추후 삭제 ---
+        contentTextView.layer.borderColor = UIColor.lightGray.cgColor
+        contentTextView.layer.borderWidth = 0.5
         contentTextView.isEditable = false// 컨텐츠 수정 불가 모드가 default
         // 줄간격
         let attributedString = NSMutableAttributedString(string: "temp text")
@@ -51,7 +52,8 @@ class CardView: UIView {
     
     func makeDateLabel() {
         date = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: dateHight))
-        date.backgroundColor = UIColor.blue
+        date.layer.borderColor = UIColor.blue.cgColor
+        date.layer.borderWidth = 0.5
         date.font = UIFont(name: "NanumMyeongjo", size: cardFrame.dateFontSize)
         date.textAlignment = NSTextAlignment.right
         self.addSubview(date)
