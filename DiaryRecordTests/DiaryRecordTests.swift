@@ -27,5 +27,50 @@ class DiaryRecordTests: XCTestCase {
         let ti = TimeInterval().now()
         log.debug(message: "\n\(ti)\n")
     }
+    
+    func testDayStartTimeIntervalExtension() {
+        let now = TimeInterval().now()
+        log.debug(message: "\(now)")
+        
+        let dayStartTimeInterval = now.dayStartTimeInterval()
+        log.debug(message: "\(dayStartTimeInterval)")
+        
+        XCTAssertEqual(now.getYYMMDD(), dayStartTimeInterval.getYYMMDD())
+    }
+    
+    func testDayEndTimeIntervalExtension() {
+        let now = TimeInterval().now()
+        let dayStartTimeInterval = now.dayStartTimeInterval()
+        let dayEndTimeInterval = now.dayEndTimeInterval()
+        
+        XCTAssertEqual(dayStartTimeInterval.getYYMMDD(), dayEndTimeInterval.getYYMMDD())
+        
+        let tomorrow = dayEndTimeInterval.plusSecond(secondAmount: 1)
+        XCTAssertNotEqual(dayStartTimeInterval.getYYMMDD(), tomorrow.getYYMMDD())
+    }
+    
+    func testDayInterval() {
+        let now = TimeInterval().now()
+        let start = now.dayStartTimeInterval()
+        let end = now.dayEndTimeInterval()
+        
+        let interval:(TimeInterval, TimeInterval) = now.dayInterval()
+        log.debug(message: "start : \(start)   end \(end)")
+        XCTAssertEqual(interval.0, start)
+        XCTAssertEqual(interval.1, end)
+        
+        let yesterday = now.minusDay(dayAmount: 1).dayStartTimeInterval()
+        log.debug(message: "yesterday : \(yesterday)")
+    }
+    
+    func testCalcTimeMethod() {
+        let todayStart = TimeInterval().now().dayStartTimeInterval()
+        let tomorrow = todayStart.plusDay(dayAmount: 1)
+        
+        log.debug(message: "\(todayStart.getYYMMDD())")
+        log.debug(message: "\(tomorrow.getYYMMDD())")
+        
+        XCTAssertEqual(todayStart.plusHour(hourAmount: 24).getYYMMDD(), tomorrow.getYYMMDD())
+    }
 
 }
