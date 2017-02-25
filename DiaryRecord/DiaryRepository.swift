@@ -11,7 +11,7 @@ import RealmSwift
 
 class DiaryRepository: NSObject {
     
-    let log = Logger.init(logPlace: DiaryRepository.self)
+    let log = Logger(logPlace: DiaryRepository.self)
     
     override init() {
         super.init()
