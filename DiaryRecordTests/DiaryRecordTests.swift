@@ -11,7 +11,7 @@ import XCTest
 
 class DiaryRecordTests: XCTestCase {
     
-    let log = Logger.init(logPlace: DiaryRecordTests.self)
+    let log = Logger(logPlace: DiaryRecordTests.self)
     
     func testLogger() {
         log.debug(message: "징이가 심심하다")
@@ -26,7 +26,6 @@ class DiaryRecordTests: XCTestCase {
     func testTimeIntervalNow() {
         let ti = TimeInterval().now()
         log.debug(message: "\n\(ti)\n")
-        
     }
 
 }
