@@ -25,32 +25,23 @@ extension TimeInterval {
         return dateFormatter.string(from: date as Date)
     }
     
-    // 타임스탬프 -> 시간 계산
-    func getTimeString() -> String {
-        let time = Date(timeIntervalSince1970: self)
-        let timeFormatter = DateFormatter()
-        timeFormatter.timeStyle = DateFormatter.Style.short
-        timeFormatter.locale = NSLocale.current
-        let timeString = timeFormatter.string(from: time as Date)
-        
-        return timeString
-    }
-    
     func getYYMMDD() -> String {
-        let date = Date(timeIntervalSince1970: self)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale.current
-        return dateFormatter.string(from: date as Date)
+        return formatString(format: "yyyy-MM-dd")
     }
     
     //시간 정보
     func getHHMM() -> String {
+        return formatString(format: "HH:mm")
+    }
+    
+    func formatString(format:String) -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = format
         dateFormatter.locale = NSLocale.current
         return dateFormatter.string(from: date as Date)
     }
+    
+    
     
 }
