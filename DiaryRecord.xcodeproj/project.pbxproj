@@ -21,7 +21,7 @@
 		037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692901E51BA1E00C0CCCB /* ReadViewController.swift */; };
 		037692931E54885500C0CCCB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692921E54885500C0CCCB /* CardView.swift */; };
 		0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */; };
-		03B6EA871E615D62002CFB29 /* SharedContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B6EA861E615D62002CFB29 /* SharedContext.swift */; };
+		03B6EA871E615D62002CFB29 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B6EA861E615D62002CFB29 /* Context.swift */; };
 		03D2ADA01E508926002D4287 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D2AD9F1E508926002D4287 /* Extensions.swift */; };
 		7EC717151AD3900DCEEF166F /* Pods_DiaryRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */; };
 		E1012DD687F6A634A1914240 /* Pods_DiaryRecordTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE16B1B79F052D6A31AF112B /* Pods_DiaryRecordTests.framework */; };
@@ -75,7 +75,7 @@
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
-		03B6EA861E615D62002CFB29 /* SharedContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedContext.swift; sourceTree = "<group>"; };
+		03B6EA861E615D62002CFB29 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		03D2AD9F1E508926002D4287 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A877916CBD148333D0EB6C /* Pods_DiaryRecordUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecordUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,7 +219,7 @@
 		03B6EA8E1E616768002CFB29 /* support */ = {
 			isa = PBXGroup;
 			children = (
-				03B6EA861E615D62002CFB29 /* SharedContext.swift */,
+				03B6EA861E615D62002CFB29 /* Context.swift */,
 				03D2AD9F1E508926002D4287 /* Extensions.swift */,
 			);
 			name = support;
@@ -597,7 +597,7 @@
 				030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */,
 				037692931E54885500C0CCCB /* CardView.swift in Sources */,
 				037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */,
-				03B6EA871E615D62002CFB29 /* SharedContext.swift in Sources */,
+				03B6EA871E615D62002CFB29 /* Context.swift in Sources */,
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,

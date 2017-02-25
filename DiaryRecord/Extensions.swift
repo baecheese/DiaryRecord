@@ -25,32 +25,83 @@ extension TimeInterval {
         return dateFormatter.string(from: date as Date)
     }
     
-    // 타임스탬프 -> 시간 계산
-    func getTimeString() -> String {
-        let time = Date(timeIntervalSince1970: self)
-        let timeFormatter = DateFormatter()
-        timeFormatter.timeStyle = DateFormatter.Style.short
-        timeFormatter.locale = NSLocale.current
-        let timeString = timeFormatter.string(from: time as Date)
-        
-        return timeString
-    }
-    
     func getYYMMDD() -> String {
-        let date = Date(timeIntervalSince1970: self)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.locale = NSLocale.current
-        return dateFormatter.string(from: date as Date)
+        return formatString(format: "yyyy-MM-dd")
     }
     
     //시간 정보
     func getHHMM() -> String {
+        return formatString(format: "HH:mm")
+    }
+    
+    func formatString(format:String) -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = format
         dateFormatter.locale = NSLocale.current
         return dateFormatter.string(from: date as Date)
     }
     
+    /**
+     day start, end TimeInterval
+        - Returns: (day start, day end)
+    */
+    func dayInterval() -> (TimeInterval, TimeInterval) {
+        return (dayStartTimeInterval(), dayEndTimeInterval())
+    }
+    
+    func dayStartTimeInterval() -> TimeInterval {
+        let format = "yyyy:MM:dd"
+        let dateString = formatString(format: format)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.locale = NSLocale.current
+        let dayStartDate = dateFormatter.date(from: dateString)
+        return (dayStartDate?.timeIntervalSince1970)!
+    }
+    
+    func dayEndTimeInterval() -> TimeInterval {
+        let tomorrow = self.plusDay(dayAmount: 1)
+        return tomorrow.dayStartTimeInterval() - 1
+    }
+    
+    func plusDay(dayAmount:Int) -> TimeInterval {
+        let plusSecondsAmount = (TimeInterval)((60 * 60 * 24) * dayAmount)
+        return self + plusSecondsAmount
+    }
+    
+    func minusDay(dayAmount:Int) -> TimeInterval {
+        let minusSecondsAmount = (TimeInterval)((60 * 60 * 24) * dayAmount)
+        return self - minusSecondsAmount
+    }
+    
+    func plusHour(hourAmount:Int) -> TimeInterval {
+        let plusSecondsAmount = (TimeInterval)((60 * 60) * hourAmount)
+        return self + plusSecondsAmount
+    }
+    
+    func minusHour(hourAmount:Int) -> TimeInterval {
+        let minusSecondsAmount = (TimeInterval)((60 * 60) * hourAmount)
+        return self - minusSecondsAmount
+    }
+    
+    func plusMinute(minuteAmount:Int) -> TimeInterval {
+        let plusSecondsAmount = (TimeInterval)(60 * minuteAmount)
+        return self + plusSecondsAmount
+    }
+    
+    func minusMinute(minuteAmount:Int) -> TimeInterval {
+        let minusSecondsAmount = (TimeInterval)(60 * minuteAmount)
+        return self - minusSecondsAmount
+    }
+    
+    func plusSecond(secondAmount:Int) -> TimeInterval {
+        let plusSecondsAmount = (TimeInterval)(secondAmount)
+        return self + plusSecondsAmount
+    }
+    
+    func minusSecond(secondAmount:Int) -> TimeInterval {
+        let minusSecondsAmount = (TimeInterval)(secondAmount)
+        return self - minusSecondsAmount
+    }
 }
