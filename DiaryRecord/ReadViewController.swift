@@ -10,7 +10,10 @@ import UIKit
 
 class ReadViewController: UIViewController {
 
-    let log = Logger.init(logPlace: ReadViewController.self)
+    private let log = Logger.init(logPlace: ReadViewController.self)
+    
+    private let diaryRepository = DiaryRepository.sharedInstance
+    
     var diary = Diary()
     
     @IBOutlet var backgroundView: UIView!
@@ -27,7 +30,7 @@ class ReadViewController: UIViewController {
     
     /* 필요한 data */
     func getSelectedDairy() {
-        diary = DiaryRepository().findOne(id: SharedMemoryContext.get(key: "seletedDiaryID") as! Int)!
+        diary = diaryRepository.findOne(id: SharedMemoryContext.get(key: "seletedDiaryID") as! Int)!
         log.info(message: "\(diary.id) \(diary.timeStamp) \(diary.content)")
     }
     

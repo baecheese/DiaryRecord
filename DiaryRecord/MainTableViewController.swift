@@ -14,7 +14,7 @@ class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
     
-    private let diaryRepository = DiaryRepository()
+    private let diaryRepository = DiaryRepository.sharedInstance
     
     private var sortedDate = [String]()
     
@@ -94,6 +94,9 @@ class MainTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let diarys = diaryRepository.findAll()
+        // 최신 순 날짜 Array 정렬
+        sortedDate = Array(diarys.keys).sorted(by: >)
         return sortedDate[section]
     }
     
@@ -119,10 +122,10 @@ class MainTableViewController: UITableViewController {
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             
             UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                    self.tableView.reloadData()
                     let diarys = self.diaryRepository.findAll()
                     // 최신 순 날짜 Array 정렬
                     self.sortedDate = Array(diarys.keys).sorted(by: >)
+                self.tableView.reloadData()
             }, completion: nil)
         }
     }

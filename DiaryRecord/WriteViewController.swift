@@ -22,7 +22,7 @@ class WriteViewController: UIViewController {
     
     let log = Logger.init(logPlace: WriteViewController.self)
     
-    private let diaryRepository = DiaryRepository()
+    private let diaryRepository = DiaryRepository.sharedInstance
     
     @IBOutlet var background: UIView!
     var contentTextView: UITextView!

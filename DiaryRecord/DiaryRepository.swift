@@ -17,13 +17,13 @@ enum ContentsSaveError: Error {
 class DiaryRepository: NSObject {
     
     let log = Logger(logPlace: DiaryRepository.self)
-
     var realm = try! Realm()
-    let diary = Diary()
     
-    override init() {
+    private override init() {
         super.init()
     }
+    
+    static let sharedInstance: DiaryRepository = DiaryRepository()
     
     //for test
     func getAll() -> Results<Diary> {
@@ -32,6 +32,7 @@ class DiaryRepository: NSObject {
     }
     
     func save(timeStamp:Double, content:String) -> (Bool, String) {
+        let diary = Diary()
         var latestId = 0
         do {
             try realm.write {
