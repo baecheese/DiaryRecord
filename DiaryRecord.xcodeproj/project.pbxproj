@@ -178,68 +178,68 @@
 			path = DiaryRecordUITests;
 			sourceTree = "<group>";
 		};
-		037692981E5488B600C0CCCB /* view */ = {
+		037692981E5488B600C0CCCB /* View */ = {
 			isa = PBXGroup;
 			children = (
 				037692921E54885500C0CCCB /* CardView.swift */,
 			);
-			name = view;
+			name = View;
 			sourceTree = "<group>";
 		};
 		03B6EA8B1E61672C002CFB29 /* MVC */ = {
 			isa = PBXGroup;
 			children = (
-				037692981E5488B600C0CCCB /* view */,
-				03B6EA921E6167A3002CFB29 /* model */,
-				03B6EA8C1E616745002CFB29 /* controller */,
+				03B6EA8C1E616745002CFB29 /* Controller */,
+				037692981E5488B600C0CCCB /* View */,
+				03B6EA921E6167A3002CFB29 /* Model */,
 			);
 			name = MVC;
 			sourceTree = "<group>";
 		};
-		03B6EA8C1E616745002CFB29 /* controller */ = {
+		03B6EA8C1E616745002CFB29 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				030DB0FD1E4074E1004E3532 /* WriteViewController.swift */,
 				037692901E51BA1E00C0CCCB /* ReadViewController.swift */,
 				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 			);
-			name = controller;
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		03B6EA8D1E61675F002CFB29 /* Infra */ = {
 			isa = PBXGroup;
 			children = (
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
-				03B6EA901E61677B002CFB29 /* logger */,
-				03B6EA8E1E616768002CFB29 /* support */,
+				03B6EA901E61677B002CFB29 /* Logger */,
+				03B6EA8E1E616768002CFB29 /* Support */,
 			);
 			name = Infra;
 			sourceTree = "<group>";
 		};
-		03B6EA8E1E616768002CFB29 /* support */ = {
+		03B6EA8E1E616768002CFB29 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				03B6EA861E615D62002CFB29 /* Context.swift */,
 				03D2AD9F1E508926002D4287 /* Extensions.swift */,
 			);
-			name = support;
+			name = Support;
 			sourceTree = "<group>";
 		};
-		03B6EA901E61677B002CFB29 /* logger */ = {
+		03B6EA901E61677B002CFB29 /* Logger */ = {
 			isa = PBXGroup;
 			children = (
 				035D7B991E48BE6800F66B24 /* Logger.swift */,
 			);
-			name = logger;
+			name = Logger;
 			sourceTree = "<group>";
 		};
-		03B6EA921E6167A3002CFB29 /* model */ = {
+		03B6EA921E6167A3002CFB29 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				030DB1031E42285C004E3532 /* DiaryRepository.swift */,
 				030DB1011E4186F3004E3532 /* Diary.swift */,
 			);
-			name = model;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		03B6EA931E616814002CFB29 /* Resources */ = {
