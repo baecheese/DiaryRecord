@@ -199,9 +199,9 @@
 		03B6EA8C1E616745002CFB29 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 				030DB0FD1E4074E1004E3532 /* WriteViewController.swift */,
 				037692901E51BA1E00C0CCCB /* ReadViewController.swift */,
-				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
