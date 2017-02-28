@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiaryRecord/WriteViewController.swift"
-            timestampString = "509732870.308107"
+            timestampString = "509960495.277638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "changeHight(writeMode:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiaryRecord/WriteViewController.swift"
-            timestampString = "509732870.308107"
+            timestampString = "509960495.277638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "keyboardWillShow(notification:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,59 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiaryRecord/MainTableViewController.swift"
-            timestampString = "509814285.348617"
+            timestampString = "509960495.277638"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "tableView(_:commit:forRowAt:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DiaryRecord.MainTableViewController.tableView (__ObjC.UITableView, commit : __C.UITableViewCellEditingStyle, forRowAt : Foundation.IndexPath) -&gt; ()"
-                  moduleName = "DiaryRecord"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/feelaesth/DiaryRecord/DiaryRecord/MainTableViewController.swift"
-                  timestampString = "509812148.232355"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "109"
-                  endingLineNumber = "109"
-                  offsetFromSymbolStart = "858">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DiaryRecord.MainTableViewController.(tableView (__ObjC.UITableView, commit : __C.UITableViewCellEditingStyle, forRowAt : Foundation.IndexPath) -&gt; ()).(closure #1)"
-                  moduleName = "DiaryRecord"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/feelaesth/DiaryRecord/DiaryRecord/MainTableViewController.swift"
-                  timestampString = "509812148.234907"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "110"
-                  endingLineNumber = "110"
-                  offsetFromSymbolStart = "22">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DiaryRecord/MainTableViewController.swift"
-            timestampString = "509799392.85634"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "numberOfSections(in:)"
             landmarkType = "7">
          </BreakpointContent>

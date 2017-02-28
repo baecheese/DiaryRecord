@@ -70,9 +70,7 @@ class WriteViewController: UIViewController {
     }
     
     func sendSaveMessage(succese:Bool) {
-        let viewControllers:Array = (self.navigationController?.viewControllers)!
-        let beforeVC:MainTableViewController = viewControllers.first as! MainTableViewController
-        beforeVC.saveNewDairy = true
+        SharedMemoryContext.changeValue(key: "saveNewDairy", value: true)
     }
     
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {

@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ 사용 중인 key : "seletedDiaryID", "saveNewDairy"
+ */
 public struct SharedMemoryContext {
     
     private static var context:[String:Any] = Dictionary()
@@ -23,6 +26,10 @@ public struct SharedMemoryContext {
     public static func setAndGet(key:String, setValue:Any) -> Any {
         context.updateValue(setValue, forKey: key)
         return setValue
+    }
+    
+    public static func changeValue(key:String, value:Any) {
+        context[key] = value
     }
     
 }

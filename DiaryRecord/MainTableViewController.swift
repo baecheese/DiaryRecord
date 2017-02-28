@@ -15,9 +15,6 @@ class MainTableViewController: UITableViewController {
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private var sortedDate = [String]()
-    
-    //TODO cheesing : sharedMemoryContext로 변경
-    var saveNewDairy = false
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,7 +23,8 @@ class MainTableViewController: UITableViewController {
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         DispatchQueue.main.async{
-            if true == self.saveNewDairy {
+            if true == (SharedMemoryContext.get(key: "saveNewDairy")) as! Bool {
+                SharedMemoryContext.changeValue(key: "saveNewDairy", value: false)
                 self.tableView.reloadData()
             }
         }
