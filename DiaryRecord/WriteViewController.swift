@@ -8,39 +8,35 @@
 
 import UIKit
 
-struct WriteFrame {
-    var margen:CGFloat = 30.0
-    var margenOnKeyborad:CGFloat = 40.0
-}
-
 private extension Selector {
     static let keyboardWillShow = #selector(WriteViewController.keyboardWillShow(notification:))
 }
 
+struct WriteState {
+    var keyboardHeight:CGFloat = 0.0
+    var writeMode = true
+    var frist = 0
+}
 
 class WriteViewController: UIViewController {
     
     let log = Logger.init(logPlace: WriteViewController.self)
-    
     private let diaryRepository = DiaryRepository.sharedInstance
     
     @IBOutlet var background: UIView!
-    var contentTextView: UITextView!
+    var writeBox = WriteBox()
+    var writeState = WriteState()
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    let writeFrame = WriteFrame()
-    var keyboardHeight:CGFloat = 0.0
-    var useKeyBoard = false
-    var frist = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpObserver()
-        frist += 1
+        writeState.frist += 1
     }
     
     override func viewWillLayoutSubviews() {
-        changeHight(writeMode: useKeyBoard)
-        makeContentsTextView(keyboardHeight: keyboardHeight)
+        makeWriteBox()
+        changeHight(writeMode: writeState.writeMode)
         contentTextView.becomeFirstResponder()
     }
     
@@ -75,57 +71,28 @@ class WriteViewController: UIViewController {
     
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {
         log.info(message: "🍔 tap")
-        contentTextView.resignFirstResponder()
+        writeBox.resignFirstResponder()
         changeHight(writeMode: false)
     }
     
     
     /* UI & 애니메이션 */
     
-    func makeContentsTextView(keyboardHeight: CGFloat) {
-        if (0 != keyboardHeight) {
-            /* Frame */
-            changeHight(writeMode: true)
-        }
-        else {
-            let rect = CGRect(
-                x: writeFrame.margen,
-                y: writeFrame.margen,
-                width: view.frame.width - (writeFrame.margen*2),
-                height: self.view.frame.size.height
-                    - ((self.navigationController?.navigationBar.frame.size.height)!)
-                    - (writeFrame.margen*2)
-            )
-            contentTextView = UITextView(frame: rect)
-            
-            contentTextView.layer.borderColor = UIColor.red.cgColor
-            contentTextView.layer.borderWidth = 1
-            
-            // 줄간격
-            let attributedString = NSMutableAttributedString(string: " ")
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 10.0
-            attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-            contentTextView.attributedText = attributedString
-            
-            // 텍스트뷰 상단 떨어지지 않게
-            self.automaticallyAdjustsScrollViewInsets = false
-            contentTextView.contentOffset = CGPoint.zero
-            contentTextView.translatesAutoresizingMaskIntoConstraints = false
-            
-            // 폰트 및 크기
-            contentTextView.font = UIFont(name: "NanumMyeongjo", size: 14)
-            background.addSubview(contentTextView)
-        }
+    func makeWriteBox() {
+        // WriteBox에서는 꽉 차게 하고, controller에서 margen 주기 --- cheesing
+        writeBox = WriteBox(frame: background.bounds)
+        self.automaticallyAdjustsScrollViewInsets = false
+        background.addSubview(writeBox)
     }
     
     func changeHight(writeMode:Bool) {
+        let writeBoxHeight = writeBox.frame.size.height
         if true == writeMode {
-            // self.contentTextView.frame.size.height = self.view.frame.size.height - (writeFrame.margen + writeFrame.margenOnKeyborad + keyboardHeight)
+            // 쓰기 모드일 때 키보드 높이 빼기
         }
         else {
-            if 1 != frist {
-                // contentTextView.frame.size.height += (writeFrame.margenOnKeyborad + keyboardHeight)
+            if 1 != writeState.frist {
+                // 쓰기모드 아니고, 처음이 킨 것이 아닐 때 원래대로
             }
         }
     }
@@ -173,15 +140,15 @@ class WriteViewController: UIViewController {
     /* NSNotification - 키보드 높이 구하기 */
     
     private func setUpObserver() {
-        if 0.0 == keyboardHeight {
+        if 0.0 == writeState.keyboardHeight {
             NotificationCenter.default.addObserver(self, selector: .keyboardWillShow, name: .UIKeyboardWillShow, object: nil)
         }
     }
     
     @objc fileprivate func keyboardWillShow(notification:NSNotification) {
         if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.keyboardHeight = keyboardRectValue.height
-            useKeyBoard = true
+            writeState.keyboardHeight = keyboardRectValue.height
+            writeState.writeMode = true
             self.viewWillLayoutSubviews()
         }
     }
