@@ -13,6 +13,8 @@ private extension Selector {
 }
 
 struct WriteState {
+    let margen:CGFloat = 30.0
+    let margenOnKeyborad:CGFloat = 30.0
     var keyboardHeight:CGFloat = 0.0
     var writeMode = true
     var frist = 0
@@ -36,8 +38,8 @@ class WriteViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         makeWriteBox()
+        writeBox.writeSapce.becomeFirstResponder()
         changeHight(writeMode: writeState.writeMode)
-        contentTextView.becomeFirstResponder()
     }
     
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
@@ -79,8 +81,10 @@ class WriteViewController: UIViewController {
     /* UI & 애니메이션 */
     
     func makeWriteBox() {
-        // WriteBox에서는 꽉 차게 하고, controller에서 margen 주기 --- cheesing
-        writeBox = WriteBox(frame: background.bounds)
+        let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
+        let writeHeight = self.view.frame.size.height - (writeState.margen * 4)
+        
+        writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeHeight))
         self.automaticallyAdjustsScrollViewInsets = false
         background.addSubview(writeBox)
     }
