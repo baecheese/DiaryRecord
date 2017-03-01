@@ -20,7 +20,7 @@ struct WriteState {
     var frist = 0
 }
 
-class WriteViewController: UIViewController {
+class WriteViewController: UIViewController, WriteBoxDelegate {
     
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
@@ -38,7 +38,7 @@ class WriteViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         makeWriteBox()
-        writeBox.writeSapce.becomeFirstResponder()
+        writeBox.writeSpace.becomeFirstResponder()
         changeHight(writeMode: writeState.writeMode)
     }
     
@@ -50,7 +50,7 @@ class WriteViewController: UIViewController {
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: contentTextView.text)
+        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -73,10 +73,9 @@ class WriteViewController: UIViewController {
     
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {
         log.info(message: "🍔 tap")
-        writeBox.resignFirstResponder()
+        writeBox.writeSpace.resignFirstResponder()
         changeHight(writeMode: false)
     }
-    
     
     /* UI & 애니메이션 */
     
@@ -86,7 +85,15 @@ class WriteViewController: UIViewController {
         
         writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeHeight))
         self.automaticallyAdjustsScrollViewInsets = false
+
+        writeBox.delegate = self
+        writeBox.usingTexiView()
+        
         background.addSubview(writeBox)
+    }
+    
+    func onTouchUpInsideWriteSpace() {
+        
     }
     
     func changeHight(writeMode:Bool) {

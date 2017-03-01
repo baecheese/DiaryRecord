@@ -13,14 +13,21 @@ struct WriteFrame {
     let fontSize:CGFloat = 14.0
 }
 
-class WriteBox: UIView {
+protocol WriteBoxDelegate {
+    func onTouchUpInsideWriteSpace()
+}
+
+class WriteBox: UIView, UITextViewDelegate {
     
-    var writeSapce = UITextView()
-    var wirteframe = WriteFrame()
+    let log = Logger.init(logPlace: WriteBox.self)
+    var writeSpace = UITextView()
+    var writeframe = WriteFrame()
+    var delegate:WriteBoxDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeWriteBox()
+        writeSpace.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,22 +35,31 @@ class WriteBox: UIView {
     }
 
     func makeWriteBox() {
-        writeSapce = UITextView(frame: self.bounds)
-        writeSapce.layer.borderColor = UIColor.lightGray.cgColor
-        writeSapce.layer.borderWidth = 0.5
-        writeSapce.isEditable = true
+        writeSpace = UITextView(frame: self.bounds)
+        writeSpace.layer.borderColor = UIColor.lightGray.cgColor
+        writeSpace.layer.borderWidth = 0.5
+        writeSpace.isEditable = true
         // 줄간격
         let attributedString = NSMutableAttributedString(string: "")
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = wirteframe.lineSpace
+        paragraphStyle.lineSpacing = writeframe.lineSpace
         attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        writeSapce.attributedText = attributedString
+        writeSpace.attributedText = attributedString
         // 텍스트뷰 상단 떨어지지 않게
-        writeSapce.contentOffset = CGPoint.zero
-        writeSapce.translatesAutoresizingMaskIntoConstraints = false
+        writeSpace.contentOffset = CGPoint.zero
+        writeSpace.translatesAutoresizingMaskIntoConstraints = false
         // 폰트 및 크기
-        writeSapce.font = UIFont(name: "NanumMyeongjo", size: wirteframe.fontSize)
-        self.addSubview(writeSapce)
+        writeSpace.font = UIFont(name: "NanumMyeongjo", size: writeframe.fontSize)
+        self.addSubview(writeSpace)
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        usingTexiView()
+        return true
+    }
+    
+    func usingTexiView() {
+        delegate?.onTouchUpInsideWriteSpace()
     }
     
 }
