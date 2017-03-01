@@ -17,7 +17,6 @@ struct WriteState {
     let margenOnKeyborad:CGFloat = 30.0
     var keyboardHeight:CGFloat = 0.0
     var writeMode = true
-    var frist = 0
 }
 
 class WriteViewController: UIViewController, WriteBoxDelegate {
@@ -33,14 +32,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpObserver()
-        writeState.frist += 1
     }
     
     override func viewWillLayoutSubviews() {
-        makeWriteBox()
+        makeWriteBox()//--cheesing
         writeBox.writeSpace.becomeFirstResponder()
-        changeHight(writeMode: writeState.writeMode)
     }
+    
+    /* action */
     
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
         
@@ -67,6 +66,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         }
     }
     
+    // save 관련 SharedMemoryContext 메세지 전달
     func sendSaveMessage(succese:Bool) {
         SharedMemoryContext.changeValue(key: "saveNewDairy", value: true)
     }
@@ -77,6 +77,12 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         changeHight(writeMode: false)
     }
     
+    func onTouchUpInsideWriteSpace() {
+        log.info(message: "🍔 up")
+        changeHight(writeMode: true)
+    }
+    
+    
     /* UI & 애니메이션 */
     
     func makeWriteBox() {
@@ -84,6 +90,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         let writeHeight = self.view.frame.size.height - (writeState.margen * 4)
         
         writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeHeight))
+        writeBox.backgroundColor = UIColor.red
         self.automaticallyAdjustsScrollViewInsets = false
 
         writeBox.delegate = self
@@ -92,20 +99,15 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         background.addSubview(writeBox)
     }
     
-    func onTouchUpInsideWriteSpace() {
-        
-    }
-    
+    // --- cheesing 높이 변화 적용 x
     func changeHight(writeMode:Bool) {
-        let writeBoxHeight = writeBox.frame.size.height
-        if true == writeMode {
-            // 쓰기 모드일 때 키보드 높이 빼기
-        }
-        else {
-            if 1 != writeState.frist {
-                // 쓰기모드 아니고, 처음이 킨 것이 아닐 때 원래대로
-            }
-        }
+//        if true == writeMode {
+//            // 쓰기 모드일 때 키보드 높이 빼기
+//            writeBox.frame.size.height = 10.0
+//        }
+//        else {
+//            writeBox.frame.size.height = 20.0
+//        }
     }
     
     func disappearPopAnimation() {
