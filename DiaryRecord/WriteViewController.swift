@@ -32,10 +32,10 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpObserver()
+        makeWriteBox()//--cheesing
     }
     
     override func viewWillLayoutSubviews() {
-        makeWriteBox()//--cheesing
         writeBox.writeSpace.becomeFirstResponder()
     }
     
@@ -73,12 +73,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {
         log.info(message: "🍔 tap")
-        writeBox.writeSpace.resignFirstResponder()
+        writeBox.writeSpace.endEditing(true)
         changeHight(writeMode: false)
     }
     
     func onTouchUpInsideWriteSpace() {
         log.info(message: "🍔 up")
+        // ---- tap을 하면 여기가 안불림 --- cheesing
+//        writeBox.writeSpace.endEditing(false)
         changeHight(writeMode: true)
     }
     
@@ -101,13 +103,13 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     
     // --- cheesing 높이 변화 적용 x
     func changeHight(writeMode:Bool) {
-//        if true == writeMode {
-//            // 쓰기 모드일 때 키보드 높이 빼기
-//            writeBox.frame.size.height = 10.0
-//        }
-//        else {
-//            writeBox.frame.size.height = 20.0
-//        }
+        if true == writeMode {
+            // 쓰기 모드일 때 키보드 높이 빼기
+            writeBox.frame.size.height = 10.0
+        }
+        else {
+            writeBox.frame.size.height = 20.0
+        }
     }
     
     func disappearPopAnimation() {

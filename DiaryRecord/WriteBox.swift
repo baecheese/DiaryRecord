@@ -39,7 +39,6 @@ class WriteBox: UIView, UITextViewDelegate {
         writeSpace.layer.borderColor = UIColor.lightGray.cgColor
         writeSpace.layer.borderWidth = 0.5
         writeSpace.isEditable = true
-        writeSpace.backgroundColor = UIColor.brown
         // 줄간격
         let attributedString = NSMutableAttributedString(string: "")
         let paragraphStyle = NSMutableParagraphStyle()
@@ -55,6 +54,7 @@ class WriteBox: UIView, UITextViewDelegate {
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        writeSpace.resignFirstResponder()
         usingTexiView()
         return true
     }
