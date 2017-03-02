@@ -32,7 +32,8 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpObserver()
-        makeWriteBox()//--cheesing
+        makeWriteBox()
+        makeBackButton()//--cheesing
     }
     
     override func viewWillLayoutSubviews() {
@@ -72,9 +73,11 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     }
     
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        log.info(message: "🍔 tap")
-        writeBox.writeSpace.endEditing(true)
-        changeHight(writeMode: false)
+        if sender.view != writeBox {
+            log.info(message: "🍔 tap")
+            writeBox.writeSpace.endEditing(true)
+            changeHight(writeMode: false)
+        }
     }
     
     func onTouchUpInsideWriteSpace() {
@@ -110,6 +113,32 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         else {
             writeBox.frame.size.height = 20.0
         }
+    }
+    
+    func makeBackButton() {
+        let width = self.view.frame.size.width
+        let height = self.view.frame.size.height
+        let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
+        let down = UIButton(frame: CGRect(x: writeState.margen, y: height - writeState.margen, width: width, height: writeState.margen))
+        let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
+        let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
+        
+        up.backgroundColor = .red
+        down.backgroundColor = .blue
+        right.backgroundColor = .black
+        left.backgroundColor = .yellow
+        
+        let buttonArray = [up, down, right, left]
+        
+        for button in buttonArray {
+            button.addTarget(self, action: #selector(WriteViewController.clickBackButton), for: .touchUpInside)
+            background.addSubview(button)
+        }
+        
+    }
+    
+    func clickBackButton() {
+        log.info(message: "버튼 클릭")
     }
     
     func disappearPopAnimation() {
