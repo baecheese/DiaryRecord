@@ -72,30 +72,27 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         SharedMemoryContext.changeValue(key: "saveNewDairy", value: true)
     }
     
-    @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        if sender.view != writeBox {
-            log.info(message: "🍔 tap")
-            writeBox.writeSpace.endEditing(true)
-            changeHight(writeMode: false)
-        }
-    }
-    
     func onTouchUpInsideWriteSpace() {
         log.info(message: "🍔 up")
-        // ---- tap을 하면 여기가 안불림 --- cheesing
-//        writeBox.writeSpace.endEditing(false)
+        writeBox.writeSpace.endEditing(false)
         changeHight(writeMode: true)
     }
     
+    func clickBackButton() {
+        log.info(message: "🍔 click Back Button")
+        writeBox.writeSpace.endEditing(true)
+        changeHight(writeMode: false)
+    }
+
+
     
     /* UI & 애니메이션 */
     
     func makeWriteBox() {
         let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
-        let writeHeight = self.view.frame.size.height - (writeState.margen * 4)
+        let writeHeight = self.view.frame.size.height / 2.0
         
         writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeHeight))
-        writeBox.backgroundColor = UIColor.red
         self.automaticallyAdjustsScrollViewInsets = false
 
         writeBox.delegate = self
@@ -106,12 +103,13 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     
     // --- cheesing 높이 변화 적용 x
     func changeHight(writeMode:Bool) {
+        let height = self.view.frame.size.height
         if true == writeMode {
             // 쓰기 모드일 때 키보드 높이 빼기
-            writeBox.frame.size.height = 10.0
+            writeBox.frame.size.height = 30.0
         }
         else {
-            writeBox.frame.size.height = 20.0
+            writeBox.frame.size.height = height - (writeState.margen * 8)
         }
     }
     
@@ -119,7 +117,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         let width = self.view.frame.size.width
         let height = self.view.frame.size.height
         let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
-        let down = UIButton(frame: CGRect(x: writeState.margen, y: height - writeState.margen, width: width, height: writeState.margen))
+        let down = UIButton(frame: CGRect(x: writeState.margen, y: height - writeState.margen*3, width: width, height: writeState.margen))
         let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
         let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
         
@@ -135,10 +133,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
             background.addSubview(button)
         }
         
-    }
-    
-    func clickBackButton() {
-        log.info(message: "버튼 클릭")
     }
     
     func disappearPopAnimation() {

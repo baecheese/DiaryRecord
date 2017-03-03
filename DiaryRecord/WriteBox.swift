@@ -35,7 +35,7 @@ class WriteBox: UIView, UITextViewDelegate {
     }
 
     func makeWriteBox() {
-        writeSpace = UITextView(frame: self.bounds)
+        writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
         writeSpace.layer.borderColor = UIColor.lightGray.cgColor
         writeSpace.layer.borderWidth = 0.5
         writeSpace.isEditable = true
