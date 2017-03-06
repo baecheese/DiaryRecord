@@ -17,6 +17,8 @@
 		030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */; };
 		030DB1021E4186F3004E3532 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1011E4186F3004E3532 /* Diary.swift */; };
 		030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1031E42285C004E3532 /* DiaryRepository.swift */; };
+		032B6AF41E69541D004410E8 /* PictureSapce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B6AF31E69541D004410E8 /* PictureSapce.swift */; };
+		032B6AF61E6955C3004410E8 /* carmi.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF51E6955C3004410E8 /* carmi.png */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
 		037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692901E51BA1E00C0CCCB /* ReadViewController.swift */; };
 		037692931E54885500C0CCCB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692921E54885500C0CCCB /* CardView.swift */; };
@@ -70,6 +72,8 @@
 		030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		030DB1011E4186F3004E3532 /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		030DB1031E42285C004E3532 /* DiaryRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryRepository.swift; sourceTree = "<group>"; };
+		032B6AF31E69541D004410E8 /* PictureSapce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSapce.swift; sourceTree = "<group>"; };
+		032B6AF51E6955C3004410E8 /* carmi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carmi.png; sourceTree = "<group>"; };
 		035D7B991E48BE6800F66B24 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		037692901E51BA1E00C0CCCB /* ReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 			children = (
 				037692921E54885500C0CCCB /* CardView.swift */,
 				0399B20A1E656472003E8672 /* WriteBox.swift */,
+				032B6AF31E69541D004410E8 /* PictureSapce.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 		03B6EA931E616814002CFB29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				032B6AF51E6955C3004410E8 /* carmi.png */,
 				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
 			);
@@ -422,6 +428,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,
+				032B6AF61E6955C3004410E8 /* carmi.png in Resources */,
 				0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */,
 				030DB0D31E407381004E3532 /* Assets.xcassets in Resources */,
 				030DB0D11E407381004E3532 /* Main.storyboard in Resources */,
@@ -603,6 +610,7 @@
 				03B6EA871E615D62002CFB29 /* Context.swift in Sources */,
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
+				032B6AF41E69541D004410E8 /* PictureSapce.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
 			);

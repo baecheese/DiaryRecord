@@ -9,8 +9,8 @@
 import UIKit
 
 struct WriteFrame {
-    var lineSpace:CGFloat = 10.0
-    let fontSize:CGFloat = 14.0
+    var lineSpace:CGFloat = 20.0
+    let fontSize:CGFloat = 17.0
 }
 
 protocol WriteBoxDelegate {

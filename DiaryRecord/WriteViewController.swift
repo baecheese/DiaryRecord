@@ -117,16 +117,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         let width = self.view.frame.size.width
         let height = self.view.frame.size.height
         let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
-        let down = UIButton(frame: CGRect(x: writeState.margen, y: height - writeState.margen*3, width: width, height: writeState.margen))
         let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
         let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
         
         up.backgroundColor = .red
-        down.backgroundColor = .blue
         right.backgroundColor = .black
         left.backgroundColor = .yellow
         
-        let buttonArray = [up, down, right, left]
+        let buttonArray = [up, right, left]
         
         for button in buttonArray {
             button.addTarget(self, action: #selector(WriteViewController.clickBackButton), for: .touchUpInside)
