@@ -24,7 +24,8 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     
-    @IBOutlet var background: UIView!
+    
+    @IBOutlet var backgroundScroll: UIScrollView!
     var writeBox = WriteBox()
     var writeState = WriteState()
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -32,8 +33,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpObserver()
+        
+        // 임시 컨텐츠 사이즈
+        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height * 2)
+        
         makeWriteBox()
-        makeBackButton()//--cheesing
+        makeBackButton()
+        
+        addToolBar(textField: writeBox.writeSpace)
     }
     
     override func viewWillLayoutSubviews() {
@@ -98,7 +105,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         writeBox.delegate = self
         writeBox.usingTexiView()
         
-        background.addSubview(writeBox)
+        backgroundScroll.addSubview(writeBox)
     }
     
     // --- cheesing 높이 변화 적용 x
@@ -115,7 +122,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     
     func makeBackButton() {
         let width = self.view.frame.size.width
-        let height = self.view.frame.size.height
+        let height = self.backgroundScroll.contentSize.height
         let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
         let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
         let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
@@ -128,7 +135,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         
         for button in buttonArray {
             button.addTarget(self, action: #selector(WriteViewController.clickBackButton), for: .touchUpInside)
-            background.addSubview(button)
+            backgroundScroll.addSubview(button)
         }
         
     }

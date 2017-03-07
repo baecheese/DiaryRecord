@@ -9,12 +9,42 @@
 import UIKit
 
 struct WriteFrame {
-    var lineSpace:CGFloat = 20.0
+    var lineSpace:CGFloat = 30.0
     let fontSize:CGFloat = 17.0
+    let defaultHeight:CGFloat = 40.0
 }
 
 protocol WriteBoxDelegate {
     func onTouchUpInsideWriteSpace()
+}
+
+extension UIViewController: UITextViewDelegate {
+    /** 키보드 위 toolBar */
+    func addToolBar(textField: UITextView){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 37/255, green: 35/255, blue: 37/255, alpha: 1)
+        
+        
+        let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.donePressed))
+        let cancelButton = UIBarButtonItem(title: "x", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.cancelPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        toolBar.setItems([cancelButton, spaceButton, galleryButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    
+    func donePressed() {
+        view.endEditing(true)
+    }
+    
+    func cancelPressed() {
+        view.endEditing(true) // or do something
+    }
 }
 
 class WriteBox: UIView, UITextViewDelegate {
@@ -35,7 +65,7 @@ class WriteBox: UIView, UITextViewDelegate {
     }
 
     func makeWriteBox() {
-        writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+        writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: writeframe.defaultHeight))////---
         writeSpace.layer.borderColor = UIColor.lightGray.cgColor
         writeSpace.layer.borderWidth = 0.5
         writeSpace.isEditable = true
@@ -53,12 +83,22 @@ class WriteBox: UIView, UITextViewDelegate {
         self.addSubview(writeSpace)
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        let fixedWidth = textView.frame.size.width
+        textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+        var newFrame = textView.frame
+        newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
+        textView.frame = newFrame;
+    }
+    
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         writeSpace.resignFirstResponder()
         usingTexiView()
         return true
     }
     
+    /* delegate */
     func usingTexiView() {
         delegate?.onTouchUpInsideWriteSpace()
     }
