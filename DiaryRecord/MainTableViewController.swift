@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)

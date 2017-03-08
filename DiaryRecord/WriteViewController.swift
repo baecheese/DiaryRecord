@@ -8,22 +8,23 @@
 
 import UIKit
 
+
 private extension Selector {
     static let keyboardWillShow = #selector(WriteViewController.keyboardWillShow(notification:))
 }
 
 struct WriteState {
     let margen:CGFloat = 30.0
-    let margenOnKeyborad:CGFloat = 30.0
+    let margenOnKeyborad:CGFloat = 60.0
+    var writeBoxHeight:CGFloat = 0.0
+    var writeSpaceHeight:CGFloat = 0.0
     var keyboardHeight:CGFloat = 0.0
-    var writeMode = true
 }
 
 class WriteViewController: UIViewController, WriteBoxDelegate {
     
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
-    
     
     @IBOutlet var backgroundScroll: UIScrollView!
     var writeBox = WriteBox()
@@ -32,15 +33,12 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /* UI 및 기능 세팅 */
         setUpObserver()
-        
-        // 임시 컨텐츠 사이즈
-        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height * 2)
-        
         makeWriteBox()
+        setBackgroundContentsSize()
         makeBackButton()
-        
-        addToolBar(textField: writeBox.writeSpace)
     }
     
     override func viewWillLayoutSubviews() {
@@ -82,42 +80,50 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     func onTouchUpInsideWriteSpace() {
         log.info(message: "🍔 up")
         writeBox.writeSpace.endEditing(false)
-        changeHight(writeMode: true)
     }
     
     func clickBackButton() {
         log.info(message: "🍔 click Back Button")
         writeBox.writeSpace.endEditing(true)
-        changeHight(writeMode: false)
     }
-
-
     
     /* UI & 애니메이션 */
     
+    func getNavigationBarHeight() -> CGFloat {
+        
+        
+        /* SharedMemoryContext에 navigationbarHeight 없으면 setAndGet하고
+         잇으면 get만 하고 싶은데, 계속 없을 때의 경우를 못잡고 있음  ---  cheesing
+         
+        let naviHeight = SharedMemoryContext.get(key: "navigationbarHeight") as AnyObject
+        let optional = Optional<CoreGraphics.CGFloat>.None as AnyObject
+        if optional === naviHeight {
+            return SharedMemoryContext.setAndGet(key: "navigationbarHeight", setValue: self.navigationController!.navigationBar.frame.height) as! CGFloat
+        }
+        return SharedMemoryContext.get(key: "navigationbarHeight") as! CGFloat */
+        
+        return 44.0 // 임시
+    }
+    
     func makeWriteBox() {
         let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
-        let writeHeight = self.view.frame.size.height / 2.0
+        writeState.writeBoxHeight = self.view.frame.size.height - (writeState.margen + getNavigationBarHeight()) // 네비 빼야함
         
-        writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeHeight))
+        writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeState.writeBoxHeight))
+        // textview 높이 설정
+        writeState.writeSpaceHeight = writeState.writeBoxHeight - (writeState.keyboardHeight + writeState.margenOnKeyborad)
+        writeBox.writeSpace.frame.size.height = writeState.writeSpaceHeight
+        writeBox.backgroundColor = .blue
         self.automaticallyAdjustsScrollViewInsets = false
 
+        addToolBar(textField: writeBox.writeSpace)
         writeBox.delegate = self
-        writeBox.usingTexiView()
         
         backgroundScroll.addSubview(writeBox)
     }
     
-    // --- cheesing 높이 변화 적용 x
-    func changeHight(writeMode:Bool) {
-        let height = self.view.frame.size.height
-        if true == writeMode {
-            // 쓰기 모드일 때 키보드 높이 빼기
-            writeBox.frame.size.height = 30.0
-        }
-        else {
-            writeBox.frame.size.height = height - (writeState.margen * 8)
-        }
+    func setBackgroundContentsSize() {
+        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: writeState.writeBoxHeight)
     }
     
     func makeBackButton() {
@@ -191,8 +197,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     @objc fileprivate func keyboardWillShow(notification:NSNotification) {
         if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             writeState.keyboardHeight = keyboardRectValue.height
-            writeState.writeMode = true
-            self.viewWillLayoutSubviews()
+            makeWriteBox()
         }
     }
     

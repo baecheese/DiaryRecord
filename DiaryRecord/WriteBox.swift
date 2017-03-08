@@ -11,7 +11,6 @@ import UIKit
 struct WriteFrame {
     var lineSpace:CGFloat = 30.0
     let fontSize:CGFloat = 17.0
-    let defaultHeight:CGFloat = 40.0
 }
 
 protocol WriteBoxDelegate {
@@ -65,7 +64,7 @@ class WriteBox: UIView, UITextViewDelegate {
     }
 
     func makeWriteBox() {
-        writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: writeframe.defaultHeight))////---
+        writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
         writeSpace.layer.borderColor = UIColor.lightGray.cgColor
         writeSpace.layer.borderWidth = 0.5
         writeSpace.isEditable = true
@@ -83,24 +82,17 @@ class WriteBox: UIView, UITextViewDelegate {
         self.addSubview(writeSpace)
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        let fixedWidth = textView.frame.size.width
-        textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        var newFrame = textView.frame
-        newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
-        textView.frame = newFrame;
-    }
-    
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         writeSpace.resignFirstResponder()
-        usingTexiView()
+        usingTexiView(message: "textView click")
         return true
     }
     
     /* delegate */
-    func usingTexiView() {
-        delegate?.onTouchUpInsideWriteSpace()
+    func usingTexiView(message:String) {
+        if message == "textView click" {
+            delegate?.onTouchUpInsideWriteSpace()
+        }
     }
     
 }
