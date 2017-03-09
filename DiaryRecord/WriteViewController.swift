@@ -23,7 +23,7 @@ struct WriteState {
     var isFrist:Bool = true
 }
 
-class WriteViewController: UIViewController, WriteBoxDelegate {
+class WriteViewController: UIViewController, WriteBoxDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
@@ -31,6 +31,8 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     @IBOutlet var backgroundScroll: UIScrollView!
     var writeBox = WriteBox()
     var writeState = WriteState()
+    var imageBox = UIImageView()
+    
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
     override func viewDidLoad() {
@@ -41,6 +43,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         makeWriteBox()
         setBackgroundContentsSize()
         makeBackButton()
+        makeImageBox()
     }
     
     override func viewWillLayoutSubviews() {
@@ -88,6 +91,43 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         log.info(message: "🍔 click Back Button")
         writeBox.writeSpace.endEditing(true)
     }
+    
+    override func donePressed() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        
+        let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let libraryAction = UIAlertAction(title: "Library", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        })
+        let cameraAction = UIAlertAction(title: "Camera roll", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+                imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+                imagePicker.allowsEditing = false
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        photoMenu.addAction(libraryAction)
+        photoMenu.addAction(cameraAction)
+        photoMenu.addAction(cancelAction)
+        
+        self.present(photoMenu, animated: true, completion: nil)
+        
+    }
+    
+    override func cancelPressed() {
+        
+    }
+    
+    
     
     /* UI & 애니메이션 */
     
@@ -142,6 +182,13 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
         
     }
     
+    func makeImageBox() {
+        let imageBoxHeight = writeBox.frame.size.height - writeState.writeSpaceHeight - 100
+        imageBox.frame = CGRect(x: 0, y: writeState.writeSpaceHeight, width: writeBox.frame.size.width, height: imageBoxHeight)
+        imageBox.backgroundColor = .green
+        writeBox.addSubview(imageBox)
+    }
+    
     func disappearPopAnimation() {
         let transition = CATransition()
         transition.duration = 0.5
@@ -191,11 +238,12 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     }
     
     @objc fileprivate func keyboardWillShow(notification:NSNotification) {
-        if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            writeState.keyboardHeight = keyboardRectValue.height
-            if writeState.isFrist == true {
+        if writeState.isFrist == true {
+            if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                writeState.keyboardHeight = keyboardRectValue.height
                 writeState.isFrist = false
                 makeWriteBox()
+                makeImageBox()
             }
         }
     }

@@ -17,7 +17,8 @@ protocol WriteBoxDelegate {
     func onTouchUpInsideWriteSpace()
 }
 
-extension UIViewController: UITextViewDelegate {
+extension UIViewController : UITextViewDelegate {
+
     /** 키보드 위 toolBar */
     func addToolBar(textField: UITextView){
         let toolBar = UIToolbar()
@@ -51,6 +52,8 @@ class WriteBox: UIView, UITextViewDelegate {
     let log = Logger.init(logPlace: WriteBox.self)
     var writeSpace = UITextView()
     var writeframe = WriteFrame()
+    var imageView = UIImageView()
+    
     var delegate:WriteBoxDelegate?
 
     override init(frame: CGRect) {

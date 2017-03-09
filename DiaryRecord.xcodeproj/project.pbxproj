@@ -17,7 +17,6 @@
 		030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */; };
 		030DB1021E4186F3004E3532 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1011E4186F3004E3532 /* Diary.swift */; };
 		030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1031E42285C004E3532 /* DiaryRepository.swift */; };
-		032B6AF41E69541D004410E8 /* PictureSapce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B6AF31E69541D004410E8 /* PictureSapce.swift */; };
 		032B6AFA1E6E5B93004410E8 /* gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF71E6E5B93004410E8 /* gallery.png */; };
 		032B6AFB1E6E5B93004410E8 /* write.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF81E6E5B93004410E8 /* write.png */; };
 		032B6AFC1E6E5B93004410E8 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF91E6E5B93004410E8 /* setting.png */; };
@@ -74,7 +73,6 @@
 		030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		030DB1011E4186F3004E3532 /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		030DB1031E42285C004E3532 /* DiaryRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryRepository.swift; sourceTree = "<group>"; };
-		032B6AF31E69541D004410E8 /* PictureSapce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSapce.swift; sourceTree = "<group>"; };
 		032B6AF71E6E5B93004410E8 /* gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gallery.png; sourceTree = "<group>"; };
 		032B6AF81E6E5B93004410E8 /* write.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = write.png; sourceTree = "<group>"; };
 		032B6AF91E6E5B93004410E8 /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 			children = (
 				037692921E54885500C0CCCB /* CardView.swift */,
 				0399B20A1E656472003E8672 /* WriteBox.swift */,
-				032B6AF31E69541D004410E8 /* PictureSapce.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -618,7 +615,6 @@
 				03B6EA871E615D62002CFB29 /* Context.swift in Sources */,
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
-				032B6AF41E69541D004410E8 /* PictureSapce.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
 			);
