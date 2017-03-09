@@ -20,7 +20,7 @@ struct WriteState {
     var writeSpaceHeight:CGFloat = 0.0
     var keyboardHeight:CGFloat = 0.0
     
-    var writing:Bool = false
+    var isFrist:Bool = true
 }
 
 class WriteViewController: UIViewController, WriteBoxDelegate {
@@ -193,7 +193,10 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     @objc fileprivate func keyboardWillShow(notification:NSNotification) {
         if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             writeState.keyboardHeight = keyboardRectValue.height
-            makeWriteBox()
+            if writeState.isFrist == true {
+                writeState.isFrist = false
+                makeWriteBox()
+            }
         }
     }
     
