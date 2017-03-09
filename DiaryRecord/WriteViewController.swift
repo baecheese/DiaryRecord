@@ -19,6 +19,8 @@ struct WriteState {
     var writeBoxHeight:CGFloat = 0.0
     var writeSpaceHeight:CGFloat = 0.0
     var keyboardHeight:CGFloat = 0.0
+    
+    var writing:Bool = false
 }
 
 class WriteViewController: UIViewController, WriteBoxDelegate {
@@ -90,19 +92,13 @@ class WriteViewController: UIViewController, WriteBoxDelegate {
     /* UI & 애니메이션 */
     
     func getNavigationBarHeight() -> CGFloat {
-        
-        
-        /* SharedMemoryContext에 navigationbarHeight 없으면 setAndGet하고
-         잇으면 get만 하고 싶은데, 계속 없을 때의 경우를 못잡고 있음  ---  cheesing
-         
-        let naviHeight = SharedMemoryContext.get(key: "navigationbarHeight") as AnyObject
-        let optional = Optional<CoreGraphics.CGFloat>.None as AnyObject
-        if optional === naviHeight {
+        let naviHeight = SharedMemoryContext.get(key: "navigationbarHeight")
+        if nil == naviHeight {
             return SharedMemoryContext.setAndGet(key: "navigationbarHeight", setValue: self.navigationController!.navigationBar.frame.height) as! CGFloat
         }
-        return SharedMemoryContext.get(key: "navigationbarHeight") as! CGFloat */
-        
-        return 44.0 // 임시
+        else {
+            return naviHeight as! CGFloat
+        }
     }
     
     func makeWriteBox() {
