@@ -23,8 +23,8 @@ struct WriteState {
     var isFrist:Bool = true
 }
 
-class WriteViewController: UIViewController, WriteBoxDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     
@@ -44,6 +44,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UIImagePickerCont
         setBackgroundContentsSize()
         makeBackButton()
         makeImageBox()
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -93,23 +94,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UIImagePickerCont
     }
     
     override func donePressed() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let libraryAction = UIAlertAction(title: "Library", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
-            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
+            self.photoLibrary()
         })
         let cameraAction = UIAlertAction(title: "Camera roll", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-                imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-                imagePicker.allowsEditing = false
-                self.present(imagePicker, animated: true, completion: nil)
-            }
+            self.camera()
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -120,13 +112,39 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UIImagePickerCont
         photoMenu.addAction(cancelAction)
         
         self.present(photoMenu, animated: true, completion: nil)
-        
     }
     
+    func camera()
+    {
+        let myPickerController = UIImagePickerController()
+        myPickerController.delegate = self
+        myPickerController.sourceType = UIImagePickerControllerSourceType.camera
+        
+        self.present(myPickerController, animated: true, completion: nil)
+    }
+    
+    func photoLibrary()
+    {
+        
+        let myPickerController = UIImagePickerController()
+        myPickerController.delegate = self
+        myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        
+        self.present(myPickerController, animated: true, completion: nil)
+        
+    }
     override func cancelPressed() {
         
     }
     
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+        self.dismiss(animated: true, completion: { () -> Void in
+            
+        })
+        // 사라질 때, 고른 사진 어떻게 할지
+        // ex) imageView.image = image
+        imageBox.image = image
+    }
     
     
     /* UI & 애니메이션 */

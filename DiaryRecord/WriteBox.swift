@@ -25,7 +25,7 @@ extension UIViewController : UITextViewDelegate {
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor(red: 37/255, green: 35/255, blue: 37/255, alpha: 1)
-        
+
         
         let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.donePressed))
         let cancelButton = UIBarButtonItem(title: "x", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.cancelPressed))
@@ -43,7 +43,7 @@ extension UIViewController : UITextViewDelegate {
     }
     
     func cancelPressed() {
-        view.endEditing(true) // or do something
+        view.endEditing(true)
     }
 }
 
