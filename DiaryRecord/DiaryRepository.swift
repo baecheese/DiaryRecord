@@ -71,9 +71,17 @@ class DiaryRepository: NSObject {
         return (true, "저장 완료")
     }
     
-    /*
+    /**
      (형식 ex)
-     [2017.02.12 : [{ts:1486711142.1015279, text:"Frist message"}, {ts:1486711142.1015290, text:"Frist message2"}], 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}]]
+     [
+      2017.02.12 :
+       [{ts:1486711142.1015279, text:"Frist message"}
+        , {ts:1486711142.1015290, text:"Frist message2"}
+       ],
+      2017.02.11 :
+       [ {ts:1486711142.1015279, text:"Frist message"}
+       ]
+     ]
      */
     func findAll() -> [String : Array<Diary>] {
         var diarysDict = [String : Array<Diary>]()

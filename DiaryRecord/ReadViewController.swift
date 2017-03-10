@@ -11,11 +11,8 @@ import UIKit
 class ReadViewController: UIViewController {
 
     private let log = Logger.init(logPlace: ReadViewController.self)
-    
     private let diaryRepository = DiaryRepository.sharedInstance
-    
     var diary = Diary()
-    
     @IBOutlet var backgroundView: UIView!
     
     override func viewDidLoad() {

@@ -8,18 +8,11 @@
 
 import UIKit
 
-
-
 class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
-    
     private let diaryRepository = DiaryRepository.sharedInstance
-    
     private var sortedDate = [String]()
-    
-    //TODO cheesing : sharedMemoryContext로 변경
-    var saveNewDairy = false
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -28,7 +21,8 @@ class MainTableViewController: UITableViewController {
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         DispatchQueue.main.async{
-            if true == self.saveNewDairy {
+            if true == (SharedMemoryContext.get(key: "saveNewDairy")) as! Bool {
+                SharedMemoryContext.changeValue(key: "saveNewDairy", value: false)
                 self.tableView.reloadData()
             }
         }
@@ -58,17 +52,6 @@ class MainTableViewController: UITableViewController {
     @IBAction func refreshAction(_ sender: UIBarButtonItem) {
         self.tableView.reloadData()
     }
-    
-    /*
-     (형식 ex)
-     [
-        2017.02.12 : [
-            {ts:1486711142.1015279, text:"Frist message"}
-            , {ts:1486711142.1015290, text:"Frist message2"}]
-            , 2017.02.11 : [{ts:1486711142.1015279, text:"Frist message"}
-        ]
-     ]
-     */
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         let diarys = diaryRepository.findAll()
@@ -118,16 +101,26 @@ class MainTableViewController: UITableViewController {
         if editingStyle == .delete
         {
             diaryRepository.delete(id: seletedDiaryID as! Int)
-            
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            
+            // 삭제 후, 다이어리를 찾았을 때
+            let diarys = self.diaryRepository.findAll()
+            /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
+             -> 마지막 diary일 땐 그냥 비어있는 diary 데이터로 tableView reload data */
+            if false == isLastDairy(diarys: diarys) {
+                // 마지막 diary가 아니면 deleteRow를 한다.
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
             UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                    let diarys = self.diaryRepository.findAll()
-                    // 최신 순 날짜 Array 정렬
-                    self.sortedDate = Array(diarys.keys).sorted(by: >)
+                self.sortedDate = Array(diarys.keys).sorted(by: >)
                 self.tableView.reloadData()
             }, completion: nil)
         }
+    }
+    
+    func isLastDairy(diarys : [String : Array<Diary>]) -> Bool {
+        if 1 < diarys.count {
+            return false
+        }
+        return true
     }
     
     private func getSelectedDiaryID(section:Int, row:Int) -> Int {
@@ -135,6 +128,5 @@ class MainTableViewController: UITableViewController {
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
     }
-    
-    
+
 }

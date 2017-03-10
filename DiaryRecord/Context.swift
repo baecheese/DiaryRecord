@@ -8,11 +8,17 @@
 
 import UIKit
 
+/**
+ 사용 중인 key : "seletedDiaryID"(Int), "saveNewDairy"(Bool), "navigationbarHeight"(CGFloat)
+ */
 public struct SharedMemoryContext {
     
-    private static var context:[String:Any] = Dictionary()
+    private static var context:[String:Any?] = Dictionary()
     
-    public static func get(key:String) -> Any {
+    public static func get(key:String) -> Any? {
+        if context[key] == nil {
+            return nil
+        }
         return context[key]!
     }
     
@@ -23,6 +29,10 @@ public struct SharedMemoryContext {
     public static func setAndGet(key:String, setValue:Any) -> Any {
         context.updateValue(setValue, forKey: key)
         return setValue
+    }
+    
+    public static func changeValue(key:String, value:Any) {
+        context[key] = value
     }
     
 }

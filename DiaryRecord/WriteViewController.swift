@@ -8,41 +8,50 @@
 
 import UIKit
 
-struct WriteFrame {
-    var margen:CGFloat = 30.0
-    var margenOnKeyborad:CGFloat = 40.0
-}
 
 private extension Selector {
     static let keyboardWillShow = #selector(WriteViewController.keyboardWillShow(notification:))
 }
 
+struct WriteState {
+    let margen:CGFloat = 30.0
+    let margenOnKeyborad:CGFloat = 60.0
+    var writeBoxHeight:CGFloat = 0.0
+    var writeSpaceHeight:CGFloat = 0.0
+    var keyboardHeight:CGFloat = 0.0
+    
+    var isFrist:Bool = true
+}
 
-class WriteViewController: UIViewController {
-    
+class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
     let log = Logger.init(logPlace: WriteViewController.self)
-    
     private let diaryRepository = DiaryRepository.sharedInstance
     
-    @IBOutlet var background: UIView!
-    var contentTextView: UITextView!
+    @IBOutlet var backgroundScroll: UIScrollView!
+    var writeBox = WriteBox()
+    var writeState = WriteState()
+    var imageBox = UIImageView()
+    
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    let writeFrame = WriteFrame()
-    var keyboardHeight:CGFloat = 0.0
-    var useKeyBoard = false
-    var frist = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /* UI 및 기능 세팅 */
         setUpObserver()
-        frist += 1
+        makeWriteBox()
+        setBackgroundContentsSize()
+        makeBackButton()
+        makeImageBox()
+        
     }
     
     override func viewWillLayoutSubviews() {
-        changeHight(writeMode: useKeyBoard)
-        makeContentsTextView(keyboardHeight: keyboardHeight)
-        contentTextView.becomeFirstResponder()
+        writeBox.writeSpace.becomeFirstResponder()
     }
+    
+    /* action */
     
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
         
@@ -52,7 +61,7 @@ class WriteViewController: UIViewController {
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: contentTextView.text)
+        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -69,67 +78,133 @@ class WriteViewController: UIViewController {
         }
     }
     
+    // save 관련 SharedMemoryContext 메세지 전달
     func sendSaveMessage(succese:Bool) {
-        let viewControllers:Array = (self.navigationController?.viewControllers)!
-        let beforeVC:MainTableViewController = viewControllers.first as! MainTableViewController
-        beforeVC.saveNewDairy = true
+        SharedMemoryContext.changeValue(key: "saveNewDairy", value: true)
     }
     
-    @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        log.info(message: "🍔 tap")
-        contentTextView.resignFirstResponder()
-        changeHight(writeMode: false)
+    func onTouchUpInsideWriteSpace() {
+        log.info(message: "🍔 up")
+        writeBox.writeSpace.endEditing(false)
+    }
+    
+    func clickBackButton() {
+        log.info(message: "🍔 click Back Button")
+        writeBox.writeSpace.endEditing(true)
+    }
+    
+    override func donePressed() {
+        let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let libraryAction = UIAlertAction(title: "Library", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.photoLibrary()
+        })
+        let cameraAction = UIAlertAction(title: "Camera roll", style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.camera()
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        photoMenu.addAction(libraryAction)
+        photoMenu.addAction(cameraAction)
+        photoMenu.addAction(cancelAction)
+        
+        self.present(photoMenu, animated: true, completion: nil)
+    }
+    
+    func camera()
+    {
+        let myPickerController = UIImagePickerController()
+        myPickerController.delegate = self
+        myPickerController.sourceType = UIImagePickerControllerSourceType.camera
+        
+        self.present(myPickerController, animated: true, completion: nil)
+    }
+    
+    func photoLibrary()
+    {
+        
+        let myPickerController = UIImagePickerController()
+        myPickerController.delegate = self
+        myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        
+        self.present(myPickerController, animated: true, completion: nil)
+        
+    }
+    override func cancelPressed() {
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+        self.dismiss(animated: true, completion: { () -> Void in
+            
+        })
+        // 사라질 때, 고른 사진 어떻게 할지
+        // ex) imageView.image = image
+        imageBox.image = image
     }
     
     
     /* UI & 애니메이션 */
     
-    func makeContentsTextView(keyboardHeight: CGFloat) {
-        if (0 != keyboardHeight) {
-            /* Frame */
-            changeHight(writeMode: true)
+    func getNavigationBarHeight() -> CGFloat {
+        let naviHeight = SharedMemoryContext.get(key: "navigationbarHeight")
+        if nil == naviHeight {
+            return SharedMemoryContext.setAndGet(key: "navigationbarHeight", setValue: self.navigationController!.navigationBar.frame.height) as! CGFloat
         }
         else {
-            let rect = CGRect(
-                x: writeFrame.margen,
-                y: writeFrame.margen,
-                width: view.frame.width - (writeFrame.margen*2),
-                height: self.view.frame.size.height
-                    - ((self.navigationController?.navigationBar.frame.size.height)!)
-                    - (writeFrame.margen*2)
-            )
-            contentTextView = UITextView(frame: rect)
-            
-            contentTextView.layer.borderColor = UIColor.red.cgColor
-            contentTextView.layer.borderWidth = 1
-            
-            // 줄간격
-            let attributedString = NSMutableAttributedString(string: " ")
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 10.0
-            attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-            contentTextView.attributedText = attributedString
-            
-            // 텍스트뷰 상단 떨어지지 않게
-            self.automaticallyAdjustsScrollViewInsets = false
-            contentTextView.contentOffset = CGPoint.zero
-            contentTextView.translatesAutoresizingMaskIntoConstraints = false
-            
-            // 폰트 및 크기
-            contentTextView.font = UIFont(name: "NanumMyeongjo", size: 14)
-            background.addSubview(contentTextView)
+            return naviHeight as! CGFloat
         }
     }
     
-    func changeHight(writeMode:Bool) {
-        if true == writeMode {
-            // self.contentTextView.frame.size.height = self.view.frame.size.height - (writeFrame.margen + writeFrame.margenOnKeyborad + keyboardHeight)
+    func makeWriteBox() {
+        let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
+        writeState.writeBoxHeight = self.view.frame.size.height - (writeState.margen + getNavigationBarHeight()) // 네비 빼야함
+        
+        writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeState.writeBoxHeight))
+        // textview 높이 설정
+        writeState.writeSpaceHeight = writeState.writeBoxHeight - (writeState.keyboardHeight + writeState.margenOnKeyborad)
+        writeBox.writeSpace.frame.size.height = writeState.writeSpaceHeight
+        writeBox.backgroundColor = .blue
+        self.automaticallyAdjustsScrollViewInsets = false
+
+        addToolBar(textField: writeBox.writeSpace)
+        writeBox.delegate = self
+        
+        backgroundScroll.addSubview(writeBox)
+    }
+    
+    func setBackgroundContentsSize() {
+        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: writeState.writeBoxHeight)
+    }
+    
+    func makeBackButton() {
+        let width = self.view.frame.size.width
+        let height = self.backgroundScroll.contentSize.height
+        let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
+        let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
+        let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
+        
+        up.backgroundColor = .red
+        right.backgroundColor = .black
+        left.backgroundColor = .yellow
+        
+        let buttonArray = [up, right, left]
+        
+        for button in buttonArray {
+            button.addTarget(self, action: #selector(WriteViewController.clickBackButton), for: .touchUpInside)
+            backgroundScroll.addSubview(button)
         }
-        else {
-            if 1 != frist {
-                // contentTextView.frame.size.height += (writeFrame.margenOnKeyborad + keyboardHeight)
-            }
-        }
+        
+    }
+    
+    func makeImageBox() {
+        let imageBoxHeight = writeBox.frame.size.height - writeState.writeSpaceHeight - 100
+        imageBox.frame = CGRect(x: 0, y: writeState.writeSpaceHeight, width: writeBox.frame.size.width, height: imageBoxHeight)
+        imageBox.backgroundColor = .green
+        writeBox.addSubview(imageBox)
     }
     
     func disappearPopAnimation() {
@@ -175,16 +250,19 @@ class WriteViewController: UIViewController {
     /* NSNotification - 키보드 높이 구하기 */
     
     private func setUpObserver() {
-        if 0.0 == keyboardHeight {
+        if 0.0 == writeState.keyboardHeight {
             NotificationCenter.default.addObserver(self, selector: .keyboardWillShow, name: .UIKeyboardWillShow, object: nil)
         }
     }
     
     @objc fileprivate func keyboardWillShow(notification:NSNotification) {
-        if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.keyboardHeight = keyboardRectValue.height
-            useKeyBoard = true
-            self.viewWillLayoutSubviews()
+        if writeState.isFrist == true {
+            if let keyboardRectValue = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                writeState.keyboardHeight = keyboardRectValue.height
+                writeState.isFrist = false
+                makeWriteBox()
+                makeImageBox()
+            }
         }
     }
     
