@@ -145,15 +145,8 @@ class DiaryRepository: NSObject {
     
     /* Image 관련 */
     func getImageData(info:[String : Any]) -> Data {
-        
-        let imageUrl = info[UIImagePickerControllerReferenceURL] as! NSURL
-        let imageName = imageUrl.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        let photoURL = NSURL(fileURLWithPath: documentDirectory)
-        let localPath = photoURL.appendingPathComponent(imageName!)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         let data = UIImageJPEGRepresentation(image, 0.7)
-        
         return data!
     }
     
@@ -162,7 +155,6 @@ class DiaryRepository: NSObject {
         let documentsDirectory = paths[0]
         return documentsDirectory
     }
-    
     
     private func saveImage(data:Data, id:Int) -> String {
         let imageName = "\(id)" + ".jpeg"
@@ -173,9 +165,9 @@ class DiaryRepository: NSObject {
     
     func findImage(imageName:String) -> UIImage? {
         let fileManager = FileManager.default
-        let imagePAth = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePAth){
-            return UIImage(contentsOfFile: imagePAth)
+        let imagePath = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            return UIImage(contentsOfFile: imagePath)
         }
         return nil
     }

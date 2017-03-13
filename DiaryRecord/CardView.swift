@@ -22,7 +22,7 @@ class CardView: UIView {
     var date = UILabel()
     let cardFrame = CardFrame()
     var dateHight = CardFrame().dateLabelHight
-    var imageBox = UIImageView()
+    var imageSection = UIImageView()
     
     
     init(frame: CGRect, imageName:String?) {
@@ -39,8 +39,10 @@ class CardView: UIView {
     
     func makeDateLabel() {
         date = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: dateHight))
+        /*
         date.layer.borderColor = UIColor.blue.cgColor
         date.layer.borderWidth = 0.5
+         */
         date.font = UIFont(name: "NanumMyeongjo", size: cardFrame.dateFontSize)
         date.textAlignment = NSTextAlignment.right
         self.addSubview(date)
@@ -52,10 +54,12 @@ class CardView: UIView {
         }
         else if (nil != imageName) {
             contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight + cardFrame.imageHeight, width: self.frame.width, height: self.frame.height - (dateHight + cardFrame.imageHeight)))
-            makeImageBox()
+            makeImageSection()
         }
+        /*
         contentTextView.layer.borderColor = UIColor.lightGray.cgColor
         contentTextView.layer.borderWidth = 0.5
+         */
         contentTextView.isEditable = false// 컨텐츠 수정 불가 모드가 default
         // 줄간격
         let attributedString = NSMutableAttributedString(string: "temp text")
@@ -68,10 +72,12 @@ class CardView: UIView {
         self.addSubview(contentTextView)
     }
     
-    func makeImageBox() {
-        imageBox = UIImageView(frame: CGRect(x: 0, y: dateHight, width: self.frame.width, height: cardFrame.imageHeight))
-        imageBox.backgroundColor = .red
-        self.addSubview(imageBox)
+    func makeImageSection() {
+        imageSection = UIImageView(frame: CGRect(x: 0, y: dateHight, width: self.frame.width, height: cardFrame.imageHeight))
+//        imageSection.backgroundColor = .red
+        imageSection.contentMode = .scaleAspectFill
+        imageSection.clipsToBounds = true
+        self.addSubview(imageSection)
     }
 
     

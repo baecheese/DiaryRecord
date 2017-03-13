@@ -49,7 +49,7 @@ class ReadViewController: UIViewController {
         card.date.text = date
         card.contentTextView.contentOffset = CGPoint.zero
         if imageName != nil {
-            card.imageBox.image = diaryRepository.findImage(imageName: imageName!)
+            card.imageSection.image = diaryRepository.findImage(imageName: imageName!)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false
@@ -63,3 +63,5 @@ class ReadViewController: UIViewController {
     }
     
 }
+
+

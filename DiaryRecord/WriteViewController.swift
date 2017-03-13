@@ -318,3 +318,4 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
      */
     
 }
+
