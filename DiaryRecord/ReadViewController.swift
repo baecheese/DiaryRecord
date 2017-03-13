@@ -34,30 +34,22 @@ class ReadViewController: UIViewController {
     
     func showContent(themeNumber:Int) {
         if themeNumber == 0 {
-            makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imagPath:diary.imagePath)
+            makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
         }
     }
     
-    func makeContentCard(date: String, content:String, imagPath:String?) {
+    func makeContentCard(date: String, content:String, imageName:String?) {
         let margen:CGFloat = 30.0
         let contentWidth = self.view.frame.size.width - (margen * 2)
         let contentHeight = self.view.frame.size.height - (margen * 4)
         
-        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight), imagPath: imagPath)
+        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight), imageName: imageName)
         
         card.contentTextView.text = content
         card.date.text = date
         card.contentTextView.contentOffset = CGPoint.zero
-        
-        if imagPath != nil {
-            if FileManager.default.fileExists(atPath: imagPath!) {
-                let url = NSURL(string: imagPath!)
-                let data = NSData(contentsOf: url! as URL)
-                card.imageBox.image = UIImage(data: data! as Data)
-            }
-            else {
-                log.info(message: "사진 파일 없음")
-            }
+        if imageName != nil {
+            card.imageBox.image = diaryRepository.findImage(imageName: imageName!)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false

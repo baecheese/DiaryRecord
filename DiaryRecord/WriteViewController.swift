@@ -50,7 +50,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     var writeBox = WriteBox()
     var writeState = WriteState()
     var imageBox = UIImageView()
-    var imagePath:String? = nil
+    var imageData:Data? = nil
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
@@ -79,7 +79,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imagePath: imagePath)
+        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imageData: imageData)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -161,8 +161,10 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         imageBox.image = chosenImage
         imageBox.contentMode = .scaleAspectFill
         imageBox.clipsToBounds = true
-        imagePath = diaryRepository.getImageInfo(info: info)
-        log.info(message: " 🌟 \(info)")
+        
+        imageData = diaryRepository.getImageData(info: info)
+        log.info(message: " 🌟 \(imageData)")
+        
         picker.dismiss(animated: true, completion: nil)
         
     }

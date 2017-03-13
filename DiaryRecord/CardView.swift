@@ -25,9 +25,9 @@ class CardView: UIView {
     var imageBox = UIImageView()
     
     
-    init(frame: CGRect, imagPath:String?) {
+    init(frame: CGRect, imageName:String?) {
         super.init(frame: frame)
-        makeContentsTextView(imagPath: imagPath)
+        makeContentsTextView(imageName: imageName)
         makeDateLabel()
     }
     
@@ -46,11 +46,11 @@ class CardView: UIView {
         self.addSubview(date)
     }
 
-    func makeContentsTextView(imagPath:String?) {
-        if nil == imagPath {
+    func makeContentsTextView(imageName:String?) {
+        if (nil == imageName) {
             contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight, width: self.frame.width, height: self.frame.height - dateHight))
         }
-        else if nil != imagPath {
+        else if (nil != imageName) {
             contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight + cardFrame.imageHeight, width: self.frame.width, height: self.frame.height - (dateHight + cardFrame.imageHeight)))
             makeImageBox()
         }

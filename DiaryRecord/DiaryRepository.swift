@@ -31,7 +31,7 @@ class DiaryRepository: NSObject {
         return diarys
     }
     
-    func save(timeStamp:Double, content:String, imagePath:String?) -> (Bool, String) {
+    func save(timeStamp:Double, content:String, imageData:Data?) -> (Bool, String) {
         let diary = Diary()
         var latestId = 0
         do {
@@ -52,8 +52,8 @@ class DiaryRepository: NSObject {
                 else if (content.characters.count > 1000) {
                     throw ContentsSaveError.contentsSizeIsOver
                 }
-                if (nil != imagePath) {
-                    diary.imagePath = imagePath
+                if (nil != imageData) {
+                    diary.imageName = saveImage(data: imageData!, id: diary.id)
                 }
                 realm.add(diary)
             }
@@ -70,24 +70,9 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content), imagePath: \(imagePath)")
+        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content), imageName: \(diary.imageName)")
         return (true, "저장 완료")
     }
-    
-    func getImageInfo(info:[String : Any]) -> String {
-        
-        let imageUrl = info[UIImagePickerControllerReferenceURL] as! NSURL
-        let imageName = imageUrl.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        let photoURL = NSURL(fileURLWithPath: documentDirectory)
-        let localPath = photoURL.appendingPathComponent(imageName!)
-        // let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        // let data = UIImagePNGRepresentation(image)
-        let path = localPath?.path
-        
-        return path!
-    }
-    
     
     /**
      (형식 ex)
@@ -158,5 +143,46 @@ class DiaryRepository: NSObject {
     }
     
     
+    /* Image 관련 */
+    func getImageData(info:[String : Any]) -> Data {
+        
+        let imageUrl = info[UIImagePickerControllerReferenceURL] as! NSURL
+        let imageName = imageUrl.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let photoURL = NSURL(fileURLWithPath: documentDirectory)
+        let localPath = photoURL.appendingPathComponent(imageName!)
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let data = UIImageJPEGRepresentation(image, 0.7)
+        
+        return data!
+    }
     
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    
+    
+    private func saveImage(data:Data, id:Int) -> String {
+        let imageName = "\(id)" + ".jpeg"
+        let filename = getDocumentsDirectory().appendingPathComponent(imageName)
+        try? data.write(to: filename)
+        return imageName
+    }
+    
+    func findImage(imageName:String) -> UIImage? {
+        let fileManager = FileManager.default
+        let imagePAth = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePAth){
+            return UIImage(contentsOfFile: imagePAth)
+        }
+        return nil
+    }
+    
+    private func getDirectoryPath() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
 }
