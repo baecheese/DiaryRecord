@@ -31,7 +31,7 @@ class DiaryRepository: NSObject {
         return diarys
     }
     
-    func save(timeStamp:Double, content:String) -> (Bool, String) {
+    func save(timeStamp:Double, content:String, imagePath:String?) -> (Bool, String) {
         let diary = Diary()
         var latestId = 0
         do {
@@ -52,6 +52,9 @@ class DiaryRepository: NSObject {
                 else if (content.characters.count > 1000) {
                     throw ContentsSaveError.contentsSizeIsOver
                 }
+                if (nil != imagePath) {
+                    diary.imagePath = imagePath
+                }
                 realm.add(diary)
             }
         }
@@ -67,9 +70,24 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content)")
+        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content), imagePath: \(imagePath)")
         return (true, "저장 완료")
     }
+    
+    func getImageInfo(info:[String : Any]) -> String {
+        
+        let imageUrl = info[UIImagePickerControllerReferenceURL] as! NSURL
+        let imageName = imageUrl.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        let photoURL = NSURL(fileURLWithPath: documentDirectory)
+        let localPath = photoURL.appendingPathComponent(imageName!)
+        // let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        // let data = UIImagePNGRepresentation(image)
+        let path = localPath?.path
+        
+        return path!
+    }
+    
     
     /**
      (형식 ex)

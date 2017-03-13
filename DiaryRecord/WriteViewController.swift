@@ -13,6 +13,24 @@ private extension Selector {
     static let keyboardWillShow = #selector(WriteViewController.keyboardWillShow(notification:))
 }
 
+private extension UIImage {
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    func resized(toWidth width: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+}
+
+
 struct WriteState {
     let margen:CGFloat = 30.0
     let margenOnKeyborad:CGFloat = 60.0
@@ -32,6 +50,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     var writeBox = WriteBox()
     var writeState = WriteState()
     var imageBox = UIImageView()
+    var imagePath:String? = nil
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
@@ -60,7 +79,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text)
+        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imagePath: imagePath)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -134,17 +153,20 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         
     }
     override func cancelPressed() {
-        
+        // 사진 삭제시, 화면 사진 삭제 && imagepath = nil
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        imageBox.image = chosenImage
+        imageBox.contentMode = .scaleAspectFill
+        imageBox.clipsToBounds = true
+        imagePath = diaryRepository.getImageInfo(info: info)
         
-        let chosenImage = info[UIImagePickerControllerOriginalImage];
-        imageBox.image = chosenImage as! UIImage?
-        imageBox.contentMode = .scaleAspectFit
         picker.dismiss(animated: true, completion: nil)
         
     }
+    
     
     
     /* UI & 애니메이션 */

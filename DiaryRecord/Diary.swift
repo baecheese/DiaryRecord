@@ -14,6 +14,7 @@ class Diary: Object {
     dynamic var id = 0
     dynamic var timeStamp:TimeInterval = 0.0
     dynamic var content = ""
+    dynamic var imagePath:String? = nil
     
     override class func primaryKey() -> String? {
         return "id"
