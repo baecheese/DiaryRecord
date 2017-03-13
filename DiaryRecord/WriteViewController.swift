@@ -162,7 +162,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         imageBox.contentMode = .scaleAspectFill
         imageBox.clipsToBounds = true
         imagePath = diaryRepository.getImageInfo(info: info)
-        
+        log.info(message: " 🌟 \(info)")
         picker.dismiss(animated: true, completion: nil)
         
     }
