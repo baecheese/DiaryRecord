@@ -137,7 +137,8 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let myPickerController = UIImagePickerController()
         myPickerController.delegate = self
         myPickerController.sourceType = UIImagePickerControllerSourceType.camera
-        
+        myPickerController.cameraCaptureMode = .photo
+        myPickerController.modalPresentationStyle = .fullScreen
         self.present(myPickerController, animated: true, completion: nil)
     }
     
@@ -161,7 +162,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         imageBox.image = chosenImage
         imageBox.contentMode = .scaleAspectFill
         imageBox.clipsToBounds = true
-        
         imageData = diaryRepository.getImageData(info: info)
         log.info(message: " 🌟 \(imageData)")
         
