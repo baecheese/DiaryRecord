@@ -144,15 +144,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     
     func photoLibrary()
     {
-        
         let myPickerController = UIImagePickerController()
         myPickerController.delegate = self
         myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
         myPickerController.allowsEditing = true
         
         self.present(myPickerController, animated: true, completion: nil)
-        
     }
+    
     override func cancelPressed() {
         // 사진 삭제시, 화면 사진 삭제 && imagepath = nil
     }

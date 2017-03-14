@@ -134,6 +134,22 @@ class DiaryRepository: NSObject {
 //        
 //    }
     
+    
+    func editTextContent(id:Int, text:String) {
+        let diary = findOne(id: id)
+        do {
+            try realm.write {
+                diary?.content = text
+            }
+        } catch {
+            log.error(message: "realm error on")
+        }
+        log.info(message: "수정 완료 완료")
+        
+    }
+    
+    
+    
     // 특정 데이터 인덱스 접근으로 삭제
     func delete(id:Int) {
         try! realm.write {

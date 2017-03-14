@@ -128,6 +128,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="zsp-Zk-CFg" firstAttribute="top" secondItem="bMI-6j-1Jp" secondAttribute="bottom" id="MhU-fm-q7s"/>
                             <constraint firstItem="bMI-6j-1Jp" firstAttribute="leading" secondItem="aJL-0r-bYX" secondAttribute="leading" id="QGm-Ko-G0s"/>
@@ -148,7 +149,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nnp-ki-P8N">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

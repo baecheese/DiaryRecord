@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ReadViewController: UIViewController {
+class ReadViewController: UIViewController, UIGestureRecognizerDelegate {
 
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     var diary = Diary()
     @IBOutlet var backgroundView: UIView!
+    var tap: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ class ReadViewController: UIViewController {
         
         // 추후 테마 넣으면 변수 바꾸기
         showContent(themeNumber: 0)
-        
+        settingTapGesture()
     }
     
     /* 필요한 data */
@@ -56,6 +57,22 @@ class ReadViewController: UIViewController {
         self.backgroundView.addSubview(card)
     }
 
+    
+    func settingTapGesture() {
+        // Double Tap
+        tap = UITapGestureRecognizer(target: self, action: #selector(ReadViewController.handleDoubleTap))
+        tap.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tap)
+    }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        print("Tap!")
+        return true
+    }
+    
+    func handleDoubleTap() {
+        print("Double Tap!")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
