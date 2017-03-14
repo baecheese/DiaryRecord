@@ -79,7 +79,10 @@ class ReadViewController: UIViewController {
     }
     
     func handleDoubleTap() {
-        print("Double Tap!")
+        let editVC = EditViewController()
+        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        self.modalPresentationStyle = .overCurrentContext // Display on top of current UIView
+        self.present(editVC, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
