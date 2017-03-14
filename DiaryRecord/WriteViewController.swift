@@ -13,6 +13,24 @@ private extension Selector {
     static let keyboardWillShow = #selector(WriteViewController.keyboardWillShow(notification:))
 }
 
+private extension UIImage {
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    func resized(toWidth width: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+}
+
+
 struct WriteState {
     let margen:CGFloat = 30.0
     let margenOnKeyborad:CGFloat = 60.0
@@ -32,6 +50,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     var writeBox = WriteBox()
     var writeState = WriteState()
     var imageBox = UIImageView()
+    var imageData:Data? = nil
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
@@ -41,10 +60,9 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         /* UI 및 기능 세팅 */
         setUpObserver()
         makeWriteBox()
-        setBackgroundContentsSize()
-        makeBackButton()
         makeImageBox()
         
+        // scrollview content size, 테두리 버튼 - keyboardWillShow에 설정
     }
     
     override func viewWillLayoutSubviews() {
@@ -61,7 +79,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text)
+        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imageData: imageData)
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -93,7 +111,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         writeBox.writeSpace.endEditing(true)
     }
     
-    override func donePressed() {
+    override func photoPressed() {
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let libraryAction = UIAlertAction(title: "Library", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -119,32 +137,37 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let myPickerController = UIImagePickerController()
         myPickerController.delegate = self
         myPickerController.sourceType = UIImagePickerControllerSourceType.camera
-        
+        myPickerController.cameraCaptureMode = .photo
+        myPickerController.modalPresentationStyle = .fullScreen
         self.present(myPickerController, animated: true, completion: nil)
     }
     
     func photoLibrary()
     {
-        
         let myPickerController = UIImagePickerController()
         myPickerController.delegate = self
         myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        myPickerController.allowsEditing = true
         
         self.present(myPickerController, animated: true, completion: nil)
-        
     }
+    
     override func cancelPressed() {
+        // 사진 삭제시, 화면 사진 삭제 && imagepath = nil
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        imageBox.image = chosenImage
+        imageBox.contentMode = .scaleAspectFill
+        imageBox.clipsToBounds = true
+        imageData = diaryRepository.getImageData(info: info)
+        log.info(message: " 🌟 \(imageData)")
+        
+        picker.dismiss(animated: true, completion: nil)
         
     }
     
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-        self.dismiss(animated: true, completion: { () -> Void in
-            
-        })
-        // 사라질 때, 고른 사진 어떻게 할지
-        // ex) imageView.image = image
-        imageBox.image = image
-    }
     
     
     /* UI & 애니메이션 */
@@ -167,7 +190,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         // textview 높이 설정
         writeState.writeSpaceHeight = writeState.writeBoxHeight - (writeState.keyboardHeight + writeState.margenOnKeyborad)
         writeBox.writeSpace.frame.size.height = writeState.writeSpaceHeight
-        writeBox.backgroundColor = .blue
+        //writeBox.backgroundColor = .blue
         self.automaticallyAdjustsScrollViewInsets = false
 
         addToolBar(textField: writeBox.writeSpace)
@@ -177,7 +200,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     }
     
     func setBackgroundContentsSize() {
-        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: writeState.writeBoxHeight)
+        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: writeState.writeBoxHeight + writeState.keyboardHeight)
     }
     
     func makeBackButton() {
@@ -186,12 +209,17 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
         let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
         let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
+        let downY:CGFloat = up.frame.height + writeBox.writeSpace.frame.height + imageBox.frame.height
+        let down = UIButton(frame: CGRect(x: 0, y: downY, width: width, height: height - downY))
         
+        /*
         up.backgroundColor = .red
         right.backgroundColor = .black
         left.backgroundColor = .yellow
+        down.backgroundColor = .black
+         */
         
-        let buttonArray = [up, right, left]
+        let buttonArray = [up, right, left, down]
         
         for button in buttonArray {
             button.addTarget(self, action: #selector(WriteViewController.clickBackButton), for: .touchUpInside)
@@ -203,7 +231,10 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     func makeImageBox() {
         let imageBoxHeight = writeBox.frame.size.height - writeState.writeSpaceHeight - 100
         imageBox.frame = CGRect(x: 0, y: writeState.writeSpaceHeight, width: writeBox.frame.size.width, height: imageBoxHeight)
-        imageBox.backgroundColor = .green
+        /*
+        imageBox.layer.borderColor = UIColor.yellow.cgColor
+        imageBox.layer.borderWidth = 0.5
+         */
         writeBox.addSubview(imageBox)
     }
     
@@ -262,6 +293,8 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
                 writeState.isFrist = false
                 makeWriteBox()
                 makeImageBox()
+                setBackgroundContentsSize()
+                makeBackButton()
             }
         }
     }
@@ -284,3 +317,4 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
      */
     
 }
+

@@ -27,7 +27,7 @@ extension UIViewController : UITextViewDelegate {
         toolBar.tintColor = UIColor(red: 37/255, green: 35/255, blue: 37/255, alpha: 1)
 
         
-        let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.donePressed))
+        let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.photoPressed))
         let cancelButton = UIBarButtonItem(title: "x", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.cancelPressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         toolBar.setItems([cancelButton, spaceButton, galleryButton], animated: false)
@@ -38,7 +38,7 @@ extension UIViewController : UITextViewDelegate {
         textField.inputAccessoryView = toolBar
     }
     
-    func donePressed() {
+    func photoPressed() {
         view.endEditing(true)
     }
     
@@ -68,8 +68,10 @@ class WriteBox: UIView, UITextViewDelegate {
 
     func makeWriteBox() {
         writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+        /*
         writeSpace.layer.borderColor = UIColor.lightGray.cgColor
         writeSpace.layer.borderWidth = 0.5
+         */
         writeSpace.isEditable = true
         // 줄간격
         let attributedString = NSMutableAttributedString(string: "")

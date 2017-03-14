@@ -8,12 +8,21 @@
 
 import UIKit
 
-class ReadViewController: UIViewController {
+struct ReadState {
+    let margen:CGFloat = 30.0
+    var contentWidth:CGFloat = 0.0
+    var contentHeight:CGFloat = 0.0
+}
 
+class ReadViewController: UIViewController {
+    
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     var diary = Diary()
     @IBOutlet var backgroundView: UIView!
+    var readState = ReadState()
+    var cover = UIView()
+    var tap = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,40 +31,65 @@ class ReadViewController: UIViewController {
         
         // 추후 테마 넣으면 변수 바꾸기
         showContent(themeNumber: 0)
-        
+        settingTapGesture()
     }
     
     /* 필요한 data */
     func getSelectedDairy() {
         diary = diaryRepository.findOne(id: SharedMemoryContext.get(key: "seletedDiaryID") as! Int)!
-        log.info(message: "\(diary.id) \(diary.timeStamp) \(diary.content)")
     }
     
     /* contents setting 관련 */
     
     func showContent(themeNumber:Int) {
         if themeNumber == 0 {
-            makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content)
+            makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
         }
     }
     
-    func makeContentCard(date: String, content:String) {
-        let margen:CGFloat = 30.0
-        let contentWidth = self.view.frame.size.width - (margen * 2)
-        let contentHeight = self.view.frame.size.height - (margen * 4)
+    func makeContentCard(date: String, content:String, imageName:String?) {
         
-        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight))
+        readState.contentWidth = self.view.frame.size.width - (readState.margen * 2)
+        readState.contentHeight = self.view.frame.size.height - (readState.margen * 4)
+        
+        let card = CardView(frame: CGRect(x: readState.margen, y: readState.margen, width: readState.contentWidth, height: readState.contentHeight), imageName: imageName)
+        
         card.contentTextView.text = content
         card.date.text = date
         card.contentTextView.contentOffset = CGPoint.zero
+        if imageName != nil {
+            card.imageSection.image = diaryRepository.findImage(imageName: imageName!)
+        }
+        
         self.automaticallyAdjustsScrollViewInsets = false
         self.backgroundView.addSubview(card)
+        
+        // tap을 위한 cover (textview가 수정 불가 모드라 view에 add한 gesture 안먹음)
+        cover = UIView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight))
+        cover.backgroundColor = .clear
+        card.addSubview(cover)
+        
     }
-
-
+    
+    func settingTapGesture() {
+        // Double Tap
+        tap = UITapGestureRecognizer(target: self, action: #selector(ReadViewController.handleDoubleTap))
+        tap.numberOfTapsRequired = 2
+        cover.addGestureRecognizer(tap)
+    }
+    
+    func handleDoubleTap() {
+        let editVC = EditViewController()
+        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        self.modalPresentationStyle = .overCurrentContext // Display on top of current UIView
+        self.present(editVC, animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 }
+
+

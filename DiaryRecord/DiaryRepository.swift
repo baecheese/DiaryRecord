@@ -31,7 +31,7 @@ class DiaryRepository: NSObject {
         return diarys
     }
     
-    func save(timeStamp:Double, content:String) -> (Bool, String) {
+    func save(timeStamp:Double, content:String, imageData:Data?) -> (Bool, String) {
         let diary = Diary()
         var latestId = 0
         do {
@@ -52,6 +52,9 @@ class DiaryRepository: NSObject {
                 else if (content.characters.count > 1000) {
                     throw ContentsSaveError.contentsSizeIsOver
                 }
+                if (nil != imageData) {
+                    diary.imageName = saveImage(data: imageData!, id: diary.id)
+                }
                 realm.add(diary)
             }
         }
@@ -67,7 +70,7 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content)")
+        log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content), imageName: \(diary.imageName)")
         return (true, "저장 완료")
     }
     
@@ -131,6 +134,22 @@ class DiaryRepository: NSObject {
 //        
 //    }
     
+    
+    func editTextContent(id:Int, text:String) {
+        let diary = findOne(id: id)
+        do {
+            try realm.write {
+                diary?.content = text
+            }
+        } catch {
+            log.error(message: "realm error on")
+        }
+        log.info(message: "수정 완료 완료")
+        
+    }
+    
+    
+    
     // 특정 데이터 인덱스 접근으로 삭제
     func delete(id:Int) {
         try! realm.write {
@@ -140,5 +159,38 @@ class DiaryRepository: NSObject {
     }
     
     
+    /* Image 관련 */
+    func getImageData(info:[String : Any]) -> Data {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let data = UIImageJPEGRepresentation(image, 0.7)
+        return data!
+    }
     
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    
+    private func saveImage(data:Data, id:Int) -> String {
+        let imageName = "\(id)" + ".jpeg"
+        let filename = getDocumentsDirectory().appendingPathComponent(imageName)
+        try? data.write(to: filename)
+        return imageName
+    }
+    
+    func findImage(imageName:String) -> UIImage? {
+        let fileManager = FileManager.default
+        let imagePath = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
+        if fileManager.fileExists(atPath: imagePath){
+            return UIImage(contentsOfFile: imagePath)
+        }
+        return nil
+    }
+    
+    private func getDirectoryPath() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
 }

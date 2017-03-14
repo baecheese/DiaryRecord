@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiaryRecord/WriteViewController.swift"
-            timestampString = "510825650.097862"
+            timestampString = "511086312.688328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "setUpObserver()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DiaryRecord/WriteViewController.swift"
-            timestampString = "510825650.097862"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "donePressed()"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "photoPressed()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
