@@ -24,7 +24,6 @@ class CardView: UIView {
     var dateHight = CardFrame().dateLabelHight
     var imageSection = UIImageView()
     
-    
     init(frame: CGRect, imageName:String?) {
         super.init(frame: frame)
         makeContentsTextView(imageName: imageName)

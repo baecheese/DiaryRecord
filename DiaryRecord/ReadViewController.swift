@@ -8,13 +8,21 @@
 
 import UIKit
 
-class ReadViewController: UIViewController, UIGestureRecognizerDelegate {
+struct ReadState {
+    let margen:CGFloat = 30.0
+    var contentWidth:CGFloat = 0.0
+    var contentHeight:CGFloat = 0.0
+}
 
+class ReadViewController: UIViewController {
+    
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     var diary = Diary()
     @IBOutlet var backgroundView: UIView!
-    var tap: UITapGestureRecognizer!
+    var readState = ReadState()
+    var cover = UIView()
+    var tap = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +48,11 @@ class ReadViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func makeContentCard(date: String, content:String, imageName:String?) {
-        let margen:CGFloat = 30.0
-        let contentWidth = self.view.frame.size.width - (margen * 2)
-        let contentHeight = self.view.frame.size.height - (margen * 4)
         
-        let card = CardView(frame: CGRect(x: margen, y: margen, width: contentWidth, height: contentHeight), imageName: imageName)
+        readState.contentWidth = self.view.frame.size.width - (readState.margen * 2)
+        readState.contentHeight = self.view.frame.size.height - (readState.margen * 4)
+        
+        let card = CardView(frame: CGRect(x: readState.margen, y: readState.margen, width: readState.contentWidth, height: readState.contentHeight), imageName: imageName)
         
         card.contentTextView.text = content
         card.date.text = date
@@ -55,25 +63,25 @@ class ReadViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.automaticallyAdjustsScrollViewInsets = false
         self.backgroundView.addSubview(card)
+        
+        // tap을 위한 cover (textview가 수정 불가 모드라 view에 add한 gesture 안먹음)
+        cover = UIView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight))
+        cover.backgroundColor = .clear
+        card.addSubview(cover)
+        
     }
-
     
     func settingTapGesture() {
         // Double Tap
         tap = UITapGestureRecognizer(target: self, action: #selector(ReadViewController.handleDoubleTap))
         tap.numberOfTapsRequired = 2
-        view.addGestureRecognizer(tap)
-    }
-    
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        print("Tap!")
-        return true
+        cover.addGestureRecognizer(tap)
     }
     
     func handleDoubleTap() {
         print("Double Tap!")
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
