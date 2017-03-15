@@ -41,6 +41,7 @@ struct WriteState {
     var isFrist:Bool = true
 }
 
+/* mode에 따라 내부 내용이 바뀜 */
 class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     let log = Logger.init(logPlace: WriteViewController.self)
@@ -60,7 +61,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         
         /* UI 및 기능 세팅 */
         setUpObserver()
-        
         setNavigationTitle()
         makeWriteBox()
         makeImageBox()
@@ -205,6 +205,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     */
  
     func makeWriteBox() {
+        
         let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
         writeState.writeBoxHeight = self.view.frame.size.height - (writeState.margen + getNavigationBarHeight()) // 네비 빼야함
         
@@ -214,9 +215,15 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         writeBox.writeSpace.frame.size.height = writeState.writeSpaceHeight
         //writeBox.backgroundColor = .blue
         self.automaticallyAdjustsScrollViewInsets = false
-
+        
         addToolBar(textField: writeBox.writeSpace)
         writeBox.delegate = self
+        
+        if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: diaryID)
+            writeBox.writeSpace.text = diary?.content
+        }
         
         backgroundScroll.addSubview(writeBox)
     }
