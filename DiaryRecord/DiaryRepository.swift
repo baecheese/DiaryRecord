@@ -18,6 +18,7 @@ class DiaryRepository: NSObject {
     
     let log = Logger(logPlace: DiaryRepository.self)
     var realm = try! Realm()
+    let fileManager = FileManager.default
     
     private override init() {
         super.init()
@@ -73,6 +74,35 @@ class DiaryRepository: NSObject {
         log.info(message: "저장 완료 - id: \(latestId) timeStamp: \(timeStamp), content:\(content), imageName: \(diary.imageName)")
         return (true, "저장 완료")
     }
+    
+    func edit(id: Int, content:String, imageData:Data?) -> (Bool, String) {
+        let diary = findOne(id: id)
+        do {
+            try realm.write {
+                diary?.content = content
+                if (nil == imageData) {
+                    diary?.imageName = nil
+                }
+                else if (nil != imageData) {
+                    diary?.imageName = saveImage(data: imageData!, id: id)
+                }
+            }
+        } catch ContentsSaveError.contentsIsEmpty {
+            log.warn(message: "contentsIsEmpty")
+            return (false, "내용이 비어있습니다.")
+        }
+        catch ContentsSaveError.contentsSizeIsOver {
+            log.warn(message: "contentsIsOver")
+            return (false, "글자수가 1000자를 넘었습니다.")
+        }
+        catch {
+            log.error(message: "realm error on")
+            return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
+        }
+        log.info(message: "저장 완료 - id: \(id) timeStamp: \(diary?.timeStamp), content:\(diary?.content), imageName: \(diary?.imageName)")
+        return (true, "수정 완료")
+    }
+    
     
     /**
      (형식 ex)
@@ -135,20 +165,6 @@ class DiaryRepository: NSObject {
 //    }
     
     
-    func editTextContent(id:Int, text:String) {
-        let diary = findOne(id: id)
-        do {
-            try realm.write {
-                diary?.content = text
-            }
-        } catch {
-            log.error(message: "realm error on")
-        }
-        log.info(message: "수정 완료 완료")
-        
-    }
-    
-    
     
     // 특정 데이터 인덱스 접근으로 삭제
     func delete(id:Int) {
@@ -172,25 +188,65 @@ class DiaryRepository: NSObject {
         return documentsDirectory
     }
     
+    /** isExistImage와 getImageFilePath에서 쓰기 위한 용도*/
+    private func checkExistsImageFile(imageName:String) -> (Bool, String?) {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        let filePath = url.appendingPathComponent(imageName)?.path
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: filePath!) {
+            return (true, path)
+        } else {
+            return (false, nil)
+        }
+    }
+    
+    private func isExistImage(imageName:String) -> Bool {
+        return checkExistsImageFile(imageName: imageName).0
+    }
+    
+    private func getImageFilePath(imageName:String) -> String? {
+        return checkExistsImageFile(imageName: imageName).1
+    }
+    
     private func saveImage(data:Data, id:Int) -> String {
         let imageName = "\(id)" + ".jpeg"
-        let filename = getDocumentsDirectory().appendingPathComponent(imageName)
-        try? data.write(to: filename)
+        if false == isExistImage(imageName: imageName) {
+            let filename = getDocumentsDirectory().appendingPathComponent(imageName)
+                try? data.write(to: filename)
+        }
         return imageName
     }
     
+    func deleteImageFile(imageName:String) {
+        if true == isExistImage(imageName: imageName) {
+            do {
+                // path 를 checkExistsImage와 같은 형태로 확인
+                try fileManager.removeItem(atPath: getImageFilePath(imageName: imageName)!)
+                log.info(message: "이미지 삭제 성공")
+            }
+            catch {
+                log.error(message: "이미지 삭제에 실패하였습니다")
+            }
+        }
+        else {
+            log.debug(message: "이미 삭제되거나 없는 이미지 입니다.")
+        }
+    }
+    
     func showImage(imageName:String) -> UIImage? {
-        let fileManager = FileManager.default
-        let imagePath = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            return UIImage(contentsOfFile: imagePath)
+        if isExistImage(imageName: imageName) {
+            let imageURL = URL(fileURLWithPath: getDirectoryPath()).appendingPathComponent(imageName)
+            return UIImage(contentsOfFile: imageURL.path)
         }
         return nil
     }
     
+    
+    
     private func getDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
+        let documentsDirectory = paths.first
+        return documentsDirectory!
     }
 }

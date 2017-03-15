@@ -82,7 +82,21 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imageData: imageData)
+        var trySaveDiary:(Bool, String) = (true, "")
+        
+        // 쓰기모드
+        if (true == SharedMemoryContext.get(key: "isWriteMode") as! Bool) {
+            trySaveDiary = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imageData: imageData)
+        }
+        // 수정 모드
+        else if (false == SharedMemoryContext.get(key: "isWriteMode") as! Bool) {
+            let seletedDiaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: seletedDiaryID)
+            if (nil == imageBox.image) && (nil != diary?.imageName) {
+                diaryRepository.deleteImageFile(imageName: (diary?.imageName)!)
+            }
+            trySaveDiary = diaryRepository.edit(id: seletedDiaryID, content: writeBox.writeSpace.text, imageData: imageData)
+        }
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -193,16 +207,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             navigartionBar.title = "edit page"
         }
     }
-    
-    /*
-    
-     🌟 수정 사항
-     
-     writeCV에 모드 설정해서 edit 모드는 다르게
-    - 1. 텍스트 박스 / 이미지 채워서
-    - 2. 저장시, 원래 id로 데이터 update
-
-    */
  
     func makeWriteBox() {
         
@@ -261,6 +265,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     func makeImageBox() {
         let imageBoxHeight = writeBox.frame.size.height - writeState.writeSpaceHeight - 100
         imageBox.frame = CGRect(x: 0, y: writeState.writeSpaceHeight, width: writeBox.frame.size.width, height: imageBoxHeight)
+        imageBox.isUserInteractionEnabled = true
         /*
         imageBox.layer.borderColor = UIColor.yellow.cgColor
         imageBox.layer.borderWidth = 0.5
@@ -270,11 +275,32 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
             let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: diaryID)
-            imageBox.image = diaryRepository.showImage(imageName: (diary?.imageName)!)
+            if nil != diary?.imageName {
+                imageBox.image = diaryRepository.showImage(imageName: (diary?.imageName)!)
+            }
         }
         
         writeBox.addSubview(imageBox)
     }
+    
+    func makeImageDeleteButton() {
+        let margen:CGFloat = 5.0
+        let deleteSize:CGFloat = 38.0
+        let fontSize:CGFloat = 28.0
+        let deleteButton = UIButton(frame: CGRect(x: writeBox.frame.size.width - deleteSize - margen, y: margen, width: deleteSize, height: deleteSize))
+//        deleteButton.backgroundColor = .yellow
+        deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
+        deleteButton.setTitle("X", for: .normal)
+        deleteButton.titleLabel?.textColor = .white
+        deleteButton.addTarget(self, action: #selector(WriteViewController.deleteImage), for: .touchUpInside)
+        imageBox.addSubview(deleteButton)
+    }
+    
+    func deleteImage() {
+        imageBox.image = nil
+        imageData = nil
+    }
+    
     
     func disappearPopAnimation() {
         let transition = CATransition()
@@ -331,6 +357,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
                 writeState.isFrist = false
                 makeWriteBox()
                 makeImageBox()
+                makeImageDeleteButton()
                 setBackgroundContentsSize()
                 makeBackButton()
             }
