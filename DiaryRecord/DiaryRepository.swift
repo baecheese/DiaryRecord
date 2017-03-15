@@ -242,8 +242,6 @@ class DiaryRepository: NSObject {
         return nil
     }
     
-    
-    
     private func getDirectoryPath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths.first
