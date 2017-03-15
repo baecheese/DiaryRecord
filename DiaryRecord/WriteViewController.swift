@@ -92,10 +92,9 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         else if (false == SharedMemoryContext.get(key: "isWriteMode") as! Bool) {
             let seletedDiaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: seletedDiaryID)
-            if (nil == imageBox.image) && (nil != diary?.imageName) {
-                diaryRepository.deleteImageFile(imageName: (diary?.imageName)!)
-            }
-            trySaveDiary = diaryRepository.edit(id: seletedDiaryID, content: writeBox.writeSpace.text, imageData: imageData)
+            let before = checkEditImageData(diary: diary!).0
+            let after = checkEditImageData(diary: diary!).1
+            trySaveDiary = diaryRepository.edit(id: seletedDiaryID, content: writeBox.writeSpace.text, before: before, after: after, newImageData: imageData)
         }
         
         let saveSuccess = trySaveDiary.0
@@ -111,6 +110,19 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             showActivityIndicatory(start: false)
             disappearPopAnimation()
         }
+    }
+    
+    /** before: 원래 이미지가 있었는지 (diary.imageName)
+     after: 새로운 이미지가 들어왔는지 (imageBox.image) */
+    private func checkEditImageData(diary:Diary) -> (Bool, Bool) {
+        var beforeAfter = (true, true)
+        if nil == diary.imageName {
+            beforeAfter.0 = false
+        }
+        if nil == imageBox.image {
+            beforeAfter.1 = false
+        }
+        return beforeAfter
     }
     
     // save 관련 SharedMemoryContext 메세지 전달

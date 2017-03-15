@@ -75,16 +75,37 @@ class DiaryRepository: NSObject {
         return (true, "저장 완료")
     }
     
-    func edit(id: Int, content:String, imageData:Data?) -> (Bool, String) {
+    /** before / after : 수정 전 / 수정 후 이미지 존재 여부 */
+    func edit(id: Int, content:String, before:Bool, after:Bool, newImageData:Data?) -> (Bool, String) {
         let diary = findOne(id: id)
         do {
             try realm.write {
                 diary?.content = content
-                if (nil == imageData) {
-                    diary?.imageName = nil
+                // 이미지 박스에 이미지 있을 때
+                if (true == after) {
+                    // 새로운 이미지면
+                    if newImageData != nil {
+                        if (true == before) {
+                            // 이전에도 이미지가 있었다면 지우고 저장
+                            deleteImageFile(imageName: (diary?.imageName)!)
+                        }
+                        diary?.imageName = saveImage(data: newImageData!, id: id)
+                    }
+                    if newImageData == nil {
+                        // 새로운 이미지가 아닌 원래 이미지면 아무것도 안함 
+                    }
                 }
-                else if (nil != imageData) {
-                    diary?.imageName = saveImage(data: imageData!, id: id)
+                // 이미지 박스에 이미지 없을 때 (화면 상 이미지 삭제 했을 때)
+                if (false == after) {
+                    // 이전에 이미지 있었으면 파일 지우고 이름 nil로 수정
+                    if (true == before) {
+                        deleteImageFile(imageName: (diary?.imageName)!)
+                        diary?.imageName = nil
+                    }
+                    if (false == before) {
+                        // 이전에도 없었으면 아무것도 안함
+                    }
+                    
                 }
             }
         } catch ContentsSaveError.contentsIsEmpty {
@@ -99,7 +120,7 @@ class DiaryRepository: NSObject {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
         }
-        log.info(message: "저장 완료 - id: \(id) timeStamp: \(diary?.timeStamp), content:\(diary?.content), imageName: \(diary?.imageName)")
+        log.info(message: "수정 완료 - id: \(id) timeStamp: \(diary?.timeStamp), content:\(diary?.content), imageName: \(diary?.imageName)")
         return (true, "수정 완료")
     }
     
