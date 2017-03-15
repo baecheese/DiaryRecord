@@ -219,6 +219,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         addToolBar(textField: writeBox.writeSpace)
         writeBox.delegate = self
         
+        // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
             let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: diaryID)
@@ -264,6 +265,14 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         imageBox.layer.borderColor = UIColor.yellow.cgColor
         imageBox.layer.borderWidth = 0.5
          */
+        
+        // edit 모드일 때 설정
+        if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: diaryID)
+            imageBox.image = diaryRepository.showImage(imageName: (diary?.imageName)!)
+        }
+        
         writeBox.addSubview(imageBox)
     }
     

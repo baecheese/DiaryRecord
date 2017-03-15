@@ -58,7 +58,7 @@ class ReadViewController: UIViewController {
         card.date.text = date
         card.contentTextView.contentOffset = CGPoint.zero
         if imageName != nil {
-            card.imageSection.image = diaryRepository.findImage(imageName: imageName!)
+            card.imageSection.image = diaryRepository.showImage(imageName: imageName!)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false
@@ -79,9 +79,7 @@ class ReadViewController: UIViewController {
     }
     
     func handleDoubleTap() {
-        
         SharedMemoryContext.set(key: "isWriteMode", setValue: false)
-        
         let editVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
         self.navigationController?.pushViewController(editVC!, animated: true)
     }

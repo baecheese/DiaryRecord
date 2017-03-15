@@ -179,7 +179,7 @@ class DiaryRepository: NSObject {
         return imageName
     }
     
-    func findImage(imageName:String) -> UIImage? {
+    func showImage(imageName:String) -> UIImage? {
         let fileManager = FileManager.default
         let imagePath = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
         if fileManager.fileExists(atPath: imagePath){
