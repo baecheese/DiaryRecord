@@ -60,7 +60,7 @@
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tPn-VB-Izj">
                             <connections>
-                                <segue destination="5fn-gx-OTf" kind="show" id="AoS-d2-VzY"/>
+                                <action selector="moveWritePage:" destination="96T-12-buO" id="clp-Pe-WTK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -69,7 +69,7 @@
             </objects>
             <point key="canvasLocation" x="858" y="511"/>
         </scene>
-        <!--write page-->
+        <!--Write View Controller-->
         <scene sceneID="Ofg-ZX-hjL">
             <objects>
                 <viewController storyboardIdentifier="WriteViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5fn-gx-OTf" customClass="WriteViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="laH-Qa-Wnl">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                         </subviews>
@@ -95,7 +95,7 @@
                             <constraint firstItem="dR8-jn-f26" firstAttribute="top" secondItem="laH-Qa-Wnl" secondAttribute="bottom" id="Yw9-TQ-Mz2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="write page" id="MaM-u9-FqP">
+                    <navigationItem key="navigationItem" id="MaM-u9-FqP">
                         <barButtonItem key="rightBarButtonItem" title="save" id="3ld-dn-O41">
                             <connections>
                                 <action selector="clickSaveButton:" destination="5fn-gx-OTf" id="ejM-CR-pgp"/>
@@ -104,6 +104,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backgroundScroll" destination="laH-Qa-Wnl" id="8Xo-ev-z1d"/>
+                        <outlet property="navigartionBar" destination="MaM-u9-FqP" id="gsW-py-8BP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d1S-ct-Vtr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -149,7 +150,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

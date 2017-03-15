@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		030DB0CC1E407381004E3532 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB0CB1E407381004E3532 /* AppDelegate.swift */; };
-		030DB0D11E407381004E3532 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 030DB0CF1E407381004E3532 /* Main.storyboard */; };
 		030DB0D31E407381004E3532 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 030DB0D21E407381004E3532 /* Assets.xcassets */; };
 		030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 030DB0D41E407381004E3532 /* LaunchScreen.storyboard */; };
 		030DB0E11E407381004E3532 /* DiaryRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB0E01E407381004E3532 /* DiaryRecordTests.swift */; };
@@ -24,9 +23,9 @@
 		037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692901E51BA1E00C0CCCB /* ReadViewController.swift */; };
 		037692931E54885500C0CCCB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692921E54885500C0CCCB /* CardView.swift */; };
 		0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */; };
-		0396D3E81E77B26200609AED /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396D3E71E77B26200609AED /* EditViewController.swift */; };
 		0399B20B1E656472003E8672 /* WriteBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0399B20A1E656472003E8672 /* WriteBox.swift */; };
 		03B6EA871E615D62002CFB29 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B6EA861E615D62002CFB29 /* Context.swift */; };
+		03C043671E78F30E0075C09E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C043651E78F30E0075C09E /* Main.storyboard */; };
 		03D2ADA01E508926002D4287 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D2AD9F1E508926002D4287 /* Extensions.swift */; };
 		7EC717151AD3900DCEEF166F /* Pods_DiaryRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */; };
 		E1012DD687F6A634A1914240 /* Pods_DiaryRecordTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE16B1B79F052D6A31AF112B /* Pods_DiaryRecordTests.framework */; };
@@ -60,7 +59,6 @@
 /* Begin PBXFileReference section */
 		030DB0C81E407381004E3532 /* DiaryRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiaryRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		030DB0CB1E407381004E3532 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		030DB0D01E407381004E3532 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		030DB0D21E407381004E3532 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		030DB0D51E407381004E3532 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		030DB0D71E407381004E3532 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -83,9 +81,9 @@
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
-		0396D3E71E77B26200609AED /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		0399B20A1E656472003E8672 /* WriteBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteBox.swift; sourceTree = "<group>"; };
 		03B6EA861E615D62002CFB29 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		03C043661E78F30E0075C09E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		03D2AD9F1E508926002D4287 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A877916CBD148333D0EB6C /* Pods_DiaryRecordUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecordUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				030DB0D71E407381004E3532 /* Info.plist */,
-				030DB0CF1E407381004E3532 /* Main.storyboard */,
+				03C043651E78F30E0075C09E /* Main.storyboard */,
 				030DB0D41E407381004E3532 /* LaunchScreen.storyboard */,
 				030DB0D21E407381004E3532 /* Assets.xcassets */,
 				03B6EA931E616814002CFB29 /* Resources */,
@@ -212,7 +210,6 @@
 			children = (
 				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 				030DB0FD1E4074E1004E3532 /* WriteViewController.swift */,
-				0396D3E71E77B26200609AED /* EditViewController.swift */,
 				037692901E51BA1E00C0CCCB /* ReadViewController.swift */,
 			);
 			name = Controller;
@@ -433,13 +430,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03C043671E78F30E0075C09E /* Main.storyboard in Resources */,
 				032B6AFA1E6E5B93004410E8 /* gallery.png in Resources */,
 				032B6AFB1E6E5B93004410E8 /* write.png in Resources */,
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,
 				032B6AFC1E6E5B93004410E8 /* setting.png in Resources */,
 				0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */,
 				030DB0D31E407381004E3532 /* Assets.xcassets in Resources */,
-				030DB0D11E407381004E3532 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,7 +614,6 @@
 				037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */,
 				03B6EA871E615D62002CFB29 /* Context.swift in Sources */,
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
-				0396D3E81E77B26200609AED /* EditViewController.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
@@ -668,20 +664,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		030DB0CF1E407381004E3532 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				030DB0D01E407381004E3532 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		030DB0D41E407381004E3532 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				030DB0D51E407381004E3532 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		03C043651E78F30E0075C09E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03C043661E78F30E0075C09E /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

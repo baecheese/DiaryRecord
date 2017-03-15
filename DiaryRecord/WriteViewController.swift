@@ -46,6 +46,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     
+    @IBOutlet var navigartionBar: UINavigationItem!
     @IBOutlet var backgroundScroll: UIScrollView!
     var writeBox = WriteBox()
     var writeState = WriteState()
@@ -59,10 +60,12 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         
         /* UI 및 기능 세팅 */
         setUpObserver()
+        
+        setNavigationTitle()
         makeWriteBox()
         makeImageBox()
         
-        // scrollview content size, 테두리 버튼 - keyboardWillShow에 설정
+        // scrollview content size, 테두리 버튼 - keyboardWillShow method에 설정
     }
     
     override func viewWillLayoutSubviews() {
@@ -182,6 +185,25 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         }
     }
     
+    func setNavigationTitle() {
+        if true == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            navigartionBar.title = "write page"
+        }
+        else {
+            navigartionBar.title = "edit page"
+        }
+    }
+    
+    /*
+    
+     🌟 수정 사항
+     
+     writeCV에 모드 설정해서 edit 모드는 다르게
+    - 1. 텍스트 박스 / 이미지 채워서
+    - 2. 저장시, 원래 id로 데이터 update
+
+    */
+ 
     func makeWriteBox() {
         let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
         writeState.writeBoxHeight = self.view.frame.size.height - (writeState.margen + getNavigationBarHeight()) // 네비 빼야함

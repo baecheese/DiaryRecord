@@ -53,6 +53,12 @@ class MainTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    @IBAction func moveWritePage(_ sender: UIBarButtonItem) {
+        SharedMemoryContext.set(key: "isWriteMode", setValue: true)
+        let writeVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
+        self.navigationController?.pushViewController(writeVC!, animated: true)
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         let diarys = diaryRepository.findAll()
         return diarys.keys.count
