@@ -16,9 +16,9 @@ enum ContentsSaveError: Error {
 
 class DiaryRepository: NSObject {
     
-    let log = Logger(logPlace: DiaryRepository.self)
-    var realm = try! Realm()
-    let fileManager = FileManager.default
+    private let log = Logger(logPlace: DiaryRepository.self)
+    private var realm = try! Realm()
+    private let fileManager = FileManager.default
     
     private override init() {
         super.init()
@@ -197,6 +197,8 @@ class DiaryRepository: NSObject {
     
     
     /* Image 관련 */
+    
+    /** image picker 에서 이미지 선택 후 저장을 위한 데이터로 바꿀 때 사용*/
     func getImageData(info:[String : Any]) -> Data {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         let data = UIImageJPEGRepresentation(image, 0.7)
@@ -209,25 +211,26 @@ class DiaryRepository: NSObject {
         return documentsDirectory
     }
     
-    /** isExistImage와 getImageFilePath에서 쓰기 위한 용도*/
-    private func checkExistsImageFile(imageName:String) -> (Bool, String?) {
+    /** isExistImage와 getImageFilePath에서 쓰기 위한 용도. 이미지가 들어있는 폴더 까지의 주소가 나온다. \n
+      - ex : "/var/mobile/Containers/Data/Application/6360A4A6-C56B-40E5-AC36-D0A53ED734CE/Documents"*/
+    private func getPath(imageName:String) -> String? {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
         let filePath = url.appendingPathComponent(imageName)?.path
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: filePath!) {
-            return (true, path)
-        } else {
-            return (false, nil)
-        }
+        return filePath
     }
     
     private func isExistImage(imageName:String) -> Bool {
-        return checkExistsImageFile(imageName: imageName).0
+        let imagePath = getImageFilePath(imageName: imageName)!
+        return fileManager.fileExists(atPath: imagePath)
     }
     
     private func getImageFilePath(imageName:String) -> String? {
-        return checkExistsImageFile(imageName: imageName).1
+        let path:String? = getPath(imageName: imageName)
+        if (path == nil) {
+            return nil
+        }
+        return "\(path)/\(imageName)"
     }
     
     private func saveImage(data:Data, id:Int) -> String {
