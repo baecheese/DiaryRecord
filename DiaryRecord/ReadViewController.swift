@@ -18,6 +18,7 @@ class ReadViewController: UIViewController {
     
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
     var diary = Diary()
     @IBOutlet var backgroundView: UIView!
     var readState = ReadState()
@@ -58,7 +59,7 @@ class ReadViewController: UIViewController {
         card.date.text = date
         card.contentTextView.contentOffset = CGPoint.zero
         if imageName != nil {
-            card.imageSection.image = diaryRepository.showImage(imageName: imageName!)
+            card.imageSection.image = imageManager.showImage(imageName: imageName!)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false

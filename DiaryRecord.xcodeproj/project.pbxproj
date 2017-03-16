@@ -28,6 +28,7 @@
 		03C043671E78F30E0075C09E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C043651E78F30E0075C09E /* Main.storyboard */; };
 		03D2ADA01E508926002D4287 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D2AD9F1E508926002D4287 /* Extensions.swift */; };
 		7EC717151AD3900DCEEF166F /* Pods_DiaryRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */; };
+		ABC2483A4D7044BDBA0F1310 /* ImageFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC24D8B487FA3E087DB037B /* ImageFileManager.swift */; };
 		E1012DD687F6A634A1914240 /* Pods_DiaryRecordTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE16B1B79F052D6A31AF112B /* Pods_DiaryRecordTests.framework */; };
 		F4DFB04DC64CE03233C5CE5F /* Pods_DiaryRecordUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A877916CBD148333D0EB6C /* Pods_DiaryRecordUITests.framework */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		6BBDE77CB802E4881F7AFD3C /* Pods-DiaryRecord.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryRecord.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DiaryRecord/Pods-DiaryRecord.debug.xcconfig"; sourceTree = "<group>"; };
 		860C5321CB8646E7BB77D89A /* Pods-DiaryRecordTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryRecordTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DiaryRecordTests/Pods-DiaryRecordTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9BF1BC7B5F0A786DE7ADC912 /* Pods-DiaryRecordUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryRecordUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiaryRecordUITests/Pods-DiaryRecordUITests.release.xcconfig"; sourceTree = "<group>"; };
+		ABC24D8B487FA3E087DB037B /* ImageFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFileManager.swift; sourceTree = "<group>"; };
 		BE16B1B79F052D6A31AF112B /* Pods_DiaryRecordTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecordTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12BC7104B832B34A9C5DB7F /* Pods-DiaryRecord.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryRecord.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiaryRecord/Pods-DiaryRecord.release.xcconfig"; sourceTree = "<group>"; };
 		D606CBD34B097210781AEA0D /* Pods-DiaryRecordTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryRecordTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiaryRecordTests/Pods-DiaryRecordTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
+				ABC24D8B487FA3E087DB037B /* ImageFileManager.swift */,
 				03B6EA901E61677B002CFB29 /* Logger */,
 				03B6EA8E1E616768002CFB29 /* Support */,
 			);
@@ -617,6 +620,7 @@
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
+				ABC2483A4D7044BDBA0F1310 /* ImageFileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,6 +46,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
 
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
     
     @IBOutlet var navigartionBar: UINavigationItem!
     @IBOutlet var backgroundScroll: UIScrollView!
@@ -190,7 +191,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         imageBox.image = chosenImage
         imageBox.contentMode = .scaleAspectFill
         imageBox.clipsToBounds = true
-        imageData = diaryRepository.getImageData(info: info)
+        imageData = imageManager.getImageData(info: info)
         log.info(message: " 🌟 \(imageData)")
         
         picker.dismiss(animated: true, completion: nil)
@@ -288,7 +289,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: diaryID)
             if nil != diary?.imageName {
-                imageBox.image = diaryRepository.showImage(imageName: (diary?.imageName)!)
+                imageBox.image = imageManager.showImage(imageName: (diary?.imageName)!)
             }
         }
         
