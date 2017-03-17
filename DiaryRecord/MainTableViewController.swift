@@ -12,6 +12,7 @@ class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let imageManger = ImageFileManager.sharedInstance
     private var sortedDate = [String]()
 
     override func viewWillAppear(_ animated: Bool) {
@@ -102,11 +103,12 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
         let seletedDiaryID = SharedMemoryContext.setAndGet(key: "seletedDiaryID"
-            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row))
+            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
         
         if editingStyle == .delete
         {
-            diaryRepository.delete(id: seletedDiaryID as! Int)
+            diaryRepository.delete(id: seletedDiaryID)
+            imageManger.deleteImageFile(diaryID: seletedDiaryID)
             // 삭제 후, 다이어리를 찾았을 때
             let diarys = self.diaryRepository.findAll()
             /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남

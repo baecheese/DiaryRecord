@@ -187,15 +187,11 @@ class DiaryRepository: NSObject {
 //    }
     
     
-    
     // 특정 데이터 인덱스 접근으로 삭제
     func delete(id:Int) {
+        let diary = findOne(id: id)!
         try! realm.write {
-            let diary = findOne(id: id)!
-            let imageName = diary.imageName
-            if imageName != nil {
-                imageManager.deleteImageFile(imageName: imageName!)
-            }
+            log.debug(message: "\(diary) 삭제")
             realm.delete(diary)
         }
     }
