@@ -16,8 +16,10 @@ enum ContentsSaveError: Error {
 
 class DiaryRepository: NSObject {
     
-    let log = Logger(logPlace: DiaryRepository.self)
-    var realm = try! Realm()
+    private let log = Logger(logPlace: DiaryRepository.self)
+    private var realm = try! Realm()
+    private let fileManager = FileManager.default
+    private let imageManager = ImageFileManager.sharedInstance
     
     private override init() {
         super.init()
@@ -53,7 +55,7 @@ class DiaryRepository: NSObject {
                     throw ContentsSaveError.contentsSizeIsOver
                 }
                 if (nil != imageData) {
-                    diary.imageName = saveImage(data: imageData!, id: diary.id)
+                    diary.imageName = imageManager.saveImage(data: imageData!, id: diary.id)
                 }
                 realm.add(diary)
             }
@@ -74,6 +76,56 @@ class DiaryRepository: NSObject {
         return (true, "저장 완료")
     }
     
+    /** before / after : 수정 전 / 수정 후 이미지 존재 여부 */
+    func edit(id: Int, content:String, before:Bool, after:Bool, newImageData:Data?) -> (Bool, String) {
+        let diary = findOne(id: id)
+        do {
+            try realm.write {
+                diary?.content = content
+                // 이미지 박스에 이미지 있을 때
+                if (true == after) {
+                    // 새로운 이미지면
+                    if newImageData != nil {
+                        if (true == before) {
+                            // 이전에도 이미지가 있었다면 지우고 저장
+                            imageManager.deleteImageFile(imageName: (diary?.imageName)!)
+                        }
+                        diary?.imageName = imageManager.saveImage(data: newImageData!, id: id)
+                    }
+                    if newImageData == nil {
+                        // 새로운 이미지가 아닌 원래 이미지면 아무것도 안함 
+                    }
+                }
+                // 이미지 박스에 이미지 없을 때 (화면 상 이미지 삭제 했을 때)
+                if (false == after) {
+                    // 이전에 이미지 있었으면 파일 지우고 이름 nil로 수정
+                    if (true == before) {
+                        imageManager.deleteImageFile(imageName: (diary?.imageName)!)
+                        diary?.imageName = nil
+                    }
+                    if (false == before) {
+                        // 이전에도 없었으면 아무것도 안함
+                    }
+                    
+                }
+            }
+        } catch ContentsSaveError.contentsIsEmpty {
+            log.warn(message: "contentsIsEmpty")
+            return (false, "내용이 비어있습니다.")
+        }
+        catch ContentsSaveError.contentsSizeIsOver {
+            log.warn(message: "contentsIsOver")
+            return (false, "글자수가 1000자를 넘었습니다.")
+        }
+        catch {
+            log.error(message: "realm error on")
+            return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
+        }
+        log.info(message: "수정 완료 - id: \(id) timeStamp: \(diary?.timeStamp), content:\(diary?.content), imageName: \(diary?.imageName)")
+        return (true, "수정 완료")
+    }
+    
+    
     /**
      (형식 ex)
      [
@@ -87,46 +139,46 @@ class DiaryRepository: NSObject {
      ]
      */
     func findAll() -> [String : Array<Diary>] {
-        var diarysDict = [String : Array<Diary>]()
+        var diaryDict = [String : Array<Diary>]()
         let diarys:Results<Diary> = realm.objects(Diary.self)
         
         // 비어있을 때
         if (diarys.count < 1) {
-            return diarysDict
+            return diaryDict
         }
         
-        // diarysDict = { 날짜 (key) : [diary1, diary2] }
-        // [diary1, diary2] -> dayDiarys (같은 날 다른 시간에 쓰여진 일기)
+        // diariesDict = { 날짜 (key) : [diary1, diary2] }
+        // [diary1, diary2] -> dayDiaries (같은 날 다른 시간에 쓰여진 일기)
         for index in 0...diarys.count-1 {
             let diary:Diary = diarys[index]
             let key:String = diary.timeStamp.getYYMMDD()
-            if nil == diarysDict[key] {
-                diarysDict.updateValue([diary], forKey: key)
+            if nil == diaryDict[key] {
+                diaryDict.updateValue([diary], forKey: key)
             } else {
-                var dayDiarys = diarysDict[key]
-                dayDiarys?.append(diary)
-                diarysDict.updateValue(dayDiarys!, forKey: key)
+                var dayDiaries = diaryDict[key]
+                dayDiaries?.append(diary)
+                diaryDict.updateValue(dayDiaries!, forKey: key)
             }
         }
         
         // 날짜 안의 시간 sorting (최신 시간 순)
-        for key in diarysDict.keys {
-            let diarys = diarysDict[key]
-            let sortedDiarys = diarys?.sorted(by: { (diary1, diary2) -> Bool in
+        for key in diaryDict.keys {
+            let diaries = diaryDict[key]
+            let sortedDiaries = diaries?.sorted(by: { (diary1, diary2) -> Bool in
                 return diary1.timeStamp > diary2.timeStamp
             })
-            diarysDict.updateValue(sortedDiarys!, forKey: key)
+            diaryDict.updateValue(sortedDiaries!, forKey: key)
         }
-        return diarysDict
+        return diaryDict
     }
     
     // 메인 테이블에서 선택한 diary
     func findOne(id:Int) -> Diary? {
-        let seletedDiary = realm.objects(Diary.self).filter("id = \(id)")
-        if (seletedDiary.isEmpty) {
+        let selectedDiary = realm.objects(Diary.self).filter("id = \(id)")
+        if (selectedDiary.isEmpty) {
             return nil
         }
-        return seletedDiary[0]
+        return selectedDiary[0]
     }
     
     //TODO cheesing 구현, [String : Array<Diary>] 로 변형하는 기능은 함수로 분리하여서 findAll과 공통으로 사용하도록 구현
@@ -135,62 +187,13 @@ class DiaryRepository: NSObject {
 //    }
     
     
-    func editTextContent(id:Int, text:String) {
-        let diary = findOne(id: id)
-        do {
-            try realm.write {
-                diary?.content = text
-            }
-        } catch {
-            log.error(message: "realm error on")
-        }
-        log.info(message: "수정 완료 완료")
-        
-    }
-    
-    
-    
     // 특정 데이터 인덱스 접근으로 삭제
     func delete(id:Int) {
+        let diary = findOne(id: id)!
         try! realm.write {
-            let diary = findOne(id: id)!
+            log.debug(message: "\(diary) 삭제")
             realm.delete(diary)
         }
     }
-    
-    
-    /* Image 관련 */
-    func getImageData(info:[String : Any]) -> Data {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let data = UIImageJPEGRepresentation(image, 0.7)
-        return data!
-    }
-    
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-    
-    private func saveImage(data:Data, id:Int) -> String {
-        let imageName = "\(id)" + ".jpeg"
-        let filename = getDocumentsDirectory().appendingPathComponent(imageName)
-        try? data.write(to: filename)
-        return imageName
-    }
-    
-    func findImage(imageName:String) -> UIImage? {
-        let fileManager = FileManager.default
-        let imagePath = (self.getDirectoryPath() as NSString).appendingPathComponent(imageName)
-        if fileManager.fileExists(atPath: imagePath){
-            return UIImage(contentsOfFile: imagePath)
-        }
-        return nil
-    }
-    
-    private func getDirectoryPath() -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
+
 }

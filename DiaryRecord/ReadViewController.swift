@@ -18,6 +18,7 @@ class ReadViewController: UIViewController {
     
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
     var diary = Diary()
     @IBOutlet var backgroundView: UIView!
     var readState = ReadState()
@@ -58,7 +59,7 @@ class ReadViewController: UIViewController {
         card.date.text = date
         card.contentTextView.contentOffset = CGPoint.zero
         if imageName != nil {
-            card.imageSection.image = diaryRepository.findImage(imageName: imageName!)
+            card.imageSection.image = imageManager.showImage(imageName: imageName!)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false
@@ -79,10 +80,9 @@ class ReadViewController: UIViewController {
     }
     
     func handleDoubleTap() {
-        let editVC = EditViewController()
-        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-        self.modalPresentationStyle = .overCurrentContext // Display on top of current UIView
-        self.present(editVC, animated: true, completion: nil)
+        SharedMemoryContext.set(key: "isWriteMode", setValue: false)
+        let editVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
+        self.navigationController?.pushViewController(editVC!, animated: true)
     }
     
     override func didReceiveMemoryWarning() {

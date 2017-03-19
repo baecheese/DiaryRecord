@@ -41,11 +41,14 @@ struct WriteState {
     var isFrist:Bool = true
 }
 
+/* mode에 따라 내부 내용이 바뀜 */
 class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
     
+    @IBOutlet var navigartionBar: UINavigationItem!
     @IBOutlet var backgroundScroll: UIScrollView!
     var writeBox = WriteBox()
     var writeState = WriteState()
@@ -59,10 +62,11 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         
         /* UI 및 기능 세팅 */
         setUpObserver()
+        setNavigationTitle()
         makeWriteBox()
         makeImageBox()
         
-        // scrollview content size, 테두리 버튼 - keyboardWillShow에 설정
+        // scrollview content size, 테두리 버튼 - keyboardWillShow method에 설정
     }
     
     override func viewWillLayoutSubviews() {
@@ -79,7 +83,20 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         let nowTimeStamp = TimeInterval().now()
         
         // (저장결과, 메세지)
-        let trySaveDiary:(Bool, String) = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imageData: imageData)
+        var trySaveDiary:(Bool, String) = (true, "")
+        
+        // 쓰기모드
+        if (true == SharedMemoryContext.get(key: "isWriteMode") as! Bool) {
+            trySaveDiary = diaryRepository.save(timeStamp: nowTimeStamp, content: writeBox.writeSpace.text, imageData: imageData)
+        }
+        // 수정 모드
+        else if (false == SharedMemoryContext.get(key: "isWriteMode") as! Bool) {
+            let seletedDiaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: seletedDiaryID)
+            let before = checkEditImageData(diary: diary!).0
+            let after = checkEditImageData(diary: diary!).1
+            trySaveDiary = diaryRepository.edit(id: seletedDiaryID, content: writeBox.writeSpace.text, before: before, after: after, newImageData: imageData)
+        }
         
         let saveSuccess = trySaveDiary.0
         let saveMethodResultMessage = trySaveDiary.1
@@ -94,6 +111,19 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             showActivityIndicatory(start: false)
             disappearPopAnimation()
         }
+    }
+    
+    /** before: 원래 이미지가 있었는지 (diary.imageName)
+     after: 새로운 이미지가 들어왔는지 (imageBox.image) */
+    private func checkEditImageData(diary:Diary) -> (Bool, Bool) {
+        var beforeAfter = (true, true)
+        if nil == diary.imageName {
+            beforeAfter.0 = false
+        }
+        if nil == imageBox.image {
+            beforeAfter.1 = false
+        }
+        return beforeAfter
     }
     
     // save 관련 SharedMemoryContext 메세지 전달
@@ -161,7 +191,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         imageBox.image = chosenImage
         imageBox.contentMode = .scaleAspectFill
         imageBox.clipsToBounds = true
-        imageData = diaryRepository.getImageData(info: info)
+        imageData = imageManager.getImageData(info: info)
         log.info(message: " 🌟 \(imageData)")
         
         picker.dismiss(animated: true, completion: nil)
@@ -182,7 +212,17 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         }
     }
     
+    func setNavigationTitle() {
+        if true == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            navigartionBar.title = "write page"
+        }
+        else {
+            navigartionBar.title = "edit page"
+        }
+    }
+ 
     func makeWriteBox() {
+        
         let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
         writeState.writeBoxHeight = self.view.frame.size.height - (writeState.margen + getNavigationBarHeight()) // 네비 빼야함
         
@@ -192,9 +232,16 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         writeBox.writeSpace.frame.size.height = writeState.writeSpaceHeight
         //writeBox.backgroundColor = .blue
         self.automaticallyAdjustsScrollViewInsets = false
-
+        
         addToolBar(textField: writeBox.writeSpace)
         writeBox.delegate = self
+        
+        // edit 모드일 때 설정
+        if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: diaryID)
+            writeBox.writeSpace.text = diary?.content
+        }
         
         backgroundScroll.addSubview(writeBox)
     }
@@ -231,12 +278,42 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     func makeImageBox() {
         let imageBoxHeight = writeBox.frame.size.height - writeState.writeSpaceHeight - 100
         imageBox.frame = CGRect(x: 0, y: writeState.writeSpaceHeight, width: writeBox.frame.size.width, height: imageBoxHeight)
+        imageBox.isUserInteractionEnabled = true
         /*
         imageBox.layer.borderColor = UIColor.yellow.cgColor
         imageBox.layer.borderWidth = 0.5
          */
+        
+        // edit 모드일 때 설정
+        if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: diaryID)
+            if nil != diary?.imageName {
+                imageBox.image = imageManager.showImage(imageName: (diary?.imageName)!)
+            }
+        }
+        
         writeBox.addSubview(imageBox)
     }
+    
+    func makeImageDeleteButton() {
+        let margen:CGFloat = 5.0
+        let deleteSize:CGFloat = 38.0
+        let fontSize:CGFloat = 28.0
+        let deleteButton = UIButton(frame: CGRect(x: writeBox.frame.size.width - deleteSize - margen, y: margen, width: deleteSize, height: deleteSize))
+//        deleteButton.backgroundColor = .yellow
+        deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
+        deleteButton.setTitle("X", for: .normal)
+        deleteButton.titleLabel?.textColor = .white
+        deleteButton.addTarget(self, action: #selector(WriteViewController.deleteImage), for: .touchUpInside)
+        imageBox.addSubview(deleteButton)
+    }
+    
+    func deleteImage() {
+        imageBox.image = nil
+        imageData = nil
+    }
+    
     
     func disappearPopAnimation() {
         let transition = CATransition()
@@ -293,6 +370,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
                 writeState.isFrist = false
                 makeWriteBox()
                 makeImageBox()
+                makeImageDeleteButton()
                 setBackgroundContentsSize()
                 makeBackButton()
             }

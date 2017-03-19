@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DiaryRecord/MainTableViewController.swift"
-            timestampString = "510825010.823284"
+            filePath = "DiaryRecord/WriteViewController.swift"
+            timestampString = "511368571.507909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "numberOfSections(in:)"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "photoPressed()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiaryRecord/WriteViewController.swift"
-            timestampString = "511086312.688328"
+            timestampString = "511368571.507909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "photoPressed()"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "deleteImage()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DiaryRecord/ImageFileManager.swift"
+            timestampString = "511459272.162121"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "deleteImageFile(imageName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
