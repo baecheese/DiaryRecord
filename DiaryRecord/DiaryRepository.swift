@@ -27,7 +27,7 @@ class DiaryRepository: NSObject {
     
     static let sharedInstance: DiaryRepository = DiaryRepository()
     
-    //for test
+    /* for test **/
     func getAll() -> Results<Diary> {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         return diarys

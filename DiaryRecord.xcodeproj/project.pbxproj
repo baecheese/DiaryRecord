@@ -19,6 +19,7 @@
 		032B6AFA1E6E5B93004410E8 /* gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF71E6E5B93004410E8 /* gallery.png */; };
 		032B6AFB1E6E5B93004410E8 /* write.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF81E6E5B93004410E8 /* write.png */; };
 		032B6AFC1E6E5B93004410E8 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 032B6AF91E6E5B93004410E8 /* setting.png */; };
+		0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355407D1E7EA5920093A244 /* ColorManager.swift */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
 		037624761E7E553F002C069A /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037624751E7E553F002C069A /* SettingTableViewController.swift */; };
 		037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692901E51BA1E00C0CCCB /* ReadViewController.swift */; };
@@ -77,6 +78,7 @@
 		032B6AF71E6E5B93004410E8 /* gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gallery.png; sourceTree = "<group>"; };
 		032B6AF81E6E5B93004410E8 /* write.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = write.png; sourceTree = "<group>"; };
 		032B6AF91E6E5B93004410E8 /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
+		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		035D7B991E48BE6800F66B24 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		037624751E7E553F002C069A /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			children = (
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
 				ABC24D8B487FA3E087DB037B /* ImageFileManager.swift */,
+				0355407D1E7EA5920093A244 /* ColorManager.swift */,
 				03B6EA901E61677B002CFB29 /* Logger */,
 				03B6EA8E1E616768002CFB29 /* Support */,
 			);
@@ -619,6 +622,7 @@
 				030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */,
 				037692931E54885500C0CCCB /* CardView.swift in Sources */,
 				037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */,
+				0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */,
 				03B6EA871E615D62002CFB29 /* Context.swift in Sources */,
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,

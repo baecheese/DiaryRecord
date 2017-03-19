@@ -46,11 +46,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="8qH-te-YWE">
                         <barButtonItem key="leftBarButtonItem" image="setting.png" id="g4p-hB-LA4">
+                            <inset key="imageInsets" minX="3" minY="3" maxX="3" maxY="3"/>
                             <connections>
                                 <segue destination="G0y-pj-tAg" kind="show" id="i59-kg-CG9"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="write.png" id="tPn-VB-Izj">
+                            <inset key="imageInsets" minX="3" minY="3" maxX="3" maxY="3"/>
                             <connections>
                                 <action selector="moveWritePage:" destination="96T-12-buO" id="clp-Pe-WTK"/>
                             </connections>
@@ -106,13 +108,13 @@
         <!--Setting Table View Controller-->
         <scene sceneID="Es7-nL-my6">
             <objects>
-                <tableViewController id="G0y-pj-tAg" customClass="SettingTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="G0y-pj-tAg" customClass="SettingTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="s5R-wp-ZUk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="SMT-qT-ndZ">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingCell" id="SMT-qT-ndZ">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SMT-qT-ndZ" id="KBo-4n-Kjw">

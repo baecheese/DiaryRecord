@@ -18,6 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
         
+        var appTheme = 0
+        if SharedMemoryContext.get(key: "theme") == nil {
+            appTheme = SharedMemoryContext.setAndGet(key: "theme", setValue: 1) as! Int
+        }
+        
+        let colorManger = ColorManager(theme: appTheme)
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.barTintColor = colorManger.bar
+        navigationBarAppearace.tintColor = colorManger.tint
+        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName : colorManger.title]
+        
         return true
     }
 

@@ -8,12 +8,20 @@
 
 import UIKit
 
+struct MainTableState {
+    let headerTextSize:CGFloat = 14.0
+    let celltextSize:CGFloat = 18.0
+    let headerFont:String = "Copperplate-Light"
+    let cellFont:String = "NanumMyeongjo"
+}
+
 class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManger = ImageFileManager.sharedInstance
     private var sortedDate = [String]()
+    private let mainTableState = MainTableState()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -32,6 +40,7 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
+        navigationController?.navigationBar.barTintColor = UIColor.black
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,6 +68,7 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+        cell.textLabel?.font = UIFont(name: mainTableState.cellFont, size: mainTableState.celltextSize)
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
@@ -72,6 +82,12 @@ class MainTableViewController: UITableViewController {
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         return sortedDate[section]
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont(name: mainTableState.headerFont, size: mainTableState.headerTextSize)
+        header.textLabel?.textColor = UIColor.darkGray
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

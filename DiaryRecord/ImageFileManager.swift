@@ -120,12 +120,16 @@ class ImageFileManager: NSObject {
     
     /** <test용> Documents 내의 모든 이미지 파일 삭제하기 */
     func deleteAllImageFile() {
-        let fileList = getListAllFileFromDocumentsFolder()
-        for fileName in fileList {
+        let imageFileList = getImageFileAllList()
+        if 0 == imageFileList.count {
+            log.info(message: "삭제할 image가 없습니다.")
+            return;
+        }
+        for imageName in imageFileList {
             do {
+                log.info(message: "\(imageName) 삭제 성공")
                 // path 를 checkExistsImage와 같은 형태로 확인
-                try fileManager.removeItem(atPath: getImageFilePath(imageName: fileName)!)
-                log.info(message: "이미지 삭제 성공")
+                try fileManager.removeItem(atPath: getImageFilePath(imageName: imageName)!)
             }
             catch {
                 log.error(message: "image delete error : \(error)")
