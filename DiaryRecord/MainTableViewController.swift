@@ -38,23 +38,6 @@ class MainTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
-    /**
-     개발 테스트 용의 임시 액션 처리
-     - parameter sender: no Used
-    */
-    @IBAction func tempAction(_ sender: Any) {
-        // 전체 다이어리 로그 찍기
-        log.info(message: "\(diaryRepository.getAll())")
-        log.info(message: "\(imageManger.getImageFileAllList())")
-    }
-
-    /**
-     개발 테스트 용의 임시 새로고침
-     */
-    @IBAction func refreshAction(_ sender: UIBarButtonItem) {
-        self.tableView.reloadData()
-    }
-    
     @IBAction func moveWritePage(_ sender: UIBarButtonItem) {
         SharedMemoryContext.set(key: "isWriteMode", setValue: true)
         let writeVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
