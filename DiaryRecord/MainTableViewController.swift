@@ -45,6 +45,7 @@ class MainTableViewController: UITableViewController {
     @IBAction func tempAction(_ sender: Any) {
         // 전체 다이어리 로그 찍기
         log.info(message: "\(diaryRepository.getAll())")
+        log.info(message: "\(imageManger.getImageFileAllList())")
     }
 
     /**

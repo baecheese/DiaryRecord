@@ -66,18 +66,18 @@ class ImageFileManager: NSObject {
 
     func deleteImageFile(imageName:String?) {
         if false == isNotExistImage(imageName: imageName!) {
+            do {
+                // path 를 checkExistsImage와 같은 형태로 확인
+                try fileManager.removeItem(atPath: getImageFilePath(imageName: imageName!)!)
+                log.info(message: "이미지 삭제 성공")
+            }
+            catch {
+                log.error(message: "image delete error : \(error)")
+            }
+        }
+        else {
             log.debug(message: "이미 삭제되거나 없는 이미지 입니다.")
-            return;
         }
-        do {
-            // path 를 checkExistsImage와 같은 형태로 확인
-            try fileManager.removeItem(atPath: getImageFilePath(imageName: imageName!)!)
-            log.info(message: "이미지 삭제 성공")
-        }
-        catch {
-            log.error(message: "이미지 삭제에 실패하였습니다")
-        }
-
     }
     
     func deleteImageFile(diaryID:Int) {
@@ -93,36 +93,43 @@ class ImageFileManager: NSObject {
         return UIImage(contentsOfFile: imageURL.path)
     }
     
-    /*
     
-    /** <test용> Documents 내의 모든 이미지 파일 리스트 보기 */
-    func getListAllFileFromDocumentsFolder() -> [String]
+    
+    /** <test용> Documents 내의 모든 파일 리스트 보기 */
+    private func getListAllFileFromDocumentsFolder() -> [String]
     {
-        var theError = NSErrorPointer.self
-        let dirs:[String] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true)
-        if dirs != nil {
-            let dir = dirs[0]//this path upto document directory
-            
-            //this will give you the path to MyFiles
-            let MyFilesPath = getDocumentsDirectoryURL().path
-            let fileList = try fileManager.contentsOfDirectory(atPath: MyFilesPath) throws theError
-            
-            var count = fileList.count
-            for i in
-            for var i = 0; i < count; i++
-            {
-                var filePath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as! String
-                filePath = filePath.stringByAppendingPathComponent(fileList[i])
-                let properties = [NSURLLocalizedNameKey, NSURLCreationDateKey, NSURLContentModificationDateKey, NSURLLocalizedTypeDescriptionKey]
-                var attr = NSFileManager.defaultManager().attributesOfItemAtPath(filePath, error: NSErrorPointer())
-            }
-            return fileList.filter{ $0.pathExtension == "pdf" }.map{ $0.lastPathComponent } as [String]
-        } else {
-            let fileList = [""]
-            return fileList
+        let url:URL = getDocumentsDirectoryURL()
+        do {
+            return try fileManager.contentsOfDirectory(atPath: url.path)
+        } catch {
+            return []
         }
     }
-     
-     */
-
+    
+    /** <test용> Documents 내의 모든 이미지 파일 리스트 보기 */
+    func getImageFileAllList() -> [String] {
+        let fileList = getListAllFileFromDocumentsFolder()
+        var result:[String] = []
+        for fileName in fileList {
+            if nil != fileName.range(of: ".jpeg") {
+                result.append(fileName)
+            }
+        }
+        return result
+    }
+    
+    /** <test용> Documents 내의 모든 이미지 파일 삭제하기 */
+    func deleteAllImageFile() {
+        let fileList = getListAllFileFromDocumentsFolder()
+        for fileName in fileList {
+            do {
+                // path 를 checkExistsImage와 같은 형태로 확인
+                try fileManager.removeItem(atPath: getImageFilePath(imageName: fileName)!)
+                log.info(message: "이미지 삭제 성공")
+            }
+            catch {
+                log.error(message: "image delete error : \(error)")
+            }
+        }
+    }
 }
