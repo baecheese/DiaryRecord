@@ -17,16 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
-        
-        // color theme
-        let appTheme = SharedMemoryContext.get(key: "theme") as! Int
-        let colorManger = ColorManager(theme: appTheme)
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.barTintColor = colorManger.bar
-        navigationBarAppearace.tintColor = colorManger.tint
-        navigationBarAppearace.titleTextAttributes = [NSForegroundColorAttributeName : colorManger.title]
-        
-        
+        let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : colorManger.title]//적용 안됨
+        UINavigationBar.appearance().barTintColor = colorManger.bar
+        UINavigationBar.appearance().tintColor = colorManger.tint
+        UIApplication.shared.statusBarStyle = .lightContent
         
         return true
     }

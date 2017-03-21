@@ -48,7 +48,23 @@ class SettingTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return settingMenu.setionList[section]
+        // section title 생성을 위한 빈 메소드
+        return "section"
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
+        headerLabel.backgroundColor = colorManger.date
+        headerLabel.text = "\(settingMenu.setionList[section])"
+        headerLabel.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
+        headerLabel.textAlignment = .right
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerView.backgroundColor = colorManger.date
+        headerView.addSubview(headerLabel)
+        
+        return headerView
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,11 +79,6 @@ class SettingTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let header = view as! UITableViewHeaderFooterView
-        header.backgroundColor = colorManger.date // 안나옴 -- cheesing
-        header.textLabel?.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
-    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selected = tableView.cellForRow(at: indexPath)
@@ -82,6 +93,12 @@ class SettingTableViewController: UITableViewController {
             }
             if indexPath.row == 2 {
                 deleteAllImageFile()
+            }
+        }
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                let selectTheme = self.storyboard?.instantiateViewController(withIdentifier: "SelectThemeViewController") as? SelectThemeViewController
+                self.navigationController?.pushViewController(selectTheme!, animated: true)
             }
         }
     }

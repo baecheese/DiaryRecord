@@ -21,12 +21,13 @@ class MainTableViewController: UITableViewController {
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    private let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
+    private var colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
     private var sortedDate = [String]()
     private let fontManger = FontManger()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        view.backgroundColor = colorManger.paper
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
         let diarys = diaryRepository.findAll()
         // 최신 순 날짜 Array 정렬
@@ -43,6 +44,7 @@ class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
         navigationThemeColor()
+        self.tableView.separatorStyle = .none
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,16 +76,18 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
-        let headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
         headerLabel.backgroundColor = colorManger.date
         let diarys = diaryRepository.findAll()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         let date = sortedDate[section]
-        headerLabel.text = date
+        headerLabel.text = "\(date)"
         headerLabel.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
+        headerLabel.textAlignment = .right
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerView.backgroundColor = colorManger.date
         headerView.addSubview(headerLabel)
         
         return headerView
@@ -151,8 +155,6 @@ class MainTableViewController: UITableViewController {
     
     func navigationThemeColor() {
         navigationItem.title = "diary"
-        navigationController?.navigationBar.barTintColor = colorManger.bar
-        navigationController?.navigationBar.tintColor = colorManger.tint
         // Navigation Font
         navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManger.naviTitleFont, size: 20)!]
     }
