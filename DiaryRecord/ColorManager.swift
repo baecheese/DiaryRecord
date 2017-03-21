@@ -19,6 +19,8 @@ class ColorManager: NSObject {
     var bar = UIColor()
     var tint = UIColor()
     var title = UIColor()
+    var date = UIColor()
+    var paper = UIColor()
     
     func selectTheme(theme:Int) {
         if theme == 1 {
@@ -28,8 +30,10 @@ class ColorManager: NSObject {
     
     func basic() {
         bar = UIColor(red: 25.0/255, green: 52.0/255, blue: 65.0/255, alpha: 1.0)
-        tint = UIColor(red: 62.0/255, green: 96.0/255, blue: 111.0/255, alpha: 1.0)
-        title = UIColor(red: 145.0/255, green: 170.0/255, blue: 157.0/255, alpha: 1.0)
+        tint = UIColor(red: 209.0/255, green: 219.0/255, blue: 189.0/255, alpha: 1.0)
+        title = UIColor.black
+        date = UIColor(red: 62.0/255, green: 96.0/255, blue: 111.0/255, alpha: 1.0)
+        paper = UIColor(red: 252.0/255, green: 255.0/255, blue: 245.0/255, alpha: 1.0)
     }
     
     

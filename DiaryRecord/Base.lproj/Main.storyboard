@@ -47,6 +47,7 @@
                     <navigationItem key="navigationItem" id="8qH-te-YWE">
                         <barButtonItem key="leftBarButtonItem" image="setting.png" id="g4p-hB-LA4">
                             <inset key="imageInsets" minX="3" minY="3" maxX="3" maxY="3"/>
+                            <color key="tintColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="G0y-pj-tAg" kind="show" id="i59-kg-CG9"/>
                             </connections>

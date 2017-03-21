@@ -17,6 +17,10 @@ public struct SharedMemoryContext {
     
     public static func get(key:String) -> Any? {
         if context[key] == nil {
+            // default theme
+            if key == "theme" {
+                return setAndGet(key: "theme", setValue: 1)
+            }
             return nil
         }
         return context[key]!

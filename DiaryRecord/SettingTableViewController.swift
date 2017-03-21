@@ -9,7 +9,7 @@
 import UIKit
 
 struct SettingMenu {
-    let setionList:[String] = ["테스트용", "기본 설정", "iCould", "도움말"]
+    let setionList:[String] = ["test", "setting", "icould", "help"]
     let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제"]
     let basicList:[String] = ["테마", "비밀번호 설정", "Touch로 잠금"]
     let iCouldList:[String] = ["계정", "로그인 / 로그아웃"]
@@ -19,13 +19,15 @@ struct SettingMenu {
 class SettingTableViewController: UITableViewController {
 
     let log = Logger(logPlace: SettingTableViewController.self)
-    let settingMenu = SettingMenu()
-    let diaryRepo = DiaryRepository.sharedInstance
-    let imageManager = ImageFileManager.sharedInstance
+    private let settingMenu = SettingMenu()
+    private let diaryRepository = DiaryRepository.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
+    private let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
+    private let fontManger = FontManger()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = "setting"
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,11 +55,18 @@ class SettingTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath)
         
         let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.iCouldList, settingMenu.infoList]
-        
+        cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
+        cell.backgroundColor = colorManger.paper
         let menuNameListInSection = menuList[indexPath.section]
         cell.textLabel?.text = menuNameListInSection[indexPath.row]
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.backgroundColor = colorManger.date // 안나옴 -- cheesing
+        header.textLabel?.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -81,7 +90,7 @@ class SettingTableViewController: UITableViewController {
     /* test용 */
     
     func allDiaryList() {
-        log.info(message: "allDiaryList : \(diaryRepo.getAll())")
+        log.info(message: "allDiaryList : \(diaryRepository.getAll())")
     }
     
     func allImageList() {

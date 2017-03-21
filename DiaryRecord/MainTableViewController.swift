@@ -8,9 +8,10 @@
 
 import UIKit
 
-struct MainTableState {
+struct FontManger {
     let headerTextSize:CGFloat = 14.0
     let celltextSize:CGFloat = 18.0
+    let naviTitleFont:String = "Copperplate-Light"
     let headerFont:String = "Copperplate-Light"
     let cellFont:String = "NanumMyeongjo"
 }
@@ -19,9 +20,10 @@ class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
-    private let imageManger = ImageFileManager.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
+    private let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
     private var sortedDate = [String]()
-    private let mainTableState = MainTableState()
+    private let fontManger = FontManger()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,7 +42,7 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
-        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationThemeColor()
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,29 +67,39 @@ class MainTableViewController: UITableViewController {
         return sectionContentRowCount
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        // section title 생성을 위한 빈 메소드
+        return "date text"
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        let headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerLabel.backgroundColor = colorManger.date
+        let diarys = diaryRepository.findAll()
+        // 최신 순 날짜 Array 정렬
+        sortedDate = Array(diarys.keys).sorted(by: >)
+        let date = sortedDate[section]
+        headerLabel.text = date
+        headerLabel.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerView.addSubview(headerLabel)
+        
+        return headerView
+    }
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        cell.textLabel?.font = UIFont(name: mainTableState.cellFont, size: mainTableState.celltextSize)
+        cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
+        cell.backgroundColor = colorManger.paper
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
         
         return cell
-    }
-    
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let diarys = diaryRepository.findAll()
-        // 최신 순 날짜 Array 정렬
-        sortedDate = Array(diarys.keys).sorted(by: >)
-        return sortedDate[section]
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font = UIFont(name: mainTableState.headerFont, size: mainTableState.headerTextSize)
-        header.textLabel?.textColor = UIColor.darkGray
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -108,7 +120,7 @@ class MainTableViewController: UITableViewController {
         if editingStyle == .delete
         {
             diaryRepository.delete(id: seletedDiaryID)
-            imageManger.deleteImageFile(diaryID: seletedDiaryID)
+            imageManager.deleteImageFile(diaryID: seletedDiaryID)
             // 삭제 후, 다이어리를 찾았을 때
             let diarys = self.diaryRepository.findAll()
             /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
@@ -135,6 +147,14 @@ class MainTableViewController: UITableViewController {
         let diarys:[String : Array<Diary>] = diaryRepository.findAll()
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
+    }
+    
+    func navigationThemeColor() {
+        navigationItem.title = "diary"
+        navigationController?.navigationBar.barTintColor = colorManger.bar
+        navigationController?.navigationBar.tintColor = colorManger.tint
+        // Navigation Font
+        navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManger.naviTitleFont, size: 20)!]
     }
 
 }
