@@ -8,7 +8,7 @@
 
 import UIKit
 
-/** 1: basic */
+/** 0: basic */
 class ColorManager: NSObject {
     
     init(theme:Int) {
@@ -23,7 +23,7 @@ class ColorManager: NSObject {
     var paper = UIColor()
     
     func selectTheme(theme:Int) {
-        if theme == 2 {
+        if theme == 1 {
             cherryBlossoms()
         }
         basic()

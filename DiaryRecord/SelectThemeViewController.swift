@@ -12,6 +12,8 @@ import UIKit
 class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var tableView: UITableView!
+    let log = Logger(logPlace: SelectThemeViewController.self)
+    private var cell = UITableViewCell()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,14 +33,30 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
+        cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "ThemeCell")
         cell.textLabel?.text = themes[indexPath.row]
+        
+        let lastTheme = SharedMemoryContext.get(key: "theme") as! Int
+        if indexPath.row == lastTheme {
+            cell.accessoryType = .checkmark
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let lastTheme = SharedMemoryContext.get(key: "theme") as! Int
+        if (indexPath.row != lastTheme) {
+            let oldIndexpath = IndexPath(row: lastTheme, section: 0)
+            let oldCell = tableView.cellForRow(at: oldIndexpath)
+            oldCell?.accessoryType = .none
+        }
+        tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
         let selected = tableView.cellForRow(at: indexPath)
         selected?.setSelected(false, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .none
+    }
 }
