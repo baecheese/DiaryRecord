@@ -21,13 +21,13 @@ class MainTableViewController: UITableViewController {
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    private var colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
+    private var colorManger = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private var sortedDate = [String]()
     private let fontManager = FontManger()
-
+    var changeTheme = false
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.backgroundColor = colorManger.paper
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
         let diarys = diaryRepository.findAll()
         // 최신 순 날짜 Array 정렬
@@ -38,13 +38,21 @@ class MainTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        
+        if changeTheme == true {
+            viewDidLoad()
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
         navigationFont()
+        changeNavigationTheme()
+        view.backgroundColor = colorManger.paper
         self.tableView.separatorStyle = .none
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -157,6 +165,13 @@ class MainTableViewController: UITableViewController {
         navigationItem.title = "diary"
         // Navigation Font
         navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: 20)!]
+    }
+    
+    func changeNavigationTheme() {
+        colorManger = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+        navigationController?.navigationBar.barTintColor = colorManger.bar
+        navigationController?.navigationBar.tintColor = colorManger.tint
+        changeTheme = false
     }
 
 }

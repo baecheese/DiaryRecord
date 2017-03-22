@@ -26,7 +26,9 @@ class ColorManager: NSObject {
         if theme == 1 {
             cherryBlossoms()
         }
-        basic()
+        else {
+            basic()
+        }
     }
     
     func basic() {

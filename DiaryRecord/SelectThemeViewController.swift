@@ -14,6 +14,8 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet var tableView: UITableView!
     let log = Logger(logPlace: SelectThemeViewController.self)
     private var cell = UITableViewCell()
+    private var lastTheme = ThemeRepositroy.sharedInstance.get()
+    private var selectTheme:Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +48,13 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     
     @objc private func save() {
         log.info(message: "테마 저장")
-        SharedMemoryContext.
+        if lastTheme != selectTheme && selectTheme != nil {
+            let themeRepository = ThemeRepositroy.sharedInstance
+            themeRepository.set(number: selectTheme!)
+            let main:MainTableViewController = navigationController?.viewControllers.first as! MainTableViewController
+            main.changeTheme = true
+        }
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc private func back() {
@@ -64,7 +72,6 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
         cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "ThemeCell")
         cell.textLabel?.text = themes[indexPath.row]
         
-        let lastTheme = SharedMemoryContext.get(key: "theme") as! Int
         if indexPath.row == lastTheme {
             cell.accessoryType = .checkmark
         }
@@ -73,7 +80,6 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let lastTheme = SharedMemoryContext.get(key: "theme") as! Int
         if (indexPath.row != lastTheme) {
             // 처음 선택됬던 최근 테마가 다른 걸 체크하면 풀리도록
             let oldIndexpath = IndexPath(row: lastTheme, section: 0)
@@ -81,6 +87,9 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
             oldCell?.accessoryType = .none
         }
         tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
+        
+        selectTheme = indexPath.row
+        
         let selected = tableView.cellForRow(at: indexPath)
         selected?.setSelected(false, animated: true)
     }

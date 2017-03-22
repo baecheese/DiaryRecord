@@ -9,7 +9,7 @@
 import UIKit
 
 /**
- 사용 중인 key : "seletedDiaryID"(Int), "saveNewDairy"(Bool), "navigationbarHeight"(CGFloat), "isWriteMode"(Bool), "theme"(Int)
+ 사용 중인 key : "seletedDiaryID"(Int), "saveNewDairy"(Bool), "navigationbarHeight"(CGFloat), "isWriteMode"(Bool)
  */
 public struct SharedMemoryContext {
     
@@ -17,17 +17,13 @@ public struct SharedMemoryContext {
     
     public static func get(key:String) -> Any? {
         if context[key] == nil {
-            // default theme
-            if key == "theme" {
-                return setAndGet(key: "theme", setValue: 0)
-            }
             return nil
         }
         return context[key]!
     }
     
     public static func set(key:String, setValue:Any) {
-        if get(key: key) != nil {
+        if context[key] != nil {
             changeValue(key: key, value: setValue)
             return;
         }
@@ -35,7 +31,7 @@ public struct SharedMemoryContext {
     }
     
     public static func setAndGet(key:String, setValue:Any) -> Any {
-        if get(key: key) != nil {
+        if context[key] != nil {
             changeValue(key: key, value: setValue)
             return setValue
         }

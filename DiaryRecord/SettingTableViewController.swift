@@ -22,7 +22,7 @@ class SettingTableViewController: UITableViewController {
     private let settingMenu = SettingMenu()
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    private let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
+    private let colorManger = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let fontManger = FontManger()
     
     override func viewDidLoad() {

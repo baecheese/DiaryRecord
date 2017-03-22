@@ -17,10 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
-        let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
-        UINavigationBar.appearance().barTintColor = colorManger.bar
-        UINavigationBar.appearance().tintColor = colorManger.tint
-        UIApplication.shared.statusBarStyle = .lightContent
         
         return true
     }
