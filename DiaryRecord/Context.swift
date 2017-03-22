@@ -27,11 +27,18 @@ public struct SharedMemoryContext {
     }
     
     public static func set(key:String, setValue:Any) {
-        
+        if get(key: key) != nil {
+            changeValue(key: key, value: setValue)
+            return;
+        }
         context.updateValue(setValue, forKey: key)
     }
     
     public static func setAndGet(key:String, setValue:Any) -> Any {
+        if get(key: key) != nil {
+            changeValue(key: key, value: setValue)
+            return setValue
+        }
         context.updateValue(setValue, forKey: key)
         return setValue
     }
