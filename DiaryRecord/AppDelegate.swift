@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
         let colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : colorManger.title]//적용 안됨
         UINavigationBar.appearance().barTintColor = colorManger.bar
         UINavigationBar.appearance().tintColor = colorManger.tint
         UIApplication.shared.statusBarStyle = .lightContent

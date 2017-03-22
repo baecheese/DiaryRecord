@@ -27,6 +27,7 @@ public struct SharedMemoryContext {
     }
     
     public static func set(key:String, setValue:Any) {
+        
         context.updateValue(setValue, forKey: key)
     }
     

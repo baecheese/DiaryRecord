@@ -23,7 +23,7 @@ class MainTableViewController: UITableViewController {
     private let imageManager = ImageFileManager.sharedInstance
     private var colorManger = ColorManager(theme: SharedMemoryContext.get(key: "theme") as! Int)
     private var sortedDate = [String]()
-    private let fontManger = FontManger()
+    private let fontManager = FontManger()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -43,7 +43,7 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
-        navigationThemeColor()
+        navigationFont()
         self.tableView.separatorStyle = .none
     }
 
@@ -83,7 +83,7 @@ class MainTableViewController: UITableViewController {
         sortedDate = Array(diarys.keys).sorted(by: >)
         let date = sortedDate[section]
         headerLabel.text = "\(date)"
-        headerLabel.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
+        headerLabel.font = UIFont(name: fontManager.headerFont, size: fontManager.headerTextSize)
         headerLabel.textAlignment = .right
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
@@ -97,7 +97,7 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
+        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
         cell.backgroundColor = colorManger.paper
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
@@ -153,10 +153,10 @@ class MainTableViewController: UITableViewController {
         return ((diarys[targetDate]?[row])?.id)!
     }
     
-    func navigationThemeColor() {
+    func navigationFont() {
         navigationItem.title = "diary"
         // Navigation Font
-        navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManger.naviTitleFont, size: 20)!]
+        navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: 20)!]
     }
 
 }
