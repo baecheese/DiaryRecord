@@ -84,6 +84,8 @@ class WriteBox: UIView, UITextViewDelegate {
         writeSpace.translatesAutoresizingMaskIntoConstraints = false
         // 폰트 및 크기
         writeSpace.font = UIFont(name: "NanumMyeongjo", size: writeframe.fontSize)
+        // 키보드 자동완성 turn off
+        writeSpace.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(writeSpace)
     }
     

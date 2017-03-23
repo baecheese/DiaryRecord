@@ -225,7 +225,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         
         writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: writeState.writeBoxHeight))
         
-        writeBox.writeSpace.backgroundColor = .blue//
+        writeBox.writeSpace.backgroundColor = .red//
         self.automaticallyAdjustsScrollViewInsets = false
         
         addToolBar(textField: writeBox.writeSpace)
