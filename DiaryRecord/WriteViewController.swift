@@ -219,13 +219,17 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     }
  
     func makeWriteBox() {
+        let writeWidth = self.view.frame.size.width
         
-        let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
-        writeState.writeBoxHeight = self.view.frame.size.height - writeState.keyboardHeight
+        if 0.0 == writeState.keyboardHeight {
+            writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: self.view.frame.size.height))
+        }
+        if 0.0 < writeState.keyboardHeight {
+            writeBox.frame.size.height -= (writeState.keyboardHeight + (navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height)
+            writeBox.writeSpace.frame.size.height = writeBox.frame.size.height
+        }
         
-        writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: writeState.writeBoxHeight))
-        
-        writeBox.writeSpace.backgroundColor = .red//
+        //
         self.automaticallyAdjustsScrollViewInsets = false
         
         addToolBar(textField: writeBox.writeSpace)
@@ -272,7 +276,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         deleteButton.setTitle("X", for: .normal)
         deleteButton.titleLabel?.textColor = .white
         deleteButton.addTarget(self, action: #selector(WriteViewController.deleteImage), for: .touchUpInside)
-        imageBox.addSubview(deleteButton)
+        // imageBox.addSubview(deleteButton)
     }
     
     func deleteImage() {
