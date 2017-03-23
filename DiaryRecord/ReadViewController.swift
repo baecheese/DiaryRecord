@@ -61,7 +61,6 @@ class ReadViewController: UIViewController {
         if imageName != nil {
             card.imageSection.image = imageManager.showImage(imageName: imageName!)
         }
-        
         self.automaticallyAdjustsScrollViewInsets = false
         self.backgroundView.addSubview(card)
         

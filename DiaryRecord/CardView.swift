@@ -23,6 +23,7 @@ class CardView: UIView {
     let cardFrame = CardFrame()
     var dateHight = CardFrame().dateLabelHight
     var imageSection = UIImageView()
+    let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
     init(frame: CGRect, imageName:String?) {
         super.init(frame: frame)
@@ -44,6 +45,7 @@ class CardView: UIView {
          */
         date.font = UIFont(name: "NanumMyeongjo", size: cardFrame.dateFontSize)
         date.textAlignment = NSTextAlignment.right
+        date.backgroundColor = colorManager.paper
         self.addSubview(date)
     }
 
@@ -55,6 +57,7 @@ class CardView: UIView {
             contentTextView = UITextView(frame: CGRect(x: 0, y: dateHight + cardFrame.imageHeight, width: self.frame.width, height: self.frame.height - (dateHight + cardFrame.imageHeight)))
             makeImageSection()
         }
+        contentTextView.backgroundColor = colorManager.paper
         /*
         contentTextView.layer.borderColor = UIColor.lightGray.cgColor
         contentTextView.layer.borderWidth = 0.5
@@ -68,6 +71,7 @@ class CardView: UIView {
         contentTextView.attributedText = attributedString
         // 폰트 및 크기
         contentTextView.font = UIFont(name: "NanumMyeongjo", size: cardFrame.contentFontSize)
+        
         self.addSubview(contentTextView)
     }
     

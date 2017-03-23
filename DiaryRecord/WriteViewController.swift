@@ -32,12 +32,7 @@ private extension UIImage {
 
 
 struct WriteState {
-    let margen:CGFloat = 30.0
-    let margenOnKeyborad:CGFloat = 60.0
-    var writeBoxHeight:CGFloat = 0.0
-    var writeSpaceHeight:CGFloat = 0.0
     var keyboardHeight:CGFloat = 0.0
-    
     var isFrist:Bool = true
 }
 
@@ -180,7 +175,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     }
     
     override func cancelPressed() {
-        // 사진 삭제시, 화면 사진 삭제 && imagepath = nil
+        writeBox.endEditing(true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -220,7 +215,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
  
     func makeWriteBox() {
         let writeWidth = self.view.frame.size.width
-        
         if 0.0 == writeState.keyboardHeight {
             writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: self.view.frame.size.height))
         }
@@ -229,7 +223,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             writeBox.writeSpace.frame.size.height = writeBox.frame.size.height
         }
         
-        //
         self.automaticallyAdjustsScrollViewInsets = false
         
         addToolBar(textField: writeBox.writeSpace)
@@ -246,13 +239,15 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     }
     
     func makeImageBox() {
-        let imageBoxHeight = self.view.frame.height - writeState.writeBoxHeight
-        imageBox.frame = CGRect(x: 0, y: writeState.writeBoxHeight, width: self.view.frame.width, height: imageBoxHeight)
+        if 0.0 < writeState.keyboardHeight {
+            let imageBoxHeight = self.view.frame.height - writeBox.frame.size.height
+            imageBox.frame = CGRect(x: 0, y: writeBox.frame.size.height, width: self.view.frame.width, height: imageBoxHeight)
+        }
         imageBox.isUserInteractionEnabled = true
-        ///*
-        imageBox.layer.borderColor = UIColor.yellow.cgColor
+        /*
+        imageBox.layer.borderColor = UIColor.black.cgColor
         imageBox.layer.borderWidth = 0.5
-        // */
+        */
         
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
