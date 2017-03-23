@@ -49,9 +49,11 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     private let imageManager = ImageFileManager.sharedInstance
     
     @IBOutlet var navigartionBar: UINavigationItem!
-    @IBOutlet var backgroundScroll: UIScrollView!
+    @IBOutlet var background: UIView!
+    
     var writeBox = WriteBox()
     var writeState = WriteState()
+    var photoScroll: UIScrollView!
     var imageBox = UIImageView()
     var imageData:Data? = nil
     
@@ -134,11 +136,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     func onTouchUpInsideWriteSpace() {
         log.info(message: "🍔 up")
         writeBox.writeSpace.endEditing(false)
-    }
-    
-    func clickBackButton() {
-        log.info(message: "🍔 click Back Button")
-        writeBox.writeSpace.endEditing(true)
     }
     
     override func photoPressed() {
@@ -224,13 +221,11 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     func makeWriteBox() {
         
         let writeWidth = self.view.frame.size.width - (writeState.margen * 2)
-        writeState.writeBoxHeight = self.view.frame.size.height - (writeState.margen + getNavigationBarHeight()) // 네비 빼야함
+        writeState.writeBoxHeight = self.view.frame.size.height - writeState.keyboardHeight
         
-        writeBox = WriteBox(frame: CGRect(x: writeState.margen, y: writeState.margen, width: writeWidth, height: writeState.writeBoxHeight))
-        // textview 높이 설정
-        writeState.writeSpaceHeight = writeState.writeBoxHeight - (writeState.keyboardHeight + writeState.margenOnKeyborad)
-        writeBox.writeSpace.frame.size.height = writeState.writeSpaceHeight
-        //writeBox.backgroundColor = .blue
+        writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: writeState.writeBoxHeight))
+        
+        writeBox.writeSpace.backgroundColor = .blue//
         self.automaticallyAdjustsScrollViewInsets = false
         
         addToolBar(textField: writeBox.writeSpace)
@@ -243,46 +238,17 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             writeBox.writeSpace.text = diary?.content
         }
         
-        backgroundScroll.addSubview(writeBox)
-    }
-    
-    func setBackgroundContentsSize() {
-        backgroundScroll.contentSize = CGSize(width: self.view.frame.size.width, height: writeState.writeBoxHeight + writeState.keyboardHeight)
-    }
-    
-    func makeBackButton() {
-        let width = self.view.frame.size.width
-        let height = self.backgroundScroll.contentSize.height
-        let up = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: writeState.margen))
-        let right = UIButton(frame: CGRect(x: width - writeState.margen, y: 0, width: writeState.margen, height: height))
-        let left = UIButton(frame: CGRect(x: 0, y: 0, width: writeState.margen, height: height))
-        let downY:CGFloat = up.frame.height + writeBox.writeSpace.frame.height + imageBox.frame.height
-        let down = UIButton(frame: CGRect(x: 0, y: downY, width: width, height: height - downY))
-        
-        /*
-        up.backgroundColor = .red
-        right.backgroundColor = .black
-        left.backgroundColor = .yellow
-        down.backgroundColor = .black
-         */
-        
-        let buttonArray = [up, right, left, down]
-        
-        for button in buttonArray {
-            button.addTarget(self, action: #selector(WriteViewController.clickBackButton), for: .touchUpInside)
-            backgroundScroll.addSubview(button)
-        }
-        
+        background.addSubview(writeBox)
     }
     
     func makeImageBox() {
-        let imageBoxHeight = writeBox.frame.size.height - writeState.writeSpaceHeight - 100
-        imageBox.frame = CGRect(x: 0, y: writeState.writeSpaceHeight, width: writeBox.frame.size.width, height: imageBoxHeight)
+        let imageBoxHeight = self.view.frame.height - writeState.writeBoxHeight
+        imageBox.frame = CGRect(x: 0, y: writeState.writeBoxHeight, width: self.view.frame.width, height: imageBoxHeight)
         imageBox.isUserInteractionEnabled = true
-        /*
+        ///*
         imageBox.layer.borderColor = UIColor.yellow.cgColor
         imageBox.layer.borderWidth = 0.5
-         */
+        // */
         
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
@@ -293,7 +259,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             }
         }
         
-        writeBox.addSubview(imageBox)
+        background.addSubview(imageBox)
     }
     
     func makeImageDeleteButton() {
@@ -371,8 +337,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
                 makeWriteBox()
                 makeImageBox()
                 makeImageDeleteButton()
-                setBackgroundContentsSize()
-                makeBackButton()
+                
             }
         }
     }
