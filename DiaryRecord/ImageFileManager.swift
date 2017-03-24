@@ -20,7 +20,7 @@ class ImageFileManager: NSObject {
 
     /** image picker 에서 이미지 선택 후 저장을 위한 데이터로 바꿀 때 사용*/
     func getImageData(info:[String : Any]) -> Data {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let image = info[UIImagePickerControllerEditedImage] as! UIImage
         let data = UIImageJPEGRepresentation(image, 0.7)
         return data!
     }

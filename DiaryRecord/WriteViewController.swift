@@ -161,6 +161,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         myPickerController.sourceType = UIImagePickerControllerSourceType.camera
         myPickerController.cameraCaptureMode = .photo
         myPickerController.modalPresentationStyle = .fullScreen
+        myPickerController.allowsEditing = true
         self.present(myPickerController, animated: true, completion: nil)
     }
     
@@ -179,7 +180,7 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let chosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
         imageBox.image = chosenImage
         imageBox.contentMode = .scaleAspectFill
         imageBox.clipsToBounds = true
@@ -189,7 +190,6 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         picker.dismiss(animated: true, completion: nil)
         
     }
-    
     
     
     /* UI & 애니메이션 */
