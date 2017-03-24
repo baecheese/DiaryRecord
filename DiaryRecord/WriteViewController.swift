@@ -169,29 +169,33 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing, option: .transitionCurlDown)
         makeImageBox()
         
         let chosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
-        imageBox.imageSpace.image = chosenImage
-        imageBox.imageSpace.contentMode = .scaleAspectFill
-        imageBox.imageSpace.clipsToBounds = true
-        imageData = imageManager.getImageData(info: info)
-        log.info(message: " imageData keep : \(imageData)")
+        self.imageBox.imageSpace.image = chosenImage
+        self.imageBox.imageSpace.contentMode = .scaleAspectFill
+        self.imageBox.imageSpace.clipsToBounds = true
+        self.imageBox.alpha = 0.0
+        self.imageData = self.imageManager.getImageData(info: info)
+        self.log.info(message: " imageData keep : \(self.imageData)")
         
-        picker.dismiss(animated: true, completion: nil)
-        
+        picker.dismiss(animated: true, completion: {
+            self.changeWriteBoxHeight(height: self.writeState.writeBoxHeightToEditing, option: .transitionCurlDown)
+            UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveEaseOut, animations: {
+            self.imageBox.alpha = 1.0
+            }, completion: nil)
+            
+        })
     }
     
     func deleteImage() {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseOut, animations: {
-            self.imageBox.imageSpace.alpha = 0.0
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
             self.imageBox.alpha = 0.0
+            self.changeWriteBoxHeight(height: self.writeState.fullHeight, option: .transitionCurlDown)
         }, completion: { _ in
             self.imageBox.imageSpace.image = nil
             self.imageData = nil
             self.imageBox.removeFromSuperview()
-            self.changeWriteBoxHeight(height: self.writeState.fullHeight, option: .transitionCurlDown)
         })
     }
     
@@ -264,6 +268,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
             }
         }
         background.addSubview(imageBox)
+        
     }
     
     func disappearPopAnimation() {
@@ -320,6 +325,13 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
                 writeState.keyboardHeight = keyboardRectValue.height
                 writeState.isFrist = false
                 makeWriteBox()
+                if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+                    let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+                    let diary = diaryRepository.findOne(id: diaryID)
+                    if nil != diary?.imageName {
+                        makeImageBox()
+                    }
+                }
             }
         }
     }

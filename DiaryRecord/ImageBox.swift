@@ -36,12 +36,10 @@ class ImageBox: UIView {
     func makeImageDeleteButton() {
         let margen:CGFloat = 5.0
         let deleteSize:CGFloat = 38.0
-        let fontSize:CGFloat = 28.0
         let deleteButton = UIButton(frame: CGRect(x: self.frame.size.width - deleteSize - margen, y: margen, width: deleteSize, height: deleteSize))
-        deleteButton.backgroundColor = .yellow
-        deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
-        deleteButton.setTitle("X", for: .normal)
-        deleteButton.titleLabel?.textColor = .white
+        let no = UIImage(named: "no")
+        deleteButton.setImage(no, for: .normal)
+        deleteButton.tintColor = .white
         deleteButton.addTarget(self, action: #selector(ImageBox.clickButton), for: .touchUpInside)
         self.addSubview(deleteButton)
     }
