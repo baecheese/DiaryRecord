@@ -13,10 +13,6 @@ struct WriteFrame {
     let fontSize:CGFloat = 17.0
 }
 
-protocol WriteBoxDelegate {
-    func onTouchUpInsideWriteSpace()
-}
-
 extension UIViewController : UITextViewDelegate {
 
     /** 키보드 위 toolBar */
@@ -53,8 +49,6 @@ class WriteBox: UIView, UITextViewDelegate {
     var writeSpace = UITextView()
     var writeframe = WriteFrame()
     var imageView = UIImageView()
-    
-    var delegate:WriteBoxDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -85,19 +79,6 @@ class WriteBox: UIView, UITextViewDelegate {
         // 키보드 자동완성 turn off
         writeSpace.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(writeSpace)
-    }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        writeSpace.resignFirstResponder()
-        usingTexiView(message: "textView click")
-        return true
-    }
-    
-    /* delegate */
-    func usingTexiView(message:String) {
-        if message == "textView click" {
-            delegate?.onTouchUpInsideWriteSpace()
-        }
     }
     
 }

@@ -33,11 +33,13 @@ private extension UIImage {
 
 struct WriteState {
     var keyboardHeight:CGFloat = 0.0
+    var writeBoxHeightToEditing:CGFloat = 0.0
+    var fullHeight:CGFloat = 0.0
     var isFrist:Bool = true
 }
 
 /* mode에 따라 내부 내용이 바뀜 */
-class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class WriteViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
@@ -128,9 +130,9 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         SharedMemoryContext.changeValue(key: "saveNewDairy", value: true)
     }
     
+    
     func onTouchUpInsideWriteSpace() {
-        log.info(message: "🍔 up")
-        writeBox.writeSpace.endEditing(false)
+        
     }
     
     override func photoPressed() {
@@ -177,6 +179,12 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
     
     override func cancelPressed() {
         writeBox.endEditing(true)
+        if imageData == nil {
+            changeWriteBoxHeight(height: writeState.fullHeight)
+        }
+        if imageData != nil {
+            changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing)
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -191,6 +199,10 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
         
     }
     
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        log.info(message: "textViewShouldBeginEditing")
+        return true
+    }
     
     /* UI & 애니메이션 */
     
@@ -212,21 +224,26 @@ class WriteViewController: UIViewController, WriteBoxDelegate, UINavigationContr
             navigartionBar.title = "edit page"
         }
     }
+    
+    func changeWriteBoxHeight(height:CGFloat) {
+        writeBox.frame.size.height = height
+        writeBox.writeSpace.frame.size.height =  height
+    }
  
     func makeWriteBox() {
         let writeWidth = self.view.frame.size.width
         if 0.0 == writeState.keyboardHeight {
-            writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: self.view.frame.size.height))
+            writeState.fullHeight = self.view.frame.size.height
+            writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: writeState.fullHeight))
         }
         if 0.0 < writeState.keyboardHeight {
-            writeBox.frame.size.height -= (writeState.keyboardHeight + (navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height)
-            writeBox.writeSpace.frame.size.height = writeBox.frame.size.height
+            writeState.writeBoxHeightToEditing = writeState.fullHeight - ((writeState.keyboardHeight + (navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height))
+            changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false
         
         addToolBar(textField: writeBox.writeSpace)
-        writeBox.delegate = self
         
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
