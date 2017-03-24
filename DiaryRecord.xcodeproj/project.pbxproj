@@ -39,6 +39,7 @@
 		03A7A28E1E8271210074CCFE /* ThemeRepositroy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7A28D1E8271210074CCFE /* ThemeRepositroy.swift */; };
 		03B6EA871E615D62002CFB29 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B6EA861E615D62002CFB29 /* Context.swift */; };
 		03C043671E78F30E0075C09E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C043651E78F30E0075C09E /* Main.storyboard */; };
+		03C702B41E84CE6E00B15033 /* ImageBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C702B31E84CE6E00B15033 /* ImageBox.swift */; };
 		03D2ADA01E508926002D4287 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D2AD9F1E508926002D4287 /* Extensions.swift */; };
 		7EC717151AD3900DCEEF166F /* Pods_DiaryRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */; };
 		ABC2483A4D7044BDBA0F1310 /* ImageFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC24D8B487FA3E087DB037B /* ImageFileManager.swift */; };
@@ -111,6 +112,7 @@
 		03A7A28D1E8271210074CCFE /* ThemeRepositroy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeRepositroy.swift; sourceTree = "<group>"; };
 		03B6EA861E615D62002CFB29 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		03C043661E78F30E0075C09E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		03C702B31E84CE6E00B15033 /* ImageBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBox.swift; sourceTree = "<group>"; };
 		03D2AD9F1E508926002D4287 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecord.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A877916CBD148333D0EB6C /* Pods_DiaryRecordUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryRecordUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +221,7 @@
 			children = (
 				037692921E54885500C0CCCB /* CardView.swift */,
 				0399B20A1E656472003E8672 /* WriteBox.swift */,
+				03C702B31E84CE6E00B15033 /* ImageBox.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -672,6 +675,7 @@
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
+				03C702B41E84CE6E00B15033 /* ImageBox.swift in Sources */,
 				ABC2483A4D7044BDBA0F1310 /* ImageFileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

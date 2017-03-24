@@ -13,24 +13,6 @@ private extension Selector {
     static let keyboardWillShow = #selector(WriteViewController.keyboardWillShow(notification:))
 }
 
-private extension UIImage {
-    func resized(withPercentage percentage: CGFloat) -> UIImage? {
-        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
-        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
-        defer { UIGraphicsEndImageContext() }
-        draw(in: CGRect(origin: .zero, size: canvasSize))
-        return UIGraphicsGetImageFromCurrentImageContext()
-    }
-    func resized(toWidth width: CGFloat) -> UIImage? {
-        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
-        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
-        defer { UIGraphicsEndImageContext() }
-        draw(in: CGRect(origin: .zero, size: canvasSize))
-        return UIGraphicsGetImageFromCurrentImageContext()
-    }
-}
-
-
 struct WriteState {
     var keyboardHeight:CGFloat = 0.0
     var writeBoxHeightToEditing:CGFloat = 0.0
@@ -39,7 +21,7 @@ struct WriteState {
 }
 
 /* mode에 따라 내부 내용이 바뀜 */
-class WriteViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class WriteViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, ImageBoxDelegate {
 
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
@@ -50,8 +32,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     
     var writeBox = WriteBox()
     var writeState = WriteState()
-    var photoScroll: UIScrollView!
-    var imageBox = UIImageView()
+    var imageBox = ImageBox()
     var imageData:Data? = nil
     
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -63,8 +44,6 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         setUpObserver()
         setNavigationTitle()
         makeWriteBox()
-        makeImageBox()
-        
         // scrollview content size, 테두리 버튼 - keyboardWillShow method에 설정
     }
     
@@ -119,7 +98,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         if nil == diary.imageName {
             beforeAfter.0 = false
         }
-        if nil == imageBox.image {
+        if nil == imageBox.imageSpace.image {
             beforeAfter.1 = false
         }
         return beforeAfter
@@ -130,12 +109,10 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         SharedMemoryContext.changeValue(key: "saveNewDairy", value: true)
     }
     
-    
-    func onTouchUpInsideWriteSpace() {
-        
-    }
-    
     override func photoPressed() {
+        
+        changeWriteBoxHeight(height: writeState.fullHeight, option: .transitionCurlDown)
+        
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let libraryAction = UIAlertAction(title: "Library", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -147,6 +124,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
+            self.writeBox.writeSpace.endEditing(true)
         })
         
         photoMenu.addAction(libraryAction)
@@ -180,28 +158,40 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     override func cancelPressed() {
         writeBox.endEditing(true)
         if imageData == nil {
-            changeWriteBoxHeight(height: writeState.fullHeight)
-        }
-        if imageData != nil {
-            changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing)
+            changeWriteBoxHeight(height: writeState.fullHeight, option: .transitionCurlDown)
         }
     }
     
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing, option: .transitionCurlUp)
+        return true
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing, option: .transitionCurlDown)
+        makeImageBox()
+        
         let chosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
-        imageBox.image = chosenImage
-        imageBox.contentMode = .scaleAspectFill
-        imageBox.clipsToBounds = true
+        imageBox.imageSpace.image = chosenImage
+        imageBox.imageSpace.contentMode = .scaleAspectFill
+        imageBox.imageSpace.clipsToBounds = true
         imageData = imageManager.getImageData(info: info)
-        log.info(message: " 🌟 \(imageData)")
+        log.info(message: " imageData keep : \(imageData)")
         
         picker.dismiss(animated: true, completion: nil)
         
     }
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        log.info(message: "textViewShouldBeginEditing")
-        return true
+    func deleteImage() {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseOut, animations: {
+            self.imageBox.imageSpace.alpha = 0.0
+            self.imageBox.alpha = 0.0
+        }, completion: { _ in
+            self.imageBox.imageSpace.image = nil
+            self.imageData = nil
+            self.imageBox.removeFromSuperview()
+            self.changeWriteBoxHeight(height: self.writeState.fullHeight, option: .transitionCurlDown)
+        })
     }
     
     /* UI & 애니메이션 */
@@ -225,20 +215,25 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         }
     }
     
-    func changeWriteBoxHeight(height:CGFloat) {
-        writeBox.frame.size.height = height
-        writeBox.writeSpace.frame.size.height =  height
+    func changeWriteBoxHeight(height:CGFloat, option:UIViewAnimationOptions) {
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: option, animations: {
+            self.writeBox.writeSpace.frame.size.height =  height
+        }, completion: nil)
+        
     }
  
     func makeWriteBox() {
+        let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+        view.backgroundColor = colorManager.paper
+        
         let writeWidth = self.view.frame.size.width
         if 0.0 == writeState.keyboardHeight {
-            writeState.fullHeight = self.view.frame.size.height
+            writeState.fullHeight = self.view.frame.size.height - ((navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height)
             writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: writeState.fullHeight))
         }
         if 0.0 < writeState.keyboardHeight {
-            writeState.writeBoxHeightToEditing = writeState.fullHeight - ((writeState.keyboardHeight + (navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height))
-            changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing)
+            writeState.writeBoxHeightToEditing = writeState.fullHeight - (writeState.keyboardHeight)
+            changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing, option: .transitionCurlUp)
         }
         
         self.automaticallyAdjustsScrollViewInsets = false
@@ -256,46 +251,19 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     func makeImageBox() {
-        if 0.0 < writeState.keyboardHeight {
-            let imageBoxHeight = self.view.frame.height - writeBox.frame.size.height
-            imageBox.frame = CGRect(x: 0, y: writeBox.frame.size.height, width: self.view.frame.width, height: imageBoxHeight)
-        }
-        imageBox.isUserInteractionEnabled = true
-        /*
-        imageBox.layer.borderColor = UIColor.black.cgColor
-        imageBox.layer.borderWidth = 0.5
-        */
-        
+        let imageBoxHeight = self.view.frame.height - writeState.writeBoxHeightToEditing
+        imageBox = ImageBox(frame: CGRect(x: 0, y: writeState.writeBoxHeightToEditing, width: self.view.frame.width, height: imageBoxHeight))
+        imageBox.delegate = self
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
             let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: diaryID)
             if nil != diary?.imageName {
-                imageBox.image = imageManager.showImage(imageName: (diary?.imageName)!)
+                imageBox.imageSpace.image = imageManager.showImage(imageName: (diary?.imageName)!)
             }
         }
-        
         background.addSubview(imageBox)
     }
-    
-    func makeImageDeleteButton() {
-        let margen:CGFloat = 5.0
-        let deleteSize:CGFloat = 38.0
-        let fontSize:CGFloat = 28.0
-        let deleteButton = UIButton(frame: CGRect(x: writeBox.frame.size.width - deleteSize - margen, y: margen, width: deleteSize, height: deleteSize))
-//        deleteButton.backgroundColor = .yellow
-        deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
-        deleteButton.setTitle("X", for: .normal)
-        deleteButton.titleLabel?.textColor = .white
-        deleteButton.addTarget(self, action: #selector(WriteViewController.deleteImage), for: .touchUpInside)
-        // imageBox.addSubview(deleteButton)
-    }
-    
-    func deleteImage() {
-        imageBox.image = nil
-        imageData = nil
-    }
-    
     
     func disappearPopAnimation() {
         let transition = CATransition()
@@ -351,9 +319,6 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
                 writeState.keyboardHeight = keyboardRectValue.height
                 writeState.isFrist = false
                 makeWriteBox()
-                makeImageBox()
-                makeImageDeleteButton()
-                
             }
         }
     }
