@@ -112,6 +112,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     override func photoPressed() {
         
         changeWriteBoxHeight(height: writeState.fullHeight, option: .transitionCurlDown)
+        writeBox.writeSpace.endEditing(true)
         
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let libraryAction = UIAlertAction(title: "Library", style: .default, handler: {
@@ -124,7 +125,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
-            self.writeBox.writeSpace.endEditing(true)
+            
         })
         
         photoMenu.addAction(libraryAction)
