@@ -119,7 +119,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
             (alert: UIAlertAction!) -> Void in
             self.photoLibrary()
         })
-        let cameraAction = UIAlertAction(title: "Camera roll", style: .default, handler: {
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.camera()
         })

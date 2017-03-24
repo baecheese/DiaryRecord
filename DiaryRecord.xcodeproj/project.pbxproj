@@ -18,6 +18,10 @@
 		030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1031E42285C004E3532 /* DiaryRepository.swift */; };
 		0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355407D1E7EA5920093A244 /* ColorManager.swift */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
+		037522931E850BE20001B24F /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037522921E850BE20001B24F /* NotificationCenter.framework */; };
+		037522961E850BE20001B24F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037522951E850BE20001B24F /* TodayViewController.swift */; };
+		037522991E850BE20001B24F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 037522971E850BE20001B24F /* MainInterface.storyboard */; };
+		0375229D1E850BE20001B24F /* BookmarkExtention.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 037522911E850BE20001B24F /* BookmarkExtention.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		037624761E7E553F002C069A /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037624751E7E553F002C069A /* SettingTableViewController.swift */; };
 		037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692901E51BA1E00C0CCCB /* ReadViewController.swift */; };
 		037692931E54885500C0CCCB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037692921E54885500C0CCCB /* CardView.swift */; };
@@ -31,8 +35,6 @@
 		03A6E3581E8414430039056D /* no.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A6E3561E8414430039056D /* no.png */; };
 		03A7A2701E817D160074CCFE /* SelectThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7A26F1E817D160074CCFE /* SelectThemeViewController.swift */; };
 		03A7A27A1E82518D0074CCFE /* update.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A7A2731E82518D0074CCFE /* update.png */; };
-		03A7A27C1E82518D0074CCFE /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A7A2751E82518D0074CCFE /* cancel.png */; };
-		03A7A27E1E82518D0074CCFE /* 1490182145_File.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A7A2771E82518D0074CCFE /* 1490182145_File.png */; };
 		03A7A2841E82532D0074CCFE /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A7A2831E82532D0074CCFE /* back.png */; };
 		03A7A2871E825D8C0074CCFE /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A7A2851E825D8C0074CCFE /* setting.png */; };
 		03A7A2881E825D8C0074CCFE /* write.png in Resources */ = {isa = PBXBuildFile; fileRef = 03A7A2861E825D8C0074CCFE /* write.png */; };
@@ -69,7 +71,28 @@
 			remoteGlobalIDString = 030DB0C71E407381004E3532;
 			remoteInfo = DiaryRecord;
 		};
+		0375229B1E850BE20001B24F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 030DB0C01E407380004E3532 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 037522901E850BE20001B24F;
+			remoteInfo = BookmarkExtention;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		037522A11E850BE20001B24F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0375229D1E850BE20001B24F /* BookmarkExtention.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		030DB0C81E407381004E3532 /* DiaryRecord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiaryRecord.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +113,11 @@
 		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		035D7B991E48BE6800F66B24 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		037522911E850BE20001B24F /* BookmarkExtention.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BookmarkExtention.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		037522921E850BE20001B24F /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		037522951E850BE20001B24F /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		037522981E850BE20001B24F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0375229A1E850BE20001B24F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		037624751E7E553F002C069A /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		037692901E51BA1E00C0CCCB /* ReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -104,8 +132,6 @@
 		03A6E3561E8414430039056D /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no.png; sourceTree = "<group>"; };
 		03A7A26F1E817D160074CCFE /* SelectThemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectThemeViewController.swift; sourceTree = "<group>"; };
 		03A7A2731E82518D0074CCFE /* update.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = update.png; sourceTree = "<group>"; };
-		03A7A2751E82518D0074CCFE /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
-		03A7A2771E82518D0074CCFE /* 1490182145_File.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1490182145_File.png; sourceTree = "<group>"; };
 		03A7A2831E82532D0074CCFE /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		03A7A2851E825D8C0074CCFE /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
 		03A7A2861E825D8C0074CCFE /* write.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = write.png; sourceTree = "<group>"; };
@@ -158,12 +184,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0375228E1E850BE20001B24F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				037522931E850BE20001B24F /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		030DB0BF1E407380004E3532 = {
 			isa = PBXGroup;
 			children = (
+				037522941E850BE20001B24F /* BookmarkExtention */,
 				030DB0CA1E407381004E3532 /* DiaryRecord */,
 				030DB0DF1E407381004E3532 /* DiaryRecordTests */,
 				030DB0EA1E407381004E3532 /* DiaryRecordUITests */,
@@ -180,6 +215,7 @@
 				030DB0DC1E407381004E3532 /* DiaryRecordTests.xctest */,
 				030DB0E71E407381004E3532 /* DiaryRecordUITests.xctest */,
 				035D7BA21E48C36700F66B24 /* LoggerTest.xctest */,
+				037522911E850BE20001B24F /* BookmarkExtention.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,6 +250,16 @@
 				030DB0ED1E407381004E3532 /* Info.plist */,
 			);
 			path = DiaryRecordUITests;
+			sourceTree = "<group>";
+		};
+		037522941E850BE20001B24F /* BookmarkExtention */ = {
+			isa = PBXGroup;
+			children = (
+				037522951E850BE20001B24F /* TodayViewController.swift */,
+				037522971E850BE20001B24F /* MainInterface.storyboard */,
+				0375229A1E850BE20001B24F /* Info.plist */,
+			);
+			path = BookmarkExtention;
 			sourceTree = "<group>";
 		};
 		037692981E5488B600C0CCCB /* View */ = {
@@ -299,9 +345,7 @@
 				03A7A2861E825D8C0074CCFE /* write.png */,
 				039F4C951E83983700D51AAA /* lock.png */,
 				039F4C961E83983700D51AAA /* search.png */,
-				03A7A2751E82518D0074CCFE /* cancel.png */,
 				039F4C991E83986300D51AAA /* gallery.png */,
-				03A7A2771E82518D0074CCFE /* 1490182145_File.png */,
 				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
 			);
@@ -314,6 +358,7 @@
 				37A0364A89EC26784AAF0D64 /* Pods_DiaryRecord.framework */,
 				BE16B1B79F052D6A31AF112B /* Pods_DiaryRecordTests.framework */,
 				42A877916CBD148333D0EB6C /* Pods_DiaryRecordUITests.framework */,
+				037522921E850BE20001B24F /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -344,10 +389,12 @@
 				030DB0C61E407381004E3532 /* Resources */,
 				660E9D7251DE25685A6823C1 /* [CP] Embed Pods Frameworks */,
 				5F97810C0839B4FCBCA322D2 /* [CP] Copy Pods Resources */,
+				037522A11E850BE20001B24F /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0375229C1E850BE20001B24F /* PBXTargetDependency */,
 			);
 			name = DiaryRecord;
 			productName = DiaryRecord;
@@ -414,6 +461,23 @@
 			productReference = 035D7BA21E48C36700F66B24 /* LoggerTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		037522901E850BE20001B24F /* BookmarkExtention */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 037522A01E850BE20001B24F /* Build configuration list for PBXNativeTarget "BookmarkExtention" */;
+			buildPhases = (
+				0375228D1E850BE20001B24F /* Sources */,
+				0375228E1E850BE20001B24F /* Frameworks */,
+				0375228F1E850BE20001B24F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BookmarkExtention;
+			productName = BookmarkExtention;
+			productReference = 037522911E850BE20001B24F /* BookmarkExtention.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -447,6 +511,11 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 030DB0C71E407381004E3532;
 					};
+					037522901E850BE20001B24F = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 3Z5E8777P2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 030DB0C31E407380004E3532 /* Build configuration list for PBXProject "DiaryRecord" */;
@@ -466,6 +535,7 @@
 				030DB0DB1E407381004E3532 /* DiaryRecordTests */,
 				030DB0E61E407381004E3532 /* DiaryRecordUITests */,
 				035D7BA11E48C36700F66B24 /* LoggerTest */,
+				037522901E850BE20001B24F /* BookmarkExtention */,
 			);
 		};
 /* End PBXProject section */
@@ -475,7 +545,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03A7A27E1E82518D0074CCFE /* 1490182145_File.png in Resources */,
 				039F4C971E83983700D51AAA /* lock.png in Resources */,
 				03A7A2881E825D8C0074CCFE /* write.png in Resources */,
 				039F4C981E83983700D51AAA /* search.png in Resources */,
@@ -486,7 +555,6 @@
 				039F4C9A1E83986300D51AAA /* gallery.png in Resources */,
 				03A7A27A1E82518D0074CCFE /* update.png in Resources */,
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,
-				03A7A27C1E82518D0074CCFE /* cancel.png in Resources */,
 				03A6E3571E8414430039056D /* down.png in Resources */,
 				0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */,
 				03A7A2841E82532D0074CCFE /* back.png in Resources */,
@@ -512,6 +580,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0375228F1E850BE20001B24F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				037522991E850BE20001B24F /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,6 +779,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0375228D1E850BE20001B24F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				037522961E850BE20001B24F /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -721,6 +805,11 @@
 			target = 030DB0C71E407381004E3532 /* DiaryRecord */;
 			targetProxy = 035D7BA71E48C36700F66B24 /* PBXContainerItemProxy */;
 		};
+		0375229C1E850BE20001B24F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 037522901E850BE20001B24F /* BookmarkExtention */;
+			targetProxy = 0375229B1E850BE20001B24F /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -730,6 +819,14 @@
 				030DB0D51E407381004E3532 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		037522971E850BE20001B24F /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				037522981E850BE20001B24F /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 		03C043651E78F30E0075C09E /* Main.storyboard */ = {
@@ -838,6 +935,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6BBDE77CB802E4881F7AFD3C /* Pods-DiaryRecord.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = DiaryRecord/Info.plist;
@@ -852,6 +950,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D12BC7104B832B34A9C5DB7F /* Pods-DiaryRecord.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = DiaryRecord/Info.plist;
@@ -952,6 +1051,32 @@
 			};
 			name = Release;
 		};
+		0375229E1E850BE20001B24F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 3Z5E8777P2;
+				INFOPLIST_FILE = BookmarkExtention/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.baecheese.DiaryRecord.BookmarkExtention;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0375229F1E850BE20001B24F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 3Z5E8777P2;
+				INFOPLIST_FILE = BookmarkExtention/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.baecheese.DiaryRecord.BookmarkExtention;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -999,6 +1124,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		037522A01E850BE20001B24F /* Build configuration list for PBXNativeTarget "BookmarkExtention" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0375229E1E850BE20001B24F /* Debug */,
+				0375229F1E850BE20001B24F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

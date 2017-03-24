@@ -66,7 +66,7 @@ class ReadViewController: UIViewController {
         
         // tap을 위한 cover (textview가 수정 불가 모드라 view에 add한 gesture 안먹음)
         cover = UIView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight))
-        cover.backgroundColor = .clear
+        cover.backgroundColor = .red
         card.addSubview(cover)
         
     }
