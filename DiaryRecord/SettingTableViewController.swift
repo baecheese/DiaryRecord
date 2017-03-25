@@ -9,11 +9,12 @@
 import UIKit
 
 struct SettingMenu {
-    let setionList:[String] = ["test", "setting", "icould", "help"]
+    let setionList:[String] = ["test", "setting", "icould", "help", "Resorce Licenses"]
     let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제"]
     let basicList:[String] = ["테마", "비밀번호 설정", "Touch로 잠금"]
     let iCouldList:[String] = ["계정", "로그인 / 로그아웃"]
-    let infoList = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
+    let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
+    let licensesInfo:[String] = ["licenses info"]
 }
 
 class SettingTableViewController: UITableViewController {
@@ -43,7 +44,7 @@ class SettingTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.iCouldList, settingMenu.infoList]
+        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.iCouldList, settingMenu.infoList, settingMenu.licensesInfo]
         return menuList[section].count
     }
     
@@ -70,7 +71,7 @@ class SettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath)
         
-        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.iCouldList, settingMenu.infoList]
+        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.iCouldList, settingMenu.infoList, settingMenu.licensesInfo]
         cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
         cell.backgroundColor = colorManger.paper
         let menuNameListInSection = menuList[indexPath.section]
@@ -95,11 +96,18 @@ class SettingTableViewController: UITableViewController {
                 deleteAllImageFile()
             }
         }
+        
         if indexPath.section == 1 {
+            // 테마 선택
             if indexPath.row == 0 {
                 let selectTheme = self.storyboard?.instantiateViewController(withIdentifier: "SelectThemeViewController") as? SelectThemeViewController
                 self.navigationController?.pushViewController(selectTheme!, animated: true)
             }
+        }
+        if indexPath.section == 4 {
+            let storyBoard = UIStoryboard(name: "Main", bundle:nil)
+            let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController
+            self.navigationController?.pushViewController(LicenseVC, animated: true)
         }
     }
     

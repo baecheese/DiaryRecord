@@ -50,10 +50,10 @@ class ReadViewController: UIViewController {
     
     func makeContentCard(date: String, content:String, imageName:String?) {
         
-        readState.contentWidth = self.view.frame.size.width - (readState.margen * 2)
-        readState.contentHeight = self.view.frame.size.height - (readState.margen * 4)
+        readState.contentWidth = self.view.frame.size.width
+        readState.contentHeight = self.view.frame.size.height
         
-        let card = CardView(frame: CGRect(x: readState.margen, y: readState.margen, width: readState.contentWidth, height: readState.contentHeight), imageName: imageName)
+        let card = CardView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight), imageName: imageName)
         
         card.contentTextView.text = content
         card.date.text = date
@@ -66,7 +66,7 @@ class ReadViewController: UIViewController {
         
         // tap을 위한 cover (textview가 수정 불가 모드라 view에 add한 gesture 안먹음)
         cover = UIView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight))
-        cover.backgroundColor = .red
+        //cover.backgroundColor = .red
         card.addSubview(cover)
         
     }
