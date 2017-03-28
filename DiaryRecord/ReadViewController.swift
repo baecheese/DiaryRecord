@@ -10,8 +10,6 @@ import UIKit
 
 struct ReadState {
     let margen:CGFloat = 30.0
-    var contentWidth:CGFloat = 0.0
-    var contentHeight:CGFloat = 0.0
 }
 
 class ReadViewController: UIViewController {
@@ -35,6 +33,7 @@ class ReadViewController: UIViewController {
         settingTapGesture()
     }
     
+    
     /* 필요한 data */
     func getSelectedDairy() {
         diary = diaryRepository.findOne(id: SharedMemoryContext.get(key: "seletedDiaryID") as! Int)!
@@ -49,25 +48,15 @@ class ReadViewController: UIViewController {
     }
     
     func makeContentCard(date: String, content:String, imageName:String?) {
-        
-        readState.contentWidth = self.view.frame.size.width
-        readState.contentHeight = self.view.frame.size.height
-        
-        let card = CardView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight), imageName: imageName)
-        
-        card.contentTextView.text = content
-        card.date.text = date
-        card.contentTextView.contentOffset = CGPoint.zero
-        if imageName != nil {
-            card.imageSection.image = imageManager.showImage(imageName: imageName!)
-        }
+        let card = CardView(frame: view.bounds, date: date, content: content, imageName: imageName)
+        card.backScrollView.contentOffset = CGPoint.zero
         self.automaticallyAdjustsScrollViewInsets = false
         self.backgroundView.addSubview(card)
         
         // tap을 위한 cover (textview가 수정 불가 모드라 view에 add한 gesture 안먹음)
-        cover = UIView(frame: CGRect(x: 0, y: 0, width: readState.contentWidth, height: readState.contentHeight))
-        //cover.backgroundColor = .red
-        card.addSubview(cover)
+        cover = UIView(frame: backgroundView.bounds)
+        cover.backgroundColor = .black
+        //card.addSubview(cover)----cheesing
         
     }
     
