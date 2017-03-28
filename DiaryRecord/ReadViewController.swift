@@ -22,15 +22,15 @@ class ReadViewController: UIViewController {
     var readState = ReadState()
     var cover = UIView()
     var tap = UITapGestureRecognizer()
+    private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getSelectedDairy()
-        
-        // 추후 테마 넣으면 변수 바꾸기
-        showContent(themeNumber: 0)
-        settingTapGesture()
+        makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
+//        settingTapGesture()
+        makeNavigationItem()
     }
     
     
@@ -41,12 +41,6 @@ class ReadViewController: UIViewController {
     
     /* contents setting 관련 */
     
-    func showContent(themeNumber:Int) {
-        if themeNumber == 0 {
-            makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
-        }
-    }
-    
     func makeContentCard(date: String, content:String, imageName:String?) {
         let card = CardView(frame: view.bounds, date: date, content: content, imageName: imageName)
         card.backScrollView.contentOffset = CGPoint.zero
@@ -54,10 +48,10 @@ class ReadViewController: UIViewController {
         self.backgroundView.addSubview(card)
         
         // tap을 위한 cover (textview가 수정 불가 모드라 view에 add한 gesture 안먹음)
-        cover = UIView(frame: backgroundView.bounds)
-        cover.backgroundColor = .black
-        //card.addSubview(cover)----cheesing
-        
+//        cover = UIView(frame: card.bounds)
+//        cover.backgroundColor = .clear
+//        card.addSubview(cover)
+//        
     }
     
     func settingTapGesture() {
@@ -72,6 +66,36 @@ class ReadViewController: UIViewController {
         let editVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
         self.navigationController?.pushViewController(editVC!, animated: true)
     }
+    
+    func makeNavigationItem() {
+        let fontManager = FontManger()
+        let editBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
+        editBtn.setTitle("edit", for: .normal)
+        editBtn.titleLabel!.font =  UIFont(name: fontManager.naviTitleFont, size: fontManager.naviItemFontSize)
+        editBtn.addTarget(self, action: #selector(ReadViewController.edit), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: editBtn)
+        navigationItem.rightBarButtonItem = item
+        
+        let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let back = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
+        backBtn.setImage(back, for: .normal)
+        backBtn.tintColor = colorManager.tint
+        backBtn.addTarget(self, action: #selector(ReadViewController.back), for: .touchUpInside)
+        let item2 = UIBarButtonItem(customView: backBtn)
+        
+        navigationItem.leftBarButtonItem = item2
+    }
+    
+    func edit() {
+        SharedMemoryContext.set(key: "isWriteMode", setValue: false)
+        let editVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
+        self.navigationController?.pushViewController(editVC!, animated: true)
+    }
+    
+    func back() {
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

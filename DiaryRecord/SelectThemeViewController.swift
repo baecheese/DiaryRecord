@@ -16,6 +16,7 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     private var cell = UITableViewCell()
     private var lastTheme = ThemeRepositroy.sharedInstance.get()
     private var selectTheme:Int?
+    private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,20 +31,24 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func makeNavigationItem() {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        let update = UIImage(named: "update")
-        button.setImage(update, for: .normal)
-        button.addTarget(self, action: #selector(SelectThemeViewController.save), for: .touchUpInside)
-        let item = UIBarButtonItem(customView: button)
+        let updateBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        let update = UIImage(named: "update")?.withRenderingMode(.alwaysTemplate)
+        updateBtn.setImage(update, for: .normal)
+        updateBtn.tintColor = colorManager.tint
+        updateBtn.addTarget(self, action: #selector(SelectThemeViewController.save), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: updateBtn)
         navigationItem.rightBarButtonItem = item
+        item.tintColor = colorManager.tint
         
         let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        let back = UIImage(named: "back")
+        let back = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
         backBtn.setImage(back, for: .normal)
+        backBtn.tintColor = colorManager.tint
         backBtn.addTarget(self, action: #selector(SelectThemeViewController.back), for: .touchUpInside)
         let item2 = UIBarButtonItem(customView: backBtn)
         
         navigationItem.leftBarButtonItem = item2
+        
     }
     
     @objc private func save() {

@@ -26,7 +26,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     let log = Logger.init(logPlace: WriteViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    
+    private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     @IBOutlet var navigartionBar: UINavigationItem!
     @IBOutlet var background: UIView!
     
@@ -43,12 +43,36 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         /* UI 및 기능 세팅 */
         setUpObserver()
         setNavigationTitle()
+        makeNavigationItem()
         makeWriteBox()
         // scrollview content size, 테두리 버튼 - keyboardWillShow method에 설정
     }
     
     override func viewWillLayoutSubviews() {
         writeBox.writeSpace.becomeFirstResponder()
+    }
+    
+    func makeNavigationItem()  {
+        let fontManager = FontManger()
+        let editBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
+        editBtn.setTitle("save", for: .normal)
+        editBtn.titleLabel!.font =  UIFont(name: fontManager.naviTitleFont, size: fontManager.naviItemFontSize)
+        editBtn.addTarget(self, action: #selector(WriteViewController.clickSaveButton), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: editBtn)
+        navigationItem.rightBarButtonItem = item
+        
+        let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let back = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
+        backBtn.setImage(back, for: .normal)
+        backBtn.tintColor = colorManager.tint
+        backBtn.addTarget(self, action: #selector(WriteViewController.back), for: .touchUpInside)
+        let item2 = UIBarButtonItem(customView: backBtn)
+        
+        navigationItem.leftBarButtonItem = item2
+    }
+    
+    func back() {
+        _ = navigationController?.popViewController(animated: true)
     }
     
     /* action */

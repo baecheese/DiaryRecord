@@ -11,9 +11,12 @@ import UIKit
 struct FontManger {
     let headerTextSize:CGFloat = 14.0
     let celltextSize:CGFloat = 18.0
-    let naviTitleFont:String = "Copperplate-Light"
     let headerFont:String = "Copperplate-Light"
     let cellFont:String = "NanumMyeongjo"
+    
+    let naviTitleFontSize:CGFloat = 20.0
+    let naviItemFontSize:CGFloat = 15.0
+    let naviTitleFont:String = "Copperplate-Light"
 }
 
 class MainTableViewController: UITableViewController {
@@ -21,7 +24,7 @@ class MainTableViewController: UITableViewController {
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    private var colorManger = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+    private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private var sortedDate = [String]()
     private let fontManager = FontManger()
     var changeTheme = false
@@ -50,7 +53,7 @@ class MainTableViewController: UITableViewController {
         log.info(message: "앱이 시작되었습니다.")
         navigationFont()
         changeNavigationTheme()
-        view.backgroundColor = colorManger.paper
+        view.backgroundColor = colorManager.paper
         self.tableView.separatorStyle = .none
         
     }
@@ -85,7 +88,7 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
-        headerLabel.backgroundColor = colorManger.date
+        headerLabel.backgroundColor = colorManager.date
         let diarys = diaryRepository.findAll()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
@@ -95,18 +98,22 @@ class MainTableViewController: UITableViewController {
         headerLabel.textAlignment = .right
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
-        headerView.backgroundColor = colorManger.date
+        headerView.backgroundColor = colorManager.date
         headerView.addSubview(headerLabel)
         
         return headerView
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 50.0 // 추후 글자 크기에 따라 다르게 적용 되게 -- cheesing
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
-        cell.backgroundColor = colorManger.paper
+        cell.backgroundColor = colorManager.paper
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
@@ -164,13 +171,13 @@ class MainTableViewController: UITableViewController {
     func navigationFont() {
         navigationItem.title = "diary"
         // Navigation Font
-        navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: 20)!]
+        navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: fontManager.naviTitleFontSize)!]
     }
     
     func changeNavigationTheme() {
-        colorManger = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
-        navigationController?.navigationBar.barTintColor = colorManger.bar
-        navigationController?.navigationBar.tintColor = colorManger.tint
+        colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+        navigationController?.navigationBar.barTintColor = colorManager.bar
+        navigationController?.navigationBar.tintColor = colorManager.tint
         changeTheme = false
     }
 
