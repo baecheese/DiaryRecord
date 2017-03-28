@@ -8,13 +8,27 @@
 
 import UIKit
 
+struct FontManger {
+    let headerTextSize:CGFloat = 14.0
+    let celltextSize:CGFloat = 18.0
+    let headerFont:String = "Copperplate-Light"
+    let cellFont:String = "NanumMyeongjo"
+    
+    let naviTitleFontSize:CGFloat = 20.0
+    let naviItemFontSize:CGFloat = 15.0
+    let naviTitleFont:String = "Copperplate-Light"
+}
+
 class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
-    private let imageManger = ImageFileManager.sharedInstance
+    private let imageManager = ImageFileManager.sharedInstance
+    private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private var sortedDate = [String]()
-
+    private let fontManager = FontManger()
+    var changeTheme = false
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
@@ -27,32 +41,25 @@ class MainTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        
+        if changeTheme == true {
+            viewDidLoad()
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
+        navigationFont()
+        changeNavigationTheme()
+        view.backgroundColor = colorManager.paper
+        self.tableView.separatorStyle = .none
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    /**
-     개발 테스트 용의 임시 액션 처리
-     - parameter sender: no Used
-    */
-    @IBAction func tempAction(_ sender: Any) {
-        // 전체 다이어리 로그 찍기
-        log.info(message: "\(diaryRepository.getAll())")
-        log.info(message: "\(imageManger.getImageFileAllList())")
-    }
-
-    /**
-     개발 테스트 용의 임시 새로고침
-     */
-    @IBAction func refreshAction(_ sender: UIBarButtonItem) {
-        self.tableView.reloadData()
     }
     
     @IBAction func moveWritePage(_ sender: UIBarButtonItem) {
@@ -73,22 +80,45 @@ class MainTableViewController: UITableViewController {
         return sectionContentRowCount
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        // section title 생성을 위한 빈 메소드
+        return "date text"
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
+        headerLabel.backgroundColor = colorManager.date
+        let diarys = diaryRepository.findAll()
+        // 최신 순 날짜 Array 정렬
+        sortedDate = Array(diarys.keys).sorted(by: >)
+        let date = sortedDate[section]
+        headerLabel.text = "\(date)"
+        headerLabel.font = UIFont(name: fontManager.headerFont, size: fontManager.headerTextSize)
+        headerLabel.textAlignment = .right
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        headerView.backgroundColor = colorManager.date
+        headerView.addSubview(headerLabel)
+        
+        return headerView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 50.0 // 추후 글자 크기에 따라 다르게 적용 되게 -- cheesing
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.findAll()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
+        cell.backgroundColor = colorManager.paper
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
         
         return cell
-    }
-    
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let diarys = diaryRepository.findAll()
-        // 최신 순 날짜 Array 정렬
-        sortedDate = Array(diarys.keys).sorted(by: >)
-        return sortedDate[section]
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -109,7 +139,7 @@ class MainTableViewController: UITableViewController {
         if editingStyle == .delete
         {
             diaryRepository.delete(id: seletedDiaryID)
-            imageManger.deleteImageFile(diaryID: seletedDiaryID)
+            imageManager.deleteImageFile(diaryID: seletedDiaryID)
             // 삭제 후, 다이어리를 찾았을 때
             let diarys = self.diaryRepository.findAll()
             /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
@@ -136,6 +166,19 @@ class MainTableViewController: UITableViewController {
         let diarys:[String : Array<Diary>] = diaryRepository.findAll()
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
+    }
+    
+    func navigationFont() {
+        navigationItem.title = "diary"
+        // Navigation Font
+        navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: fontManager.naviTitleFontSize)!]
+    }
+    
+    func changeNavigationTheme() {
+        colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+        navigationController?.navigationBar.barTintColor = colorManager.bar
+        navigationController?.navigationBar.tintColor = colorManager.tint
+        changeTheme = false
     }
 
 }

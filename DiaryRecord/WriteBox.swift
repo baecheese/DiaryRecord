@@ -9,12 +9,8 @@
 import UIKit
 
 struct WriteFrame {
-    var lineSpace:CGFloat = 30.0
+    var lineSpace:CGFloat = 10.0
     let fontSize:CGFloat = 17.0
-}
-
-protocol WriteBoxDelegate {
-    func onTouchUpInsideWriteSpace()
 }
 
 extension UIViewController : UITextViewDelegate {
@@ -28,7 +24,7 @@ extension UIViewController : UITextViewDelegate {
 
         
         let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.photoPressed))
-        let cancelButton = UIBarButtonItem(title: "x", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.cancelPressed))
+        let cancelButton = UIBarButtonItem(image: #imageLiteral(resourceName: "down.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.cancelPressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         toolBar.setItems([cancelButton, spaceButton, galleryButton], animated: false)
         toolBar.isUserInteractionEnabled = true
@@ -39,11 +35,11 @@ extension UIViewController : UITextViewDelegate {
     }
     
     func photoPressed() {
-        view.endEditing(true)
+        
     }
     
     func cancelPressed() {
-        view.endEditing(true)
+        
     }
 }
 
@@ -53,8 +49,6 @@ class WriteBox: UIView, UITextViewDelegate {
     var writeSpace = UITextView()
     var writeframe = WriteFrame()
     var imageView = UIImageView()
-    
-    var delegate:WriteBoxDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,13 +62,11 @@ class WriteBox: UIView, UITextViewDelegate {
 
     func makeWriteBox() {
         writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
-        /*
-        writeSpace.layer.borderColor = UIColor.lightGray.cgColor
-        writeSpace.layer.borderWidth = 0.5
-         */
         writeSpace.isEditable = true
+        let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+        writeSpace.backgroundColor = colorManager.paper
         // 줄간격
-        let attributedString = NSMutableAttributedString(string: "")
+        let attributedString = NSMutableAttributedString(string: " ")
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = writeframe.lineSpace
         attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
@@ -84,20 +76,9 @@ class WriteBox: UIView, UITextViewDelegate {
         writeSpace.translatesAutoresizingMaskIntoConstraints = false
         // 폰트 및 크기
         writeSpace.font = UIFont(name: "NanumMyeongjo", size: writeframe.fontSize)
+        // 키보드 자동완성 turn off
+        writeSpace.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(writeSpace)
-    }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        writeSpace.resignFirstResponder()
-        usingTexiView(message: "textView click")
-        return true
-    }
-    
-    /* delegate */
-    func usingTexiView(message:String) {
-        if message == "textView click" {
-            delegate?.onTouchUpInsideWriteSpace()
-        }
     }
     
 }
