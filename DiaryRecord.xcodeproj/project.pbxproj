@@ -16,6 +16,11 @@
 		030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */; };
 		030DB1021E4186F3004E3532 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1011E4186F3004E3532 /* Diary.swift */; };
 		030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1031E42285C004E3532 /* DiaryRepository.swift */; };
+		0326B94E1E8B8B93006B20BA /* SpecialDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94D1E8B8B93006B20BA /* SpecialDay.swift */; };
+		0326B9501E8B8CA1006B20BA /* SpecialDayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */; };
+		0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9511E8B981F006B20BA /* WedgetManager.swift */; };
+		0326B9581E8BB008006B20BA /* SelectWedgetModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9571E8BB008006B20BA /* SelectWedgetModeViewController.swift */; };
+		0326B95A1E8BB7F4006B20BA /* SelectWedgetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */; };
 		0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355407D1E7EA5920093A244 /* ColorManager.swift */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
 		037522931E850BE20001B24F /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037522921E850BE20001B24F /* NotificationCenter.framework */; };
@@ -115,6 +120,11 @@
 		030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		030DB1011E4186F3004E3532 /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		030DB1031E42285C004E3532 /* DiaryRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryRepository.swift; sourceTree = "<group>"; };
+		0326B94D1E8B8B93006B20BA /* SpecialDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDay.swift; sourceTree = "<group>"; };
+		0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDayRepository.swift; sourceTree = "<group>"; };
+		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
+		0326B9571E8BB008006B20BA /* SelectWedgetModeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWedgetModeViewController.swift; sourceTree = "<group>"; };
+		0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWedgetTableViewController.swift; sourceTree = "<group>"; };
 		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		035D7B991E48BE6800F66B24 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,6 +310,8 @@
 				037692901E51BA1E00C0CCCB /* ReadViewController.swift */,
 				037624751E7E553F002C069A /* SettingTableViewController.swift */,
 				03A7A26F1E817D160074CCFE /* SelectThemeViewController.swift */,
+				0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */,
+				0326B9571E8BB008006B20BA /* SelectWedgetModeViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -310,6 +322,8 @@
 				030DB0CB1E407381004E3532 /* AppDelegate.swift */,
 				ABC24D8B487FA3E087DB037B /* ImageFileManager.swift */,
 				0355407D1E7EA5920093A244 /* ColorManager.swift */,
+				0326B9511E8B981F006B20BA /* WedgetManager.swift */,
+				03A7A28D1E8271210074CCFE /* ThemeRepositroy.swift */,
 				03B6EA901E61677B002CFB29 /* Logger */,
 				03B6EA8E1E616768002CFB29 /* Support */,
 			);
@@ -338,7 +352,8 @@
 			children = (
 				030DB1031E42285C004E3532 /* DiaryRepository.swift */,
 				030DB1011E4186F3004E3532 /* Diary.swift */,
-				03A7A28D1E8271210074CCFE /* ThemeRepositroy.swift */,
+				0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */,
+				0326B94D1E8B8B93006B20BA /* SpecialDay.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -760,9 +775,12 @@
 				037624761E7E553F002C069A /* SettingTableViewController.swift in Sources */,
 				03A7A2701E817D160074CCFE /* SelectThemeViewController.swift in Sources */,
 				03A7A28E1E8271210074CCFE /* ThemeRepositroy.swift in Sources */,
+				0326B94E1E8B8B93006B20BA /* SpecialDay.swift in Sources */,
+				0326B9501E8B8CA1006B20BA /* SpecialDayRepository.swift in Sources */,
 				03D2ADA01E508926002D4287 /* Extensions.swift in Sources */,
 				030DB0FE1E4074E1004E3532 /* WriteViewController.swift in Sources */,
 				030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */,
+				0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */,
 				037692931E54885500C0CCCB /* CardView.swift in Sources */,
 				037692911E51BA1E00C0CCCB /* ReadViewController.swift in Sources */,
 				0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */,
@@ -770,6 +788,8 @@
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
+				0326B95A1E8BB7F4006B20BA /* SelectWedgetTableViewController.swift in Sources */,
+				0326B9581E8BB008006B20BA /* SelectWedgetModeViewController.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
 				03C702B41E84CE6E00B15033 /* ImageBox.swift in Sources */,
 				ABC2483A4D7044BDBA0F1310 /* ImageFileManager.swift in Sources */,

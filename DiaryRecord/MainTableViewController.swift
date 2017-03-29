@@ -77,6 +77,7 @@ class MainTableViewController: UITableViewController {
         let diarys = diaryRepository.findAll()
         let sortedDate = Array(diarys.keys).sorted(by: >)
         let sectionContentRowCount = (diarys[sortedDate[section]]?.count)!
+        
         return sectionContentRowCount
     }
     

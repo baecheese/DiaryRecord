@@ -11,7 +11,7 @@ import UIKit
 struct SettingMenu {
     let setionList:[String] = ["test", "setting", "icould", "help", "Resorce Licenses"]
     let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제"]
-    let basicList:[String] = ["테마", "글자 크기", "비밀번호 설정", "Touch로 잠금"]
+    let basicList:[String] = ["테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금"]
     let iCouldList:[String] = ["계정", "로그인 / 로그아웃"]
     let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
     let licensesInfo:[String] = ["licenses info"]
@@ -80,7 +80,6 @@ class SettingTableViewController: UITableViewController {
         return cell
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selected = tableView.cellForRow(at: indexPath)
         selected?.setSelected(false, animated: true)
@@ -96,14 +95,28 @@ class SettingTableViewController: UITableViewController {
                 deleteAllImageFile()
             }
         }
-        
+        /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
         if indexPath.section == 1 {
             // 테마 선택
             if indexPath.row == 0 {
                 let selectTheme = self.storyboard?.instantiateViewController(withIdentifier: "SelectThemeViewController") as? SelectThemeViewController
                 self.navigationController?.pushViewController(selectTheme!, animated: true)
             }
+            // 위젯 설정
+            if indexPath.row == 1{
+                let wedgetMode = SelectWedgetTableViewController()
+                self.navigationController?.pushViewController(wedgetMode, animated: true)
+            }
         }
+        // iCouldList - ["계정", "로그인 / 로그아웃"]
+        if indexPath.section == 2 {
+            
+        }
+        // infoList - ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
+        if indexPath.section == 3 {
+            
+        }
+        // licenses - ["licenses info"]
         if indexPath.section == 4 {
             let storyBoard = UIStoryboard(name: "Main", bundle:nil)
             let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController

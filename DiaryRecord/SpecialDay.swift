@@ -9,11 +9,7 @@
 import Foundation
 import RealmSwift
 
+/** SpecialDay은 dairy의 ID만 저장해놓음 */
 class SpecialDay: Object {
-    
-// Specify properties to ignore (Realm won't persist these)
-    
-//  override static func ignoredProperties() -> [String] {
-//    return []
-//  }
+    dynamic var diaryID:Int = 0
 }
