@@ -23,7 +23,7 @@ class SettingTableViewController: UITableViewController {
     private let settingMenu = SettingMenu()
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    private let colorManger = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+    private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let fontManger = FontManger()
     
     override func viewDidLoad() {
@@ -56,13 +56,13 @@ class SettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
-        headerLabel.backgroundColor = colorManger.date
+        headerLabel.backgroundColor = colorManager.date
         headerLabel.text = "\(settingMenu.setionList[section])"
         headerLabel.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
         headerLabel.textAlignment = .right
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
-        headerView.backgroundColor = colorManger.date
+        headerView.backgroundColor = colorManager.date
         headerView.addSubview(headerLabel)
         
         return headerView
@@ -73,7 +73,7 @@ class SettingTableViewController: UITableViewController {
         
         let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.iCouldList, settingMenu.infoList, settingMenu.licensesInfo]
         cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
-        cell.backgroundColor = colorManger.paper
+        cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
         cell.textLabel?.text = menuNameListInSection[indexPath.row]
 
@@ -109,6 +109,21 @@ class SettingTableViewController: UITableViewController {
             let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController
             self.navigationController?.pushViewController(LicenseVC, animated: true)
         }
+    }
+    
+    func makeNavigationItem()  {
+        let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let back = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
+        backBtn.setImage(back, for: .normal)
+        backBtn.tintColor = colorManager.tint
+        backBtn.addTarget(self, action: #selector(SettingTableViewController.back), for: .touchUpInside)
+        let item2 = UIBarButtonItem(customView: backBtn)
+        
+        navigationItem.leftBarButtonItem = item2
+    }
+    
+    func back() {
+        _ = navigationController?.popViewController(animated: true)
     }
     
     

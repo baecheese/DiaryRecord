@@ -72,7 +72,15 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     func back() {
-        _ = navigationController?.popViewController(animated: true)
+        writeBox.writeSpace.endEditing(true)
+        if 1 < writeBox.writeSpace.text.characters.count || (imageData != nil) {
+            showAlert(message: "Unsaved changes will be discarded if you go back", haveCancel: true, doneHandler: { (UIAlertAction) in
+                _ = self.navigationController?.popViewController(animated: true)
+            }, cancelHandler: nil)
+        }
+        else {
+             _ = self.navigationController?.popViewController(animated: true)
+        }
     }
     
     /* action */
@@ -105,7 +113,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         
         if false == saveSuccess {
             showActivityIndicatory(start: false)
-            showAlert(message: saveMethodResultMessage)
+            showAlert(message: saveMethodResultMessage, haveCancel: false, doneHandler: nil, cancelHandler: nil)
         }
         else {
             // 저장 성공 시
@@ -325,12 +333,14 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         
     }
     
-    func showAlert(message:String)
+    func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
     {
-        let alertController = UIAlertController(title: "error", message:
+        let alertController = UIAlertController(title: "Notice", message:
             message, preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.default,handler: nil))
-        
+        alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default,handler: doneHandler))
+        if haveCancel {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
+        }
         self.present(alertController, animated: true, completion: nil)
     }
     
