@@ -11,7 +11,6 @@ import UIKit
 class SelectWedgetTableViewController: UITableViewController {
 
     let log = Logger(logPlace: SelectThemeViewController.self)
-    private var cell = UITableViewCell()
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let wedgetModeList = WedgetMode().list
     private let lastWedgetMode = WedgetManager.sharedInstance.getMode()
@@ -20,6 +19,7 @@ class SelectWedgetTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log.info(message: "lastWedgetMode : \(lastWedgetMode)")
         makeNavigationItem()
     }
     
@@ -49,8 +49,6 @@ class SelectWedgetTableViewController: UITableViewController {
         let wedgetManager = WedgetManager.sharedInstance
         if lastWedgetMode != selectedWedgetMode && selectedWedgetMode != nil {
             wedgetManager.setMode(number: selectedWedgetMode!)
-            log.info(message: "new wedgetMode \(wedgetManager.getMode())")
-            // 위젯 바뀌는 코드 넣기
         }
         navigationController?.popToRootViewController(animated: true)
     }
@@ -66,23 +64,14 @@ class SelectWedgetTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-    let wedgetMode = ["wedget mode"]
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return wedgetMode.count
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return wedgetModeList.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectWedget", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectWedgetCell", for: indexPath)
         cell.textLabel?.text = wedgetModeList[indexPath.row]
-        
         if indexPath.row == lastWedgetMode {
             cell.accessoryType = .checkmark
         }
@@ -99,6 +88,7 @@ class SelectWedgetTableViewController: UITableViewController {
         }
         tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
         selectedWedgetMode = indexPath.row
+        log.info(message: "selectedWedgetMode : \(selectedWedgetMode)")
         let selected = tableView.cellForRow(at: indexPath)
         selected?.setSelected(false, animated: true)
     }

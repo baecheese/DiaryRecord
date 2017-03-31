@@ -10,7 +10,7 @@ import UIKit
 
 /* 0. 랜덤 (default) / 1. 스페셜데이: 1개만 / 2. 과거의 오늘 **/
 struct WedgetMode {
-    let list = ["랜덤", "스페셜데이", "과거의 오늘"]
+    let list = ["랜덤", "과거의 오늘", "특별한 날 (사용자 지정)"]
 }
 
 class WedgetManager: NSObject {
@@ -24,7 +24,7 @@ class WedgetManager: NSObject {
     
     let log = Logger(logPlace: WedgetManager.self)
     
-    /* 0. 랜덤 (default) / 1. 스페셜데이: 1개만 / 2. 과거의 오늘 **/
+    /* 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 **/
     func setMode(number:Int) {
         defaults.set(number, forKey: "wedgetMode")
         log.info(message: "wedgetMode 저장 완료 : \(getMode())")
@@ -40,6 +40,6 @@ class WedgetManager: NSObject {
         if defaults.value(forKey: "wedgetMode") == nil {
             return setAndGetMode(number: 0)
         }
-        return defaults.value(forKey: "theme") as! Int
+        return defaults.value(forKey: "wedgetMode") as! Int
     }
 }

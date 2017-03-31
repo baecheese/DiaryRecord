@@ -104,7 +104,7 @@ class SettingTableViewController: UITableViewController {
             }
             // 위젯 설정
             if indexPath.row == 1{
-                let wedgetMode = SelectWedgetTableViewController()
+                let wedgetMode = self.storyboard?.instantiateViewController(withIdentifier: "SelectWedgetTableViewController") as! SelectWedgetTableViewController
                 self.navigationController?.pushViewController(wedgetMode, animated: true)
             }
         }
