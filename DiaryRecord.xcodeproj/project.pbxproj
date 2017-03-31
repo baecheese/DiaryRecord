@@ -123,6 +123,8 @@
 		0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDayRepository.swift; sourceTree = "<group>"; };
 		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
 		0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWedgetTableViewController.swift; sourceTree = "<group>"; };
+		03522BB01E8E36D900D86E90 /* DiaryRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaryRecord.entitlements; sourceTree = "<group>"; };
+		03522BB11E8E3BEB00D86E90 /* BookmarkExtention.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookmarkExtention.entitlements; sourceTree = "<group>"; };
 		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		035D7B991E48BE6800F66B24 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,6 +243,7 @@
 		030DB0CA1E407381004E3532 /* DiaryRecord */ = {
 			isa = PBXGroup;
 			children = (
+				03522BB01E8E36D900D86E90 /* DiaryRecord.entitlements */,
 				030DB0D71E407381004E3532 /* Info.plist */,
 				03C043651E78F30E0075C09E /* Main.storyboard */,
 				030DB0D41E407381004E3532 /* LaunchScreen.storyboard */,
@@ -273,6 +276,7 @@
 		037522941E850BE20001B24F /* BookmarkExtention */ = {
 			isa = PBXGroup;
 			children = (
+				03522BB11E8E3BEB00D86E90 /* BookmarkExtention.entitlements */,
 				037522951E850BE20001B24F /* TodayViewController.swift */,
 				037522971E850BE20001B24F /* MainInterface.storyboard */,
 				0375229A1E850BE20001B24F /* Info.plist */,
@@ -519,6 +523,14 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3Z5E8777P2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					030DB0DB1E407381004E3532 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -542,6 +554,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3Z5E8777P2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -973,6 +990,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DiaryRecord/DiaryRecord.entitlements;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = DiaryRecord/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -988,6 +1006,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DiaryRecord/DiaryRecord.entitlements;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = DiaryRecord/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1090,6 +1109,7 @@
 		0375229E1E850BE20001B24F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BookmarkExtention/BookmarkExtention.entitlements;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = BookmarkExtention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1103,6 +1123,7 @@
 		0375229F1E850BE20001B24F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BookmarkExtention/BookmarkExtention.entitlements;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = BookmarkExtention/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";

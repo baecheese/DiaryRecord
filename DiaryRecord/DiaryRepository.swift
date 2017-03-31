@@ -27,8 +27,8 @@ class DiaryRepository: NSObject {
     
     static let sharedInstance: DiaryRepository = DiaryRepository()
     
-    /* for test **/
-    func getAll() -> Results<Diary> {
+    /* Results<Diary> **/
+    func getAllList() -> Results<Diary> {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         return diarys
     }
@@ -138,7 +138,7 @@ class DiaryRepository: NSObject {
        ]
      ]
      */
-    func findAll() -> [String : Array<Diary>] {
+    func getAllByTheDate() -> [String : Array<Diary>] {
         var diaryDict = [String : Array<Diary>]()
         let diarys:Results<Diary> = realm.objects(Diary.self)
         

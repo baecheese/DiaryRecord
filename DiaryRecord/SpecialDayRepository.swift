@@ -51,7 +51,7 @@ class SpecialDayRepository: NSObject {
         return (true, "저장 완료")
     }
 //    
-//    func findAll() -> Diary? {
+//    func getAllByTheDate() -> Diary? {
 //        
 //        let specialDayIDs:Results<SpecialDay> = realm.objects(SpecialDay.self)
 //        

@@ -32,7 +32,7 @@ class MainTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
-        let diarys = diaryRepository.findAll()
+        let diarys = diaryRepository.getAllByTheDate()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         DispatchQueue.main.async{
@@ -69,12 +69,12 @@ class MainTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        let diarys = diaryRepository.findAll()
+        let diarys = diaryRepository.getAllByTheDate()
         return diarys.keys.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let diarys = diaryRepository.findAll()
+        let diarys = diaryRepository.getAllByTheDate()
         let sortedDate = Array(diarys.keys).sorted(by: >)
         let sectionContentRowCount = (diarys[sortedDate[section]]?.count)!
         
@@ -90,7 +90,7 @@ class MainTableViewController: UITableViewController {
     {
         let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
         headerLabel.backgroundColor = colorManager.date
-        let diarys = diaryRepository.findAll()
+        let diarys = diaryRepository.getAllByTheDate()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
         let date = sortedDate[section]
@@ -111,7 +111,7 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let diarys = diaryRepository.findAll()
+        let diarys = diaryRepository.getAllByTheDate()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
         cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
         cell.backgroundColor = colorManager.paper
@@ -142,7 +142,7 @@ class MainTableViewController: UITableViewController {
             diaryRepository.delete(id: seletedDiaryID)
             imageManager.deleteImageFile(diaryID: seletedDiaryID)
             // 삭제 후, 다이어리를 찾았을 때
-            let diarys = self.diaryRepository.findAll()
+            let diarys = self.diaryRepository.getAllByTheDate()
             /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
              -> 마지막 diary일 땐 그냥 비어있는 diary 데이터로 tableView reload data */
             if false == isLastDairy(diarys: diarys) {
@@ -164,7 +164,7 @@ class MainTableViewController: UITableViewController {
     }
     
     private func getSelectedDiaryID(section:Int, row:Int) -> Int {
-        let diarys:[String : Array<Diary>] = diaryRepository.findAll()
+        let diarys:[String : Array<Diary>] = diaryRepository.getAllByTheDate()
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
     }

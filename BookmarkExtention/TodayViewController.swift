@@ -15,7 +15,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        label.text = getData()
         
+    }
+    
+    func getData() -> String {
+        if let groupDefaults = UserDefaults(suiteName: "group.com.baecheese.DiaryRecord"),
+            let data = groupDefaults.value(forKey: "WedgetContents") as? String {
+            return data
+        }
+        return "위젯 설정을 해주세요"
     }
     
     override func didReceiveMemoryWarning() {

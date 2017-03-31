@@ -143,7 +143,7 @@ class SettingTableViewController: UITableViewController {
     /* test용 */
     
     func allDiaryList() {
-        log.info(message: "allDiaryList : \(diaryRepository.getAll())")
+        log.info(message: "allDiaryList : \(diaryRepository.getAllList())")
     }
     
     func allImageList() {
