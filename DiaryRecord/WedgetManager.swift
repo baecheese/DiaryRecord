@@ -45,35 +45,44 @@ class WedgetManager: NSObject {
         return localDefaults.value(forKey: "wedgetMode") as! Int
     }
     
-    func setContentsInWedget(mode:Int) {
+    private func setContentsInWedget(mode:Int) {
+        if (mode == 0) {
+            // default 위젯 (랜덤)
+            groupDefaults?.set(getRandom(), forKey: "WedgetContents")
+        }
         if (mode == 1) {
-            localDefaults.set(todayOfPast(), forKey: "WedgetContents")
-            return;
+            groupDefaults?.set(todayOfPast(), forKey: "WedgetContents")
         }
         if (mode == 2) {
-            localDefaults.set(specialDay(), forKey: "WedgetContents")
-            return;
+            groupDefaults?.set(specialDay(), forKey: "WedgetContents")
         }
-        // default 위젯 (랜덤)
-        localDefaults.set(getRandom(), forKey: "WedgetContents")
+        log.info(message: "getWedgetContents : \(getWedgetContents())")
     }
     
-    func getRandom() -> String? {
+    private func getRandom() -> String? {
         let allDairyList = DiaryRepository.sharedInstance.getAllList()
         let lastIndex = allDairyList.count - 1
         let randomNo = arc4random_uniform(UInt32(lastIndex))// 0 ~ lastIndex
         let selectDairy = DiaryRepository.sharedInstance.findOne(id: Int(randomNo))
-        
+        log.info(message: "Random Dairy Content: \(selectDairy?.content)")
         return selectDairy?.content
     }
     
-    func todayOfPast() -> String {
+    private func todayOfPast() -> String {
         return "과거의 오늘 내용"
     }
     
-    func specialDay() -> String {
+    private func specialDay() -> String {
         return "특별한날 (사용자 지정) 내용"
     }
     
+    
+    private func getWedgetContents() -> String {
+        if let groupDefaults = UserDefaults(suiteName: "group.com.baecheese.DiaryRecord"),
+            let data = groupDefaults.value(forKey: "WedgetContents") as? String {
+            return data
+        }
+        return "위젯 설정 내용 없음"
+    }
     
 }
