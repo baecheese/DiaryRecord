@@ -51,6 +51,7 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
+        changeWedget()
         navigationFont()
         changeNavigationTheme()
         view.backgroundColor = colorManager.paper
@@ -180,6 +181,14 @@ class MainTableViewController: UITableViewController {
         navigationController?.navigationBar.barTintColor = colorManager.bar
         navigationController?.navigationBar.tintColor = colorManager.tint
         changeTheme = false
+    }
+    
+    func changeWedget() {
+        if TimeInterval().passADay() {
+            let wedget = WedgetManager.sharedInstance
+            wedget.setContentsInWedget(mode: wedget.getMode())
+            log.info(message: "pass a day and changeWedget")
+        }
     }
 
 }

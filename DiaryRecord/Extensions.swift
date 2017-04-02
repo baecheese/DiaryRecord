@@ -104,4 +104,23 @@ extension TimeInterval {
         let minusSecondsAmount = (TimeInterval)(secondAmount)
         return self - minusSecondsAmount
     }
+    
+    func getBeforeDayData() -> TimeInterval {
+        let defaults = UserDefaults.standard
+        if defaults.value(forKey: "beforeDay") == nil {
+            let nowStart = TimeInterval().now().dayStartTimeInterval()
+            defaults.set(nowStart, forKey: "beforeDay")
+        }
+        return defaults.value(forKey: "beforeDay") as! TimeInterval
+    }
+    
+    func passADay() -> Bool {
+        let beforeDayStart = getBeforeDayData()
+        let nowStart = TimeInterval().now().dayStartTimeInterval()
+        if beforeDayStart < nowStart  {
+            return true
+        }
+        return false
+    }
+    
 }

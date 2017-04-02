@@ -45,7 +45,7 @@ class WedgetManager: NSObject {
         return localDefaults.value(forKey: "wedgetMode") as! Int
     }
     
-    private func setContentsInWedget(mode:Int) {
+    func setContentsInWedget(mode:Int) {
         if (mode == 0) {
             // default 위젯 (랜덤)
             groupDefaults?.set(getRandom(), forKey: "WedgetContents")

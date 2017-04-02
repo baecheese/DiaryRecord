@@ -48,7 +48,7 @@ class DiaryRepository: NSObject {
                 }
                 diary.timeStamp = timeStamp
                 diary.content = content
-                if (content == "") {
+                if (content == "" || content == " ") {
                     throw ContentsSaveError.contentsIsEmpty
                 }
                 else if (content.characters.count > 1000) {
@@ -62,7 +62,7 @@ class DiaryRepository: NSObject {
         }
         catch ContentsSaveError.contentsIsEmpty {
             log.warn(message: "contentsIsEmpty")
-            return (false, "내용이 비어있습니다.")
+            return (false, "The pages are blank.")
         }
         catch ContentsSaveError.contentsSizeIsOver {
             log.warn(message: "contentsIsOver")
