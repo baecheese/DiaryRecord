@@ -15,9 +15,39 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setWedgetSize()
         label.text = getData()
-        
     }
+    
+    func setWedgetSize() {
+        if #available(iOSApplicationExtension 10.0, *) {
+            extensionContext?.widgetLargestAvailableDisplayMode = .expanded
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if activeDisplayMode == .expanded {
+            preferredContentSize = CGSize(width: 0.0, height: 200.0)
+        } else if activeDisplayMode == .compact {
+            preferredContentSize = maxSize
+        }
+    }
+    
+    func setBackImage() {
+        if nil == getImage() {
+            
+        }
+    }
+    
+    func getImage() -> UIImage? {
+//        if  {
+//            
+//        }
+        return nil
+    }
+    
     
     func getData() -> String {
         if let groupDefaults = UserDefaults(suiteName: "group.com.baecheese.DiaryRecord"),
@@ -26,6 +56,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
         return "위젯 설정을 해주세요"
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

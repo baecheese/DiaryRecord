@@ -21,8 +21,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
-                                <rect key="frame" x="20" y="8" width="280" height="21"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wedget.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="AxE-xC-oSg">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="test" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
+                                <rect key="frame" x="16" y="8" width="280" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -31,8 +34,12 @@
                         <constraints>
                             <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" symbolic="YES" id="0Q0-KW-PJ6"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" constant="20" symbolic="YES" id="6Vq-gs-PHe"/>
+                            <constraint firstItem="AxE-xC-oSg" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="BjI-ul-oXp"/>
+                            <constraint firstAttribute="bottom" secondItem="AxE-xC-oSg" secondAttribute="bottom" id="I1T-rn-UKd"/>
                             <constraint firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="20" symbolic="YES" id="L8K-9R-egU"/>
+                            <constraint firstItem="AxE-xC-oSg" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="cMd-AK-zQq"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" symbolic="YES" id="mYS-Cv-VNx"/>
+                            <constraint firstAttribute="trailing" secondItem="AxE-xC-oSg" secondAttribute="trailing" id="zaI-9N-Jzy"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -47,6 +54,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="25.600000000000001" y="36.431784107946029"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="wedget.jpg" width="533" height="300"/>
+    </resources>
 </document>

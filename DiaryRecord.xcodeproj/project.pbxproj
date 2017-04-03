@@ -20,6 +20,7 @@
 		0326B9501E8B8CA1006B20BA /* SpecialDayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */; };
 		0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9511E8B981F006B20BA /* WedgetManager.swift */; };
 		0326B95A1E8BB7F4006B20BA /* SelectWedgetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */; };
+		03462A3F1E913B9E00A2E5D1 /* wedget.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 03462A3E1E913B9E00A2E5D1 /* wedget.jpg */; };
 		0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355407D1E7EA5920093A244 /* ColorManager.swift */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
 		037522931E850BE20001B24F /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037522921E850BE20001B24F /* NotificationCenter.framework */; };
@@ -123,6 +124,7 @@
 		0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDayRepository.swift; sourceTree = "<group>"; };
 		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
 		0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWedgetTableViewController.swift; sourceTree = "<group>"; };
+		03462A3E1E913B9E00A2E5D1 /* wedget.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wedget.jpg; sourceTree = "<group>"; };
 		03522BB01E8E36D900D86E90 /* DiaryRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaryRecord.entitlements; sourceTree = "<group>"; };
 		03522BB11E8E3BEB00D86E90 /* BookmarkExtention.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookmarkExtention.entitlements; sourceTree = "<group>"; };
 		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			children = (
 				03522BB11E8E3BEB00D86E90 /* BookmarkExtention.entitlements */,
 				037522951E850BE20001B24F /* TodayViewController.swift */,
+				03462A3E1E913B9E00A2E5D1 /* wedget.jpg */,
 				037522971E850BE20001B24F /* MainInterface.storyboard */,
 				0375229A1E850BE20001B24F /* Info.plist */,
 			);
@@ -637,6 +640,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				037522991E850BE20001B24F /* MainInterface.storyboard in Resources */,
+				03462A3F1E913B9E00A2E5D1 /* wedget.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
