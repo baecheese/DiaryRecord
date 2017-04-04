@@ -8,17 +8,22 @@
 
 import UIKit
 
-/* 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 **/
+/** 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 */
 struct WedgetMode {
     let list = ["랜덤", "과거의 오늘", "특별한 날 (사용자 지정)"]
 }
 
 struct GroupKeys {
     let suiteName = "group.com.baecheese.DiaryRecord"
+    let id = "ID"
     let contents = "WedgetContents"
     let image = "ImageFile"
 }
 
+/** GroupKeys : let suiteName = "group.com.baecheese.DiaryRecord" /
+ let id = "ID"  /
+ let contents = "WedgetContents"  /
+ let image = "ImageFile" */
 class WedgetManager: NSObject {
     
     let log = Logger(logPlace: WedgetManager.self)
@@ -58,42 +63,55 @@ class WedgetManager: NSObject {
         return localDefaults.value(forKey: "wedgetMode") as! Int
     }
     
-    
-    private var selectDiary = Diary()
-    
     func setContentsInWedget(mode:Int) {
-        if (mode == 0) {
-            // default 위젯 (랜덤)
-            groupDefaults?.set(getRandom(), forKey: wedgetGroupKey.contents)
-        }
-        if (mode == 1) {
-            groupDefaults?.set(todayOfPast(), forKey: wedgetGroupKey.contents)
-        }
-        if (mode == 2) {
-            groupDefaults?.set(specialDay(), forKey: wedgetGroupKey.contents)
-        }
-        if nil != selectDiary.imageName {
-            let image = imageManager.showImage(imageName: selectDiary.imageName!)
-            let imageData = UIImagePNGRepresentation(image!)
-            saveImage(data: imageData!)
-        }
-        if nil == selectDiary.imageName && true == haveBeforeImage() {
+        var diary:Diary? = nil
+        
+        if haveBeforeImage() {
             deleteBeforeImage()
         }
         
+        if (mode == 0) {
+            // default 위젯 (랜덤)
+            diary = getRandom()
+        }
+        if (mode == 1) {
+            // 과거의 오늘
+            diary = todayOfPast()
+            if nil == todayOfPast() {
+                saveContents(contents: "과거의 오늘 일기가 없습니다.")
+                return;
+            }
+        }
+        if (mode == 2) {
+            // 저장한 특별한 날 가져오기
+            diary = specialDay()
+            if nil == diary {
+                saveContents(contents: "특별한 날 지정이 없습니다.")
+                return;
+            }
+        }
+        
+        saveContents(contents: (diary?.content)!)
+        saveImage(imageName: diary?.imageName)
+//        saveID(id: ??)
         log.info(message: "getWedgetContents : \(getWedgetContents())")
     }
     
-    private func getRandom() -> String? {
+    private func saveContents(contents:String) {
+        groupDefaults?.set(contents, forKey: wedgetGroupKey.contents)
+    }
+    
+    private func getRandom() -> Diary {
         let allDairyList = diaryRepository.getAllList()
         let lastIndex = allDairyList.count - 1
         let randomNo = arc4random_uniform(UInt32(lastIndex))// 0 ~ lastIndex
-        selectDiary = diaryRepository.findOne(id: Int(randomNo))!
+        let selectDiary = diaryRepository.findOne(id: Int(randomNo))!
         log.info(message: "Random Dairy Content: \(selectDiary.content)")
-        return selectDiary.content
+        return selectDiary
     }
     
-    private func todayOfPast() -> String? {
+    private func todayOfPast() -> Diary? {
+        var selectDiary = Diary()
         let allDate = Array(diaryRepository.getAllByTheDate().keys)
         let today = TimeInterval().now().getYYMMDD()
         var todayOfPast:[Diary] = []
@@ -107,25 +125,40 @@ class WedgetManager: NSObject {
             let lastIndex = todayOfPast.count - 1
             let randomIndex = Int(arc4random_uniform(UInt32(lastIndex)))// 0 ~ lastIndex
             selectDiary = todayOfPast[randomIndex]
-            return selectDiary.content
+            return selectDiary
         }
-        
-        selectDiary = Diary()
-        return " 과거의 오늘 \n \(TimeInterval().now().minusYear(yearAmount: 1).getYYMMDD()) \n 일기가 없습니다."
+        log.info(message: " 과거의 오늘 \n \(TimeInterval().now().minusYear(yearAmount: 1).getYYMMDD()) \n 일기가 없습니다.")
+        return nil
     }
     
     // -- cheesing
-    private func specialDay() -> String {
+    private func specialDay() -> Diary? {
+        let selectDiary = Diary()
+//        if true {
+//            // 지정된 특별한 날 잇을때
+//            return selectDiary
+//        }
+//        
         
-        selectDiary = Diary()
-        return "특별한 날 지정이 없습니다."
+        return nil
     }
     
-    private func saveImage(data:Data) {
-        groupDefaults?.set(data, forKey: wedgetGroupKey.image)
-        log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+    private func saveImage(imageName:String?) {
+        if nil != imageName {
+            let image = imageManager.showImage(imageName: imageName!)
+            let imageData = UIImagePNGRepresentation(image!)
+            groupDefaults?.set(imageData, forKey: wedgetGroupKey.image)
+            log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+        }
     }
     
+    private func deleteBeforeImage() {
+        if true == haveBeforeImage() {
+            log.info(message: " before wedgetImage file : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+            groupDefaults?.removeObject(forKey: wedgetGroupKey.image)
+            log.info(message: " delete after wedgetImage file : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+        }
+    }
     
     private func haveBeforeImage() -> Bool {
         if nil == groupDefaults?.value(forKey: wedgetGroupKey.image) {
@@ -134,10 +167,9 @@ class WedgetManager: NSObject {
         return true
     }
     
-    private func deleteBeforeImage() {
-        log.info(message: " deleteBeforeImage before get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
-        groupDefaults?.removeObject(forKey: wedgetGroupKey.image)
-        log.info(message: " deleteBeforeImage after get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+    private func saveID(id:Int) {
+        groupDefaults?.set(id, forKey: wedgetGroupKey.id)
+        log.info(message: " get wedgetID : \(groupDefaults?.value(forKey: wedgetGroupKey.id))")
     }
     
     /* 잘 들어갔는지 로그 확인 용 **/
