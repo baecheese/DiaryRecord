@@ -63,6 +63,7 @@ class ImageFileManager: NSObject {
         }
         return imageName
     }
+    
 
     func deleteImageFile(imageName:String?) {
         if false == isNotExistImage(imageName: imageName!) {

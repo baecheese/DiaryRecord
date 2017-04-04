@@ -65,6 +65,18 @@ extension TimeInterval {
         return tomorrow.dayStartTimeInterval().minusSecond(secondAmount: 1)
     }
     
+    
+    func plusYear(yearAmount:Int) -> TimeInterval {
+        let plusSecondsAmount = (TimeInterval)((60 * 60 * 24) * 365 * yearAmount)
+        return self + plusSecondsAmount
+    }
+    
+    func minusYear(yearAmount:Int) -> TimeInterval {
+        let minusSecondsAmount = (TimeInterval)((365 * 60 * 60 * 24) * yearAmount)
+        return self - minusSecondsAmount
+    }
+    
+    
     func plusDay(dayAmount:Int) -> TimeInterval {
         let plusSecondsAmount = (TimeInterval)((60 * 60 * 24) * dayAmount)
         return self + plusSecondsAmount

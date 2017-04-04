@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wedget.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="AxE-xC-oSg">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AxE-xC-oSg">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="test" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
@@ -49,6 +49,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="37"/>
                     <connections>
+                        <outlet property="backgroundImage" destination="AxE-xC-oSg" id="7Vu-UU-Tml"/>
                         <outlet property="label" destination="GcN-lo-r42" id="mJe-Ls-M71"/>
                     </connections>
                 </viewController>
@@ -57,7 +58,4 @@
             <point key="canvasLocation" x="25.600000000000001" y="36.431784107946029"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="wedget.jpg" width="533" height="300"/>
-    </resources>
 </document>

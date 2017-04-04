@@ -9,14 +9,24 @@
 import UIKit
 import NotificationCenter
 
+struct GroupKeys {
+    let suiteName = "group.com.baecheese.DiaryRecord"
+    let contents = "WedgetContents"
+    let image = "ImageFile"
+}
+
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet var label: UILabel!
+    let groupKeys = GroupKeys()
+    
+    @IBOutlet var backgroundImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setWedgetSize()
         label.text = getData()
+        setBackImage()
     }
     
     func setWedgetSize() {
@@ -36,22 +46,28 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func setBackImage() {
-        if nil == getImage() {
-            
+        if nil != getImage() {
+            backgroundImage.image = getImage()
+        }
+        else {
+            backgroundImage.image = UIImage(named: "wedget.jpg")
         }
     }
     
     func getImage() -> UIImage? {
-//        if  {
-//            
-//        }
+        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
+            let data = groupDefaults.value(forKey: groupKeys.image) as? Data {
+            let image = UIImage(data: data)
+            return image
+        }
         return nil
     }
     
     
     func getData() -> String {
-        if let groupDefaults = UserDefaults(suiteName: "group.com.baecheese.DiaryRecord"),
-            let data = groupDefaults.value(forKey: "WedgetContents") as? String {
+        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
+            let data = groupDefaults.value(forKey: groupKeys.contents) as? String {
+            print(data)
             return data
         }
         return "위젯 설정을 해주세요"

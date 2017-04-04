@@ -14,6 +14,7 @@ struct WedgetMode {
 }
 
 struct GroupKeys {
+    let suiteName = "group.com.baecheese.DiaryRecord"
     let contents = "WedgetContents"
     let image = "ImageFile"
 }
@@ -29,7 +30,7 @@ class WedgetManager: NSObject {
     
     let localDefaults = UserDefaults.standard
     /* WedgetContents, ImageFile **/
-    let groupDefaults = UserDefaults(suiteName: "group.com.baecheese.DiaryRecord")
+    let groupDefaults = UserDefaults(suiteName: GroupKeys().suiteName)
 
     
     private override init() {
@@ -72,10 +73,11 @@ class WedgetManager: NSObject {
             groupDefaults?.set(specialDay(), forKey: wedgetGroupKey.contents)
         }
         if nil != selectDiary.imageName {
-            let imageData = FileManager.default.value(forKey: selectDiary.imageName!)
-            saveImage(data: imageData as! Data)
+            let image = imageManager.showImage(imageName: selectDiary.imageName!)
+            let imageData = UIImagePNGRepresentation(image!)
+            saveImage(data: imageData!)
         }
-        if nil == selectDiary.imageName {
+        if nil == selectDiary.imageName && true == haveBeforeImage() {
             deleteBeforeImage()
         }
         
@@ -108,16 +110,28 @@ class WedgetManager: NSObject {
             return selectDiary.content
         }
         
-        return "과거의 오늘 일기가 없습니다."
+        selectDiary = Diary()
+        return " 과거의 오늘 \n \(TimeInterval().now().minusYear(yearAmount: 1).getYYMMDD()) \n 일기가 없습니다."
     }
     
+    // -- cheesing
     private func specialDay() -> String {
-        return "특별한날 (사용자 지정) 내용"
+        
+        selectDiary = Diary()
+        return "특별한 날 지정이 없습니다."
     }
     
     private func saveImage(data:Data) {
         groupDefaults?.set(data, forKey: wedgetGroupKey.image)
         log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+    }
+    
+    
+    private func haveBeforeImage() -> Bool {
+        if nil == groupDefaults?.value(forKey: wedgetGroupKey.image) {
+            return false
+        }
+        return true
     }
     
     private func deleteBeforeImage() {
@@ -126,9 +140,10 @@ class WedgetManager: NSObject {
         log.info(message: " deleteBeforeImage after get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
     }
     
+    /* 잘 들어갔는지 로그 확인 용 **/
     private func getWedgetContents() -> String {
-        if let groupDefaults = UserDefaults(suiteName: "group.com.baecheese.DiaryRecord"),
-            let data = groupDefaults.value(forKey: "WedgetContents") as? String {
+        if let groupDefaults = UserDefaults(suiteName: wedgetGroupKey.suiteName),
+            let data = groupDefaults.value(forKey: wedgetGroupKey.contents) as? String {
             return data
         }
         return "위젯 설정 내용 없음"

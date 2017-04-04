@@ -29,7 +29,7 @@ class ReadViewController: UIViewController {
         
         getSelectedDairy()
         makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
-//        settingTapGesture()
+//        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
     }
     
