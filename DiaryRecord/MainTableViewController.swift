@@ -170,7 +170,9 @@ class MainTableViewController: UITableViewController {
             /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
             if specialDayRepository.isRight(id: selectedDiaryID) {
                 specialDayRepository.delete(id: selectedDiaryID)
-                tableView.reloadData()
+                UIView.transition(with: self.tableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                }, completion: nil)
                 return;
             }
             
@@ -189,7 +191,9 @@ class MainTableViewController: UITableViewController {
                 // 저장 성공 시
                 // 테이블 리로드 & 스페셜 데이 색깔 변화
                 log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
-                tableView.reloadData()
+                UIView.transition(with: self.tableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                }, completion: nil)
             }
         }
         else {
