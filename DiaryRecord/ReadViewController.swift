@@ -26,10 +26,6 @@ class ReadViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        log.info(message: "")
-        
         getSelectedDairy()
         makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
 //        settingTapGesture() <-> edite 버튼 생성함

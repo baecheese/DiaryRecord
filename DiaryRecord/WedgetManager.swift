@@ -113,10 +113,11 @@ class WedgetManager: NSObject {
     private func todayOfPast() -> Diary? {
         var selectDiary = Diary()
         let allDate = Array(diaryRepository.getAllByTheDate().keys)
-        let today = TimeInterval().now().getYYMMDD()
+        let today = TimeInterval().now()
+        let pastTodayDate = today.minusYear(yearAmount: 1).getYYMMDD()
         var todayOfPast:[Diary] = []
         for date in allDate {
-            if date == today {
+            if date == pastTodayDate {
                 todayOfPast = diaryRepository.getAllByTheDate()[date]!
             }
         }
@@ -148,15 +149,13 @@ class WedgetManager: NSObject {
             let image = imageManager.showImage(imageName: imageName!)
             let imageData = UIImagePNGRepresentation(image!)
             groupDefaults?.set(imageData, forKey: wedgetGroupKey.image)
-            log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
+//            log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
         }
     }
     
     private func deleteBeforeImage() {
         if true == haveBeforeImage() {
-            log.info(message: " before wedgetImage file : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
             groupDefaults?.removeObject(forKey: wedgetGroupKey.image)
-            log.info(message: " delete after wedgetImage file : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
         }
     }
     
