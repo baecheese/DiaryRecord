@@ -22,7 +22,11 @@ class ColorManager: NSObject {
     var date = UIColor()
     var paper = UIColor()
     
+    var special = UIColor()
+    
     func selectTheme(theme:Int) {
+        // test
+        special = .red
         if theme == 1 {
             cherryBlossoms()
         }
@@ -37,6 +41,7 @@ class ColorManager: NSObject {
         title = UIColor.white
         date = UIColor(red: 62.0/255, green: 96.0/255, blue: 111.0/255, alpha: 1.0)
         paper = UIColor(red: 252.0/255, green: 255.0/255, blue: 245.0/255, alpha: 1.0)
+        
     }
     
     func cherryBlossoms() {

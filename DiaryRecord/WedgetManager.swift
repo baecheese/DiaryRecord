@@ -56,6 +56,7 @@ class WedgetManager: NSObject {
         return getMode()
     }
     
+    /** 현재 위젯 모드 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 */
     func getMode() -> Int {
         if localDefaults.value(forKey: "wedgetMode") == nil {
             return setAndGetMode(number: 0)

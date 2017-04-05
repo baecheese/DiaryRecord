@@ -31,6 +31,9 @@ class MainTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: "cell")
+        
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
         let diarys = diaryRepository.getAllByTheDate()
         // 최신 순 날짜 Array 정렬
@@ -113,7 +116,9 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.getAllByTheDate()
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            as! MainTableViewCell
         cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
         cell.backgroundColor = colorManager.paper
         let targetDate = sortedDate[indexPath.section]
@@ -184,7 +189,8 @@ class MainTableViewController: UITableViewController {
     }
     
     func changeWedget() {
-        if TimeInterval().passADay() {
+        let nowWedgetMode = WedgetManager.sharedInstance.getMode()
+        if 2 != nowWedgetMode && TimeInterval().passADay() {
             let wedget = WedgetManager.sharedInstance
             wedget.setContentsInWedget(mode: wedget.getMode())
             log.info(message: "pass a day and changeWedget")
