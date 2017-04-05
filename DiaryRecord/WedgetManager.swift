@@ -13,6 +13,11 @@ struct WedgetMode {
     let list = ["랜덤", "과거의 오늘", "특별한 날 (사용자 지정)"]
 }
 
+struct LocalKey {
+    let mode = "wedgetMode"
+}
+
+/** 위젯에 넘기는 용으로 쓰는 것 */
 struct GroupKeys {
     let suiteName = "group.com.baecheese.DiaryRecord"
     let id = "ID"
@@ -20,13 +25,15 @@ struct GroupKeys {
     let image = "ImageFile"
 }
 
-/** GroupKeys : let suiteName = "group.com.baecheese.DiaryRecord" /
+/** 📁 LocalKeys : wedgetMode
+ 📱 GroupKeys : let suiteName = "group.com.baecheese.DiaryRecord" /
  let id = "ID"  /
  let contents = "WedgetContents"  /
  let image = "ImageFile" */
 class WedgetManager: NSObject {
     
     let log = Logger(logPlace: WedgetManager.self)
+    let wedgetLocalKey = LocalKey()
     let wedgetGroupKey = GroupKeys()
     static let sharedInstance: WedgetManager = WedgetManager()
     
@@ -44,13 +51,13 @@ class WedgetManager: NSObject {
     
     /* 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 **/
     func setMode(number:Int) {
-        localDefaults.set(number, forKey: "wedgetMode")
+        localDefaults.set(number, forKey: wedgetLocalKey.mode)
         log.info(message: "wedgetMode 저장 완료 : \(getMode())")
         setContentsInWedget(mode: number)
     }
     
     func setAndGetMode(number:Int) -> Int {
-        localDefaults.set(number, forKey: "wedgetMode")
+        localDefaults.set(number, forKey: wedgetLocalKey.mode)
         log.info(message: "테마 저장 완료 : \(getMode())")
         setContentsInWedget(mode: number)
         return getMode()
@@ -58,10 +65,10 @@ class WedgetManager: NSObject {
     
     /** 현재 위젯 모드 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 */
     func getMode() -> Int {
-        if localDefaults.value(forKey: "wedgetMode") == nil {
+        if localDefaults.value(forKey: wedgetLocalKey.mode) == nil {
             return setAndGetMode(number: 0)
         }
-        return localDefaults.value(forKey: "wedgetMode") as! Int
+        return localDefaults.value(forKey: wedgetLocalKey.mode) as! Int
     }
     
     func setContentsInWedget(mode:Int) {
@@ -102,13 +109,16 @@ class WedgetManager: NSObject {
         groupDefaults?.set(contents, forKey: wedgetGroupKey.contents)
     }
     
-    private func getRandom() -> Diary {
+    private func getRandom() -> Diary? {
         let allDairyList = diaryRepository.getAllList()
-        let lastIndex = allDairyList.count - 1
-        let randomNo = arc4random_uniform(UInt32(lastIndex))// 0 ~ lastIndex
-        let selectDiary = diaryRepository.findOne(id: Int(randomNo))!
-        log.info(message: "Random Dairy Content: \(selectDiary.content)")
-        return selectDiary
+        if 1 < allDairyList.count {
+            let lastIndex = allDairyList.count - 1
+            let randomNo = arc4random_uniform(UInt32(lastIndex))// 0 ~ lastIndex
+            let selectDiary = diaryRepository.findOne(id: Int(randomNo))!
+            log.info(message: "Random Dairy Content: \(selectDiary.content)")
+            return selectDiary
+        }
+        return nil
     }
     
     private func todayOfPast() -> Diary? {

@@ -101,11 +101,11 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         }
         // 수정 모드
         else if (false == SharedMemoryContext.get(key: "isWriteMode") as! Bool) {
-            let seletedDiaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
-            let diary = diaryRepository.findOne(id: seletedDiaryID)
+            let selectedDiaryID = SharedMemoryContext.get(key: "selectedDiaryID") as! Int
+            let diary = diaryRepository.findOne(id: selectedDiaryID)
             let before = checkEditImageData(diary: diary!).0
             let after = checkEditImageData(diary: diary!).1
-            trySaveDiary = diaryRepository.edit(id: seletedDiaryID, content: writeBox.writeSpace.text, before: before, after: after, newImageData: imageData)
+            trySaveDiary = diaryRepository.edit(id: selectedDiaryID, content: writeBox.writeSpace.text, before: before, after: after, newImageData: imageData)
         }
         
         let saveSuccess = trySaveDiary.0
@@ -279,7 +279,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
-            let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diaryID = SharedMemoryContext.get(key: "selectedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: diaryID)
             writeBox.writeSpace.text = diary?.content
         }
@@ -293,7 +293,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         imageBox.delegate = self
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
-            let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+            let diaryID = SharedMemoryContext.get(key: "selectedDiaryID") as! Int
             let diary = diaryRepository.findOne(id: diaryID)
             if nil != diary?.imageName {
                 imageBox.imageSpace.image = imageManager.showImage(imageName: (diary?.imageName)!)
@@ -360,7 +360,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
                 writeState.isFrist = false
                 makeWriteBox()
                 if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
-                    let diaryID = SharedMemoryContext.get(key: "seletedDiaryID") as! Int
+                    let diaryID = SharedMemoryContext.get(key: "selectedDiaryID") as! Int
                     let diary = diaryRepository.findOne(id: diaryID)
                     if nil != diary?.imageName {
                         makeImageBox()

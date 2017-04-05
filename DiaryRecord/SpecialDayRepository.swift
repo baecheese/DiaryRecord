@@ -23,26 +23,49 @@ class SpecialDayRepository: NSObject {
     
     static let sharedInstance: SpecialDayRepository = SpecialDayRepository()
     
-    /* for test **/
     func getAll() -> Results<SpecialDay> {
         let SpecialDays:Results<SpecialDay> = realm.objects(SpecialDay.self)
         return SpecialDays
     }
     
-    // 위젯 설정 - 1개만 저장 가능. 특별한 날 있으면 기존 특별한 날과 교체  / 위젯 설정 풀리면 - 여러 개 가능
-    /* 위젯 설정 시, 1개의 특별한 날만 저장 가능 \n **/
+    func getAllCount() -> Int {
+        return getAll().count
+    }
+    
+    func isRight(id:Int) -> Bool {
+        let specialDays = Array(getAll())
+        /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
+        for before in specialDays {
+            if (before.diaryID == id) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /** 무료/유료 회원에 따라 저장 */
     func save(diaryID:Int) -> (Bool, String) {
+        if false == isChargedMember() {
+            return saveForNormal(diaryID: diaryID)
+        }
+        else {
+            return saveForVIP(diaryID: diaryID)
+        }
+    }
+    
+    // 위젯 설정 - 1개만 저장 가능. 특별한 날 있으면 기존 특별한 날과 교체  / 위젯 설정 풀리면 - 여러 개 가능
+    /* 일반 회원용, 1개의 특별한 날만 저장 가능 (저장 시, 이전 특별한 날 지워짐) \n **/
+    func saveForNormal(diaryID:Int) -> (Bool, String) {
         let specialDay = SpecialDay()
-//        if  {
-//            
-//        }
+        if 1 <= getAllCount() {
+            deleteAll()
+        }
         do {
             try realm.write {
                 specialDay.diaryID = diaryID
                 realm.add(specialDay)
             }
         }
-            
         catch {
             log.error(message: "realm error on")
             return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
@@ -50,66 +73,56 @@ class SpecialDayRepository: NSObject {
         log.info(message: "specialDay 저장 완료 - diaryID : \(diaryID)")
         return (true, "저장 완료")
     }
-//    
-//    func getAllByTheDate() -> Diary? {
-//        
-//        let specialDayIDs:Results<SpecialDay> = realm.objects(SpecialDay.self)
-//        
-//        if (specialDayIDs.count < 1) {
-//            return nil
-//        }
-//        
-//        var specialDiarys = [Diary]()
-//        for specialDay in specialDayIDs {
-//            specialDiarys.append(diaryRepository.findOne(id: specialDay.diaryID)!)
-//        }
-//        
-//        // diariesDict = { 날짜 (key) : [diary1, diary2] }
-//        // [diary1, diary2] -> dayDiaries (같은 날 다른 시간에 쓰여진 일기)
-//        for index in 0...diarys.count-1 {
-//            let diary:Diary = diarys[index]
-//            let key:String = diary.timeStamp.getYYMMDD()
-//            if nil == diaryDict[key] {
-//                diaryDict.updateValue([diary], forKey: key)
-//            } else {
-//                var dayDiaries = diaryDict[key]
-//                dayDiaries?.append(diary)
-//                diaryDict.updateValue(dayDiaries!, forKey: key)
-//            }
-//        }
-//        
-//        // 날짜 안의 시간 sorting (최신 시간 순)
-//        for key in diaryDict.keys {
-//            let diaries = diaryDict[key]
-//            let sortedDiaries = diaries?.sorted(by: { (diary1, diary2) -> Bool in
-//                return diary1.timeStamp > diary2.timeStamp
-//            })
-//            diaryDict.updateValue(sortedDiaries!, forKey: key)
-//        }
-//        return diaryDict
-//    }
-//    
-//    // 메인 테이블에서 선택한 diary
-//    func findOne(id:Int) -> Diary? {
-//        let selectedDiary = realm.objects(Diary.self).filter("id = \(id)")
-//        if (selectedDiary.isEmpty) {
-//            return nil
-//        }
-//        return selectedDiary[0]
-//    }
-//    
-//    //TODO cheesing 구현, [String : Array<Diary>] 로 변형하는 기능은 함수로 분리하여서 findAll과 공통으로 사용하도록 구현
-//    //    func findByPeriod(start:TimeInterval, end:TimeInterval) -> [String : Array<Diary>] {
-//    //
-//    //    }
-//    
-//    
-//    // 특정 데이터 인덱스 접근으로 삭제
-//    func delete(id:Int) {
-//        let diary = findOne(id: id)!
-//        try! realm.write {
-//            log.debug(message: "\(diary) 삭제")
-//            realm.delete(diary)
-//        }
-//    }
+    
+    /* 유료 회원용 - 2개까지 저장 가능 **/
+    func saveForVIP(diaryID:Int) -> (Bool, String) {
+        if 2 >= getAllCount() {
+            let specialDay = SpecialDay()
+            do {
+                try realm.write {
+                    specialDay.diaryID = diaryID
+                    realm.add(specialDay)
+                }
+            }
+            catch {
+                log.error(message: "realm error on")
+                return (false, "오류가 발생하였습니다. 메모를 복사한 후, 다시 시도해주세요.")
+            }
+            log.info(message: "specialDay 저장 완료 - diaryID : \(diaryID)")
+            return (true, "저장 완료")
+        }
+        return (false, "두개 이상은 저장 불가. 하나를 지우시오")
+    }
+    
+        // 메인 테이블에서 선택한 diary
+    func findOne(id:Int) -> SpecialDay? {
+        let selectedSpecialDay = realm.objects(SpecialDay.self).filter("diaryID = \(id)")
+        if (selectedSpecialDay.isEmpty) {
+            return nil
+        }
+        log.debug(message: "selectedSpecialDay - \(selectedSpecialDay)")
+        return selectedSpecialDay[0]
+    }
+    
+    // 특정 데이터 인덱스 접근으로 삭제
+    func delete(id:Int) {
+        let specialDay = findOne(id: id)!
+        try! realm.write {
+            log.debug(message: "\(specialDay) 삭제")
+            realm.delete(specialDay)
+        }
+    }
+    
+    func deleteAll() {
+        let specialDays = Array(getAll())
+        /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
+        for specialDay in specialDays {
+            delete(id: specialDay.diaryID)
+        }
+    }
+    
+    func isChargedMember() -> Bool {
+        return false
+    }
+    
 }

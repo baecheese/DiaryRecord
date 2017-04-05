@@ -9,7 +9,7 @@
 import UIKit
 
 /**
- 사용 중인 key : "seletedDiaryID"(Int), "saveNewDairy"(Bool), "navigationbarHeight"(CGFloat), "isWriteMode"(Bool)
+ 사용 중인 key : "selectedDiaryID"(Int), "saveNewDairy"(Bool), "navigationbarHeight"(CGFloat), "isWriteMode"(Bool)
  */
 public struct SharedMemoryContext {
     

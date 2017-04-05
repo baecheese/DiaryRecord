@@ -23,8 +23,10 @@ class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let specialDayRepository = SpecialDayRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
     private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+    private let wedgetManager = WedgetManager.sharedInstance
     private var sortedDate = [String]()
     private let fontManager = FontManger()
     var changeTheme = false
@@ -32,7 +34,7 @@ class MainTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: "cell")
+//        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: "cell")
         
         // 클래스 전역 diarys 쓰면 save 후에 데이터 가져올 때, 저장 전 데이터를 가져온다.
         let diarys = diaryRepository.getAllByTheDate()
@@ -116,21 +118,27 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let diarys = diaryRepository.getAllByTheDate()
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            as! MainTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainTableViewCell
+        cell.selectionStyle = .none
         cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
         cell.backgroundColor = colorManager.paper
+//        cell.backgroundColor = .clear
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
+        
+        let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+        if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
+            cell.backgroundColor = colorManager.special
+        }
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
-        SharedMemoryContext.set(key: "seletedDiaryID", setValue: selectedDiaryID)
+        SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
@@ -138,29 +146,79 @@ class MainTableViewController: UITableViewController {
         return true
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
-    {
-        let seletedDiaryID = SharedMemoryContext.setAndGet(key: "seletedDiaryID"
-            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
+    override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        let favorite = UITableViewRowAction(style: .normal, title: "🌟") { action, index in
+            self.log.info(message: "🌟 click favorite")
+            self.setSpecialDay(indexPath: editActionsForRowAt)
+        }
+        favorite.backgroundColor = .blue
         
-        if editingStyle == .delete
-        {
-            diaryRepository.delete(id: seletedDiaryID)
-            imageManager.deleteImageFile(diaryID: seletedDiaryID)
-            // 삭제 후, 다이어리를 찾았을 때
-            let diarys = self.diaryRepository.getAllByTheDate()
-            /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
-             -> 마지막 diary일 땐 그냥 비어있는 diary 데이터로 tableView reload data */
-            if false == isLastDairy(diarys: diarys) {
-                // 마지막 diary가 아니면 deleteRow를 한다.
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        let delete = UITableViewRowAction(style: .normal, title: "delete") { action, index in
+            self.deleteCell(indexPath: editActionsForRowAt)
+        }
+        delete.backgroundColor = .orange
+        
+        return [delete, favorite]
+    }
+    
+    private func setSpecialDay(indexPath: IndexPath) {
+        if wedgetManager.getMode() == 2 {
+            
+            let selectedDiaryID = SharedMemoryContext.setAndGet(key: "selectedDiaryID"
+                , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
+            
+            /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
+            if specialDayRepository.isRight(id: selectedDiaryID) {
+                specialDayRepository.delete(id: selectedDiaryID)
+                tableView.reloadData()
+                return;
             }
-            UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
-                self.sortedDate = Array(diarys.keys).sorted(by: >)
-                self.tableView.reloadData()
-            }, completion: nil)
+            
+            /* 아니면 저장 */
+            // (저장결과, 메세지)
+            var trySaveDiary:(Bool, String) = (true, "")
+            trySaveDiary = specialDayRepository.save(diaryID: selectedDiaryID)
+            
+            let saveSuccess = trySaveDiary.0
+            let saveMethodResultMessage = trySaveDiary.1
+            
+            if false == saveSuccess {
+                showAlert(message: saveMethodResultMessage, haveCancel: false, doneHandler: nil, cancelHandler: nil)
+            }
+            else {
+                // 저장 성공 시
+                // 테이블 리로드 & 스페셜 데이 색깔 변화
+                log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
+                tableView.reloadData()
+            }
+            
+        }
+        else {
+            // 사용자 설정 모드 아니면 알림
+            showAlert(message: "change wedget mode to 사용자지정", haveCancel: false, doneHandler: nil, cancelHandler: nil)
         }
     }
+    
+    private func deleteCell(indexPath: IndexPath) {
+        let selectedDiaryID = SharedMemoryContext.setAndGet(key: "selectedDiaryID"
+            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
+        
+        diaryRepository.delete(id: selectedDiaryID)
+        imageManager.deleteImageFile(diaryID: selectedDiaryID)
+        // 삭제 후, 다이어리를 찾았을 때
+        let diarys = self.diaryRepository.getAllByTheDate()
+        /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
+         -> 마지막 diary일 땐 그냥 비어있는 diary 데이터로 tableView reload data */
+        if false == isLastDairy(diarys: diarys) {
+            // 마지막 diary가 아니면 deleteRow를 한다.
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+            self.sortedDate = Array(diarys.keys).sorted(by: >)
+            self.tableView.reloadData()
+        }, completion: nil)
+    }
+    
     
     func isLastDairy(diarys : [String : Array<Diary>]) -> Bool {
         if 1 < diarys.count {
@@ -189,12 +247,25 @@ class MainTableViewController: UITableViewController {
     }
     
     func changeWedget() {
-        let nowWedgetMode = WedgetManager.sharedInstance.getMode()
+        let nowWedgetMode = wedgetManager.getMode()
         if 2 != nowWedgetMode && TimeInterval().passADay() {
-            let wedget = WedgetManager.sharedInstance
-            wedget.setContentsInWedget(mode: wedget.getMode())
+            wedgetManager.setContentsInWedget(mode: wedgetManager.getMode())
             log.info(message: "pass a day and changeWedget")
         }
     }
 
+    
+    func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
+    {
+        let alertController = UIAlertController(title: "Notice", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default,handler: doneHandler))
+        if haveCancel {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
 }
