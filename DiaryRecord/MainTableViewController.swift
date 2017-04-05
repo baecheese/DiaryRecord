@@ -191,7 +191,6 @@ class MainTableViewController: UITableViewController {
                 log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
                 tableView.reloadData()
             }
-            
         }
         else {
             // 사용자 설정 모드 아니면 알림

@@ -76,7 +76,7 @@ class SpecialDayRepository: NSObject {
     
     /* 유료 회원용 - 2개까지 저장 가능 **/
     func saveForVIP(diaryID:Int) -> (Bool, String) {
-        if 2 >= getAllCount() {
+        if 2 > getAllCount() {
             let specialDay = SpecialDay()
             do {
                 try realm.write {
@@ -121,8 +121,10 @@ class SpecialDayRepository: NSObject {
         }
     }
     
+    // 인앱 결제 이후 변화 -- cheesing
     func isChargedMember() -> Bool {
         return false
+//        return true(결제회원이면 이것)
     }
     
 }
