@@ -23,6 +23,9 @@ struct GroupKeys {
     let id = "ID"
     let contents = "WedgetContents"
     let image = "ImageFile"
+//     let vipContetns = "VIPWedgetContents"
+//     let vipImage = "VIPImageFile"
+
 }
 
 /** 📁 LocalKeys : wedgetMode
@@ -38,6 +41,7 @@ class WedgetManager: NSObject {
     static let sharedInstance: WedgetManager = WedgetManager()
     
     let diaryRepository = DiaryRepository.sharedInstance
+    let specialDayRepository = SpecialDayRepository.sharedInstance
     let imageManager = ImageFileManager.sharedInstance
     
     let localDefaults = UserDefaults.standard
@@ -97,16 +101,18 @@ class WedgetManager: NSObject {
                 saveContents(contents: "특별한 날 지정이 없습니다.")
                 return;
             }
+            // cheesing 유료 위젯 멤버 업데이트용
+//            if true == (specialDayRepository.isChargedMember()) {
+//                let specialDayList = specialDayRepository.getAll()
+//                saveForVIP(specialDays: specialDayList)
+//                return;
+//            }
         }
         
         saveContents(contents: (diary?.content)!)
         saveImage(imageName: diary?.imageName)
-//        saveID(id: ??)
+//        saveID(id: ??) chessing
         log.info(message: "getWedgetContents : \(getWedgetContents())")
-    }
-    
-    private func saveContents(contents:String) {
-        groupDefaults?.set(contents, forKey: wedgetGroupKey.contents)
     }
     
     private func getRandom() -> Diary? {
@@ -145,16 +151,42 @@ class WedgetManager: NSObject {
     
     // -- cheesing
     private func specialDay() -> Diary? {
-        let selectDiary = Diary()
-//        if true {
-//            // 지정된 특별한 날 잇을때
-//            return selectDiary
-//        }
-//        
-        
+        let specialDayList = specialDayRepository.getAll()
+        if 0 < specialDayList.count {
+            let sepcialDayID = specialDayList[0].diaryID
+            let selectDiary = diaryRepository.findOne(id: sepcialDayID)
+            return selectDiary
+        }
         return nil
     }
+    // -- cheesing
+    private func saveForVIP(specialDays:[SpecialDay]) {
+        
+        // 원래 있던 그룹 디폴트 object들 다 지우는 코드 추가
+        
+        /*
+         let fristContents:String? = nil
+         let fristImageName:String? = nil
+         let secondContents:String? = nil
+         let secondImageName:String? = nil
+         
+         if 0 == specialDays.count {
+         
+         }
+         if 1 == specialDays.count {
+         
+         }
+         if 2 == specialDays.count {
+         
+         }
+         
+         */
+    }
     
+    private func saveContents(contents:String) {
+        groupDefaults?.set(contents, forKey: wedgetGroupKey.contents)
+    }
+
     private func saveImage(imageName:String?) {
         if nil != imageName {
             let image = imageManager.showImage(imageName: imageName!)
@@ -182,7 +214,7 @@ class WedgetManager: NSObject {
         log.info(message: " get wedgetID : \(groupDefaults?.value(forKey: wedgetGroupKey.id))")
     }
     
-    /* 잘 들어갔는지 로그 확인 용 **/
+    /* 잘 들어갔는지 로그 확인 용 --- 전체 wdget 데이터 보는 용으로 바꾸기 cheesing**/
     private func getWedgetContents() -> String {
         if let groupDefaults = UserDefaults(suiteName: wedgetGroupKey.suiteName),
             let data = groupDefaults.value(forKey: wedgetGroupKey.contents) as? String {
