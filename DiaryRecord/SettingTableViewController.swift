@@ -10,7 +10,7 @@ import UIKit
 
 struct SettingMenu {
     let setionList:[String] = ["test", "setting", "icould", "help", "Resorce Licenses"]
-    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "스페셜데이 전체 삭제"]
+    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체"]
     let basicList:[String] = ["테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금"]
     let iCouldList:[String] = ["계정", "로그인 / 로그아웃"]
     let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
@@ -96,11 +96,6 @@ class SettingTableViewController: UITableViewController {
             }
             if indexPath.row == 3 {
                 log.info(message: "\(SpecialDayRepository.sharedInstance.getAllToResults())")
-            }
-            if indexPath.row == 4 {
-                let groupDefaults = UserDefaults(suiteName: GroupKeys().suiteName)
-                groupDefaults?.removeSuite(named: GroupKeys().suiteName)
-                log.info(message: "groupDefaults.removeSuite")
             }
         }
         /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
