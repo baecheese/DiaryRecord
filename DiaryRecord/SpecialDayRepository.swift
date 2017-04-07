@@ -16,6 +16,7 @@ class SpecialDayRepository: NSObject {
     private let fileManager = FileManager.default
     private let imageManager = ImageFileManager.sharedInstance
     private let diaryRepository = DiaryRepository.sharedInstance
+    private let wedgetManager = WedgetManager.sharedInstance
     
     private override init() {
         super.init()
@@ -23,9 +24,14 @@ class SpecialDayRepository: NSObject {
     
     static let sharedInstance: SpecialDayRepository = SpecialDayRepository()
     
-    func getAll() -> Results<SpecialDay> {
+    /** test 용 */
+    func getAllToResults() -> Results<SpecialDay> {
         let SpecialDays:Results<SpecialDay> = realm.objects(SpecialDay.self)
         return SpecialDays
+    }
+    
+    func getAll() -> [SpecialDay] {
+        return Array(getAllToResults())
     }
     
     func getAllCount() -> Int {
@@ -33,7 +39,7 @@ class SpecialDayRepository: NSObject {
     }
     
     func isRight(id:Int) -> Bool {
-        let specialDays = Array(getAll())
+        let specialDays = getAll()
         /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
         for before in specialDays {
             if (before.diaryID == id) {
@@ -94,7 +100,6 @@ class SpecialDayRepository: NSObject {
         return (false, "두개 이상은 저장 불가. 하나를 지우시오")
     }
     
-        // 메인 테이블에서 선택한 diary
     func findOne(id:Int) -> SpecialDay? {
         let selectedSpecialDay = realm.objects(SpecialDay.self).filter("diaryID = \(id)")
         if (selectedSpecialDay.isEmpty) {
@@ -121,10 +126,13 @@ class SpecialDayRepository: NSObject {
         }
     }
     
-    // 인앱 결제 이후 변화 -- cheesing
+    // 인앱 결제 이후 변화 -- cheesing (추후 업데이트)
     func isChargedMember() -> Bool {
         return false
-//        return true(결제회원이면 이것)
+//        return true
     }
+    
+    
+    
     
 }
