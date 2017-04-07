@@ -15,17 +15,23 @@ struct GroupKeys {
     let image = "ImageFile"
 }
 
+struct WedgetStatus {
+    let fontName = "NanumMyeongjo"
+    let fontSize:CGFloat = 15.0
+}
+
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet var label: UILabel!
-    let groupKeys = GroupKeys()
-    
     @IBOutlet var backgroundImage: UIImageView!
+    
+    let groupKeys = GroupKeys()
+    let wedgetStatus = WedgetStatus()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setWedgetSize()
-        label.text = getData()
+        setContent()
         setBackImage()
     }
     
@@ -35,6 +41,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         } else {
             // Fallback on earlier versions
         }
+        // wedget max size memo : float maxHeight = [[ UIScreen mainScreen ] bounds ].size.height - 126;
+    }
+    
+    func setContent() {
+        label.text = getData()
+        label.font = UIFont(name: "NanumMyeongjo", size: 10.0)// 안됨
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {

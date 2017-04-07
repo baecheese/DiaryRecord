@@ -16,7 +16,6 @@ class SpecialDayRepository: NSObject {
     private let fileManager = FileManager.default
     private let imageManager = ImageFileManager.sharedInstance
     private let diaryRepository = DiaryRepository.sharedInstance
-
     
     private override init() {
         super.init()

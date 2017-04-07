@@ -38,7 +38,6 @@ class WedgetManager: NSObject {
     let log = Logger(logPlace: WedgetManager.self)
     let wedgetLocalKey = LocalKey()
     let wedgetGroupKey = GroupKeys()
-    static let sharedInstance: WedgetManager = WedgetManager()
     
     let diaryRepository = DiaryRepository.sharedInstance
     let specialDayRepository = SpecialDayRepository.sharedInstance
@@ -52,6 +51,8 @@ class WedgetManager: NSObject {
     private override init() {
         super.init()
     }
+    
+    static let sharedInstance: WedgetManager = WedgetManager()
     
     /* 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 **/
     func setMode(number:Int) {

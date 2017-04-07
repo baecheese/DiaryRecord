@@ -163,7 +163,6 @@ class MainTableViewController: UITableViewController {
     
     private func setSpecialDay(indexPath: IndexPath) {
         if wedgetManager.getMode() == 2 {
-            
             let selectedDiaryID = SharedMemoryContext.setAndGet(key: "selectedDiaryID"
                 , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
             
@@ -189,6 +188,9 @@ class MainTableViewController: UITableViewController {
             }
             else {
                 // 저장 성공 시
+                // 위젯 설정
+                wedgetManager.setContentsInWedget(mode: wedgetManager.getMode())
+                
                 // 테이블 리로드 & 스페셜 데이 색깔 변화
                 log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
                 UIView.transition(with: self.tableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
