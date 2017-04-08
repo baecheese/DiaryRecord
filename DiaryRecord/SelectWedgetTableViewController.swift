@@ -50,10 +50,9 @@ class SelectWedgetTableViewController: UITableViewController {
         if lastWedgetMode != selectedWedgetMode && selectedWedgetMode != nil {
             wedgetManager.setMode(number: selectedWedgetMode!)
         }
-        if selectedWedgetMode != 2 {
-            // 메인 테이블뷰 reload 되도록 --- cheesing
-            log.info(message: "메인 테이블뷰 reload 되도록")
-        }
+        
+        let main:MainTableViewController = navigationController?.viewControllers.first as! MainTableViewController
+        main.tableView.reloadData()
         navigationController?.popToRootViewController(animated: true)
     }
     

@@ -9,11 +9,6 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="NanumMyeongjo.ttc">
-            <string>NanumMyeongjo</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Today View Controller-->
         <scene sceneID="cwh-vc-ff4">
@@ -30,21 +25,24 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AxE-xC-oSg">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="test" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
-                                <rect key="frame" x="16" y="8" width="280" height="21"/>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jo-cU-d8A">
+                                <rect key="frame" x="139" y="8" width="29" height="21"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="0.25098040700000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="UQ5-42-YLW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" symbolic="YES" id="0Q0-KW-PJ6"/>
-                            <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" multiplier="3" constant="20" symbolic="YES" id="6Vq-gs-PHe"/>
+                            <constraint firstItem="2jo-cU-d8A" firstAttribute="centerX" secondItem="AxE-xC-oSg" secondAttribute="centerX" id="1XU-7K-bze"/>
+                            <constraint firstItem="2jo-cU-d8A" firstAttribute="centerY" secondItem="AxE-xC-oSg" secondAttribute="centerY" id="1cm-MX-UQd"/>
                             <constraint firstItem="AxE-xC-oSg" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="BjI-ul-oXp"/>
                             <constraint firstAttribute="bottom" secondItem="AxE-xC-oSg" secondAttribute="bottom" id="I1T-rn-UKd"/>
-                            <constraint firstAttribute="trailing" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="20" symbolic="YES" id="L8K-9R-egU"/>
                             <constraint firstItem="AxE-xC-oSg" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="cMd-AK-zQq"/>
-                            <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" multiplier="3" constant="8" symbolic="YES" id="mYS-Cv-VNx"/>
+                            <constraint firstItem="2jo-cU-d8A" firstAttribute="width" secondItem="AxE-xC-oSg" secondAttribute="width" multiplier="3:4" id="kjj-7T-hBw"/>
                             <constraint firstAttribute="trailing" secondItem="AxE-xC-oSg" secondAttribute="trailing" id="zaI-9N-Jzy"/>
                         </constraints>
                     </view>
@@ -56,7 +54,7 @@
                     <size key="freeformSize" width="320" height="37"/>
                     <connections>
                         <outlet property="backgroundImage" destination="AxE-xC-oSg" id="7Vu-UU-Tml"/>
-                        <outlet property="label" destination="GcN-lo-r42" id="mJe-Ls-M71"/>
+                        <outlet property="contentLabel" destination="2jo-cU-d8A" id="4hF-3k-UgC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>

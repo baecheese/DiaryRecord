@@ -22,8 +22,8 @@ struct WedgetStatus {
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
-    @IBOutlet var label: UILabel!
     @IBOutlet var backgroundImage: UIImageView!
+    @IBOutlet var contentLabel: UILabel!
     
     let groupKeys = GroupKeys()
     let wedgetStatus = WedgetStatus()
@@ -45,8 +45,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func setContent() {
-        label.text = getData()
-        label.font = UIFont(name: "NanumMyeongjo", size: 10.0)// 안됨
+        contentLabel.font = UIFont(name: "NanumMyeongjo", size: 10.0)
+        contentLabel.text = getData()
+        contentLabel.backgroundColor = .red
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
