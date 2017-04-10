@@ -29,6 +29,10 @@ extension TimeInterval {
         return formatString(format: "yyyy-MM-dd")
     }
     
+    func getDateLongStyle() -> String {
+        return longformatString()
+    }
+    
     //시간 정보
     func getHHMM() -> String {
         return formatString(format: "HH:mm")
@@ -38,6 +42,14 @@ extension TimeInterval {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
+        dateFormatter.locale = NSLocale.current
+        return dateFormatter.string(from: date as Date)
+    }
+    
+    func longformatString() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.long
         dateFormatter.locale = NSLocale.current
         return dateFormatter.string(from: date as Date)
     }

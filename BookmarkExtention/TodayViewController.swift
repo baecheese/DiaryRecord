@@ -12,6 +12,7 @@ import NotificationCenter
 struct GroupKeys {
     let suiteName = "group.com.baecheese.DiaryRecord"
     let contents = "WedgetContents"
+    let date = "Date"
     let image = "ImageFile"
 }
 
@@ -23,7 +24,10 @@ struct WedgetStatus {
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet var backgroundImage: UIImageView!
-    @IBOutlet var contentLabel: UILabel!
+
+    @IBOutlet var labelTop: UILabel!
+    @IBOutlet var labelCenter: UILabel!
+    @IBOutlet var labelBottom: UILabel!
     
     let groupKeys = GroupKeys()
     let wedgetStatus = WedgetStatus()
@@ -31,7 +35,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         setWedgetSize()
-        setContent()
+        setContentData()
+        setLabelStatus()
         setBackImage()
     }
     
@@ -44,10 +49,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // wedget max size memo : float maxHeight = [[ UIScreen mainScreen ] bounds ].size.height - 126;
     }
     
-    func setContent() {
-        contentLabel.font = UIFont(name: "NanumMyeongjo", size: 10.0)
-        contentLabel.text = getData()
-        contentLabel.backgroundColor = .red
+    func setLabelStatus() {
+        let labels = [labelTop, labelCenter, labelBottom]
+        for label in labels {
+            label?.font = UIFont(name: wedgetStatus.fontName, size: wedgetStatus.fontSize)
+        }
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
@@ -77,13 +83,41 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     
-    func getData() -> String {
+    func setContentData() {
         if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
             let data = groupDefaults.value(forKey: groupKeys.contents) as? String {
-            print(data)
-            return data
+            let characters = data.characters
+            if characters.count < 16 {
+                labelCenter.text = data
+                return;
+            }
+            
+            var top = ""
+            var center = ""
+            var count = 0
+            
+            for character in characters {
+                if count <= 10 {
+                    top += String(character)
+                }
+                if 10 < count && count <= 20 {
+                    center += String(character)
+                }
+                count += 1
+            }
+            
+            center += "..."
+            
+            labelTop.text = top
+            labelCenter.text = center
         }
-        return "위젯 설정을 해주세요"
+        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
+            let date = groupDefaults.value(forKey: groupKeys.date) as? String {
+            labelBottom.text = date
+        }
+        else {
+            labelBottom.text = ""
+        }
     }
     
     

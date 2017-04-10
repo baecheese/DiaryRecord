@@ -23,6 +23,7 @@ struct GroupKeys {
     let id = "ID"
     let contents = "WedgetContents"
     let image = "ImageFile"
+    let date = "Date"
 //     let vipContetns = "VIPWedgetContents"
 //     let vipImage = "VIPImageFile"
 
@@ -82,6 +83,9 @@ class WedgetManager: NSObject {
         if haveBeforeImage() {
             deleteBeforeImage()
         }
+        if haveBeforeDate() {
+            deleteBeforeDate()
+        }
         
         if (mode == 0) {
             // default 위젯 (랜덤)
@@ -112,6 +116,7 @@ class WedgetManager: NSObject {
         
         saveContents(contents: (diary?.content)!)
         saveImage(imageName: diary?.imageName)
+        saveDate(timestamp: (diary?.timeStamp)!)
 //        saveID(id: ??) chessing
         log.info(message: "getWedgetContents : \(getWedgetContents())")
     }
@@ -197,10 +202,13 @@ class WedgetManager: NSObject {
         }
     }
     
+    func saveDate(timestamp:TimeInterval) {
+        let date = timestamp.getDateLongStyle()
+        groupDefaults?.set(date, forKey: wedgetGroupKey.date)
+    }
+    
     private func deleteBeforeImage() {
-        if true == haveBeforeImage() {
-            groupDefaults?.removeObject(forKey: wedgetGroupKey.image)
-        }
+        groupDefaults?.removeObject(forKey: wedgetGroupKey.image)
     }
     
     private func haveBeforeImage() -> Bool {
@@ -209,6 +217,18 @@ class WedgetManager: NSObject {
         }
         return true
     }
+    
+    private func deleteBeforeDate() {
+        groupDefaults?.removeObject(forKey: wedgetGroupKey.date)
+    }
+    
+    private func haveBeforeDate() -> Bool {
+        if nil == groupDefaults?.value(forKey: wedgetGroupKey.date) {
+            return false
+        }
+        return true
+    }
+    
     
     private func saveID(id:Int) {
         groupDefaults?.set(id, forKey: wedgetGroupKey.id)
