@@ -89,6 +89,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             let characters = data.characters
             if characters.count < 16 {
                 labelCenter.text = data
+                labelTop.text = ""
+                labelBottom.text = ""
                 return;
             }
             

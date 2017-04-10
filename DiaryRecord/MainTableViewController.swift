@@ -169,7 +169,7 @@ class MainTableViewController: UITableViewController {
             /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
             if specialDayRepository.isRight(id: selectedDiaryID) {
                 specialDayRepository.delete(id: selectedDiaryID)
-                wedgetManager.
+                wedgetManager.setContentsInWedget(mode: wedgetManager.getMode())
                 UIView.transition(with: self.tableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
                     self.tableView.reloadData()
                 }, completion: nil)
