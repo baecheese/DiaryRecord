@@ -190,7 +190,22 @@ class WedgetManager: NSObject {
     }
     
     private func saveContents(contents:String) {
-        groupDefaults?.set(contents, forKey: wedgetGroupKey.contents)
+        let endter = "\n"
+        var newContents = ""
+        var count = 0
+        for character in contents.characters {
+            if 20 < count {
+                break;
+            }
+            if String(character) != endter {
+                newContents += String(character)
+            }
+            if String(character) == endter {
+               newContents += " "
+            }
+            count += 1
+        }
+        groupDefaults?.set(newContents, forKey: wedgetGroupKey.contents)
     }
 
     private func saveImage(imageName:String?) {

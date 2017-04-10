@@ -53,6 +53,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let labels = [labelTop, labelCenter, labelBottom]
         for label in labels {
             label?.font = UIFont(name: wedgetStatus.fontName, size: wedgetStatus.fontSize)
+            label?.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0, alpha: 0.7)
+            label?.textColor = .white
         }
     }
     
@@ -90,7 +92,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             if characters.count < 16 {
                 labelCenter.text = data
                 labelTop.text = ""
-                labelBottom.text = ""
+                setDate()
                 return;
             }
             
@@ -99,10 +101,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             var count = 0
             
             for character in characters {
-                if count <= 10 {
+                if count <= 13 {
                     top += String(character)
                 }
-                if 10 < count && count <= 20 {
+                if 14 <= count && count <= 20 {
                     center += String(character)
                 }
                 count += 1
@@ -113,6 +115,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             labelTop.text = top
             labelCenter.text = center
         }
+        setDate()
+    }
+    
+    func setDate() {
         if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
             let date = groupDefaults.value(forKey: groupKeys.date) as? String {
             labelBottom.text = date
