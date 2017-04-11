@@ -23,6 +23,7 @@
 		03462A3F1E913B9E00A2E5D1 /* wedget.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 03462A3E1E913B9E00A2E5D1 /* wedget.jpg */; };
 		0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355407D1E7EA5920093A244 /* ColorManager.swift */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
+		037343161E9C82D300FDFF91 /* speicalCell.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 037343151E9C82D300FDFF91 /* speicalCell.jpg */; };
 		037522931E850BE20001B24F /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037522921E850BE20001B24F /* NotificationCenter.framework */; };
 		037522961E850BE20001B24F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037522951E850BE20001B24F /* TodayViewController.swift */; };
 		037522991E850BE20001B24F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 037522971E850BE20001B24F /* MainInterface.storyboard */; };
@@ -131,6 +132,7 @@
 		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		035D7B991E48BE6800F66B24 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		035D7BA21E48C36700F66B24 /* LoggerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoggerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		037343151E9C82D300FDFF91 /* speicalCell.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = speicalCell.jpg; sourceTree = "<group>"; };
 		037522911E850BE20001B24F /* BookmarkExtention.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BookmarkExtention.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		037522921E850BE20001B24F /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		037522951E850BE20001B24F /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				037522AC1E862D860001B24F /* moon1.png */,
 				037522A21E856F260001B24F /* appIcon_1.jpg */,
 				037522A81E86294F0001B24F /* LanchScreen_6.jpg */,
+				037343151E9C82D300FDFF91 /* speicalCell.jpg */,
 				037522A41E856F7B0001B24F /* LanchScreen_1.jpg */,
 				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
@@ -604,6 +607,7 @@
 				03A6E3581E8414430039056D /* no.png in Resources */,
 				03C043671E78F30E0075C09E /* Main.storyboard in Resources */,
 				039F4C9A1E83986300D51AAA /* gallery.png in Resources */,
+				037343161E9C82D300FDFF91 /* speicalCell.jpg in Resources */,
 				037522A51E856F7B0001B24F /* LanchScreen_1.jpg in Resources */,
 				03A7A27A1E82518D0074CCFE /* update.png in Resources */,
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,

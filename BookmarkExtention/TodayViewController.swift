@@ -53,8 +53,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let labels = [labelTop, labelCenter, labelBottom]
         for label in labels {
             label?.font = UIFont(name: wedgetStatus.fontName, size: wedgetStatus.fontSize)
-            label?.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0, alpha: 0.7)
+            label?.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0, alpha: 0.6)
             label?.textColor = .white
+            
+            if (label?.text?.characters.count)! < 1 {
+                label?.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0, alpha: 0)
+            }
         }
     }
     
@@ -96,6 +100,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 return;
             }
             
+            if data == "과거의 오늘 일기가 없습니다." || data == "특별한 날 지정이 없습니다." {
+                labelCenter.text = data
+                labelTop.text = ""
+                labelBottom.text = ""
+                return;
+            }
+            
             var top = ""
             var center = ""
             var count = 0
@@ -104,7 +115,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 if count <= 13 {
                     top += String(character)
                 }
-                if 14 <= count && count <= 20 {
+                if 14 <= count && count <= 26 {
                     center += String(character)
                 }
                 count += 1

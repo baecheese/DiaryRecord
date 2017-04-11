@@ -8,6 +8,7 @@
 
 import UIKit
 
+/** 테마 번호 0. basic 1. sliver 2. cotton candy 3. cherry blossoms 4. fall 5. ocean */
 class ThemeRepositroy: NSObject {
     
     private override init() {

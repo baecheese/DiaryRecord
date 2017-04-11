@@ -67,7 +67,7 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
         _ = navigationController?.popViewController(animated: true)
     }
     
-    let themes = ["basic", "cherry blossoms"]
+    let themes = ["basic", "sliver", "cotton candy", "cherry blossoms", "fall" , "ocean"]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return themes.count

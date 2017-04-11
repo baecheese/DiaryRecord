@@ -194,7 +194,7 @@ class WedgetManager: NSObject {
         var newContents = ""
         var count = 0
         for character in contents.characters {
-            if 20 < count {
+            if 26 < count {
                 break;
             }
             if String(character) != endter {

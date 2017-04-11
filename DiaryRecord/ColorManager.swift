@@ -8,6 +8,25 @@
 
 import UIKit
 
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
+    
+}
+
 /** 0: basic */
 class ColorManager: NSObject {
     
@@ -18,38 +37,81 @@ class ColorManager: NSObject {
     
     var bar = UIColor()
     var tint = UIColor()
-    var title = UIColor()
+    var title = UIColor.black
     var date = UIColor()
     var paper = UIColor()
     
     var special = UIColor()
     
+    /** 테마 번호 0. basic 1. sliver 2. cotton candy 3. cherry blossoms 4. fall 5. ocean */
     func selectTheme(theme:Int) {
-        // test
-        special = .red
+        if theme == 0 {
+            basic()
+        }
         if theme == 1 {
+            sliver()
+        }
+        if theme == 2 {
+            cottonCandy()
+        }
+        if theme == 3 {
             cherryBlossoms()
         }
-        else {
-            basic()
+        if theme == 4 {
+            fall()
+        }
+        if theme == 5 {
+            ocean()
         }
     }
     
     func basic() {
-        bar = UIColor(red: 25.0/255, green: 52.0/255, blue: 65.0/255, alpha: 1.0)
-        tint = UIColor(red: 209.0/255, green: 219.0/255, blue: 189.0/255, alpha: 1.0)
-        title = UIColor.white
-        date = UIColor(red: 62.0/255, green: 96.0/255, blue: 111.0/255, alpha: 1.0)
-        paper = UIColor(red: 252.0/255, green: 255.0/255, blue: 245.0/255, alpha: 1.0)
-        
+        bar = .white
+        tint = UIColor(rgb: 0xebebebf)
+        date = .white
+        special = UIColor(rgb: 0xebebeb)
+        paper = .white
+    }
+    
+    func sliver() {
+        bar = UIColor(rgb: 0xc1c0c1)
+        tint = UIColor(rgb: 0xd6d6d6)
+        date = UIColor(rgb: 0xdedede)
+        special = UIColor(rgb: 0xd6d6d6)
+        paper = UIColor(rgb: 0xebebeb)
     }
     
     func cherryBlossoms() {
-        bar = UIColor(red: 255.0/255, green: 66.0/255, blue: 66.0/255, alpha: 1.0)
-        tint = UIColor(red: 255.0/255, green: 225.0/255, blue: 208.0/255, alpha: 1.0)
-        title = UIColor.black
-        date = UIColor(red: 255.0/255, green: 131.0/255, blue: 126.0/255, alpha: 1.0)
-        paper = UIColor(red: 255.0/255, green: 191.0/255, blue: 180.0/255, alpha: 1.0)
+        bar = UIColor(rgb: 0xFAA4C8)
+        tint = .white
+        date = UIColor(rgb: 0xfacbe2)
+        special = UIColor(rgb: 0xffeef1)
+        paper = UIColor(rgb: 0xF9F9FF)
     }
+    
+    func fall() {
+        bar = UIColor(rgb: 0x746D5B)
+        tint = UIColor(rgb: 0x323232)
+        date = UIColor(rgb: 0x9E967F)
+        special = UIColor(rgb: 0xCBC19E).withAlphaComponent(0.7)
+        paper = UIColor(rgb: 0xEAEAEA)
+    }
+    
+    func cottonCandy() {
+        bar = UIColor(rgb: 0xC7B3F2)
+        tint = .white
+        date = UIColor(rgb: 0xE4F4FF)
+        special = UIColor(rgb: 0x62D9D9).withAlphaComponent(0.5)
+        paper = UIColor(rgb: 0xF9F9FF)
+    }
+    
+    func ocean() {
+        bar = UIColor(rgb: 0x375d81)
+        tint = .white
+        date = UIColor(rgb: 0xabc8e2)
+        special = UIColor(rgb: 0xc4d7ed)
+        paper = UIColor(rgb: 0xe1e6fa)
+    }
+    
     
 }

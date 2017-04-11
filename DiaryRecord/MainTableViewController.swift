@@ -113,7 +113,7 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 50.0 // 추후 글자 크기에 따라 다르게 적용 되게 -- cheesing
+        return 50.0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -122,8 +122,8 @@ class MainTableViewController: UITableViewController {
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
         cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
-        cell.backgroundColor = colorManager.paper
-//        cell.backgroundColor = .clear
+//        cell.backgroundColor = colorManager.paper
+        cell.backgroundColor = .clear
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
@@ -131,6 +131,7 @@ class MainTableViewController: UITableViewController {
         let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
         if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
             cell.backgroundColor = colorManager.special
+            cell.textLabel?.backgroundColor = .clear
         }
         
         return cell
