@@ -55,7 +55,7 @@
                         <barButtonItem key="leftBarButtonItem" image="setting.png" id="g4p-hB-LA4">
                             <inset key="imageInsets" minX="3" minY="3" maxX="3" maxY="3"/>
                             <connections>
-                                <segue destination="G0y-pj-tAg" kind="show" id="i59-kg-CG9"/>
+                                <action selector="moveSettingPage:" destination="96T-12-buO" id="jig-Xl-srd"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="write.png" id="tPn-VB-Izj">
@@ -114,7 +114,7 @@
         <!--Setting Table View Controller-->
         <scene sceneID="Es7-nL-my6">
             <objects>
-                <tableViewController id="G0y-pj-tAg" customClass="SettingTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="G0y-pj-tAg" customClass="SettingTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="s5R-wp-ZUk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

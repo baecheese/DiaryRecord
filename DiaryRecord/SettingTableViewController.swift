@@ -29,6 +29,7 @@ class SettingTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "setting"
+        makeNavigationItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -139,7 +140,11 @@ class SettingTableViewController: UITableViewController {
     }
     
     func back() {
-        _ = navigationController?.popViewController(animated: true)
+        UIView.animate(withDuration: 0.75, animations: { () -> Void in
+            UIView.setAnimationCurve(UIViewAnimationCurve.easeInOut)
+            UIView.setAnimationTransition(UIViewAnimationTransition.flipFromRight, for: self.navigationController!.view, cache: false)
+            _ = self.navigationController?.popViewController(animated: false)
+        })
     }
     
     

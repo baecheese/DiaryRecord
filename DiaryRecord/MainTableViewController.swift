@@ -68,6 +68,15 @@ class MainTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
+    @IBAction func moveSettingPage(_ sender: UIBarButtonItem) {
+        UIView.animate(withDuration: 0.75, animations: { () -> Void in
+            UIView.setAnimationCurve(UIViewAnimationCurve.easeInOut)
+            UIView.setAnimationTransition(UIViewAnimationTransition.flipFromLeft, for: self.navigationController!.view, cache: false)
+            let settingVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingTableViewController") as? SettingTableViewController
+            self.navigationController?.pushViewController(settingVC!, animated: false)
+        })
+    }
+    
     @IBAction func moveWritePage(_ sender: UIBarButtonItem) {
         SharedMemoryContext.set(key: "isWriteMode", setValue: true)
         let writeVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
@@ -148,16 +157,16 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        let favorite = UITableViewRowAction(style: .normal, title: "🌟") { action, index in
+        let favorite = UITableViewRowAction(style: .normal, title: "⭐️") { action, index in
             self.log.info(message: "🌟 click favorite")
             self.setSpecialDay(indexPath: editActionsForRowAt)
         }
-        favorite.backgroundColor = .blue
+        favorite.backgroundColor = .gray
         
         let delete = UITableViewRowAction(style: .normal, title: "delete") { action, index in
             self.deleteCell(indexPath: editActionsForRowAt)
         }
-        delete.backgroundColor = .orange
+        delete.backgroundColor = .red
         
         return [delete, favorite]
     }
@@ -195,7 +204,8 @@ class MainTableViewController: UITableViewController {
                 
                 // 테이블 리로드 & 스페셜 데이 색깔 변화
                 log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
-                UIView.transition(with: self.tableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                // chessing
+                UIView.transition(with: self.tableView, duration: 5, options: .transitionFlipFromRight, animations: {
                     self.tableView.reloadData()
                 }, completion: nil)
             }
