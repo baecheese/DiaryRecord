@@ -181,6 +181,18 @@ class DiaryRepository: NSObject {
         return selectedDiary[0]
     }
     
+    func getIdAll() -> [Int]? {
+        let ids = realm.objects(Diary.self).value(forKey: "id") as! Array<Int>
+        if (ids.count == 0) {
+            return nil
+        }
+        var idList = [Int]()
+        for id in ids {
+            idList.append(id)
+        }
+        return idList
+    }
+    
     //TODO cheesing 구현, [String : Array<Diary>] 로 변형하는 기능은 함수로 분리하여서 findAll과 공통으로 사용하도록 구현
 //    func findByPeriod(start:TimeInterval, end:TimeInterval) -> [String : Array<Diary>] {
 //        

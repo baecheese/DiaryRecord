@@ -90,12 +90,16 @@ class WedgetManager: NSObject {
         if (mode == 0) {
             // default 위젯 (랜덤)
             diary = getRandom()
+            if nil == getRandom() {
+                saveContents(contents: "일기장이 비어있습니다.")
+                return;
+            }
         }
         if (mode == 1) {
             // 과거의 오늘
             diary = todayOfPast()
             if nil == todayOfPast() {
-                saveContents(contents: "과거의 오늘 일기가 없습니다.")
+                saveContents(contents: "과거의 오늘 쓴 일기가 없습니다.")
                 return;
             }
         }
@@ -103,7 +107,7 @@ class WedgetManager: NSObject {
             // 저장한 특별한 날 가져오기
             diary = specialDay()
             if nil == diary {
-                saveContents(contents: "특별한 날 지정이 없습니다.")
+                saveContents(contents: "기억하고 싶은 날을 위젯으로 설정해보세요.")
                 return;
             }
             // cheesing 유료 위젯 멤버 업데이트용
@@ -122,12 +126,13 @@ class WedgetManager: NSObject {
     }
     
     private func getRandom() -> Diary? {
-        let allDairyList = diaryRepository.getAllList()
-        if 1 < allDairyList.count {
-            let lastIndex = allDairyList.count - 1
+        let idAll = diaryRepository.getIdAll()
+        if nil != idAll {
+            let lastIndex = (idAll?.count)! - 1
             let randomNo = arc4random_uniform(UInt32(lastIndex))// 0 ~ lastIndex
-            let selectDiary = diaryRepository.findOne(id: Int(randomNo))!
-            log.info(message: "Random Dairy Content: \(selectDiary.content)")
+            let randomId = idAll![Int(randomNo)]
+            let selectDiary = diaryRepository.findOne(id: randomId)!
+            log.info(message: "Random Dairy Content:\(selectDiary.content)")
             return selectDiary
         }
         return nil
