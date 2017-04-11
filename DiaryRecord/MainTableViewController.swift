@@ -30,8 +30,7 @@ class MainTableViewController: UITableViewController {
     private var sortedDate = [String]()
     private let fontManager = FontManger()
     var changeTheme = false
-    /**  ["section" : nil, "row" : nil] */
-    var favoriteCancelCell:[String:Int?] = ["section" : nil, "row" : nil]
+    private var beforeSpecialDay:Int? = nil
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -132,26 +131,25 @@ class MainTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
-        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
+        
+        let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
         
         // 가장 좋아하는 일기 취소 시
-        if wedgetManager.getMode() == 2 && favoriteCancelCell["section"] != nil {
-            if indexPath.section == favoriteCancelCell["section"]! && indexPath.row == favoriteCancelCell["row"]! {
-                UIView.transition(with: cell, duration: 0.3, options: .curveEaseOut, animations: {
-                    cell.backgroundColor = .clear
-                    self.favoriteCancelCell["section"] = nil
-                    self.favoriteCancelCell["row"] = nil
-                }, completion: nil)
-            }
+        if wedgetManager.getMode() == 2 && cellDiaryID == beforeSpecialDay {
+            UIView.transition(with: cell, duration: 0.5, options: .curveEaseOut, animations: {
+                cell.backgroundColor = .clear
+            }, completion: nil)
         }
         
-//        cell.backgroundColor = colorManager.paper
+        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
+        
+        //        cell.backgroundColor = colorManager.paper
         cell.backgroundColor = .clear
         let targetDate = sortedDate[indexPath.section]
         //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
         cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
         
-        let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+        
         // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
         if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
             UIView.transition(with: cell, duration: 0.3, options: .curveEaseIn, animations: {
@@ -194,8 +192,10 @@ class MainTableViewController: UITableViewController {
             
             /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
             if specialDayRepository.isRight(id: selectedDiaryID) {
-                deleteAboutSpecialDayALL(diaryID: selectedDiaryID)
+                specialDayRepository.delete(id: selectedDiaryID)
+                beforeSpecialDay = wedgetManager.getNowWedgetID()
                 self.tableView.reloadData()
+                wedgetManager.setContentsInWedget(mode: wedgetManager.getMode())
                 return;
             }
             
@@ -217,12 +217,25 @@ class MainTableViewController: UITableViewController {
                 
                 // 테이블 리로드 & 스페셜 데이 색깔 변화
                 log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
-                self.tableView.reloadData()            }
+                self.tableView.reloadData()
+            }
         }
         else {
             // 사용자 설정 모드 아니면 알림
-            showAlert(message: "change wedget mode to 사용자지정", haveCancel: false, doneHandler: nil, cancelHandler: nil)
+            showAlert(message: "change wedget mode '사용자지정'", haveCancel: true, doneHandler:
+                { (UIAlertAction) in
+                    self.moveSelectWedgetPage()
+                }, cancelHandler: nil)
         }
+    }
+    
+    private func moveSelectWedgetPage() {
+        UIView.animate(withDuration: 0.75, animations: { () -> Void in
+            UIView.setAnimationCurve(UIViewAnimationCurve.easeInOut)
+            UIView.setAnimationTransition(UIViewAnimationTransition.flipFromLeft, for: self.navigationController!.view, cache: false)
+            let selectWedgetVC = self.storyboard?.instantiateViewController(withIdentifier: "SelectWedgetTableViewController") as? SelectWedgetTableViewController
+            self.navigationController?.pushViewController(selectWedgetVC!, animated: false)
+        })
     }
     
     private func deleteCell(indexPath: IndexPath) {
@@ -231,9 +244,11 @@ class MainTableViewController: UITableViewController {
         
         diaryRepository.delete(id: selectedDiaryID)
         imageManager.deleteImageFile(diaryID: selectedDiaryID)
+        
         if specialDayRepository.isRight(id: selectedDiaryID) {
-            deleteAboutSpecialDayALL(diaryID: selectedDiaryID)
+            specialDayRepository.delete(id: selectedDiaryID)
         }
+        
         // 삭제 후, 다이어리를 찾았을 때
         let diarys = self.diaryRepository.getAllByTheDate()
         /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
@@ -245,15 +260,8 @@ class MainTableViewController: UITableViewController {
         UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
             self.sortedDate = Array(diarys.keys).sorted(by: >)
             self.tableView.reloadData()
+            self.wedgetManager.setContentsInWedget(mode: self.wedgetManager.getMode())
         }, completion: nil)
-    }
-    
-    /** 위젯 포함 */
-    private func deleteAboutSpecialDayALL(diaryID:Int) {
-        specialDayRepository.delete(id: diaryID)
-        wedgetManager.setContentsInWedget(mode: wedgetManager.getMode())
-        favoriteCancelCell["section"] = nil
-        favoriteCancelCell["row"] = nil
     }
     
     func isLastDairy(diarys : [String : Array<Diary>]) -> Bool {

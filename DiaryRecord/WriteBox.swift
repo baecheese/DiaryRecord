@@ -14,14 +14,15 @@ struct WriteFrame {
 }
 
 extension UIViewController : UITextViewDelegate {
-
+    
     /** 키보드 위 toolBar */
-    func addToolBar(textField: UITextView){
+    func addToolBar(textField: UITextView) {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 37/255, green: 35/255, blue: 37/255, alpha: 1)
-
+        let colorManager = ColorManager(theme: WedgetManager.sharedInstance.getMode())
+        toolBar.tintColor = colorManager.tint
+        //        toolBar.tintColor = UIColor(red: 37/255, green: 35/255, blue: 37/255, alpha: 1)
         
         let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.photoPressed))
         let cancelButton = UIBarButtonItem(image: #imageLiteral(resourceName: "down.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.cancelPressed))

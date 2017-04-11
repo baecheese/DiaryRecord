@@ -31,8 +31,8 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func makeNavigationItem() {
-        let updateBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        let update = UIImage(named: "update")?.withRenderingMode(.alwaysTemplate)
+        let updateBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        let update = UIImage(named: "download")?.withRenderingMode(.alwaysTemplate)
         updateBtn.setImage(update, for: .normal)
         updateBtn.tintColor = colorManager.tint
         updateBtn.addTarget(self, action: #selector(SelectThemeViewController.save), for: .touchUpInside)

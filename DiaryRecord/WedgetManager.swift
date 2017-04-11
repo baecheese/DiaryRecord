@@ -20,10 +20,10 @@ struct LocalKey {
 /** 위젯에 넘기는 용으로 쓰는 것 */
 struct GroupKeys {
     let suiteName = "group.com.baecheese.DiaryRecord"
-    let id = "ID"
     let contents = "WedgetContents"
     let image = "ImageFile"
     let date = "Date"
+    let nowWedgetID = "ID"
 //     let vipContetns = "VIPWedgetContents"
 //     let vipImage = "VIPImageFile"
 
@@ -86,6 +86,9 @@ class WedgetManager: NSObject {
         if haveBeforeDate() {
             deleteBeforeDate()
         }
+        if haveBeforeWedgetID() {
+            deleteBeforeWedgetID()
+        }
         
         if (mode == 0) {
             // default 위젯 (랜덤)
@@ -118,6 +121,7 @@ class WedgetManager: NSObject {
 //            }
         }
         
+        saveWedgetID(id: (diary?.id)!)
         saveContents(contents: (diary?.content)!)
         saveImage(imageName: diary?.imageName)
         saveDate(timestamp: (diary?.timeStamp)!)
@@ -160,7 +164,7 @@ class WedgetManager: NSObject {
         return nil
     }
     
-    // -- cheesing
+    
     private func specialDay() -> Diary? {
         let specialDayList = specialDayRepository.getAll()
         if 0 < specialDayList.count {
@@ -170,6 +174,7 @@ class WedgetManager: NSObject {
         }
         return nil
     }
+    
     // -- cheesing
     private func saveForVIP(specialDays:[SpecialDay]) {
         
@@ -192,6 +197,11 @@ class WedgetManager: NSObject {
          }
          
          */
+    }
+    
+    private func saveWedgetID(id:Int) {
+        groupDefaults?.set(id, forKey: wedgetGroupKey.nowWedgetID)
+        log.info(message: " get nowWedgetID : \(groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID))")
     }
     
     private func saveContents(contents:String) {
@@ -249,10 +259,22 @@ class WedgetManager: NSObject {
         return true
     }
     
+    private func haveBeforeWedgetID() -> Bool {
+        if nil == groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID) {
+            return false
+        }
+        return true
+    }
     
-    private func saveID(id:Int) {
-        groupDefaults?.set(id, forKey: wedgetGroupKey.id)
-        log.info(message: " get wedgetID : \(groupDefaults?.value(forKey: wedgetGroupKey.id))")
+    private func deleteBeforeWedgetID() {
+        groupDefaults?.removeObject(forKey: wedgetGroupKey.nowWedgetID)
+    }
+    
+    func getNowWedgetID() -> Int? {
+        if ((groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID)) != nil) {
+            return groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID) as? Int
+        }
+        return nil
     }
     
     /* 잘 들어갔는지 로그 확인 용 --- 전체 wdget 데이터 보는 용으로 바꾸기 cheesing**/

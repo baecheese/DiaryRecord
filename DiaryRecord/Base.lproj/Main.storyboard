@@ -53,13 +53,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="8qH-te-YWE">
                         <barButtonItem key="leftBarButtonItem" image="setting.png" id="g4p-hB-LA4">
-                            <inset key="imageInsets" minX="3" minY="3" maxX="3" maxY="3"/>
+                            <inset key="imageInsets" minX="6" minY="6" maxX="6" maxY="6"/>
                             <connections>
                                 <action selector="moveSettingPage:" destination="96T-12-buO" id="jig-Xl-srd"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="write.png" id="tPn-VB-Izj">
-                            <inset key="imageInsets" minX="3" minY="3" maxX="3" maxY="3"/>
+                            <inset key="imageInsets" minX="18" minY="7" maxX="6" maxY="8"/>
                             <connections>
                                 <action selector="moveWritePage:" destination="96T-12-buO" id="clp-Pe-WTK"/>
                             </connections>
@@ -390,7 +390,7 @@
         <!--Select Wedget Table View Controller-->
         <scene sceneID="X8R-sj-RPg">
             <objects>
-                <tableViewController storyboardIdentifier="SelectWedgetTableViewController" id="0jy-v0-2VL" customClass="SelectWedgetTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SelectWedgetTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0jy-v0-2VL" customClass="SelectWedgetTableViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="4ue-hz-KDP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -481,12 +481,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gallery.png" width="30" height="30"/>
+        <image name="gallery.png" width="40" height="40"/>
         <image name="moon1.png" width="128" height="128"/>
         <image name="moon2.png" width="128" height="128"/>
-        <image name="no.png" width="30" height="30"/>
-        <image name="setting.png" width="30" height="30"/>
+        <image name="no.png" width="40" height="40"/>
+        <image name="setting.png" width="40" height="40"/>
         <image name="update.png" width="128" height="128"/>
-        <image name="write.png" width="30" height="30"/>
+        <image name="write.png" width="60" height="40"/>
     </resources>
 </document>
