@@ -75,14 +75,13 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         writeBox.writeSpace.endEditing(true)
         if 1 < writeBox.writeSpace.text.characters.count || (imageData != nil) {
             showAlert(message: "Unsaved changes will be discarded if you go back", haveCancel: true, doneHandler: { (UIAlertAction) in
-                _ = self.navigationController?.popViewController(animated: true)
+               self.disappearPopAnimation()
             }, cancelHandler: nil)
         }
         else {
-             _ = self.navigationController?.popViewController(animated: true)
+            disappearPopAnimation()
         }
     }
-    
     /* action */
     
     @IBAction func clickSaveButton(_ sender: UIBarButtonItem) {
@@ -275,7 +274,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         
         self.automaticallyAdjustsScrollViewInsets = false
         
-        addToolBar(textField: writeBox.writeSpace)
+        addToolBar(textField: writeBox.writeSpace, barTintColor: colorManager.bar.withAlphaComponent(0.7), tintColor: colorManager.tint)
         
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {

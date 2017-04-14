@@ -75,7 +75,7 @@ class ColorManager: NSObject {
     
     func sliver() {
         bar = UIColor(rgb: 0xc1c0c1)
-        tint = UIColor(rgb: 0xd6d6d6)
+        tint = UIColor.white.withAlphaComponent(0.7)
         date = UIColor(rgb: 0xdedede)
         special = UIColor(rgb: 0xd6d6d6)
         paper = UIColor(rgb: 0xebebeb)

@@ -111,6 +111,11 @@ class SettingTableViewController: UITableViewController {
                 let wedgetMode = self.storyboard?.instantiateViewController(withIdentifier: "SelectWedgetTableViewController") as! SelectWedgetTableViewController
                 self.navigationController?.pushViewController(wedgetMode, animated: true)
             }
+            // 비밀번호 설정
+            if indexPath.row == 3 {
+                let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
+                self.navigationController?.pushViewController(passwordVC, animated: true)
+            }
         }
         // iCouldList - ["계정", "로그인 / 로그아웃"]
         if indexPath.section == 2 {

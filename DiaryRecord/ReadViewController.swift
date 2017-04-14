@@ -76,7 +76,7 @@ class ReadViewController: UIViewController {
         navigationItem.rightBarButtonItem = item
         
         let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        let back = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
+        let back = UIImage(named: "down")?.withRenderingMode(.alwaysTemplate)
         backBtn.setImage(back, for: .normal)
         backBtn.tintColor = colorManager.tint
         backBtn.addTarget(self, action: #selector(ReadViewController.back), for: .touchUpInside)
@@ -92,7 +92,9 @@ class ReadViewController: UIViewController {
     }
     
     func back() {
-        _ = navigationController?.popViewController(animated: true)
+        UIView.transition(with: self.navigationController!.view, duration: 0.7, options: UIViewAnimationOptions.transitionCurlDown, animations: {
+            _ = self.navigationController?.popViewController(animated: false)
+        }, completion: nil)
     }
     
     

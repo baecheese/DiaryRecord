@@ -21,6 +21,8 @@
 		0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9511E8B981F006B20BA /* WedgetManager.swift */; };
 		0326B95A1E8BB7F4006B20BA /* SelectWedgetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */; };
 		03462A3F1E913B9E00A2E5D1 /* wedget.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 03462A3E1E913B9E00A2E5D1 /* wedget.jpg */; };
+		034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA21EA06EDE00DE1262 /* dontKnow.png */; };
+		034AFBA51EA06EDE00DE1262 /* know.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA31EA06EDE00DE1262 /* know.png */; };
 		0355407E1E7EA5920093A244 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0355407D1E7EA5920093A244 /* ColorManager.swift */; };
 		035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035D7B991E48BE6800F66B24 /* Logger.swift */; };
 		036B6A1C1E9D1015006A044E /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B6A1B1E9D1015006A044E /* setting.png */; };
@@ -35,6 +37,7 @@
 		036B6A351E9D13A0006A044E /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B6A281E9D13A0006A044E /* search.png */; };
 		036B6A371E9D13A0006A044E /* upload.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B6A2A1E9D13A0006A044E /* upload.png */; };
 		036B6A3A1E9D13A0006A044E /* no.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B6A2D1E9D13A0006A044E /* no.png */; };
+		036B6A3E1E9F3714006A044E /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036B6A3D1E9F3714006A044E /* PasswordViewController.swift */; };
 		037343161E9C82D300FDFF91 /* speicalCell.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 037343151E9C82D300FDFF91 /* speicalCell.jpg */; };
 		037522931E850BE20001B24F /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037522921E850BE20001B24F /* NotificationCenter.framework */; };
 		037522961E850BE20001B24F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037522951E850BE20001B24F /* TodayViewController.swift */; };
@@ -132,6 +135,8 @@
 		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
 		0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWedgetTableViewController.swift; sourceTree = "<group>"; };
 		03462A3E1E913B9E00A2E5D1 /* wedget.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wedget.jpg; sourceTree = "<group>"; };
+		034AFBA21EA06EDE00DE1262 /* dontKnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dontKnow.png; sourceTree = "<group>"; };
+		034AFBA31EA06EDE00DE1262 /* know.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know.png; sourceTree = "<group>"; };
 		03522BB01E8E36D900D86E90 /* DiaryRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaryRecord.entitlements; sourceTree = "<group>"; };
 		03522BB11E8E3BEB00D86E90 /* BookmarkExtention.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookmarkExtention.entitlements; sourceTree = "<group>"; };
 		0355407D1E7EA5920093A244 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
@@ -149,6 +154,7 @@
 		036B6A281E9D13A0006A044E /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		036B6A2A1E9D13A0006A044E /* upload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upload.png; sourceTree = "<group>"; };
 		036B6A2D1E9D13A0006A044E /* no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no.png; sourceTree = "<group>"; };
+		036B6A3D1E9F3714006A044E /* PasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		037343151E9C82D300FDFF91 /* speicalCell.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = speicalCell.jpg; sourceTree = "<group>"; };
 		037522911E850BE20001B24F /* BookmarkExtention.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BookmarkExtention.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		037522921E850BE20001B24F /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -331,6 +337,7 @@
 				037624751E7E553F002C069A /* SettingTableViewController.swift */,
 				03A7A26F1E817D160074CCFE /* SelectThemeViewController.swift */,
 				0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */,
+				036B6A3D1E9F3714006A044E /* PasswordViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -398,6 +405,8 @@
 				037522AA1E862C090001B24F /* moon2.png */,
 				037522AC1E862D860001B24F /* moon1.png */,
 				037522A21E856F260001B24F /* appIcon_1.jpg */,
+				034AFBA21EA06EDE00DE1262 /* dontKnow.png */,
+				034AFBA31EA06EDE00DE1262 /* know.png */,
 				037522A81E86294F0001B24F /* LanchScreen_6.jpg */,
 				037343151E9C82D300FDFF91 /* speicalCell.jpg */,
 				037522A41E856F7B0001B24F /* LanchScreen_1.jpg */,
@@ -632,12 +641,14 @@
 				037522A31E856F260001B24F /* appIcon_1.jpg in Resources */,
 				036B6A2E1E9D13A0006A044E /* gallery.png in Resources */,
 				03A7A2841E82532D0074CCFE /* back.png in Resources */,
+				034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */,
 				030DB0D31E407381004E3532 /* Assets.xcassets in Resources */,
 				037522AB1E862C090001B24F /* moon2.png in Resources */,
 				037522A91E86294F0001B24F /* LanchScreen_6.jpg in Resources */,
 				036B6A311E9D13A0006A044E /* delete.png in Resources */,
 				036B6A321E9D13A0006A044E /* download.png in Resources */,
 				036B6A201E9D11EA006A044E /* write.png in Resources */,
+				034AFBA51EA06EDE00DE1262 /* know.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +845,7 @@
 				035D7B9A1E48BE6800F66B24 /* Logger.swift in Sources */,
 				030DB1021E4186F3004E3532 /* Diary.swift in Sources */,
 				0399B20B1E656472003E8672 /* WriteBox.swift in Sources */,
+				036B6A3E1E9F3714006A044E /* PasswordViewController.swift in Sources */,
 				0326B95A1E8BB7F4006B20BA /* SelectWedgetTableViewController.swift in Sources */,
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
 				03C702B41E84CE6E00B15033 /* ImageBox.swift in Sources */,

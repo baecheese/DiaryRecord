@@ -79,9 +79,15 @@ class MainTableViewController: UITableViewController {
     }
     
     @IBAction func moveWritePage(_ sender: UIBarButtonItem) {
+        let transition = CATransition()
+        transition.duration = 0.6
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
+        
         SharedMemoryContext.set(key: "isWriteMode", setValue: true)
         let writeVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
-        self.navigationController?.pushViewController(writeVC!, animated: true)
+        self.navigationController?.pushViewController(writeVC!, animated: false)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -162,8 +168,15 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
         SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
+        
+        UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
+            let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
+            self.navigationController?.pushViewController(readVC!, animated: false)
+        }, completion: nil)
+        
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
