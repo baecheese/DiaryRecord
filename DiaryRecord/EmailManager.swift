@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class EmailManager: NSObject {
+class EmailManager: NSObject, MFMailComposeViewControllerDelegate {
     
     private override init() {
         super.init()
@@ -42,6 +43,21 @@ class EmailManager: NSObject {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: email)
     }
-
     
+    func delete() {
+        defaults.set(nil, forKey: "email")
+    }
+    
+    func sendNewPassword(newPassword:String) {
+        // 새로운 비번 설정된 이메일에 보내기
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([get()!])
+            mail.setMessageBody("<p> new password : \(newPassword) </p>", isHTML: true)
+//            present(mail, animated: true)????????????????? 키체인으로 설정된건 설정에서볼수있다. --> 키체인공부필요
+        } else {
+            // show failure alert
+        }
+    }
 }

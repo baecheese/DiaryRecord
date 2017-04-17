@@ -67,5 +67,10 @@ class KeychainManager: NSObject {
         log.info(message: "loadPassword : \(loadPassword())")
     }
     
+    func resetPassword() -> String {
+        savePassword(value: "1111")
+        // 새로운 암호 저장하고 리턴 ing
+        return "1111"
+    }
     
 }

@@ -9,10 +9,10 @@
 import UIKit
 
 struct SettingMenu {
-    let setionList:[String] = ["test", "setting", "account", "help", "Resorce Licenses"]
-    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체"]
+    let setionList:[String] = ["test", "setting", "secret mode", "help", "Resorce Licenses"]
+    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "비밀번호 / 이메일"]
     let basicList:[String] = ["테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금"]
-    let accountList:[String] = ["계정", "비밀번호 찾기"]
+    let secretModeList:[String] = ["계정", "비밀번호 찾기"]
     let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
     let licensesInfo:[String] = ["licenses info"]
 }
@@ -25,6 +25,7 @@ class SettingTableViewController: UITableViewController {
     private let imageManager = ImageFileManager.sharedInstance
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let fontManger = FontManger()
+    private let emailManager = EmailManager.sharedInstance
     private let swich = UISwitch()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +51,7 @@ class SettingTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.accountList, settingMenu.infoList, settingMenu.licensesInfo]
+        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.secretModeList, settingMenu.infoList, settingMenu.licensesInfo]
         return menuList[section].count
     }
     
@@ -77,11 +78,12 @@ class SettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath)
         
-        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.accountList, settingMenu.infoList, settingMenu.licensesInfo]
+        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.secretModeList, settingMenu.infoList, settingMenu.licensesInfo]
         cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
         cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
         cell.textLabel?.text = menuNameListInSection[indexPath.row]
+        cell.accessoryType = .none
         
         // 비밀번호 설정 관련
         if indexPath.section == 1 {
@@ -122,6 +124,10 @@ class SettingTableViewController: UITableViewController {
             if indexPath.row == 3 {
                 log.info(message: "\(SpecialDayRepository.sharedInstance.getAll())")
             }
+            if indexPath.row == 4{
+                log.info(message: "Password: \(KeychainManager.sharedInstance.loadPassword())")
+                log.info(message: "Email : \(EmailManager.sharedInstance.get())")
+            }
         }
         /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
         if indexPath.section == 1 {
@@ -144,9 +150,14 @@ class SettingTableViewController: UITableViewController {
                 return;
             }
         }
-        // iCouldList - ["계정", "로그인 / 로그아웃"]
+        // secret mode - ["이메일", "비밀번호 찾기"]
         if indexPath.section == 2 {
-            
+            if indexPath.row == 0 {
+               moveChangeEmailPage()
+            }
+            if indexPath.row == 1 {
+                resetPassword()
+            }
         }
         // infoList - ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
         if indexPath.section == 3 {
@@ -178,17 +189,11 @@ class SettingTableViewController: UITableViewController {
     }
     
     func setEmailLabel(cell:UITableViewCell) {
-        let emailManager = EmailManager.sharedInstance
-        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
-            let email = UILabel(frame: CGRect(x: cell.frame.size.width/2, y: 0.0, width: cell.frame.size.width/2 - swich.frame.size.width - 15, height: cell.frame.size.height))
-            email.text = emailManager.get()
-            email.textColor = .gray
-            email.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize - 5)
-            email.textAlignment  = .center
-            cell.contentView.addSubview(email)
+        if nil != emailManager.get() {
+            cell.textLabel?.text = emailManager.get()
+            cell.accessoryType = .disclosureIndicator
         }
     }
-    
     
     func moveSetPasswordPage() {
         let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
@@ -222,6 +227,24 @@ class SettingTableViewController: UITableViewController {
         //        cell.contentView.addSubview(swich)
     }
     
+    func moveChangeEmailPage() {
+        let emailVC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailViewController
+        self.navigationController?.pushViewController(emailVC, animated: true)
+    }
+    
+    func resetPassword() {
+        let message = Message()
+        let keychainManager = KeychainManager.sharedInstance
+        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
+            showAlert(message: message.resetPassword, haveCancel: true, doneHandler: { (UIAlertAction) in
+                self.emailManager.sendNewPassword(newPassword: keychainManager.resetPassword())
+            }, cancelHandler: nil)
+        }
+        else {
+            showAlert(message: message.notSecretMode, haveCancel: false, doneHandler: nil, cancelHandler: nil)
+        }
+    }
+    
     func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
     {
         let alertController = UIAlertController(title: "Notice", message:
@@ -232,8 +255,6 @@ class SettingTableViewController: UITableViewController {
         }
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    
     
     func makeNavigationItem()  {
         let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))

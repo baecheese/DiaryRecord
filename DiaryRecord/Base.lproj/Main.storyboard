@@ -315,14 +315,13 @@
                                 <rect key="frame" x="152" y="112" width="74" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="NVL-8k-391"/>
-                                    <constraint firstAttribute="width" constant="74" id="XQp-Yo-lPo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter a correct email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHf-hW-bJX">
-                                <rect key="frame" x="81" y="158" width="213" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter a correct email." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHf-hW-bJX">
+                                <rect key="frame" x="81" y="146" width="213" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="DYc-VO-MfA"/>
                                     <constraint firstAttribute="width" constant="213" id="udE-kv-Vc5"/>
@@ -331,7 +330,7 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Used to recover your password, if you lose your device." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ASF-cQ-CJ0">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Used to recover your password, if you forget password." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ASF-cQ-CJ0">
                                 <rect key="frame" x="75" y="187" width="229" height="57"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -341,24 +340,39 @@
                                 <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0yH-50-9jL">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0yH-50-9jL">
                                 <rect key="frame" x="111" y="273" width="153" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="This email will not be saved in server." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCN-2k-Rvq">
+                                <rect key="frame" x="56" y="323" width="263" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="MZL-VT-sKG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0yH-50-9jL" firstAttribute="leading" secondItem="PqQ-Ec-LBK" secondAttribute="leadingMargin" constant="40" id="0iR-8S-wI9"/>
-                            <constraint firstItem="slw-8s-A9i" firstAttribute="top" secondItem="ElA-KL-c3I" secondAttribute="bottom" constant="92" id="Hf7-Ct-i48"/>
+                            <constraint firstItem="slw-8s-A9i" firstAttribute="top" secondItem="ElA-KL-c3I" secondAttribute="bottom" constant="80" id="Hf7-Ct-i48"/>
                             <constraint firstItem="ASF-cQ-CJ0" firstAttribute="top" secondItem="RHf-hW-bJX" secondAttribute="bottom" constant="8" id="IP1-xd-jkn"/>
                             <constraint firstItem="slw-8s-A9i" firstAttribute="centerX" secondItem="PqQ-Ec-LBK" secondAttribute="centerX" id="PC4-wc-VgG"/>
+                            <constraint firstItem="KCN-2k-Rvq" firstAttribute="centerX" secondItem="PqQ-Ec-LBK" secondAttribute="centerX" id="PP0-nL-ogX"/>
                             <constraint firstItem="RHf-hW-bJX" firstAttribute="centerX" secondItem="PqQ-Ec-LBK" secondAttribute="centerX" id="Ps8-EL-nQl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="slw-8s-A9i" secondAttribute="trailing" id="TIG-lv-jLU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0yH-50-9jL" secondAttribute="trailing" constant="40" id="ari-bT-jZS"/>
                             <constraint firstItem="0yH-50-9jL" firstAttribute="centerX" secondItem="PqQ-Ec-LBK" secondAttribute="centerX" id="atd-mI-Tkt"/>
+                            <constraint firstItem="KCN-2k-Rvq" firstAttribute="leading" secondItem="PqQ-Ec-LBK" secondAttribute="leadingMargin" id="bSI-mH-ZoL"/>
+                            <constraint firstItem="slw-8s-A9i" firstAttribute="leading" secondItem="PqQ-Ec-LBK" secondAttribute="leadingMargin" id="eKH-3t-eXM"/>
                             <constraint firstItem="0yH-50-9jL" firstAttribute="top" secondItem="ASF-cQ-CJ0" secondAttribute="bottom" constant="30" id="kYG-bA-fjf"/>
                             <constraint firstItem="ASF-cQ-CJ0" firstAttribute="centerX" secondItem="PqQ-Ec-LBK" secondAttribute="centerX" id="qQf-gA-Idn"/>
+                            <constraint firstItem="KCN-2k-Rvq" firstAttribute="top" secondItem="0yH-50-9jL" secondAttribute="bottom" constant="20" id="raZ-Yk-aEL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KCN-2k-Rvq" secondAttribute="trailing" id="reg-a7-5Hq"/>
                             <constraint firstItem="RHf-hW-bJX" firstAttribute="top" secondItem="slw-8s-A9i" secondAttribute="bottom" constant="23" id="rvQ-qa-xOd"/>
                         </constraints>
                     </view>
@@ -366,6 +380,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="emailField" destination="0yH-50-9jL" id="muV-Ep-4Hk"/>
+                        <outlet property="titleLabel" destination="slw-8s-A9i" id="xeQ-rZ-7wO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbW-Dc-geB" userLabel="First Responder" sceneMemberID="firstResponder"/>

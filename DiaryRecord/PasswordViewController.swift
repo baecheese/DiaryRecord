@@ -8,7 +8,10 @@
 
 import UIKit
 
+/** PasswordViewController */
 struct Message {
+    let notSecretMode = "This device currently has no password."
+    let resetPassword = "Send new password to your email."
     let deleteSuccess = "The password has been deleted successfully."
     let saveSuccess = "The password has been saved successfully."
     let saveCancel = "If you’re sure you want to cancel your password setup, click Done."
@@ -25,6 +28,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let message = Message()
     private let keychainManager = KeychainManager.sharedInstance
+    private let emailManager = EmailManager.sharedInstance
     
     @IBOutlet var guide: UILabel!
     private var password = ""
@@ -160,7 +164,9 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         }
         else {
             showAlert(message: message.saveCancel, haveCancel: true, doneHandler: { (UIAlertAction) in
+                SharedMemoryContext.set(key: "isSecretMode", setValue: false)
                 self.keychainManager.deletePassword()
+                self.emailManager.delete()
                 _ = self.navigationController?.popViewController(animated: true)
             }, cancelHandler: nil)
         }
@@ -201,8 +207,13 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
                 SharedMemoryContext.set(key: "isSecretMode", setValue: true)
                 saveToKeychain(password: password)
                 showAlert(message: message.saveSuccess, haveCancel: false, doneHandler: { (UIAlertAction) in
-                    // 이메일 저장 페이지로
-                    self.moveSaveEmail()
+                    if nil == self.emailManager.get() {
+                        // 이메일 저장 페이지로
+                        self.moveSaveEmail()
+                    }
+                    else {
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
                 }, cancelHandler: nil)
                 log.info(message: "password 저장")
                 return;
