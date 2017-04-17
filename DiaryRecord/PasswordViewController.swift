@@ -20,6 +20,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     private let log = Logger(logPlace: PasswordViewController.self)
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let message = Message()
+    private let keychainManager = KeychainManager.sharedInstance
     
     @IBOutlet var guide: UILabel!
     private var password = ""
@@ -35,18 +36,28 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         guide.text = message.enterPassword
+        setNavigationTitleToMode()
         makeNavigationItem()
         setTextFieldStatus()
         setDontKnowPasswordImage()
     }
     
     func setTextFieldStatus() {
-        
         passwordField.delegate = self
         passwordField.becomeFirstResponder()
         passwordField.keyboardType = UIKeyboardType.numberPad
         
     }
+    
+    func setNavigationTitleToMode() {
+        if true == SharedMemoryContext.get(key: "deletePasswordMode") as? Bool {
+            navigationItem.title = "Delete Password"
+        }
+        else {
+            navigationItem.title = "Save Password"
+        }
+    }
+    
     
     private var last = false
     let maxLength = 4
@@ -139,22 +150,64 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func back() {
-        _ = self.navigationController?.popViewController(animated: true)
+        if true == SharedMemoryContext.get(key: "deletePasswordMode") as? Bool {
+            backForDelete()
+        }
+        else {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func backForDelete() {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
+        _ = self.navigationController?.popViewController(animated: false)
     }
     
     func savePassword() {
-        log.info(message: "passWord : \(password) againPassWord : \(againPassword) ")
-        
         if password.characters.count < 4 || againPassword.characters.count < 4 {
             resetPassword(message: message.blankFail)
+            return;
         }
         
         if password == againPassword {
-            log.info(message: "password 저장")
+            if true == SharedMemoryContext.get(key: "deletePasswordMode") as? Bool {
+                if isRightPassword(password: password) {
+                    keychainManager.deletePassword()
+                    showAlert(message: "비밀번호가 삭제되었습니다", haveCancel: false, doneHandler: { (UIAlertAction) in
+                        SharedMemoryContext.set(key: "isSecretMode", setValue: false)
+                        SharedMemoryContext.set(key: "deletePasswordMode", setValue: false)
+                        self.backForDelete()
+                    }, cancelHandler: nil)
+                    return;
+                }
+                else {
+                    resetPassword(message: message.matchFail)
+                }
+            }
+            else {
+                SharedMemoryContext.set(key: "isSecretMode", setValue: true)
+                saveToKeychain(password: password)
+                showAlert(message: "비밀번호가 저장되었습니다", haveCancel: false, doneHandler: { (UIAlertAction) in
+                    _ = self.navigationController?.popViewController(animated: true)
+                }, cancelHandler: nil)
+                log.info(message: "password 저장")
+                return;
+            }
         }
         else {
             resetPassword(message: message.matchFail)
         }
+    }
+    
+    func isRightPassword(password:String) -> Bool {
+        if keychainManager.isRightPassword(password: password) {
+            return true
+        }
+        return false
     }
     
     func resetPassword(message:String) {
@@ -167,15 +220,26 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         passwordField.becomeFirstResponder()
     }
     
+    func saveToKeychain(password:String) {
+        keychainManager.savePassword(value: password)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
+    {
+        let alertController = UIAlertController(title: "Notice", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default,handler: doneHandler))
+        if haveCancel {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
     
-    
-
     /*
     // MARK: - Navigation
 

@@ -18,6 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
         
+        let keychain = KeychainManager.sharedInstance
+        if keychain.loadPassword() == nil {
+            SharedMemoryContext.set(key: "isSecretMode", setValue: false)
+        }
+        if keychain.loadPassword() != nil {
+            SharedMemoryContext.set(key: "isSecretMode", setValue: true)
+        }
+        
         return true
     }
 

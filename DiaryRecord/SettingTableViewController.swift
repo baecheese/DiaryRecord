@@ -25,6 +25,11 @@ class SettingTableViewController: UITableViewController {
     private let imageManager = ImageFileManager.sharedInstance
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let fontManger = FontManger()
+    private let swich = UISwitch()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,13 +82,26 @@ class SettingTableViewController: UITableViewController {
         cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
         cell.textLabel?.text = menuNameListInSection[indexPath.row]
+        
+        // 비밀번호 설정 관련
+        if indexPath.section == 1 {
+            // 비밀번호 설정
+            if indexPath.row == 3 {
+                setSwichFromPassword(cell: cell)
+            }
+            // touch 설정
+            if indexPath.row == 4 {
+                setSwichFromTouchID(cell: cell)
+            }
+        }
 
         return cell
     }
     
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selected = tableView.cellForRow(at: indexPath)
-        selected?.setSelected(false, animated: true)
+        
         /* test용 로그 */
         if indexPath.section == 0 {
             if indexPath.row == 0 {
@@ -113,8 +131,11 @@ class SettingTableViewController: UITableViewController {
             }
             // 비밀번호 설정
             if indexPath.row == 3 {
-                let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
-                self.navigationController?.pushViewController(passwordVC, animated: true)
+                /*test용 - 비번 수정용 */
+//                let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
+//                self.navigationController?.pushViewController(passwordVC, animated: true)                
+                selected?.selectionStyle = .none
+                return;
             }
         }
         // iCouldList - ["계정", "로그인 / 로그아웃"]
@@ -131,7 +152,70 @@ class SettingTableViewController: UITableViewController {
             let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController
             self.navigationController?.pushViewController(LicenseVC, animated: true)
         }
+        
+        selected?.setSelected(false, animated: true)
     }
+    
+    
+    func setSwichFromPassword(cell:UITableViewCell) {
+        let margen:CGFloat = 10.0
+        let swichSize = swich.frame.size
+        swich.frame.origin = CGPoint(x: cell.frame.size.width - swichSize.width - margen, y: cell.frame.size.height / 2 - swichSize.height / 2)
+        swich.tag = 1
+        swich.addTarget(self, action: #selector(moveSetPasswordPage), for: UIControlEvents.valueChanged)
+        cell.contentView.addSubview(swich)
+        if false == SharedMemoryContext.get(key: "isSecretMode") as! Bool {
+            swich.isOn = false
+        }
+        else {
+            swich.isOn = true
+        }
+    }
+    
+    func moveSetPasswordPage() {
+        let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
+        if swich.isOn == true {
+            self.navigationController?.pushViewController(passwordVC, animated: true)
+        }
+        else {
+            showAlert(message: "Are you sure you want to unlock the secret mode?", haveCancel: true, doneHandler: { (UIAlertAction) in
+                SharedMemoryContext.set(key: "deletePasswordMode", setValue: true)
+                let transition = CATransition()
+                transition.duration = 0.5
+                transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+                transition.type = kCATransitionFade
+                self.navigationController?.view.layer.add(transition, forKey: nil)
+                _ = self.navigationController?.pushViewController(passwordVC, animated: false)
+            }, cancelHandler: { (UIAlertAction) in
+                self.swich.setOn(true, animated: true)
+            })
+        }
+    }
+    
+    func setSwichFromTouchID(cell:UITableViewCell) {
+        //        swich.tag = 2
+        //        //key - haveTouchID가 잇어야 할 듯
+        //        if false == SharedMemoryContext.get(key: "") as! Bool {//chessing
+        //            swich.isOn = false
+        //        }
+        //        else {
+        //            swich.isOn = true
+        //        }
+        //        cell.contentView.addSubview(swich)
+    }
+    
+    func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
+    {
+        let alertController = UIAlertController(title: "Notice", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default,handler: doneHandler))
+        if haveCancel {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
     
     func makeNavigationItem()  {
         let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))

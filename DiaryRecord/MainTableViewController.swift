@@ -63,6 +63,7 @@ class MainTableViewController: UITableViewController {
         view.backgroundColor = colorManager.paper
         self.tableView.separatorStyle = .none
         
+        log.info(message: "isSecretMode : \(SharedMemoryContext.get(key: "isSecretMode"))")
     }
 
     override func didReceiveMemoryWarning() {
