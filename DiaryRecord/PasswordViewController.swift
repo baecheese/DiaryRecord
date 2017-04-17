@@ -9,10 +9,14 @@
 import UIKit
 
 struct Message {
+    let deleteSuccess = "The password has been deleted successfully."
+    let saveSuccess = "The password has been saved successfully."
+    let saveCancel = "If you’re sure you want to cancel your password setup, click Done."
     let enterPassword = "Enter a password for this user."
     let enterPasswordAgain = "Enter a password again"
     let matchFail = "The New and Confirm passwords must match."
     let blankFail = "Enter the 4 character password."
+    let wrong = "Password differs. please try again"
 }
 
 class PasswordViewController: UIViewController, UITextFieldDelegate {
@@ -140,8 +144,9 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         let item = UIBarButtonItem(customView: backBtn)
         navigationItem.leftBarButtonItem = item
         
-        let saveBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        saveBtn.setTitle("save", for: .normal)
+        let saveBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        let save = UIImage(named: "lock")?.withRenderingMode(.alwaysTemplate)
+        saveBtn.setImage(save, for: .normal)
         saveBtn.tintColor = colorManager.tint
         saveBtn.addTarget(self, action: #selector(PasswordViewController.savePassword), for: .touchUpInside)
         
@@ -154,7 +159,10 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             backForDelete()
         }
         else {
-            _ = self.navigationController?.popViewController(animated: true)
+            showAlert(message: message.saveCancel, haveCancel: true, doneHandler: { (UIAlertAction) in
+                self.keychainManager.deletePassword()
+                _ = self.navigationController?.popViewController(animated: true)
+            }, cancelHandler: nil)
         }
     }
     
@@ -174,10 +182,11 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         }
         
         if password == againPassword {
+            // 삭제모드
             if true == SharedMemoryContext.get(key: "deletePasswordMode") as? Bool {
                 if isRightPassword(password: password) {
                     keychainManager.deletePassword()
-                    showAlert(message: "비밀번호가 삭제되었습니다", haveCancel: false, doneHandler: { (UIAlertAction) in
+                    showAlert(message: message.deleteSuccess, haveCancel: false, doneHandler: { (UIAlertAction) in
                         SharedMemoryContext.set(key: "isSecretMode", setValue: false)
                         SharedMemoryContext.set(key: "deletePasswordMode", setValue: false)
                         self.backForDelete()
@@ -185,14 +194,15 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
                     return;
                 }
                 else {
-                    resetPassword(message: message.matchFail)
+                    resetPassword(message: message.wrong)
                 }
-            }
+            }// 저장 모드
             else {
                 SharedMemoryContext.set(key: "isSecretMode", setValue: true)
                 saveToKeychain(password: password)
-                showAlert(message: "비밀번호가 저장되었습니다", haveCancel: false, doneHandler: { (UIAlertAction) in
-                    _ = self.navigationController?.popViewController(animated: true)
+                showAlert(message: message.saveSuccess, haveCancel: false, doneHandler: { (UIAlertAction) in
+                    // 이메일 저장 페이지로
+                    self.moveSaveEmail()
                 }, cancelHandler: nil)
                 log.info(message: "password 저장")
                 return;
@@ -201,6 +211,11 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         else {
             resetPassword(message: message.matchFail)
         }
+    }
+    
+    private func moveSaveEmail() {
+        let EmailVC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as? EmailViewController
+        self.navigationController?.pushViewController(EmailVC!, animated: true)
     }
     
     func isRightPassword(password:String) -> Bool {

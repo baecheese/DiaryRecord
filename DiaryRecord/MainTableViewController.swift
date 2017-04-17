@@ -8,6 +8,7 @@
 
 import UIKit
 
+/** MainTableViewController */
 struct FontManger {
     let headerTextSize:CGFloat = 14.0
     let celltextSize:CGFloat = 18.0
@@ -57,6 +58,7 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
+        
         changeWedget()
         navigationFont()
         changeNavigationTheme()
@@ -64,6 +66,7 @@ class MainTableViewController: UITableViewController {
         self.tableView.separatorStyle = .none
         
         log.info(message: "isSecretMode : \(SharedMemoryContext.get(key: "isSecretMode"))")
+//        useSecretMode()
     }
 
     override func didReceiveMemoryWarning() {
@@ -324,6 +327,13 @@ class MainTableViewController: UITableViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    
+    private func useSecretMode() {
+        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
+            let enterPasswordVC = EnterPasswordViewController()
+            self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+            self.modalPresentationStyle = .currentContext
+            self.present(enterPasswordVC, animated: true, completion: nil)
+        }
+    }
     
 }
