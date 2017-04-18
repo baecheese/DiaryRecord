@@ -189,6 +189,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             if true == SharedMemoryContext.get(key: "deletePasswordMode") as? Bool {
                 if isRightPassword(password: password) {
                     keychainManager.deletePassword()
+                    keychainManager.deleteSecrectQNA()
                     showAlert(message: message.deleteSuccess, haveCancel: false, doneHandler: { (UIAlertAction) in
                         SharedMemoryContext.set(key: "isSecretMode", setValue: false)
                         SharedMemoryContext.set(key: "deletePasswordMode", setValue: false)

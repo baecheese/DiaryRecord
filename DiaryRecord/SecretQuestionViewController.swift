@@ -10,23 +10,44 @@ import UIKit
 
 struct SecrectQuestionMessage {
     let questions = ["가장 기억에 남는 장소는?", "다시 태어나면 되고 싶은 것은?", "사랑하는 사람의 이름은?", "반려동물의 이름은?", "가장 기억에 남는 영화는?", "가장 좋아하는 책은?"]
+    let empty = "Please answer."
+    let success = "Save was successful."
 }
 
 class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     private let log = Logger(logPlace: SecretQuestionViewController.self)
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
-    private let selectQuestion = "가장 기억에 남는 장소는?"
+    private var selectQuestion = "가장 기억에 남는 장소는?"
     private let keychainManager = KeychainManager.sharedInstance
+    private let message = SecrectQuestionMessage()
     
     @IBOutlet var SecretQuestionView: UIView!
     @IBOutlet var question: UIButton!
     @IBOutlet var answer: UITextField!
     
+    @IBOutlet var noticeLabel: UILabel!// 찾을 때, 설정할 때 달라야하니까
+    @IBOutlet var ok: UIButton!
+    @IBOutlet var cancel: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavigationItem()
+        showFindButton()
     }
+    
+    func showFindButton() {
+        if false == isFindMode() {
+            
+        }
+    }
+    
+    func isFindMode() -> Bool {
+        if true == SharedMemoryContext.get(key: "findPasswordMode") as! Bool {
+            return true
+        }
+        return false
+    }
+    
     
     @IBAction func clickQuestion(_ sender: UIButton) {
         showPickerInActionSheet()
@@ -85,14 +106,10 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
         return myTitle
     }
     
-    
     func doSomethingWithValue(value: String) {
         question.setTitle(value, for: .normal)
         selectQuestion = value
     }
-
-    
-    
     
     func makeNavigationItem()  {
         let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -122,14 +139,23 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func saveSecretQuestion() {
-        if answer.text != nil {
-            showAlert(message: <#T##String#>, haveCancel: <#T##Bool#>, doneHandler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>, cancelHandler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
-            keychainManager.saveSecretQNA(question: selectQuestion, answer: answer.text!)
-            log.info(message: "selectQuestion : \(selectQuestion) , answer : \(answer.text!)")
+        log.info(message: "selectQuestion : \(selectQuestion) , answer : \(answer.text!)")
+        if (answer.text?.characters.count)! < 1 {
+            showAlert(message: message.empty, haveCancel: false, doneHandler: { (UIAlertAction) in
+                self.answer.becomeFirstResponder()
+            }, cancelHandler: nil)
         }
         else {
-            log.info(message: "글자가 없음")
+            keychainManager.saveSecretQNA(question: selectQuestion, answer: answer.text!)
+            showAlert(message: message.success, haveCancel: false, doneHandler: { (UIAlertAction) in
+                self.moveToSettingPage()
+            }, cancelHandler: nil)
         }
+    }
+    
+    func moveToSettingPage() {
+        let viewControllers:[UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - (viewControllers.count - 1)], animated: true)
     }
     
     func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
@@ -141,24 +167,14 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
             alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
         }
         self.present(alertController, animated: true, completion: nil)
-}
+    }
 
-/*
- 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func clickOk(_ sender: UIButton) {
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func clickCancel(_ sender: UIButton) {
+        
     }
-    */
-
+    
 }

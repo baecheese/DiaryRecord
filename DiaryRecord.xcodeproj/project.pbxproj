@@ -359,7 +359,6 @@
 		03B6EA8C1E616745002CFB29 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				03AAC6B41EA4677300C2BF4D /* EnterPasswordViewController.swift */,
 				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 				03B204271E94C98800EFA435 /* MainTableViewCell.swift */,
 				030DB0FD1E4074E1004E3532 /* WriteViewController.swift */,
@@ -369,6 +368,7 @@
 				0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */,
 				036B6A3D1E9F3714006A044E /* PasswordViewController.swift */,
 				03AAC6DA1EA5B38300C2BF4D /* SecretQuestionViewController.swift */,
+				03AAC6B41EA4677300C2BF4D /* EnterPasswordViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

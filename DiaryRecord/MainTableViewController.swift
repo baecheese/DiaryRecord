@@ -66,9 +66,9 @@ class MainTableViewController: UITableViewController {
         self.tableView.separatorStyle = .none
         
         log.info(message: "isSecretMode : \(SharedMemoryContext.get(key: "isSecretMode"))")
-//        useSecretMode()
+        useSecretMode()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -329,10 +329,10 @@ class MainTableViewController: UITableViewController {
     
     private func useSecretMode() {
         if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
-            let enterPasswordVC = EnterPasswordViewController()
+            let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
             self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
             self.modalPresentationStyle = .currentContext
-            self.present(enterPasswordVC, animated: true, completion: nil)
+            self.present(EnterPasswordVC!, animated: true, completion: nil)
         }
     }
     

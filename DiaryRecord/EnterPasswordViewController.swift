@@ -8,28 +8,43 @@
 
 import UIKit
 
-class EnterPasswordViewController: UIViewController {
+class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet var passwordField: UITextField!
+    
+    @IBOutlet var one: UIImageView!
+    @IBOutlet var two: UIImageView!
+    @IBOutlet var three: UIImageView!
+    @IBOutlet var four: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setTextFieldStatus()
+        setDontKnowPasswordImage()
     }
-
+    
+    private func setTextFieldStatus() {
+        passwordField.delegate = self
+        passwordField.becomeFirstResponder()
+        passwordField.keyboardType = UIKeyboardType.numberPad
+        
+    }
+    
+    private func setDontKnowPasswordImage() {
+        one.image = UIImage(named: "dontKnow")
+        two.image = UIImage(named: "dontKnow")
+        three.image = UIImage(named: "dontKnow")
+        four.image = UIImage(named: "dontKnow")
+    }
+    
+    @IBAction func moveFindPasswordPage(_ sender: UIButton) {
+        SharedMemoryContext.set(key: "findPasswordMode", setValue: true)
+        let SecretQuestionVC = self.storyboard?.instantiateViewController(withIdentifier: "SecretQuestionVC") as? SecretQuestionViewController
+        self.navigationController?.pushViewController(SecretQuestionVC!, animated: true)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
