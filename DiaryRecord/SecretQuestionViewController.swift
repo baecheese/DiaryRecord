@@ -14,15 +14,17 @@ struct SecrectQuestionMessage {
 
 class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    private let log = Logger(logPlace: SecretQuestionViewController.self)
+    private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
+    private let selectQuestion = "가장 기억에 남는 장소는?"
+    
     @IBOutlet var SecretQuestionView: UIView!
-    
-    
     @IBOutlet var question: UIButton!
     @IBOutlet var answer: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        makeNavigationItem()
     }
     
     @IBAction func clickQuestion(_ sender: UIButton) {
@@ -87,6 +89,37 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
         question.setTitle(value, for: .normal)
     }
 
+    
+    
+    
+    func makeNavigationItem()  {
+        let backBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let back = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
+        backBtn.setImage(back, for: .normal)
+        backBtn.tintColor = colorManager.tint
+        backBtn.addTarget(self, action: #selector(SecretQuestionViewController.back), for: .touchUpInside)
+        
+        let item = UIBarButtonItem(customView: backBtn)
+        navigationItem.leftBarButtonItem = item
+        
+        let saveBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        let save = UIImage(named: "lock")?.withRenderingMode(.alwaysTemplate)
+        saveBtn.setImage(save, for: .normal)
+        saveBtn.tintColor = colorManager.tint
+        saveBtn.addTarget(self, action: #selector(SecretQuestionViewController.saveSecretQuestion), for: .touchUpInside)
+        
+        let item2 = UIBarButtonItem(customView: saveBtn)
+        navigationItem.rightBarButtonItem = item2
+    }
+    
+    func back() {
+        
+    }
+    
+    func saveSecretQuestion() {
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
