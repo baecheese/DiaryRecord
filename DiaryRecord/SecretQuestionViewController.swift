@@ -17,6 +17,7 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     private let log = Logger(logPlace: SecretQuestionViewController.self)
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let selectQuestion = "가장 기억에 남는 장소는?"
+    private let keychainManager = KeychainManager.sharedInstance
     
     @IBOutlet var SecretQuestionView: UIView!
     @IBOutlet var question: UIButton!
@@ -87,6 +88,7 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     
     func doSomethingWithValue(value: String) {
         question.setTitle(value, for: .normal)
+        selectQuestion = value
     }
 
     
@@ -113,13 +115,36 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func back() {
-        
+        if keychainManager.haveBeforeSecrectQNA() {
+            keychainManager.deleteSecrectQNA()
+        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     func saveSecretQuestion() {
-        
+        if answer.text != nil {
+            showAlert(message: <#T##String#>, haveCancel: <#T##Bool#>, doneHandler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>, cancelHandler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
+            keychainManager.saveSecretQNA(question: selectQuestion, answer: answer.text!)
+            log.info(message: "selectQuestion : \(selectQuestion) , answer : \(answer.text!)")
+        }
+        else {
+            log.info(message: "글자가 없음")
+        }
     }
     
+    func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
+    {
+        let alertController = UIAlertController(title: "Notice", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default,handler: doneHandler))
+        if haveCancel {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
+        }
+        self.present(alertController, animated: true, completion: nil)
+}
+
+/*
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
