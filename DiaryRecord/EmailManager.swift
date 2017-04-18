@@ -55,7 +55,7 @@ class EmailManager: NSObject, MFMailComposeViewControllerDelegate {
             mail.mailComposeDelegate = self
             mail.setToRecipients([get()!])
             mail.setMessageBody("<p> new password : \(newPassword) </p>", isHTML: true)
-//            present(mail, animated: true)????????????????? 키체인으로 설정된건 설정에서볼수있다. --> 키체인공부필요
+//            present(mail, animated: true)????????????????? 키체인으로 설정된건 설정에서볼수있다. --> 키체인공부필요 cheesing
         } else {
             // show failure alert
         }

@@ -65,6 +65,7 @@
 		03AAC6B91EA472FD00C2BF4D /* EmailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AAC6B81EA472FD00C2BF4D /* EmailManager.swift */; };
 		03AAC6BB1EA49C9000C2BF4D /* delete_item.png in Resources */ = {isa = PBXBuildFile; fileRef = 03AAC6BA1EA49C9000C2BF4D /* delete_item.png */; };
 		03AAC6BD1EA49D3100C2BF4D /* lock_item.png in Resources */ = {isa = PBXBuildFile; fileRef = 03AAC6BC1EA49D3100C2BF4D /* lock_item.png */; };
+		03AAC6DB1EA5B38300C2BF4D /* SecretQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AAC6DA1EA5B38300C2BF4D /* SecretQuestionViewController.swift */; };
 		03B204281E94C98800EFA435 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B204271E94C98800EFA435 /* MainTableViewCell.swift */; };
 		03B6EA871E615D62002CFB29 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B6EA861E615D62002CFB29 /* Context.swift */; };
 		03C043671E78F30E0075C09E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C043651E78F30E0075C09E /* Main.storyboard */; };
@@ -193,6 +194,7 @@
 		03AAC6B81EA472FD00C2BF4D /* EmailManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailManager.swift; sourceTree = "<group>"; };
 		03AAC6BA1EA49C9000C2BF4D /* delete_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_item.png; sourceTree = "<group>"; };
 		03AAC6BC1EA49D3100C2BF4D /* lock_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_item.png; sourceTree = "<group>"; };
+		03AAC6DA1EA5B38300C2BF4D /* SecretQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretQuestionViewController.swift; sourceTree = "<group>"; };
 		03B204271E94C98800EFA435 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		03B6EA861E615D62002CFB29 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		03C043661E78F30E0075C09E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			children = (
 				037522941E850BE20001B24F /* BookmarkExtention */,
 				030DB0CA1E407381004E3532 /* DiaryRecord */,
+				03AAC6D91EA5ABB400C2BF4D /* Defer */,
 				030DB0DF1E407381004E3532 /* DiaryRecordTests */,
 				030DB0EA1E407381004E3532 /* DiaryRecordUITests */,
 				030DB0C91E407381004E3532 /* Products */,
@@ -333,6 +336,16 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		03AAC6D91EA5ABB400C2BF4D /* Defer */ = {
+			isa = PBXGroup;
+			children = (
+				03AAC6B81EA472FD00C2BF4D /* EmailManager.swift */,
+				03AAC6B61EA46DE700C2BF4D /* EmailViewController.swift */,
+			);
+			name = Defer;
+			path = DiaryRecord;
+			sourceTree = "<group>";
+		};
 		03B6EA8B1E61672C002CFB29 /* MVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,7 +368,7 @@
 				03A7A26F1E817D160074CCFE /* SelectThemeViewController.swift */,
 				0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */,
 				036B6A3D1E9F3714006A044E /* PasswordViewController.swift */,
-				03AAC6B61EA46DE700C2BF4D /* EmailViewController.swift */,
+				03AAC6DA1EA5B38300C2BF4D /* SecretQuestionViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -368,7 +381,6 @@
 				0355407D1E7EA5920093A244 /* ColorManager.swift */,
 				0326B9511E8B981F006B20BA /* WedgetManager.swift */,
 				03A7A28D1E8271210074CCFE /* ThemeRepositroy.swift */,
-				03AAC6B81EA472FD00C2BF4D /* EmailManager.swift */,
 				034AFBD41EA08AB600DE1262 /* KeychainManager.swift */,
 				034AFBA91EA0776800DE1262 /* Keychain.h */,
 				034AFBAA1EA0776800DE1262 /* Keychain.m */,
@@ -859,6 +871,7 @@
 				03AAC6B71EA46DE700C2BF4D /* EmailViewController.swift in Sources */,
 				030DB0CC1E407381004E3532 /* AppDelegate.swift in Sources */,
 				037624761E7E553F002C069A /* SettingTableViewController.swift in Sources */,
+				03AAC6DB1EA5B38300C2BF4D /* SecretQuestionViewController.swift in Sources */,
 				03A7A2701E817D160074CCFE /* SelectThemeViewController.swift in Sources */,
 				034AFBD51EA08AB600DE1262 /* KeychainManager.swift in Sources */,
 				03A7A28E1E8271210074CCFE /* ThemeRepositroy.swift in Sources */,

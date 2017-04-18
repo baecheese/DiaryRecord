@@ -13,6 +13,7 @@
     <customFonts key="customFonts">
         <array key="NanumMyeongjo.ttc">
             <string>NanumMyeongjo</string>
+            <string>NanumMyeongjoBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -385,7 +386,101 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbW-Dc-geB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5384.8000000000002" y="207.34632683658174"/>
+            <point key="canvasLocation" x="6105" y="953"/>
+        </scene>
+        <!--Secret Question View Controller-->
+        <scene sceneID="Sss-Iu-sHU">
+            <objects>
+                <viewController storyboardIdentifier="SecretQuestionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qb6-XG-14A" customClass="SecretQuestionViewController" customModule="DiaryRecord" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gKP-Y4-k9P"/>
+                        <viewControllerLayoutGuide type="bottom" id="jPn-fr-1uE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wua-nS-BWw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Secret Question" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kjq-xZ-0Jf">
+                                <rect key="frame" x="16" y="64" width="343" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="8gX-dm-dbg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumMyeongjoBold" family="Nanum Myeongjo" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="답변을 적어주세요." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tF5-wT-F6m">
+                                <rect key="frame" x="56" y="237" width="262" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8hO-1f-Ltw">
+                                <rect key="frame" x="56" y="151" width="263" height="47"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="down.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ywx-EC-z62">
+                                        <rect key="frame" x="226" y="12" width="21" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="KNd-oi-2AQ"/>
+                                            <constraint firstAttribute="height" constant="20" id="O4y-V0-dFa"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B20-xp-cvP">
+                                        <rect key="frame" x="0.0" y="9" width="263" height="30"/>
+                                        <state key="normal" title="가장 기억에 남는 장소는?">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clickQuestion:" destination="qb6-XG-14A" eventType="touchUpInside" id="jJu-52-Ahm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="B20-xp-cvP" firstAttribute="top" secondItem="8hO-1f-Ltw" secondAttribute="top" id="4Nk-aA-cd6"/>
+                                    <constraint firstAttribute="height" constant="50" id="CyQ-w3-exb"/>
+                                    <constraint firstAttribute="bottom" secondItem="B20-xp-cvP" secondAttribute="bottom" id="FHE-X3-O9H"/>
+                                    <constraint firstItem="Ywx-EC-z62" firstAttribute="centerY" secondItem="8hO-1f-Ltw" secondAttribute="centerY" id="WnA-t3-E2M"/>
+                                    <constraint firstItem="B20-xp-cvP" firstAttribute="leading" secondItem="8hO-1f-Ltw" secondAttribute="leading" id="Y7e-Pp-LBU"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ywx-EC-z62" secondAttribute="trailing" constant="16" id="hDX-zx-fJW"/>
+                                    <constraint firstAttribute="trailing" secondItem="B20-xp-cvP" secondAttribute="trailing" id="y4y-kJ-ZkH"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="If you’ve forgotten your password, you can use it." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVb-uF-OsE">
+                                <rect key="frame" x="16" y="108" width="343" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="uaf-aZ-C8M"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumMyeongjoBold" family="Nanum Myeongjo" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="kjq-xZ-0Jf" secondAttribute="trailing" id="0mb-Ld-WDe"/>
+                            <constraint firstItem="8hO-1f-Ltw" firstAttribute="leading" secondItem="wua-nS-BWw" secondAttribute="leadingMargin" constant="40" id="3ST-Ef-95Z"/>
+                            <constraint firstItem="8hO-1f-Ltw" firstAttribute="top" secondItem="kjq-xZ-0Jf" secondAttribute="bottom" constant="50" id="4LD-fN-zdN"/>
+                            <constraint firstItem="tF5-wT-F6m" firstAttribute="leading" secondItem="wua-nS-BWw" secondAttribute="leadingMargin" constant="40" id="5Cw-Zs-txI"/>
+                            <constraint firstItem="HVb-uF-OsE" firstAttribute="leading" secondItem="wua-nS-BWw" secondAttribute="leadingMargin" id="6UY-g7-qjZ"/>
+                            <constraint firstItem="kjq-xZ-0Jf" firstAttribute="top" secondItem="gKP-Y4-k9P" secondAttribute="bottom" constant="45" id="8CR-F3-Igu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8hO-1f-Ltw" secondAttribute="trailing" constant="40" id="AeY-Eb-HeH"/>
+                            <constraint firstItem="kjq-xZ-0Jf" firstAttribute="leading" secondItem="wua-nS-BWw" secondAttribute="leadingMargin" id="Ruf-tf-1No"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tF5-wT-F6m" secondAttribute="trailing" constant="40" id="XQF-nZ-p52"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HVb-uF-OsE" secondAttribute="trailing" id="lYm-dJ-NmP"/>
+                            <constraint firstItem="HVb-uF-OsE" firstAttribute="top" secondItem="kjq-xZ-0Jf" secondAttribute="bottom" constant="10" id="mA9-jX-z23"/>
+                            <constraint firstItem="tF5-wT-F6m" firstAttribute="top" secondItem="8hO-1f-Ltw" secondAttribute="bottom" constant="39" id="wKa-gw-Qn2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="SecretQuestionView" destination="8hO-1f-Ltw" id="1fN-Bh-crQ"/>
+                        <outlet property="answer" destination="tF5-wT-F6m" id="Yxk-RY-sKr"/>
+                        <outlet property="question" destination="B20-xp-cvP" id="2bX-nn-7Mk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pMB-pV-OM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5394.3999999999996" y="192.95352323838082"/>
         </scene>
         <!--Enter Password View Controller-->
         <scene sceneID="ukx-OI-Pm0">
@@ -798,6 +893,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="down.png" width="30" height="30"/>
         <image name="gallery.png" width="40" height="40"/>
         <image name="moon1.png" width="128" height="128"/>
         <image name="moon2.png" width="128" height="128"/>

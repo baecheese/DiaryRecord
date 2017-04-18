@@ -11,7 +11,6 @@ import UIKit
 /** PasswordViewController */
 struct Message {
     let notSecretMode = "This device currently has no password."
-    let resetPassword = "Send new password to your email."
     let deleteSuccess = "The password has been deleted successfully."
     let saveSuccess = "The password has been saved successfully."
     let saveCancel = "If you’re sure you want to cancel your password setup, click Done."
@@ -28,7 +27,6 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let message = Message()
     private let keychainManager = KeychainManager.sharedInstance
-    private let emailManager = EmailManager.sharedInstance
     
     @IBOutlet var guide: UILabel!
     private var password = ""
@@ -166,7 +164,6 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
             showAlert(message: message.saveCancel, haveCancel: true, doneHandler: { (UIAlertAction) in
                 SharedMemoryContext.set(key: "isSecretMode", setValue: false)
                 self.keychainManager.deletePassword()
-                self.emailManager.delete()
                 _ = self.navigationController?.popViewController(animated: true)
             }, cancelHandler: nil)
         }
@@ -207,13 +204,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
                 SharedMemoryContext.set(key: "isSecretMode", setValue: true)
                 saveToKeychain(password: password)
                 showAlert(message: message.saveSuccess, haveCancel: false, doneHandler: { (UIAlertAction) in
-                    if nil == self.emailManager.get() {
-                        // 이메일 저장 페이지로
-                        self.moveSaveEmail()
-                    }
-                    else {
-                        _ = self.navigationController?.popViewController(animated: true)
-                    }
+                    self.moveSecretQuestionVC()
                 }, cancelHandler: nil)
                 log.info(message: "password 저장")
                 return;
@@ -224,9 +215,9 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func moveSaveEmail() {
-        let EmailVC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as? EmailViewController
-        self.navigationController?.pushViewController(EmailVC!, animated: true)
+    private func moveSecretQuestionVC() {
+        let SecretQuestionVC = self.storyboard?.instantiateViewController(withIdentifier: "SecretQuestionVC") as? SecretQuestionViewController
+        self.navigationController?.pushViewController(SecretQuestionVC!, animated: true)
     }
     
     func isRightPassword(password:String) -> Bool {

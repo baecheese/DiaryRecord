@@ -9,10 +9,9 @@
 import UIKit
 
 struct SettingMenu {
-    let setionList:[String] = ["test", "setting", "secret mode", "help", "Resorce Licenses"]
-    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "비밀번호 / 이메일"]
+    let setionList:[String] = ["test", "setting", "help", "Resorce Licenses"]
+    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "비밀번호"]
     let basicList:[String] = ["테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금"]
-    let secretModeList:[String] = ["계정", "비밀번호 찾기"]
     let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
     let licensesInfo:[String] = ["licenses info"]
 }
@@ -25,7 +24,6 @@ class SettingTableViewController: UITableViewController {
     private let imageManager = ImageFileManager.sharedInstance
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let fontManger = FontManger()
-    private let emailManager = EmailManager.sharedInstance
     private let swich = UISwitch()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +49,7 @@ class SettingTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.secretModeList, settingMenu.infoList, settingMenu.licensesInfo]
+        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
         return menuList[section].count
     }
     
@@ -78,7 +76,7 @@ class SettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath)
         
-        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.secretModeList, settingMenu.infoList, settingMenu.licensesInfo]
+        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
         cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
         cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
@@ -96,14 +94,6 @@ class SettingTableViewController: UITableViewController {
                 setSwichFromTouchID(cell: cell)
             }
         }
-        // 계정 설정
-        if indexPath.section == 2 {
-            // 계정 보기 및 수정
-            if indexPath.row == 0 {
-                setEmailLabel(cell: cell)
-            }
-        }
-
         return cell
     }
     
@@ -126,7 +116,6 @@ class SettingTableViewController: UITableViewController {
             }
             if indexPath.row == 4{
                 log.info(message: "Password: \(KeychainManager.sharedInstance.loadPassword())")
-                log.info(message: "Email : \(EmailManager.sharedInstance.get())")
             }
         }
         /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
@@ -150,21 +139,12 @@ class SettingTableViewController: UITableViewController {
                 return;
             }
         }
-        // secret mode - ["이메일", "비밀번호 찾기"]
-        if indexPath.section == 2 {
-            if indexPath.row == 0 {
-               moveChangeEmailPage()
-            }
-            if indexPath.row == 1 {
-                resetPassword()
-            }
-        }
         // infoList - ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
-        if indexPath.section == 3 {
+        if indexPath.section == 2 {
             
         }
         // licenses - ["licenses info"]
-        if indexPath.section == 4 {
+        if indexPath.section == 3 {
             let storyBoard = UIStoryboard(name: "Main", bundle:nil)
             let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController
             self.navigationController?.pushViewController(LicenseVC, animated: true)
@@ -185,13 +165,6 @@ class SettingTableViewController: UITableViewController {
         }
         else {
             swich.isOn = true
-        }
-    }
-    
-    func setEmailLabel(cell:UITableViewCell) {
-        if nil != emailManager.get() {
-            cell.textLabel?.text = emailManager.get()
-            cell.accessoryType = .disclosureIndicator
         }
     }
     
@@ -225,24 +198,6 @@ class SettingTableViewController: UITableViewController {
         //            swich.isOn = true
         //        }
         //        cell.contentView.addSubview(swich)
-    }
-    
-    func moveChangeEmailPage() {
-        let emailVC = self.storyboard?.instantiateViewController(withIdentifier: "EmailVC") as! EmailViewController
-        self.navigationController?.pushViewController(emailVC, animated: true)
-    }
-    
-    func resetPassword() {
-        let message = Message()
-        let keychainManager = KeychainManager.sharedInstance
-        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
-            showAlert(message: message.resetPassword, haveCancel: true, doneHandler: { (UIAlertAction) in
-                self.emailManager.sendNewPassword(newPassword: keychainManager.resetPassword())
-            }, cancelHandler: nil)
-        }
-        else {
-            showAlert(message: message.notSecretMode, haveCancel: false, doneHandler: nil, cancelHandler: nil)
-        }
     }
     
     func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
