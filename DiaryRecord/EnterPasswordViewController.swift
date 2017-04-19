@@ -15,15 +15,14 @@ struct messageEnterPassword {
 class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
 
     private let log = Logger(logPlace: EnterPasswordViewController.self)
+    private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let keychainManager = KeychainManager.sharedInstance
     private let meassage = messageEnterPassword()
     
     @IBOutlet var passwordField: UITextField!
     
-    @IBOutlet var one: UIImageView!
-    @IBOutlet var two: UIImageView!
-    @IBOutlet var three: UIImageView!
-    @IBOutlet var four: UIImageView!
+    @IBOutlet var moon: UIImageView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +32,7 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
     
     private func setTextFieldStatus() {
         passwordField.delegate = self
+        passwordField.alpha = 0.0
         passwordField.becomeFirstResponder()
         passwordField.keyboardType = UIKeyboardType.numberPad
         
@@ -58,7 +58,11 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
             wrongPssword()
         }
         else {
-            dismiss(animated: true, completion: nil)
+            UIView.transition(with: moon, duration: 1.0, options: .transitionFlipFromBottom, animations: { 
+                self.changeImage(textLength: 4)
+            }, completion: { (Bool) in
+                self.dismiss(animated: true, completion: nil)
+            })
         }
     }
     
@@ -75,42 +79,27 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setDontKnowPasswordImage() {
-        one.image = UIImage(named: "dontKnow")
-        two.image = UIImage(named: "dontKnow")
-        three.image = UIImage(named: "dontKnow")
-        four.image = UIImage(named: "dontKnow")
+        moon.image = UIImage(named: "donKnow_m")
     }
     
-    func changeImage(textLength:Int) {
+    private func changeImage(textLength:Int) {
+        
+        fadeAnimation(view: moon, duration: 0.5)
+        
         if 0 == textLength {
-            one.image = UIImage(named: "dontKnow")
-            two.image = UIImage(named: "dontKnow")
-            three.image = UIImage(named: "dontKnow")
-            four.image = UIImage(named: "dontKnow")
+            moon.image = UIImage(named: "donKnow_m")
         }
         if 1 == textLength {
-            one.image = UIImage(named: "know")
-            two.image = UIImage(named: "dontKnow")
-            three.image = UIImage(named: "dontKnow")
-            four.image = UIImage(named: "dontKnow")
+            moon.image = UIImage(named: "donKnow1_m")
         }
         if 2 == textLength {
-            one.image = UIImage(named: "know")
-            two.image = UIImage(named: "know")
-            three.image = UIImage(named: "dontKnow")
-            four.image = UIImage(named: "dontKnow")
+            moon.image = UIImage(named: "donKnow2_m")
         }
         if 3 == textLength {
-            one.image = UIImage(named: "know")
-            two.image = UIImage(named: "know")
-            three.image = UIImage(named: "know")
-            four.image = UIImage(named: "dontKnow")
+            moon.image = UIImage(named: "donKnow3_m")
         }
         if 4 == textLength {
-            one.image = UIImage(named: "know")
-            two.image = UIImage(named: "know")
-            three.image = UIImage(named: "know")
-            four.image = UIImage(named: "know")
+            moon.image = UIImage(named: "know_m")
         }
     }
     
@@ -122,6 +111,14 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
         self.modalPresentationStyle = .currentContext // Display on top of current UIView
         self.present(secretQuestionVC!, animated: true, completion: nil)
         
+    }
+    
+    private func fadeAnimation(view:UIView, duration: CFTimeInterval) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        view.layer.add(transition, forKey: nil)
     }
     
     func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)

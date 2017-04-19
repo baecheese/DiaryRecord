@@ -16,6 +16,11 @@
 		030DB1001E4075C8004E3532 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */; };
 		030DB1021E4186F3004E3532 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1011E4186F3004E3532 /* Diary.swift */; };
 		030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DB1031E42285C004E3532 /* DiaryRepository.swift */; };
+		031DC5D41EA7241E00BEC763 /* donKnow_m.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5CF1EA7241E00BEC763 /* donKnow_m.png */; };
+		031DC5D51EA7241E00BEC763 /* donKnow1_m.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5D01EA7241E00BEC763 /* donKnow1_m.png */; };
+		031DC5D61EA7241E00BEC763 /* donKnow2_m.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5D11EA7241E00BEC763 /* donKnow2_m.png */; };
+		031DC5D71EA7241E00BEC763 /* donKnow3_m.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5D21EA7241E00BEC763 /* donKnow3_m.png */; };
+		031DC5D81EA7241E00BEC763 /* know_m.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5D31EA7241E00BEC763 /* know_m.png */; };
 		0326B94E1E8B8B93006B20BA /* SpecialDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94D1E8B8B93006B20BA /* SpecialDay.swift */; };
 		0326B9501E8B8CA1006B20BA /* SpecialDayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */; };
 		0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9511E8B981F006B20BA /* WedgetManager.swift */; };
@@ -138,6 +143,11 @@
 		030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		030DB1011E4186F3004E3532 /* Diary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		030DB1031E42285C004E3532 /* DiaryRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryRepository.swift; sourceTree = "<group>"; };
+		031DC5CF1EA7241E00BEC763 /* donKnow_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donKnow_m.png; sourceTree = "<group>"; };
+		031DC5D01EA7241E00BEC763 /* donKnow1_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donKnow1_m.png; sourceTree = "<group>"; };
+		031DC5D11EA7241E00BEC763 /* donKnow2_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donKnow2_m.png; sourceTree = "<group>"; };
+		031DC5D21EA7241E00BEC763 /* donKnow3_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donKnow3_m.png; sourceTree = "<group>"; };
+		031DC5D31EA7241E00BEC763 /* know_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know_m.png; sourceTree = "<group>"; };
 		0326B94D1E8B8B93006B20BA /* SpecialDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDay.swift; sourceTree = "<group>"; };
 		0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDayRepository.swift; sourceTree = "<group>"; };
 		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
@@ -369,6 +379,11 @@
 				036B6A3D1E9F3714006A044E /* PasswordViewController.swift */,
 				03AAC6DA1EA5B38300C2BF4D /* SecretQuestionViewController.swift */,
 				03AAC6B41EA4677300C2BF4D /* EnterPasswordViewController.swift */,
+				031DC5CF1EA7241E00BEC763 /* donKnow_m.png */,
+				031DC5D01EA7241E00BEC763 /* donKnow1_m.png */,
+				031DC5D11EA7241E00BEC763 /* donKnow2_m.png */,
+				031DC5D21EA7241E00BEC763 /* donKnow3_m.png */,
+				031DC5D31EA7241E00BEC763 /* know_m.png */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -670,25 +685,30 @@
 				03A7A27A1E82518D0074CCFE /* update.png in Resources */,
 				036B6A1C1E9D1015006A044E /* setting.png in Resources */,
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,
+				031DC5D51EA7241E00BEC763 /* donKnow1_m.png in Resources */,
 				036B6A351E9D13A0006A044E /* search.png in Resources */,
 				03A6E3571E8414430039056D /* down.png in Resources */,
 				0376929E1E55DE3F00C0CCCB /* NanumMyeongjo.ttc in Resources */,
 				036B6A371E9D13A0006A044E /* upload.png in Resources */,
 				036B6A331E9D13A0006A044E /* like.png in Resources */,
 				036B6A301E9D13A0006A044E /* coffee.png in Resources */,
+				031DC5D41EA7241E00BEC763 /* donKnow_m.png in Resources */,
 				037522A31E856F260001B24F /* appIcon_1.jpg in Resources */,
 				036B6A2E1E9D13A0006A044E /* gallery.png in Resources */,
 				03A7A2841E82532D0074CCFE /* back.png in Resources */,
 				034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */,
+				031DC5D71EA7241E00BEC763 /* donKnow3_m.png in Resources */,
 				030DB0D31E407381004E3532 /* Assets.xcassets in Resources */,
 				037522AB1E862C090001B24F /* moon2.png in Resources */,
 				037522A91E86294F0001B24F /* LanchScreen_6.jpg in Resources */,
 				036B6A311E9D13A0006A044E /* delete.png in Resources */,
 				036B6A321E9D13A0006A044E /* download.png in Resources */,
+				031DC5D81EA7241E00BEC763 /* know_m.png in Resources */,
 				036B6A201E9D11EA006A044E /* write.png in Resources */,
 				034AFBA51EA06EDE00DE1262 /* know.png in Resources */,
 				03AAC6BD1EA49D3100C2BF4D /* lock_item.png in Resources */,
 				03AAC6BB1EA49C9000C2BF4D /* delete_item.png in Resources */,
+				031DC5D61EA7241E00BEC763 /* donKnow2_m.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

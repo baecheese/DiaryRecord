@@ -205,7 +205,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="erY-XJ-Dqa"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="NanumMyeongjoBold" family="Nanum Myeongjo" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -467,7 +467,6 @@
                             </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fbc-2E-j2a">
                                 <rect key="frame" x="182" y="286" width="9" height="25"/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="10" id="Wb7-9Q-J6d"/>
                                     <constraint firstAttribute="height" constant="30" id="Ywl-kf-AE7"/>
@@ -531,42 +530,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2mS-Em-T5g">
-                                <rect key="frame" x="199" y="243" width="45" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="hHA-MI-Vk4"/>
-                                    <constraint firstAttribute="width" constant="45" id="uus-wz-Stj"/>
-                                </constraints>
-                            </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5M-gV-th4">
-                                <rect key="frame" x="183" y="255" width="10" height="110"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="110" id="MCd-vN-q4E"/>
-                                    <constraint firstAttribute="width" constant="10" id="ZLR-f5-nmI"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enter a password for this user" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwF-Pl-3LW">
-                                <rect key="frame" x="0.0" y="165" width="375" height="21"/>
+                                <rect key="frame" x="1" y="106" width="375" height="21"/>
                                 <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VtE-uv-Q3f">
-                                <rect key="frame" x="134" y="243" width="45" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="6xe-Wl-gIK"/>
-                                    <constraint firstAttribute="width" constant="45" id="eZa-HX-fad"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qzj-Ux-ptm">
-                                <rect key="frame" x="268" y="243" width="45" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="45" id="WVl-yg-gai"/>
-                                    <constraint firstAttribute="height" constant="45" id="hXw-Ju-lDT"/>
-                                </constraints>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IWd-RL-C9z">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IWd-RL-C9z">
                                 <rect key="frame" x="140" y="440" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="Lku-17-2fZ"/>
@@ -576,51 +546,45 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfG-vJ-ckC">
-                                <rect key="frame" x="147" y="354" width="82" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="PASSWORD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lto-gx-tIS">
+                                <rect key="frame" x="1" y="69" width="375" height="22"/>
+                                <fontDescription key="fontDescription" name="NanumMyeongjoBold" family="Nanum Myeongjo" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bd5-Jg-vE7">
+                                <rect key="frame" x="140" y="193" width="103" height="96"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="qOU-kN-LKB"/>
+                                    <constraint firstAttribute="width" constant="100" id="Oal-fC-3eX"/>
+                                    <constraint firstAttribute="height" constant="100" id="kV5-5R-O12"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfG-vJ-ckC">
+                                <rect key="frame" x="91" y="335" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="nzU-5M-lWI"/>
                                     <constraint firstAttribute="height" constant="30" id="yAe-Wo-Uaj"/>
                                 </constraints>
-                                <state key="normal" title="비밀번호 찾기"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Do you foget your password?">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="moveFindPasswordPage:" destination="hs6-lY-MqQ" eventType="touchUpInside" id="5wX-5p-Icp"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Eq-Uq-OWF">
-                                <rect key="frame" x="61" y="243" width="45" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="45" id="Ggt-8A-yKP"/>
-                                    <constraint firstAttribute="height" constant="45" id="lpw-0n-JOk"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="PASSWORD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lto-gx-tIS">
-                                <rect key="frame" x="0.0" y="120" width="375" height="22"/>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="19"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pfG-vJ-ckC" firstAttribute="top" secondItem="L5M-gV-th4" secondAttribute="bottom" constant="33" id="1NU-7b-00D"/>
                             <constraint firstItem="lto-gx-tIS" firstAttribute="leading" secondItem="mOW-xs-STM" secondAttribute="leading" id="1kn-Iq-oCR"/>
                             <constraint firstItem="IWd-RL-C9z" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="4OB-X6-M4E"/>
-                            <constraint firstItem="VtE-uv-Q3f" firstAttribute="centerY" secondItem="L5M-gV-th4" secondAttribute="centerY" id="78n-CJ-A1k"/>
+                            <constraint firstItem="bd5-Jg-vE7" firstAttribute="top" secondItem="VwF-Pl-3LW" secondAttribute="bottom" constant="64" id="Alc-Dg-qMx"/>
                             <constraint firstItem="pfG-vJ-ckC" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="Aoi-2C-MPs"/>
-                            <constraint firstItem="2mS-Em-T5g" firstAttribute="leading" secondItem="L5M-gV-th4" secondAttribute="trailing" constant="5" id="Dbe-GG-Wfm"/>
-                            <constraint firstItem="L5M-gV-th4" firstAttribute="leading" secondItem="VtE-uv-Q3f" secondAttribute="trailing" constant="5" id="PfH-gH-Mhi"/>
+                            <constraint firstItem="bd5-Jg-vE7" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="ETj-0d-DAX"/>
                             <constraint firstItem="lto-gx-tIS" firstAttribute="top" secondItem="MVu-D0-yyg" secondAttribute="bottom" constant="50" id="Ubg-6a-g54"/>
-                            <constraint firstItem="VtE-uv-Q3f" firstAttribute="leading" secondItem="9Eq-Uq-OWF" secondAttribute="trailing" constant="20" id="Vx5-i6-aiW"/>
-                            <constraint firstItem="L5M-gV-th4" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="aPa-1X-5gF"/>
-                            <constraint firstItem="Qzj-Ux-ptm" firstAttribute="centerY" secondItem="L5M-gV-th4" secondAttribute="centerY" id="alk-m2-VHV"/>
-                            <constraint firstItem="Qzj-Ux-ptm" firstAttribute="leading" secondItem="2mS-Em-T5g" secondAttribute="trailing" constant="20" id="bqd-26-KnN"/>
-                            <constraint firstItem="L5M-gV-th4" firstAttribute="top" secondItem="VwF-Pl-3LW" secondAttribute="bottom" constant="33" id="cYj-mh-5d4"/>
                             <constraint firstItem="VwF-Pl-3LW" firstAttribute="leading" secondItem="mOW-xs-STM" secondAttribute="leading" id="dNr-Uv-ecb"/>
-                            <constraint firstItem="IWd-RL-C9z" firstAttribute="top" secondItem="L5M-gV-th4" secondAttribute="bottom" constant="200" id="eU5-ni-xuU"/>
                             <constraint firstItem="VwF-Pl-3LW" firstAttribute="top" secondItem="lto-gx-tIS" secondAttribute="bottom" constant="15" id="fu9-03-szw"/>
-                            <constraint firstItem="9Eq-Uq-OWF" firstAttribute="centerY" secondItem="L5M-gV-th4" secondAttribute="centerY" id="l3y-aN-Bge"/>
-                            <constraint firstItem="2mS-Em-T5g" firstAttribute="centerY" secondItem="L5M-gV-th4" secondAttribute="centerY" id="r26-Tm-k9y"/>
+                            <constraint firstItem="pfG-vJ-ckC" firstAttribute="top" secondItem="bd5-Jg-vE7" secondAttribute="bottom" constant="45" id="qDr-Rj-c2p"/>
                             <constraint firstAttribute="trailing" secondItem="VwF-Pl-3LW" secondAttribute="trailing" id="vb6-CH-FiO"/>
                             <constraint firstAttribute="trailing" secondItem="lto-gx-tIS" secondAttribute="trailing" id="xZj-LP-oCo"/>
                             <constraint firstItem="lto-gx-tIS" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="yFy-SX-DHe"/>
@@ -630,16 +594,13 @@
                     <navigationItem key="navigationItem" id="uPV-XD-Kmc"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="four" destination="Qzj-Ux-ptm" id="FFR-zc-IRH"/>
-                        <outlet property="one" destination="9Eq-Uq-OWF" id="t7J-bP-Je1"/>
+                        <outlet property="moon" destination="bd5-Jg-vE7" id="KfG-pR-v7S"/>
                         <outlet property="passwordField" destination="IWd-RL-C9z" id="rHi-Zu-M5F"/>
-                        <outlet property="three" destination="2mS-Em-T5g" id="a4E-Ox-5FZ"/>
-                        <outlet property="two" destination="VtE-uv-Q3f" id="KyW-3g-eeE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SUE-tE-KZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5681" y="206"/>
+            <point key="canvasLocation" x="5680.8000000000002" y="205.54722638680661"/>
         </scene>
         <!--Read View Controller-->
         <scene sceneID="Jz5-ih-3yL">
