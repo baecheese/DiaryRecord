@@ -70,9 +70,19 @@ class KeychainManager: NSObject {
     }
     
     func resetPassword() -> String {
-        savePassword(value: "1111")
-        // 새로운 암호 저장하고 리턴 ing
-        return "1111"
+        let newPassword = randomPassword()
+        savePassword(value: newPassword)
+        return newPassword
+    }
+    
+    private func randomPassword() -> String {
+        var newPassword = ""
+        let total = 4
+        for _ in 1...total {
+            let randomNo: UInt32 = arc4random_uniform(10)
+            newPassword += String(randomNo)
+        }
+        return newPassword
     }
     
     /* SecretQNA */

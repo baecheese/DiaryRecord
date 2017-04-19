@@ -10,8 +10,10 @@ import UIKit
 
 struct SecrectQuestionMessage {
     let questions = ["가장 기억에 남는 장소는?", "다시 태어나면 되고 싶은 것은?", "사랑하는 사람의 이름은?", "반려동물의 이름은?", "가장 기억에 남는 영화는?", "가장 좋아하는 책은?"]
+    let findMode = "Enter your Secret Q&A."
     let empty = "Please answer."
     let success = "Save was successful."
+    let discord = "The secrect Q&A you entered is wrong."
 }
 
 class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -33,21 +35,8 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
         super.viewDidLoad()
         makeNavigationItem()
         showFindButton()
+        showFindNotice()
     }
-    
-    func showFindButton() {
-        if false == isFindMode() {
-            
-        }
-    }
-    
-    func isFindMode() -> Bool {
-        if true == SharedMemoryContext.get(key: "findPasswordMode") as! Bool {
-            return true
-        }
-        return false
-    }
-    
     
     @IBAction func clickQuestion(_ sender: UIButton) {
         showPickerInActionSheet()
@@ -138,12 +127,20 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
         self.navigationController?.popViewController(animated: true)
     }
     
-    func saveSecretQuestion() {
-        log.info(message: "selectQuestion : \(selectQuestion) , answer : \(answer.text!)")
+    private func anwserEmpty() -> Bool {
         if (answer.text?.characters.count)! < 1 {
             showAlert(message: message.empty, haveCancel: false, doneHandler: { (UIAlertAction) in
                 self.answer.becomeFirstResponder()
             }, cancelHandler: nil)
+            return true
+        }
+        return false
+    }
+    
+    func saveSecretQuestion() {
+        log.info(message: "selectQuestion : \(selectQuestion) , answer : \(answer.text!)")
+        if true == anwserEmpty() {
+            return;
         }
         else {
             keychainManager.saveSecretQNA(question: selectQuestion, answer: answer.text!)
@@ -169,12 +166,55 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
         self.present(alertController, animated: true, completion: nil)
     }
 
+    
+    /* find mode */
+    
+    
+    func isFindMode() -> Bool {
+        if true == SharedMemoryContext.get(key: "findPasswordMode") as? Bool {
+            return true
+        }
+        return false
+    }
+    
+    func showFindButton() {
+        if false == isFindMode() {
+            ok.alpha = 0.0
+            cancel.alpha = 0.0
+        }
+    }
+    
+    func showFindNotice() {
+        if true == isFindMode() {
+            noticeLabel.text = message.findMode
+        }
+    }
+    
     @IBAction func clickOk(_ sender: UIButton) {
-        
+        if true == isFindMode() {
+            log.info(message: "Q ; \(selectQuestion) A ; \(answer.text)")
+            
+            if true == anwserEmpty() {
+                return;
+            }
+            // 등록된 질문과 동일한지 찾기
+            if true == keychainManager.isRightSecrectQNA(question: selectQuestion, answer: answer.text!) {
+                // 새로운 비밀번호 생성해주기 cheesing
+                let newPassword = keychainManager.resetPassword()
+                showAlert(message: "Your new password is \(newPassword).", haveCancel: false, doneHandler: { (UIAlertAction) in
+                    self.dismiss(animated: true, completion: nil)
+                }, cancelHandler: nil)
+            }
+            else {
+                showAlert(message: message.discord, haveCancel: false, doneHandler: nil, cancelHandler: nil)
+            }
+        }
     }
     
     @IBAction func clickCancel(_ sender: UIButton) {
-        
+        if isFindMode() {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
 }
