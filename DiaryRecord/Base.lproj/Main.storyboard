@@ -840,7 +840,7 @@
         <!--Navigation Controller-->
         <scene sceneID="jS2-nW-l7Q">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

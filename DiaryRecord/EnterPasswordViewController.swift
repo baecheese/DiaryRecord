@@ -23,6 +23,9 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var moon: UIImageView!
     
+    override func viewWillAppear(_ animated: Bool) {
+        passwordField.becomeFirstResponder()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

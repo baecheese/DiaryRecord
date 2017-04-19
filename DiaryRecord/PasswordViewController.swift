@@ -97,42 +97,42 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func setDontKnowPasswordImage() {
-        frist.image = UIImage(named: "dontKnow")
-        second.image = UIImage(named: "dontKnow")
-        three.image = UIImage(named: "dontKnow")
-        four.image = UIImage(named: "dontKnow")
+        frist.image = UIImage(named: "dontKnow_box")
+        second.image = UIImage(named: "dontKnow_box")
+        three.image = UIImage(named: "dontKnow_box")
+        four.image = UIImage(named: "dontKnow_box")
     }
     
     func changeImage(textLength:Int) {
         if 0 == textLength {
-            frist.image = UIImage(named: "dontKnow")
-            second.image = UIImage(named: "dontKnow")
-            three.image = UIImage(named: "dontKnow")
-            four.image = UIImage(named: "dontKnow")
+            frist.image = UIImage(named: "dontKnow_box")
+            second.image = UIImage(named: "dontKnow_box")
+            three.image = UIImage(named: "dontKnow_box")
+            four.image = UIImage(named: "dontKnow_box")
         }
         if 1 == textLength {
-            frist.image = UIImage(named: "know")
-            second.image = UIImage(named: "dontKnow")
-            three.image = UIImage(named: "dontKnow")
-            four.image = UIImage(named: "dontKnow")
+            frist.image = UIImage(named: "know_box")
+            second.image = UIImage(named: "dontKnow_box")
+            three.image = UIImage(named: "dontKnow_box")
+            four.image = UIImage(named: "dontKnow_box")
         }
         if 2 == textLength {
-            frist.image = UIImage(named: "know")
-            second.image = UIImage(named: "know")
-            three.image = UIImage(named: "dontKnow")
-            four.image = UIImage(named: "dontKnow")
+            frist.image = UIImage(named: "know_box")
+            second.image = UIImage(named: "know_box")
+            three.image = UIImage(named: "dontKnow_box")
+            four.image = UIImage(named: "dontKnow_box")
         }
         if 3 == textLength {
-            frist.image = UIImage(named: "know")
-            second.image = UIImage(named: "know")
-            three.image = UIImage(named: "know")
-            four.image = UIImage(named: "dontKnow")
+            frist.image = UIImage(named: "know_box")
+            second.image = UIImage(named: "know_box")
+            three.image = UIImage(named: "know_box")
+            four.image = UIImage(named: "dontKnow_box")
         }
         if 4 == textLength {
-            frist.image = UIImage(named: "know")
-            second.image = UIImage(named: "know")
-            three.image = UIImage(named: "know")
-            four.image = UIImage(named: "know")
+            frist.image = UIImage(named: "know_box")
+            second.image = UIImage(named: "know_box")
+            three.image = UIImage(named: "know_box")
+            four.image = UIImage(named: "know_box")
         }
     }
     
