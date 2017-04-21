@@ -151,8 +151,9 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func moveToSettingPage() {
+        
         let viewControllers:[UIViewController] = self.navigationController!.viewControllers as [UIViewController]
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - (viewControllers.count - 1)], animated: true)
+        self.navigationController!.popToViewController((viewControllers[2] as? SettingTableViewController)!, animated: true)
     }
     
     func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)

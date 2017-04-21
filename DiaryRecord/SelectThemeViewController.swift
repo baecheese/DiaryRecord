@@ -56,10 +56,14 @@ class SelectThemeViewController: UIViewController, UITableViewDelegate, UITableV
         if lastTheme != selectTheme && selectTheme != nil {
             let themeRepository = ThemeRepositroy.sharedInstance
             themeRepository.set(number: selectTheme!)
-            let main:MainTableViewController = navigationController?.viewControllers.first as! MainTableViewController
-            main.changeTheme = true
+            getMainTableView().changeTheme = true
         }
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToViewController(getMainTableView(), animated: true)
+    }
+    
+    func getMainTableView() -> MainTableViewController {
+        let viewControllers:[UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        return (viewControllers[1] as? MainTableViewController)!
     }
     
     @objc private func back() {

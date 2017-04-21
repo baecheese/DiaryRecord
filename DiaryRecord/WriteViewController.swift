@@ -308,7 +308,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.type = kCATransitionFade
         self.navigationController?.view.layer.add(transition, forKey: nil)
-        _ = self.navigationController?.popToRootViewController(animated: false)
+        _ = self.navigationController?.popViewController(animated: false)
     }
     
     func showActivityIndicatory(start:Bool) {

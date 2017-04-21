@@ -51,11 +51,16 @@ class SelectWedgetTableViewController: UITableViewController {
             wedgetManager.setMode(number: selectedWedgetMode!)
         }
         
-        let main:MainTableViewController = navigationController?.viewControllers.first as! MainTableViewController
+        let main:MainTableViewController = getMainTableView()
         main.tableView.reloadData()
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToViewController(getMainTableView(), animated: true)
     }
     
+    func getMainTableView() -> MainTableViewController {
+        let viewControllers:[UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        return (viewControllers[1] as? MainTableViewController)!
+    }
+
     @objc private func back() {
         _ = navigationController?.popViewController(animated: true)
     }

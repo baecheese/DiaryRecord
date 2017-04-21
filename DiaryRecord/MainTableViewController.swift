@@ -12,7 +12,7 @@ import UIKit
 struct FontManger {
     let headerTextSize:CGFloat = 14.0
     let celltextSize:CGFloat = 18.0
-    let headerFont:String = "Copperplate-Light"
+    let headerFont:String = "SeoulHangangM"
     let cellFont:String = "NanumMyeongjo"
     
     let naviTitleFontSize:CGFloat = 20.0
@@ -32,7 +32,6 @@ class MainTableViewController: UITableViewController {
     private let fontManager = FontManger()
     var changeTheme = false
     private var beforeSpecialDay:Int? = nil
-    private var fristClick = true
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,6 +59,8 @@ class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
         
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        useSecretMode()
         changeWedget()
         navigationFont()
         changeNavigationTheme()
@@ -171,20 +172,14 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if true ==  fristClick {
-            log.info(message: "isSecretMode : \(SharedMemoryContext.get(key: "isSecretMode"))")
-//            useSecretMode()
-            fristClick = false
-        }
-        else {
-            let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
-            SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
-            
-            UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
-                let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
-                self.navigationController?.pushViewController(readVC!, animated: false)
-            }, completion: nil)
-        }
+        let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+        SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
+        
+        UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
+            let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
+            self.navigationController?.pushViewController(readVC!, animated: false)
+        }, completion: nil)
+        
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
@@ -299,7 +294,7 @@ class MainTableViewController: UITableViewController {
     }
     
     func navigationFont() {
-        navigationItem.title = "diary"
+        navigationItem.title = "diary of contents"
         // Navigation Font
         navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: fontManager.naviTitleFontSize)!]
     }
