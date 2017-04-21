@@ -32,6 +32,7 @@ class MainTableViewController: UITableViewController {
     private let fontManager = FontManger()
     var changeTheme = false
     private var beforeSpecialDay:Int? = nil
+    private var fristClick = true
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -65,8 +66,6 @@ class MainTableViewController: UITableViewController {
         view.backgroundColor = colorManager.paper
         self.tableView.separatorStyle = .none
         
-        log.info(message: "isSecretMode : \(SharedMemoryContext.get(key: "isSecretMode"))")
-        useSecretMode()
     }
     
     override func didReceiveMemoryWarning() {
@@ -172,15 +171,20 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
-        SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
-        
-        UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
-            let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
-            self.navigationController?.pushViewController(readVC!, animated: false)
-        }, completion: nil)
-        
+        if true ==  fristClick {
+            log.info(message: "isSecretMode : \(SharedMemoryContext.get(key: "isSecretMode"))")
+//            useSecretMode()
+            fristClick = false
+        }
+        else {
+            let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+            SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
+            
+            UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
+                let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
+                self.navigationController?.pushViewController(readVC!, animated: false)
+            }, completion: nil)
+        }
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
@@ -327,7 +331,7 @@ class MainTableViewController: UITableViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    private func useSecretMode() {
+    func useSecretMode() {
         if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
             let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
             self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal

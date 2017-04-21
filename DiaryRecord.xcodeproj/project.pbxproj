@@ -26,6 +26,7 @@
 		031DC5DF1EA73AF200BEC763 /* LanchScreen_cat_after.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5DD1EA73AF200BEC763 /* LanchScreen_cat_after.png */; };
 		031DC5E01EA73AF200BEC763 /* LanchScreen_cat_before.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5DE1EA73AF200BEC763 /* LanchScreen_cat_before.png */; };
 		031DC5E41EA743DE00BEC763 /* lanchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 031DC5E31EA743DD00BEC763 /* lanchIcon.png */; };
+		031DC5E61EA9AD9900BEC763 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031DC5E51EA9AD9900BEC763 /* LaunchViewController.swift */; };
 		0326B94E1E8B8B93006B20BA /* SpecialDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94D1E8B8B93006B20BA /* SpecialDay.swift */; };
 		0326B9501E8B8CA1006B20BA /* SpecialDayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */; };
 		0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9511E8B981F006B20BA /* WedgetManager.swift */; };
@@ -158,6 +159,7 @@
 		031DC5DD1EA73AF200BEC763 /* LanchScreen_cat_after.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LanchScreen_cat_after.png; sourceTree = "<group>"; };
 		031DC5DE1EA73AF200BEC763 /* LanchScreen_cat_before.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LanchScreen_cat_before.png; sourceTree = "<group>"; };
 		031DC5E31EA743DD00BEC763 /* lanchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lanchIcon.png; sourceTree = "<group>"; };
+		031DC5E51EA9AD9900BEC763 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		0326B94D1E8B8B93006B20BA /* SpecialDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDay.swift; sourceTree = "<group>"; };
 		0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDayRepository.swift; sourceTree = "<group>"; };
 		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 		03B6EA8C1E616745002CFB29 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				031DC5E51EA9AD9900BEC763 /* LaunchViewController.swift */,
 				030DB0FF1E4075C8004E3532 /* MainTableViewController.swift */,
 				03B204271E94C98800EFA435 /* MainTableViewCell.swift */,
 				030DB0FD1E4074E1004E3532 /* WriteViewController.swift */,
@@ -908,6 +911,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03B204281E94C98800EFA435 /* MainTableViewCell.swift in Sources */,
+				031DC5E61EA9AD9900BEC763 /* LaunchViewController.swift in Sources */,
 				03AAC6B71EA46DE700C2BF4D /* EmailViewController.swift in Sources */,
 				030DB0CC1E407381004E3532 /* AppDelegate.swift in Sources */,
 				037624761E7E553F002C069A /* SettingTableViewController.swift in Sources */,
