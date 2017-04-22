@@ -41,7 +41,6 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
 
     func moveToMain() {
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
-            
             let main = self.storyboard?.instantiateViewController(withIdentifier: "Main") as? MainTableViewController
             self.navigationController?.pushViewController(main!, animated: false)
         }, completion: { (Bool) in
