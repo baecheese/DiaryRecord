@@ -24,7 +24,8 @@ struct FontManager {
 
 class MainTableViewCell: UITableViewCell {
     @IBOutlet var contentsLabel: UILabel!
-    @IBOutlet var dateLabel: UILabel!
+    
+    @IBOutlet var timeLabel: UILabel!
 }
 
 
@@ -177,8 +178,12 @@ class MainTableViewController: UITableViewController {
         
         let diarys = diaryRepository.getAllByTheDate()
         let targetDate = sortedDate[indexPath.section]
+
+        let diary = (diarys[targetDate]?[indexPath.row])!
+        cell.contentsLabel.text = diary.content
+        cell.timeLabel.text = diary.timeStamp.getHHMM()
         
-        setContentsCell(cell: cell, diary: (diarys[targetDate]?[indexPath.row])!)
+//        setContentsCell(cell: cell, diary: (diarys[targetDate]?[indexPath.row])!)
         
         // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
         if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
@@ -197,22 +202,19 @@ class MainTableViewController: UITableViewController {
         let contentsWidth:CGFloat = cellTextLabelWidth! * 0.7
         let timeWidth:CGFloat = cellTextLabelWidth! - contentsWidth
         
-        cell.textLabel?.text = " "
+        let contents = UILabel(frame: CGRect(x: contentsMargenX, y: 0, width: contentsWidth, height: cellHeghit))
+        contents.text = diary.content
+        contents.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
+        contents.backgroundColor = .clear
+        cell.textLabel?.addSubview(contents)
         
-        
-//        let contents = UILabel(frame: CGRect(x: contentsMargenX, y: 0, width: contentsWidth, height: cellHeghit))
-//        contents.text = diary.content
-//        contents.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
-//        contents.backgroundColor = .clear
-//        cell.textLabel?.addSubview(contents)
-//        
-//        let timeLabel = UILabel(frame: CGRect(x: cellTextLabelWidth! - timeWidth, y: 0, width: timeWidth, height: cellHeghit))
-//        timeLabel.backgroundColor = .clear
-//        timeLabel.textAlignment = .right
-//        timeLabel.text = diary.timeStamp.getHHMM()
-//        timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
-//        timeLabel.textColor = .gray
-//        cell.textLabel?.addSubview(timeLabel)
+        let timeLabel = UILabel(frame: CGRect(x: cellTextLabelWidth! - timeWidth, y: 0, width: timeWidth, height: cellHeghit))
+        timeLabel.backgroundColor = .clear
+        timeLabel.textAlignment = .right
+        timeLabel.text = diary.timeStamp.getHHMM()
+        timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
+        timeLabel.textColor = .gray
+        cell.textLabel?.addSubview(timeLabel)
         
     }
     

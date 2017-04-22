@@ -59,7 +59,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="contentsLabel" destination="6vZ-qg-gT1" id="14R-8z-sU4"/>
-                                    <outlet property="dateLabel" destination="tWc-wA-q0Y" id="6oC-VC-WrD"/>
+                                    <outlet property="timeLabel" destination="tWc-wA-q0Y" id="jGf-ID-RGb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
