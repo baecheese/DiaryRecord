@@ -14,6 +14,7 @@
         <array key="NanumMyeongjo.ttc">
             <string>NanumMyeongjo</string>
             <string>NanumMyeongjoBold</string>
+            <string>NanumMyeongjoExtraBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -49,7 +50,7 @@
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="6vZ-qg-gT1" secondAttribute="bottom" id="Op7-OL-dPq"/>
                                         <constraint firstItem="tWc-wA-q0Y" firstAttribute="leading" secondItem="6vZ-qg-gT1" secondAttribute="trailing" id="UKh-fj-wrE"/>
-                                        <constraint firstItem="6vZ-qg-gT1" firstAttribute="leading" secondItem="D5a-xT-l6X" secondAttribute="leadingMargin" constant="40" id="W22-jp-JZt"/>
+                                        <constraint firstItem="6vZ-qg-gT1" firstAttribute="leading" secondItem="D5a-xT-l6X" secondAttribute="leadingMargin" constant="35" id="W22-jp-JZt"/>
                                         <constraint firstItem="tWc-wA-q0Y" firstAttribute="top" secondItem="D5a-xT-l6X" secondAttribute="topMargin" id="a9U-Dn-qLy"/>
                                         <constraint firstItem="6vZ-qg-gT1" firstAttribute="top" secondItem="D5a-xT-l6X" secondAttribute="topMargin" id="gfe-0h-IQS"/>
                                         <constraint firstItem="6vZ-qg-gT1" firstAttribute="width" secondItem="D5a-xT-l6X" secondAttribute="width" multiplier="3:5" id="joN-GL-UmC"/>
@@ -137,13 +138,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingCell" id="SMT-qT-ndZ">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingCell" id="SMT-qT-ndZ" customClass="SettingTableCell" customModule="DiaryRecord" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SMT-qT-ndZ" id="KBo-4n-Kjw">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5E-VB-g0B">
+                                            <rect key="frame" x="48" y="11" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="R5E-VB-g0B" firstAttribute="top" secondItem="KBo-4n-Kjw" secondAttribute="topMargin" id="JKK-Fu-kqC"/>
+                                        <constraint firstItem="R5E-VB-g0B" firstAttribute="leading" secondItem="KBo-4n-Kjw" secondAttribute="leadingMargin" constant="35" id="RAz-th-ywz"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="R5E-VB-g0B" secondAttribute="bottom" id="fM8-uO-qgR"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="R5E-VB-g0B" secondAttribute="trailing" constant="35" id="vWC-1R-VfJ"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="title" destination="R5E-VB-g0B" id="a9a-6u-9f3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -867,9 +885,41 @@
                     <view key="view" contentMode="scaleToFill" id="JM2-Qs-esv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LITTLE MOMENTS OF ETERNITY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrR-rX-WlU">
+                                <rect key="frame" x="16" y="73" width="313" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Waa-8z-Gfj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumMyeongjoExtraBold" family="Nanum Myeongjo" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="영원의 작은 순간들을 기록하세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haX-Dz-1w6">
+                                <rect key="frame" x="16" y="117" width="262" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2ul-JX-eOI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumMyeongjoBold" family="Nanum Myeongjo" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="haX-Dz-1w6" secondAttribute="trailing" constant="5" id="JhQ-WE-KFQ"/>
+                            <constraint firstItem="haX-Dz-1w6" firstAttribute="top" secondItem="WrR-rX-WlU" secondAttribute="bottom" id="KTv-EN-Qj0"/>
+                            <constraint firstItem="WrR-rX-WlU" firstAttribute="leading" secondItem="JM2-Qs-esv" secondAttribute="leadingMargin" constant="5" id="TUe-BK-8Yw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WrR-rX-WlU" secondAttribute="trailing" constant="5" id="WtI-Eg-eAX"/>
+                            <constraint firstItem="WrR-rX-WlU" firstAttribute="top" secondItem="SDs-gR-bs1" secondAttribute="bottom" constant="50" id="djz-8d-3cF"/>
+                            <constraint firstItem="haX-Dz-1w6" firstAttribute="leading" secondItem="JM2-Qs-esv" secondAttribute="leadingMargin" constant="5" id="tsi-wt-eLx"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="AGo-vL-feA"/>
+                    <connections>
+                        <outlet property="launchSubTitle" destination="haX-Dz-1w6" id="ugM-cO-MbR"/>
+                        <outlet property="launchTitle" destination="WrR-rX-WlU" id="FJZ-NQ-ocN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tT5-68-un8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -881,7 +931,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXD-w5-Bx2" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -898,7 +948,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="awI-uM-MQL" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uZP-Xa-Mi3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uZP-Xa-Mi3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -916,7 +966,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ow1-A5-Rxx" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wsw-ko-UiP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wsw-ko-UiP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -934,7 +984,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="izI-xD-NXc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="RbD-ee-Z0b">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RbD-ee-Z0b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -952,18 +1002,22 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="4Yo-9q-N7x" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="2Lq-AJ-PNX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Lq-AJ-PNX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="PAU-Kl-wpH">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="y1L-GT-j97" kind="relationship" relationship="rootViewController" id="8yW-3J-K4Y"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4qY-1I-fGS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-79.200000000000003" y="-195.6521739130435"/>
+            <point key="canvasLocation" x="25" y="-444"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="yj9-aq-eTp">
@@ -997,7 +1051,7 @@
         <scene sceneID="aEG-MO-OXj">
             <objects>
                 <navigationController id="dBG-Oh-0Va" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="013-EG-EjB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="013-EG-EjB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

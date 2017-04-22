@@ -11,9 +11,13 @@ import UIKit
 struct SettingMenu {
     let setionList:[String] = ["test", "setting", "help", "Resorce Licenses"]
     let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "비밀번호"]
-    let basicList:[String] = ["테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금"]
+    let basicList:[String] = ["Theme", "Widget", "Font size", "Password", "Touch ID"]
     let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
     let licensesInfo:[String] = ["licenses info"]
+}
+
+class SettingTableCell: UITableViewCell {
+    @IBOutlet var title: UILabel!
 }
 
 class SettingTableViewController: UITableViewController {
@@ -75,14 +79,16 @@ class SettingTableViewController: UITableViewController {
         let bottomMargen:CGFloat = 5.0
         let labelHight:CGFloat = 20
         let headerLabel = UILabel(frame: CGRect(x: margenX, y: sectionHeghit - labelHight - bottomMargen, width: tableView.bounds.size.width - margenX*2, height: labelHight))
-        headerLabel.backgroundColor = colorManager.date
+//        headerLabel.backgroundColor = colorManager.date
+        headerLabel.backgroundColor = colorManager.paper
         headerLabel.text = "\(settingMenu.setionList[section])"
         headerLabel.font = UIFont(name: fontManager.headerFont, size: fontManager.headerTextSize)
         headerLabel.textAlignment = .left
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: sectionHeghit))
         //        headerView.backgroundColor = .blue
-        headerView.backgroundColor = colorManager.date
+//        headerView.backgroundColor = colorManager.date
+        headerView.backgroundColor = colorManager.paper
         headerView.addSubview(headerLabel)
         
         return headerView
@@ -94,13 +100,13 @@ class SettingTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableCell
         
         let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
-        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
+        cell.title.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellTextSize)
         cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
-        cell.textLabel?.text = menuNameListInSection[indexPath.row]
+        cell.title.text = menuNameListInSection[indexPath.row]
         cell.accessoryType = .none
         
         // 비밀번호 설정 관련

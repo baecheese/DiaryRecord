@@ -35,11 +35,12 @@ class ColorManager: NSObject {
         selectTheme(theme: theme)
     }
     
+    var cover = UIColor()
     var bar = UIColor()
     var tint = UIColor()
     var title = UIColor.black
-    var date = UIColor()
-    var paper = UIColor()
+//    var date = UIColor()
+    var paper = UIColor()// 합칠 예정
     
     var special = UIColor()
     
@@ -66,51 +67,61 @@ class ColorManager: NSObject {
     }
     
     func basic() {
-        bar = .white
-        tint = UIColor(rgb: 0xebebebf)
-        date = .white
+        cover = .darkGray
+        bar = .darkGray
+        tint = UIColor.white.withAlphaComponent(0.7)
         special = UIColor(rgb: 0xebebeb)
         paper = .white
     }
     
     func sliver() {
         bar = UIColor(rgb: 0xc1c0c1)
+        cover = bar
         tint = UIColor.white.withAlphaComponent(0.7)
-        date = UIColor(rgb: 0xdedede)
+//        date = UIColor(rgb: 0xdedede)
         special = UIColor(rgb: 0xd6d6d6)
-        paper = UIColor(rgb: 0xebebeb)
+        paper = UIColor(rgb: 0xdedede)
+//        paper = UIColor(rgb: 0xebebeb)
     }
     
     func cherryBlossoms() {
         bar = UIColor(rgb: 0xFAA4C8)
+        cover = bar
         tint = .white
-        date = UIColor(rgb: 0xfacbe2)
+//        date = UIColor(rgb: 0xfacbe2)
         special = UIColor(rgb: 0xffeef1)
-        paper = UIColor(rgb: 0xF9F9FF)
+//        paper = UIColor(rgb: 0xF9F9FF)
+        paper = UIColor(rgb: 0xfacbe2)
     }
     
     func fall() {
         bar = UIColor(rgb: 0x746D5B)
+        cover = bar
         tint = UIColor(rgb: 0x323232)
-        date = UIColor(rgb: 0x9E967F)
+//        date = UIColor(rgb: 0x9E967F)
         special = UIColor(rgb: 0xCBC19E).withAlphaComponent(0.7)
-        paper = UIColor(rgb: 0xEAEAEA)
+//        paper = UIColor(rgb: 0xEAEAEA)
+        paper = UIColor(rgb: 0x9E967F)
     }
     
     func cottonCandy() {
         bar = UIColor(rgb: 0xC7B3F2)
+        cover = bar
         tint = .white
-        date = UIColor(rgb: 0xE4F4FF)
+//        date = UIColor(rgb: 0xE4F4FF)
         special = UIColor(rgb: 0x62D9D9).withAlphaComponent(0.5)
-        paper = UIColor(rgb: 0xF9F9FF)
+//        paper = UIColor(rgb: 0xF9F9FF)
+        paper = UIColor(rgb: 0xE4F4FF)
     }
     
     func ocean() {
         bar = UIColor(rgb: 0x375d81)
+        cover = bar
         tint = .white
-        date = UIColor(rgb: 0xabc8e2)
+//        date = UIColor(rgb: 0xabc8e2)
         special = UIColor(rgb: 0xc4d7ed)
-        paper = UIColor(rgb: 0xe1e6fa)
+//        paper = UIColor(rgb: 0xe1e6fa)
+        paper = UIColor(rgb: 0xabc8e2)
     }
     
     

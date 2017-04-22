@@ -10,37 +10,38 @@ import UIKit
 
 class LaunchViewController: UIViewController, CAAnimationDelegate {
 
+    private let log = Logger(logPlace: LaunchViewController.self)
+    private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
-    let background = UIView()
+    @IBOutlet var launchTitle: UILabel!
+    @IBOutlet var launchSubTitle: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        background.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
-        background.backgroundColor = .red
-        view.addSubview(background)
-        showLaunchAnimation()
+        setColor()
+        openCover()
     }
     
+    func setColor() {
+        view.backgroundColor = colorManager.cover
+        launchTitle.textColor = colorManager.tint
+        launchSubTitle.textColor = colorManager.tint
+    }
     
-    func showLaunchAnimation() {
+    func openCover() {
+        launchTitle.alpha = 0.0
+        launchSubTitle.alpha = 0.0
+        
         UIView.transition(with: view, duration: 3.0, options: .curveEaseInOut, animations: {
-            self.background.backgroundColor = .blue
+            self.launchTitle.alpha = 1.0
+            self.launchSubTitle.alpha = 1.0
         }, completion: { (Bool) in
             self.moveToMain()
         })
     }
-    
-    func fadeInAnimation() {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionFade
-        self.navigationController?.view.layer.add(transition, forKey: nil)
-    }
 
     func moveToMain() {
-        UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
+        UIView.transition(with: self.navigationController!.view, duration: 1.0, options: .transitionCurlUp, animations: {
             let main = self.storyboard?.instantiateViewController(withIdentifier: "Main") as? MainTableViewController
             self.navigationController?.pushViewController(main!, animated: false)
         }, completion: { (Bool) in

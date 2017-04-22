@@ -24,7 +24,6 @@ struct FontManager {
 
 class MainTableViewCell: UITableViewCell {
     @IBOutlet var contentsLabel: UILabel!
-    
     @IBOutlet var timeLabel: UILabel!
 }
 
@@ -46,6 +45,8 @@ class MainTableViewController: UITableViewController {
     private let sectionHeghit:CGFloat = 55.0
     private let cellHeghit:CGFloat = 50.0
     
+    private var fristLoad = true
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -62,9 +63,14 @@ class MainTableViewController: UITableViewController {
             }
         }
         
-        if changeTheme == true {
+        if true == changeTheme {
             viewDidLoad()
             self.tableView.reloadData()
+        }
+        
+        if true == fristLoad {
+            fristLoad = false
+            animateTable()
         }
     }
     
@@ -138,7 +144,8 @@ class MainTableViewController: UITableViewController {
         let bottomMargen:CGFloat = 5.0
         let labelHight:CGFloat = 20
         let headerLabel = UILabel(frame: CGRect(x: margenX, y: sectionHeghit - labelHight - bottomMargen, width: tableView.bounds.size.width - margenX*2, height: labelHight))
-        headerLabel.backgroundColor = colorManager.date
+//        headerLabel.backgroundColor = colorManager.date
+        headerLabel.backgroundColor = colorManager.paper
         let diarys = diaryRepository.getAllByTheDate()
         // 최신 순 날짜 Array 정렬
         sortedDate = Array(diarys.keys).sorted(by: >)
@@ -149,7 +156,8 @@ class MainTableViewController: UITableViewController {
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: sectionHeghit))
         //        headerView.backgroundColor = .blue
-        headerView.backgroundColor = colorManager.date
+//        headerView.backgroundColor = colorManager.date
+        headerView.backgroundColor = colorManager.paper
         headerView.addSubview(headerLabel)
         
         return headerView
@@ -179,11 +187,7 @@ class MainTableViewController: UITableViewController {
         let diarys = diaryRepository.getAllByTheDate()
         let targetDate = sortedDate[indexPath.section]
 
-        let diary = (diarys[targetDate]?[indexPath.row])!
-        cell.contentsLabel.text = diary.content
-        cell.timeLabel.text = diary.timeStamp.getHHMM()
-        
-//        setContentsCell(cell: cell, diary: (diarys[targetDate]?[indexPath.row])!)
+        setContentsCell(cell: cell, diary: (diarys[targetDate]?[indexPath.row])!)
         
         // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
         if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
@@ -196,26 +200,19 @@ class MainTableViewController: UITableViewController {
         return cell
     }
     
-    func setContentsCell(cell:UITableViewCell, diary:Diary) {
-        let cellTextLabelWidth = cell.textLabel?.frame.width
-        let contentsMargenX:CGFloat = 15.0
-        let contentsWidth:CGFloat = cellTextLabelWidth! * 0.7
-        let timeWidth:CGFloat = cellTextLabelWidth! - contentsWidth
+    func setContentsCell(cell:MainTableViewCell, diary:Diary) {
+        cell.contentsLabel.text = diary.content
+        cell.timeLabel.text = diary.timeStamp.getHHMM()
         
-        let contents = UILabel(frame: CGRect(x: contentsMargenX, y: 0, width: contentsWidth, height: cellHeghit))
-        contents.text = diary.content
-        contents.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
-        contents.backgroundColor = .clear
-        cell.textLabel?.addSubview(contents)
+        cell.contentsLabel.text = diary.content
+        cell.contentsLabel.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
+        cell.contentsLabel.backgroundColor = .clear
         
-        let timeLabel = UILabel(frame: CGRect(x: cellTextLabelWidth! - timeWidth, y: 0, width: timeWidth, height: cellHeghit))
-        timeLabel.backgroundColor = .clear
-        timeLabel.textAlignment = .right
-        timeLabel.text = diary.timeStamp.getHHMM()
-        timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
-        timeLabel.textColor = .gray
-        cell.textLabel?.addSubview(timeLabel)
-        
+        cell.timeLabel.backgroundColor = .clear
+        cell.timeLabel.textAlignment = .right
+        cell.timeLabel.text = diary.timeStamp.getHHMM()
+        cell.timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
+        cell.timeLabel.textColor = .gray
     }
     
     private func removeSpace(text:String) -> String {
@@ -382,6 +379,30 @@ class MainTableViewController: UITableViewController {
             alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
         }
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func animateTable() {
+        tableView.reloadData()
+        
+        let cells = tableView.visibleCells
+        let tableHeight: CGFloat = tableView.bounds.size.height
+        
+        for i in cells {
+            let cell: UITableViewCell = i as UITableViewCell
+            cell.transform = CGAffineTransform(translationX: 0, y: tableHeight)
+        }
+        
+        var index = 0
+        
+        for a in cells {
+            let cell: UITableViewCell = a as UITableViewCell
+            UIView.animate(withDuration: 1.5, delay: 0.2 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
+                cell.transform = CGAffineTransform(translationX: 0, y: 0);
+            }, completion: nil)
+            
+            index += 1
+        }
     }
     
 }

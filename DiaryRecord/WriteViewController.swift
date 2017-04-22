@@ -261,14 +261,14 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     func makeWriteBox() {
         let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
         view.backgroundColor = colorManager.paper
-        
+        let margenX:CGFloat = 30.0
         let writeWidth = self.view.frame.size.width
         if 0.0 == writeState.keyboardHeight {
             writeState.fullHeight = self.view.frame.size.height - ((navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height)
-            writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: writeWidth, height: writeState.fullHeight))
+            writeBox = WriteBox(frame: CGRect(x: margenX, y: margenX, width: writeWidth - margenX*2, height: writeState.fullHeight - margenX*2))
         }
         if 0.0 < writeState.keyboardHeight {
-            writeState.writeBoxHeightToEditing = writeState.fullHeight - (writeState.keyboardHeight)
+            writeState.writeBoxHeightToEditing = writeState.fullHeight - (writeState.keyboardHeight) - margenX*2
             changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing, option: .transitionCurlUp)
         }
         
