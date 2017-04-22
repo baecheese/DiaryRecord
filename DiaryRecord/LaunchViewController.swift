@@ -19,7 +19,6 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
         background.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         background.backgroundColor = .red
         view.addSubview(background)
-        
         showLaunchAnimation()
     }
     
@@ -45,9 +44,25 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
             
             let main = self.storyboard?.instantiateViewController(withIdentifier: "Main") as? MainTableViewController
             self.navigationController?.pushViewController(main!, animated: false)
-        }, completion: nil)
+        }, completion: { (Bool) in
+        self.useSecretMode()
+        })
     }
 
+    func useSecretMode() {
+        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
+            lockMainPage()
+        }
+    }
+    
+    func lockMainPage() {
+        let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
+        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        self.modalPresentationStyle = .currentContext
+        self.present(EnterPasswordVC!, animated: true, completion: nil)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

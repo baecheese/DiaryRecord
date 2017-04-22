@@ -27,7 +27,7 @@ class ReadViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getSelectedDairy()
-        makeContentCard(date: diary.timeStamp.getDateString(), content: diary.content, imageName: diary.imageName)
+        makeContentCard(date: diary.timeStamp.getDateLongStyle(), content: diary.content, imageName: diary.imageName)
 //        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
     }
@@ -67,7 +67,7 @@ class ReadViewController: UIViewController {
     }
     
     func makeNavigationItem() {
-        let fontManager = FontManger()
+        let fontManager = FontManager()
         let editBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
         editBtn.setTitle("edit", for: .normal)
         editBtn.titleLabel!.font =  UIFont(name: fontManager.naviTitleFont, size: fontManager.naviItemFontSize)

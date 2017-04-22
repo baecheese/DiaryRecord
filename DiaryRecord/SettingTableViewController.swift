@@ -23,8 +23,10 @@ class SettingTableViewController: UITableViewController {
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
-    private let fontManger = FontManger()
+    private let fontManager = FontManager()
     private let swich = UISwitch()
+    
+    let sectionHeghit:CGFloat = 55.0
     
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
@@ -58,26 +60,44 @@ class SettingTableViewController: UITableViewController {
         return "section"
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return sectionHeghit
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
-        let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
+        let headerView = setHeaderView(section: section)
+        return headerView
+    }
+    
+    private func setHeaderView(section:Int) -> UIView {
+        let margenX:CGFloat = 30.0
+        let bottomMargen:CGFloat = 5.0
+        let labelHight:CGFloat = 20
+        let headerLabel = UILabel(frame: CGRect(x: margenX, y: sectionHeghit - labelHight - bottomMargen, width: tableView.bounds.size.width - margenX*2, height: labelHight))
         headerLabel.backgroundColor = colorManager.date
         headerLabel.text = "\(settingMenu.setionList[section])"
-        headerLabel.font = UIFont(name: fontManger.headerFont, size: fontManger.headerTextSize)
-        headerLabel.textAlignment = .right
+        headerLabel.font = UIFont(name: fontManager.headerFont, size: fontManager.headerTextSize)
+        headerLabel.textAlignment = .left
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: sectionHeghit))
+        //        headerView.backgroundColor = .blue
         headerView.backgroundColor = colorManager.date
         headerView.addSubview(headerLabel)
         
         return headerView
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellHeight:CGFloat = 50.0
+        return cellHeight
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath)
         
         let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
-        cell.textLabel?.font = UIFont(name: fontManger.cellFont, size: fontManger.celltextSize)
+        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
         cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
         cell.textLabel?.text = menuNameListInSection[indexPath.row]

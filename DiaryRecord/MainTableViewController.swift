@@ -9,15 +9,17 @@
 import UIKit
 
 /** MainTableViewController */
-struct FontManger {
+struct FontManager {
     let headerTextSize:CGFloat = 14.0
-    let celltextSize:CGFloat = 18.0
+    let cellTextSize:CGFloat = 18.0
+    let cellSubTextSize:CGFloat = 10.0
     let headerFont:String = "SeoulHangangM"
     let cellFont:String = "NanumMyeongjo"
+    let cellSubFont:String = "SeoulHangangM"
     
     let naviTitleFontSize:CGFloat = 20.0
     let naviItemFontSize:CGFloat = 15.0
-    let naviTitleFont:String = "Copperplate-Light"
+    let naviTitleFont:String = "SeoulHangangM"
 }
 
 class MainTableViewController: UITableViewController {
@@ -29,9 +31,13 @@ class MainTableViewController: UITableViewController {
     private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let wedgetManager = WedgetManager.sharedInstance
     private var sortedDate = [String]()
-    private let fontManager = FontManger()
+    private let fontManager = FontManager()
     var changeTheme = false
     private var beforeSpecialDay:Int? = nil
+    
+    private let margenX:CGFloat = 30.0
+    private let sectionHeghit:CGFloat = 55.0
+    private let cellHeghit:CGFloat = 50.0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,7 +66,6 @@ class MainTableViewController: UITableViewController {
         log.info(message: "앱이 시작되었습니다.")
         
         navigationController?.setNavigationBarHidden(false, animated: true)
-        useSecretMode()
         changeWedget()
         navigationFont()
         changeNavigationTheme()
@@ -112,9 +117,20 @@ class MainTableViewController: UITableViewController {
         return "date text"
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return sectionHeghit
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
-        let headerLabel = UILabel(frame: CGRect(x: 0, y: 5, width: tableView.bounds.size.width - 10, height: 20))// y:5 = 위에 마진 / width : -10 = date 오른쪽 마진
+        let headerView = setHeaderView(section:section)
+        return headerView
+    }
+    
+    private func setHeaderView(section:Int) -> UIView {
+        let bottomMargen:CGFloat = 5.0
+        let labelHight:CGFloat = 20
+        let headerLabel = UILabel(frame: CGRect(x: margenX, y: sectionHeghit - labelHight - bottomMargen, width: tableView.bounds.size.width - margenX*2, height: labelHight))
         headerLabel.backgroundColor = colorManager.date
         let diarys = diaryRepository.getAllByTheDate()
         // 최신 순 날짜 Array 정렬
@@ -122,9 +138,10 @@ class MainTableViewController: UITableViewController {
         let date = sortedDate[section]
         headerLabel.text = "\(date)"
         headerLabel.font = UIFont(name: fontManager.headerFont, size: fontManager.headerTextSize)
-        headerLabel.textAlignment = .right
+        headerLabel.textAlignment = .left
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: sectionHeghit))
+        //        headerView.backgroundColor = .blue
         headerView.backgroundColor = colorManager.date
         headerView.addSubview(headerLabel)
         
@@ -133,11 +150,10 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 50.0
+        return cellHeghit
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let diarys = diaryRepository.getAllByTheDate()
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath)
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
@@ -151,14 +167,11 @@ class MainTableViewController: UITableViewController {
             }, completion: nil)
         }
         
-        cell.textLabel?.font = UIFont(name: fontManager.cellFont, size: fontManager.celltextSize)
+        cell.backgroundColor = colorManager.paper
         
-        //        cell.backgroundColor = colorManager.paper
-        cell.backgroundColor = .clear
+        let diarys = diaryRepository.getAllByTheDate()
         let targetDate = sortedDate[indexPath.section]
-        //같은 날짜 내에 컨텐츠를 최신 순으로 row에 정렬
-        cell.textLabel?.text = diarys[targetDate]?[indexPath.row].content
-        
+        setContentsCell(cell: cell, diary: (diarys[targetDate]?[indexPath.row])!)
         
         // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
         if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
@@ -169,6 +182,41 @@ class MainTableViewController: UITableViewController {
         }
         
         return cell
+    }
+    
+    func setContentsCell(cell:UITableViewCell, diary:Diary) {
+        let cellTextLabelWidth = cell.textLabel?.frame.width
+        let contentsMargenX:CGFloat = 15.0
+        let contentsWidth:CGFloat = cellTextLabelWidth! * 0.7
+        let timeWidth:CGFloat = cellTextLabelWidth! - contentsWidth
+        
+        cell.textLabel?.text = " "
+        
+        let contents = UILabel(frame: CGRect(x: contentsMargenX, y: 0, width: contentsWidth, height: cellHeghit))
+        contents.text =
+        contents.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
+        contents.backgroundColor = .clear
+        cell.textLabel?.addSubview(contents)
+        
+        let timeLabel = UILabel(frame: CGRect(x: cellTextLabelWidth! - timeWidth, y: 0, width: timeWidth, height: cellHeghit))
+        timeLabel.backgroundColor = .clear
+        timeLabel.textAlignment = .right
+        timeLabel.text = diary.timeStamp.getHHMM()
+        timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
+        timeLabel.textColor = .gray
+        cell.textLabel?.addSubview(timeLabel)
+        
+    }
+    
+    private func removeSpace(text:String) -> String {
+        var contents = text
+        log.info(message: "before : \(contents)")
+        if text.characters.first == " " {
+            return String(contents.characters.dropFirst())
+        }
+        else {
+            return text
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -294,7 +342,7 @@ class MainTableViewController: UITableViewController {
     }
     
     func navigationFont() {
-        navigationItem.title = "diary of contents"
+        navigationItem.title = "index"
         // Navigation Font
         navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: fontManager.naviTitleFontSize)!]
     }
@@ -324,15 +372,6 @@ class MainTableViewController: UITableViewController {
             alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
         }
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func useSecretMode() {
-        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
-            let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
-            self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-            self.modalPresentationStyle = .currentContext
-            self.present(EnterPasswordVC!, animated: true, completion: nil)
-        }
     }
     
 }

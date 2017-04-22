@@ -16,13 +16,13 @@ extension TimeInterval {
         return NSDate().timeIntervalSince1970
     }
     
-    // 타임스탬프 -> 날짜 계산 (long type)
-    func getDateString() -> String {
-        let date = Date(timeIntervalSince1970: self)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.long
-        dateFormatter.locale = NSLocale.current
-        return dateFormatter.string(from: date as Date)
+    //시간 정보
+    func getHHMM() -> String {
+        return formatString(format: "HH:mm")
+    }
+    
+    func getDotDate() -> String {
+        return formatString(format: "yyyy.MM.dd")
     }
     
     func getYYMMDD() -> String {
@@ -31,11 +31,6 @@ extension TimeInterval {
     
     func getDateLongStyle() -> String {
         return longformatString()
-    }
-    
-    //시간 정보
-    func getHHMM() -> String {
-        return formatString(format: "HH:mm")
     }
     
     func formatString(format:String) -> String {

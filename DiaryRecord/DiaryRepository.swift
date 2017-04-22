@@ -151,7 +151,7 @@ class DiaryRepository: NSObject {
         // [diary1, diary2] -> dayDiaries (같은 날 다른 시간에 쓰여진 일기)
         for index in 0...diarys.count-1 {
             let diary:Diary = diarys[index]
-            let key:String = diary.timeStamp.getYYMMDD()
+            let key:String = diary.timeStamp.getDotDate()
             if nil == diaryDict[key] {
                 diaryDict.updateValue([diary], forKey: key)
             } else {
