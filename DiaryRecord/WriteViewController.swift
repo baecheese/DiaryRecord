@@ -53,7 +53,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     func makeNavigationItem()  {
-        let fontManager = FontManager()
+        let fontManager = FontManager.sharedInstance
         let editBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
         editBtn.setTitle("save", for: .normal)
         editBtn.titleLabel!.font =  UIFont(name: fontManager.naviTitleFont, size: fontManager.naviItemFontSize)

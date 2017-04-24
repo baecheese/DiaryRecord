@@ -24,6 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if keychain.loadPassword() != nil {
             SharedMemoryContext.set(key: "isSecretMode", setValue: true)
         }
+        
+        let fontManager = FontManager.sharedInstance
+        fontManager.changeSize(sizeMode: fontManager.getSizeMode())
+//        fontManager.changeSize(sizeMode: 3)
         return true
     }
     

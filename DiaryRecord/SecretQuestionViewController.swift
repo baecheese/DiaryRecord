@@ -45,7 +45,7 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     let pickerSet = SecrectQuestionMessage().questions
-    let fontManager = FontManager()
+    let fontManager = FontManager.sharedInstance
     
     func showPickerInActionSheet() {
         let message = "\n\n\n\n\n\n\n\n"

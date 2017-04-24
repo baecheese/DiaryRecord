@@ -17,31 +17,38 @@ class ReadViewController: UIViewController {
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
-    var diary = Diary()
     @IBOutlet var backgroundView: UIView!
+    var card = CardView()
     var readState = ReadState()
     var cover = UIView()
     var tap = UITapGestureRecognizer()
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
+    override func viewWillAppear(_ animated: Bool) {
+        if true == (SharedMemoryContext.get(key: "saveNewDairy")) as! Bool {
+            changeContents(newDiary: getSelectedDairy())
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        getSelectedDairy()
-        makeContentCard(date: diary.timeStamp.getDateLongStyle(), content: diary.content, imageName: diary.imageName)
+        makeContentCard()
 //        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
     }
     
     
     /* 필요한 data */
-    func getSelectedDairy() {
-        diary = diaryRepository.findOne(id: SharedMemoryContext.get(key: "selectedDiaryID") as! Int)!
+    private func getSelectedDairy() -> Diary {
+        return diaryRepository.findOne(id: SharedMemoryContext.get(key: "selectedDiaryID") as! Int)!
     }
     
     /* contents setting 관련 */
     
-    func makeContentCard(date: String, content:String, imageName:String?) {
-        let card = CardView(frame: view.bounds, date: date, content: content, imageName: imageName)
+    func makeContentCard() {
+        let diary = getSelectedDairy()
+        card.frame = view.bounds
+        card.makeReadView(date: diary.timeStamp.getDateLongStyle(), content: diary.content, imageName: diary.imageName)
         card.backScrollView.contentOffset = CGPoint.zero
         self.automaticallyAdjustsScrollViewInsets = false
         self.backgroundView.addSubview(card)
@@ -52,6 +59,11 @@ class ReadViewController: UIViewController {
 //        card.addSubview(cover)
 //        
     }
+    
+    func changeContents(newDiary:Diary) {
+        card.changeContents(content: newDiary.content, imageName: newDiary.imageName)
+    }
+    
     
     func settingTapGesture() {
         // Double Tap
@@ -67,7 +79,7 @@ class ReadViewController: UIViewController {
     }
     
     func makeNavigationItem() {
-        let fontManager = FontManager()
+        let fontManager = FontManager.sharedInstance
         let editBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
         editBtn.setTitle("edit", for: .normal)
         editBtn.titleLabel!.font =  UIFont(name: fontManager.naviTitleFont, size: fontManager.naviItemFontSize)

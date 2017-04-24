@@ -11,9 +11,7 @@ import UIKit
 struct CardFrame {
     var contentLabelHeight:CGFloat = 0
     var dateLabelHight:CGFloat = 60.0
-    var contentFontSize:CGFloat = 15.0
     var contentlineSpacing:CGFloat = 10.0
-    var dateFontSize:CGFloat = 10.0
     let imageHeight:CGFloat = 250.0
     let mainMargen:CGFloat = 30.0
     let subMargen:CGFloat = 20.0
@@ -24,26 +22,34 @@ class CardView: UIView {
     let log = Logger.init(logPlace: CardView.self)
     
     var backScrollView = UIScrollView()
-    var date = UILabel()
-    var cardFrame = CardFrame()
-    var imageSection = UIImageView()
+    private var date = UILabel()
+    private var contentsLabel = UILabel()
+    private var cardFrame = CardFrame()
+    private var imageSection = UIImageView()
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let imageManager = ImageFileManager.sharedInstance
+    private let fontmanager = FontManager.sharedInstance
     
-    init(frame: CGRect, date:String, content:String, imageName:String?) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        makeBackground()
-        makeContentLabel(content: content, imageName: imageName)
-        makeDateLabel(dateText: date, imageName:imageName)
-        changeContentsSize(imageName: imageName)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func makeReadView(date:String, content:String, imageName:String?) {
+        makeBackground()
+        makeContentLabel(content: content, imageName: imageName)
+        makeDateLabel(dateText: date, imageName:imageName)
+        changeContentsSize(imageName: imageName)
+    }
+    
+    func changeContents(content:String, imageName:String?) {
+        makeContentLabel(content: content, imageName: imageName)
+    }
 
-    func makeBackground() {
+    private func makeBackground() {
         backScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
         backScrollView.contentSize = CGSize(width: self.frame.width, height: self.frame.height)
         backScrollView.isScrollEnabled = true
@@ -51,9 +57,7 @@ class CardView: UIView {
         self.addSubview(backScrollView)
     }
     
-    func makeContentLabel(content:String, imageName:String?) {
-    
-        var contentsLabel = UILabel()
+    private func makeContentLabel(content:String, imageName:String?) {
         if (nil == imageName) {
             contentsLabel = UILabel(frame: CGRect(x: cardFrame.mainMargen, y: cardFrame.mainMargen, width: self.frame.width - cardFrame.mainMargen * 2, height: 60))// height는 바꿀 값
         }
@@ -72,7 +76,7 @@ class CardView: UIView {
         attributedString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         contentsLabel.attributedText = attributedString
         // 폰트 및 크기
-        contentsLabel.font = UIFont(name: "NanumMyeongjo", size: cardFrame.contentFontSize)
+        contentsLabel.font = UIFont(name: fontmanager.pageTextFont, size: fontmanager.pageTextSize)
         
         contentsLabel.numberOfLines = 0
         contentsLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -81,9 +85,10 @@ class CardView: UIView {
         cardFrame.contentLabelHeight = contentsLabel.frame.size.height
         
         backScrollView.addSubview(contentsLabel)
+        
     }
     
-    func makeImageSection(image:UIImage) {
+    private func makeImageSection(image:UIImage) {
         imageSection = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: cardFrame.imageHeight))
         imageSection.image = image
         imageSection.contentMode = .scaleAspectFill
@@ -91,7 +96,7 @@ class CardView: UIView {
         backScrollView.addSubview(imageSection)
     }
     
-    func makeDateLabel(dateText:String, imageName:String?) {
+    private func makeDateLabel(dateText:String, imageName:String?) {
         date = UILabel(frame: CGRect(x: 0, y: cardFrame.mainMargen + cardFrame.contentLabelHeight, width: self.frame.width - cardFrame.mainMargen, height: cardFrame.dateLabelHight))
         
         if (imageName != nil) {
@@ -104,13 +109,13 @@ class CardView: UIView {
         */
         
         date.text = dateText
-        date.font = UIFont(name: "NanumMyeongjo", size: cardFrame.dateFontSize)
+        date.font = UIFont(name: fontmanager.pageTextFont, size: fontmanager.headerTextSize)
         date.textAlignment = NSTextAlignment.right
         date.backgroundColor = colorManager.paper
         backScrollView.addSubview(date)
     }
     
-    func changeContentsSize(imageName:String?) {
+    private func changeContentsSize(imageName:String?) {
        backScrollView.contentSize.height = cardFrame.mainMargen * 3 + cardFrame.contentLabelHeight + cardFrame.dateLabelHight + cardFrame.subMargen
         if imageName != nil {
             backScrollView.contentSize.height += cardFrame.imageHeight

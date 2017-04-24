@@ -27,7 +27,7 @@ class SettingTableViewController: UITableViewController {
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
-    private let fontManager = FontManager()
+    private let fontManager = FontManager.sharedInstance
     private let swich = UISwitch()
     
     let sectionHeghit:CGFloat = 55.0

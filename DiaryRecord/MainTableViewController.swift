@@ -9,24 +9,11 @@
 import UIKit
 
 /** MainTableViewController */
-struct FontManager {
-    let headerTextSize:CGFloat = 14.0
-    let cellTextSize:CGFloat = 18.0
-    let cellSubTextSize:CGFloat = 10.0
-    let headerFont:String = "SeoulHangangM"
-    let cellFont:String = "NanumMyeongjo"
-    let cellSubFont:String = "SeoulHangangM"
-    
-    let naviTitleFontSize:CGFloat = 20.0
-    let naviItemFontSize:CGFloat = 15.0
-    let naviTitleFont:String = "SeoulHangangM"
-}
 
 class MainTableViewCell: UITableViewCell {
     @IBOutlet var contentsLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
 }
-
 
 class MainTableViewController: UITableViewController {
     
@@ -37,7 +24,7 @@ class MainTableViewController: UITableViewController {
     private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let wedgetManager = WedgetManager.sharedInstance
     private var sortedDate = [String]()
-    private let fontManager = FontManager()
+    private let fontManager = FontManager.sharedInstance
     var changeTheme = false
     private var beforeSpecialDay:Int? = nil
     
