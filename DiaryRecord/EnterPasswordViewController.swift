@@ -19,9 +19,14 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
     private let keychainManager = KeychainManager.sharedInstance
     private let meassage = messageEnterPassword()
     
-    @IBOutlet var passwordField: UITextField!
     
+    @IBOutlet var titleInPassword: UILabel!
+    @IBOutlet var subTitleInPassword: UILabel!
+    @IBOutlet var forgetPassword: UIButton!
+    
+    @IBOutlet var passwordField: UITextField!
     @IBOutlet var moon: UIImageView!
+    
     
     override func viewWillAppear(_ animated: Bool) {
         passwordField.becomeFirstResponder()
@@ -29,8 +34,13 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setColor()
         setTextFieldStatus()
         setDontKnowPasswordImage()
+    }
+    
+    func setColor() {
+        view.backgroundColor = colorManager.cover
     }
     
     private func setTextFieldStatus() {

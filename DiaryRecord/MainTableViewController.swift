@@ -394,15 +394,34 @@ class MainTableViewController: UITableViewController {
         }
         
         var index = 0
+        var frist = true
         
         for a in cells {
             let cell: UITableViewCell = a as UITableViewCell
-            UIView.animate(withDuration: 1.5, delay: 0.2 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
+            UIView.animate(withDuration: 1.8, delay: 0.2 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
                 cell.transform = CGAffineTransform(translationX: 0, y: 0);
-            }, completion: nil)
-            
+            }, completion: { (Bool) in
+                if (true == frist) {
+                    self.useSecretMode()
+                    frist = false
+                }
+            })
             index += 1
         }
     }
+    
+    private func useSecretMode() {
+        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
+            lockMainPage()
+        }
+    }
+    
+    private func lockMainPage() {
+        let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
+        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        self.modalPresentationStyle = .currentContext
+        self.present(EnterPasswordVC!, animated: true, completion: nil)
+    }
+    
     
 }

@@ -44,22 +44,7 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: .transitionCurlUp, animations: {
             let main = self.storyboard?.instantiateViewController(withIdentifier: "Main") as? MainTableViewController
             self.navigationController?.pushViewController(main!, animated: false)
-        }, completion: { (Bool) in
-        self.useSecretMode()
-        })
-    }
-
-    func useSecretMode() {
-        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
-            lockMainPage()
-        }
-    }
-    
-    func lockMainPage() {
-        let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
-        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-        self.modalPresentationStyle = .currentContext
-        self.present(EnterPasswordVC!, animated: true, completion: nil)
+        }, completion: nil)
     }
     
     

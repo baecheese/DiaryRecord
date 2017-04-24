@@ -13,7 +13,7 @@ struct SecrectQuestionMessage {
     let findMode = "Enter your Secret Q&A."
     let empty = "Please answer."
     let success = "Save was successful."
-    let discord = "The secrect Q&A you entered is wrong."
+    let discord = "Your secrect Q&A are incorrect."
 }
 
 class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -28,11 +28,13 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     @IBOutlet var question: UIButton!
     @IBOutlet var answer: UITextField!
     
+    @IBOutlet var secretQusetionTitle: UILabel!
     @IBOutlet var noticeLabel: UILabel!// 찾을 때, 설정할 때 달라야하니까
     @IBOutlet var ok: UIButton!
     @IBOutlet var cancel: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        setColor()
         makeNavigationItem()
         showFindButton()
         showFindNotice()
@@ -98,6 +100,12 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     func doSomethingWithValue(value: String) {
         question.setTitle(value, for: .normal)
         selectQuestion = value
+    }
+    
+    private func setColor() {
+        view.backgroundColor = colorManager.cover
+        SecretQuestionView.backgroundColor = colorManager.cover
+        answer.backgroundColor = UIColor.white.withAlphaComponent(0.4)
     }
     
     func makeNavigationItem()  {
