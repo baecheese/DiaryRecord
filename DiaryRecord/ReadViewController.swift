@@ -61,7 +61,7 @@ class ReadViewController: UIViewController {
     }
     
     func changeContents(newDiary:Diary) {
-        card.changeContents(content: newDiary.content, imageName: newDiary.imageName)
+        card.makeReadView(date: newDiary.timeStamp.getDateLongStyle(), content: newDiary.content, imageName: newDiary.imageName)
     }
     
     

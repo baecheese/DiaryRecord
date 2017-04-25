@@ -32,6 +32,7 @@
 		0326B9501E8B8CA1006B20BA /* SpecialDayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */; };
 		0326B9521E8B981F006B20BA /* WedgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9511E8B981F006B20BA /* WedgetManager.swift */; };
 		0326B95A1E8BB7F4006B20BA /* SelectWedgetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */; };
+		032EA52A1EAFAC83007022A4 /* SelectFontSizeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA5291EAFAC83007022A4 /* SelectFontSizeTableViewController.swift */; };
 		03462A3F1E913B9E00A2E5D1 /* wedget.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 03462A3E1E913B9E00A2E5D1 /* wedget.jpg */; };
 		034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA21EA06EDE00DE1262 /* dontKnow.png */; };
 		034AFBA51EA06EDE00DE1262 /* know.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA31EA06EDE00DE1262 /* know.png */; };
@@ -166,6 +167,7 @@
 		0326B94F1E8B8CA1006B20BA /* SpecialDayRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDayRepository.swift; sourceTree = "<group>"; };
 		0326B9511E8B981F006B20BA /* WedgetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WedgetManager.swift; sourceTree = "<group>"; };
 		0326B9591E8BB7F4006B20BA /* SelectWedgetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWedgetTableViewController.swift; sourceTree = "<group>"; };
+		032EA5291EAFAC83007022A4 /* SelectFontSizeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFontSizeTableViewController.swift; sourceTree = "<group>"; };
 		03462A3E1E913B9E00A2E5D1 /* wedget.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wedget.jpg; sourceTree = "<group>"; };
 		034AFBA21EA06EDE00DE1262 /* dontKnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dontKnow.png; sourceTree = "<group>"; };
 		034AFBA31EA06EDE00DE1262 /* know.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know.png; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				036B6A3D1E9F3714006A044E /* PasswordViewController.swift */,
 				03AAC6DA1EA5B38300C2BF4D /* SecretQuestionViewController.swift */,
 				03AAC6B41EA4677300C2BF4D /* EnterPasswordViewController.swift */,
+				032EA5291EAFAC83007022A4 /* SelectFontSizeTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 				030DB1041E42285C004E3532 /* DiaryRepository.swift in Sources */,
 				03AAC6B51EA4677300C2BF4D /* EnterPasswordViewController.swift in Sources */,
 				03C702B41E84CE6E00B15033 /* ImageBox.swift in Sources */,
+				032EA52A1EAFAC83007022A4 /* SelectFontSizeTableViewController.swift in Sources */,
 				ABC2483A4D7044BDBA0F1310 /* ImageFileManager.swift in Sources */,
 				034AFBAB1EA0776800DE1262 /* Keychain.m in Sources */,
 			);
@@ -1156,6 +1160,7 @@
 				CODE_SIGN_ENTITLEMENTS = DiaryRecord/DiaryRecord.entitlements;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = DiaryRecord/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.baecheese.DiaryRecord;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1175,6 +1180,7 @@
 				CODE_SIGN_ENTITLEMENTS = DiaryRecord/DiaryRecord.entitlements;
 				DEVELOPMENT_TEAM = 3Z5E8777P2;
 				INFOPLIST_FILE = DiaryRecord/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.baecheese.DiaryRecord;
 				PRODUCT_NAME = "$(TARGET_NAME)";

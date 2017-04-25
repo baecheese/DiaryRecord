@@ -141,7 +141,7 @@ class SettingTableViewController: UITableViewController {
                 log.info(message: "\(SpecialDayRepository.sharedInstance.getAll())")
             }
             if indexPath.row == 4{
-                log.info(message: "Password: \(KeychainManager.sharedInstance.loadPassword())")
+                log.info(message: "Password: \(String(describing: KeychainManager.sharedInstance.loadPassword()))")
             }
         }
         /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
@@ -156,6 +156,11 @@ class SettingTableViewController: UITableViewController {
                 let wedgetMode = self.storyboard?.instantiateViewController(withIdentifier: "SelectWedgetTableViewController") as! SelectWedgetTableViewController
                 self.navigationController?.pushViewController(wedgetMode, animated: true)
             }
+            // 폰트 사이즈
+            if indexPath.row == 2 {
+                let selectFontSizeVC = self.storyboard?.instantiateViewController(withIdentifier: "SelectFontSizeTableViewController")
+                self.navigationController?.pushViewController(selectFontSizeVC!, animated: true)
+            }
             // 비밀번호 설정
             if indexPath.row == 3 {
                 /*test용 - 비번 수정용 */
@@ -163,6 +168,10 @@ class SettingTableViewController: UITableViewController {
 //                self.navigationController?.pushViewController(passwordVC, animated: true)                
                 selected?.selectionStyle = .none
                 return;
+            }
+            // 터치 ID
+            if indexPath.row == 4 {
+                
             }
         }
         // infoList - ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]

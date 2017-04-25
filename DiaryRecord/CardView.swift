@@ -44,10 +44,6 @@ class CardView: UIView {
         makeDateLabel(dateText: date, imageName:imageName)
         changeContentsSize(imageName: imageName)
     }
-    
-    func changeContents(content:String, imageName:String?) {
-        makeContentLabel(content: content, imageName: imageName)
-    }
 
     private func makeBackground() {
         backScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))

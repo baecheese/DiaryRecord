@@ -10,7 +10,6 @@ import UIKit
 
 struct WriteFrame {
     var lineSpace:CGFloat = 10.0
-    let fontSize:CGFloat = 17.0
 }
 
 extension UIViewController : UITextViewDelegate {
@@ -66,6 +65,8 @@ class WriteBox: UIView, UITextViewDelegate {
         writeSpace.isEditable = true
         let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
         writeSpace.backgroundColor = colorManager.paper
+        
+        let fontManager = FontManager.sharedInstance
         // 줄간격
         let attributedString = NSMutableAttributedString(string: " ")
         let paragraphStyle = NSMutableParagraphStyle()
@@ -76,7 +77,7 @@ class WriteBox: UIView, UITextViewDelegate {
         writeSpace.contentOffset = CGPoint.zero
         writeSpace.translatesAutoresizingMaskIntoConstraints = false
         // 폰트 및 크기
-        writeSpace.font = UIFont(name: "NanumMyeongjo", size: writeframe.fontSize)
+        writeSpace.font = UIFont(name: fontManager.pageTextFont, size: fontManager.pageTextSize)
         // 키보드 자동완성 turn off
         writeSpace.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(writeSpace)

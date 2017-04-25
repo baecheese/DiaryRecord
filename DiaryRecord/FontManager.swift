@@ -26,6 +26,7 @@ class FontManager: NSObject {
     var cellSubTextSize:CGFloat = 0.0
     var pageTextSize:CGFloat = 0.0
     
+    let sizeList = ["작게", "중간", "크게", "아주 크게"]
     let naviTitleFont:String = "SeoulHangangM"
     let headerFont:String = "SeoulHangangM"
     let cellFont:String = "NanumMyeongjo"
@@ -41,6 +42,7 @@ class FontManager: NSObject {
     func setSizeMode(number:Int) {
         localDefaults.set(number, forKey: key.fontSize)
         log.info(message: "fontSize 저장 완료 : \(getSizeMode())")
+        changeSize(sizeMode: getSizeMode())
     }
     
     func setAndGetSizeMode(number:Int) -> Int {
@@ -59,28 +61,43 @@ class FontManager: NSObject {
     func changeSize(sizeMode:Int) {
         if 0 == sizeMode {
             headerTextSize = 10.0
-            cellTextSize = 13.0
+            cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 10.0
             pageTextSize = 15.0
         }
         if 1 == sizeMode {
             headerTextSize = 11.0
-            cellTextSize = 16.0
+            cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 11.0
-            pageTextSize = 17.0
+            pageTextSize = 15.0
         }
         if 2 == sizeMode {
             headerTextSize = 13.0
-            cellTextSize = 18.0
+            cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 12.0
-            pageTextSize = 20.0
+            pageTextSize = 19.0
         }
         if 3 == sizeMode {
             headerTextSize = 15.0
-            cellTextSize = 20.0
+            cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 13.0
             pageTextSize = 25.0
         }
     }
     
+    func getCellSizeToMode(mode:Int) -> CGFloat {
+        if 0 == mode {
+            return 15.0
+        }
+        if 1 == mode {
+            return 20.0
+        }
+        if 2 == mode {
+            return 25.0
+        }
+        if 3 == mode {
+            return 30.0
+        }
+        return 20.0
+    }
 }

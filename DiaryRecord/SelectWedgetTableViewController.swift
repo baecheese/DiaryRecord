@@ -45,7 +45,7 @@ class SelectWedgetTableViewController: UITableViewController {
         
     }
     
-    @objc private func save() {
+    func save() {
         let wedgetManager = WedgetManager.sharedInstance
         if lastWedgetMode != selectedWedgetMode && selectedWedgetMode != nil {
             wedgetManager.setMode(number: selectedWedgetMode!)
@@ -61,7 +61,7 @@ class SelectWedgetTableViewController: UITableViewController {
         return (viewControllers[1] as? MainTableViewController)!
     }
 
-    @objc private func back() {
+    func back() {
         _ = navigationController?.popViewController(animated: true)
     }
 

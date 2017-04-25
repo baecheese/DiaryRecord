@@ -64,7 +64,6 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         log.info(message: "앱이 시작되었습니다.")
-        
         navigationController?.setNavigationBarHidden(false, animated: true)
         changeWedget()
         navigationFont()
