@@ -19,7 +19,7 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setColor()
-        openCover()
+        showCover()
     }
     
     func setColor() {
@@ -28,7 +28,7 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
         launchSubTitle.textColor = colorManager.tint
     }
     
-    func openCover() {
+    func showCover() {
         launchTitle.alpha = 0.0
         launchSubTitle.alpha = 0.0
         
@@ -36,17 +36,35 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
             self.launchTitle.alpha = 1.0
             self.launchSubTitle.alpha = 1.0
         }, completion: { (Bool) in
-            self.moveToMain()
+            self.openCover()
         })
     }
-
-    func moveToMain() {
+    
+    func openCover() {
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: .transitionCurlUp, animations: {
             let main = self.storyboard?.instantiateViewController(withIdentifier: "Main") as? MainTableViewController
             self.navigationController?.pushViewController(main!, animated: false)
-        }, completion: nil)
+        }, completion: {
+            (Bool) in self.checkSecretMode()
+        })
     }
     
+    
+    private func checkSecretMode() {
+        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
+            showLockPage()
+        }
+    }
+    
+    private func showLockPage() {
+        let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
+        self.modalTransitionStyle = .crossDissolve
+        self.modalPresentationStyle = .currentContext
+        present(EnterPasswordVC!, animated: true, completion: {
+            
+        }
+        )
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

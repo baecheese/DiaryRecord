@@ -71,6 +71,7 @@ class EnterPasswordViewController: UIViewController, UITextFieldDelegate {
             wrongPssword()
         }
         else {
+            SharedMemoryContext.set(key: "correctPassword", setValue: true)
             UIView.transition(with: moon, duration: 1.0, options: .transitionFlipFromBottom, animations: { 
                 self.changeImage(textLength: 4)
             }, completion: { (Bool) in

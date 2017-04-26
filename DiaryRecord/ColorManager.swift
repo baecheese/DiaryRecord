@@ -44,6 +44,9 @@ class ColorManager: NSObject {
     
     var special = UIColor()
     
+    var mainText = UIColor.black
+    var subText = UIColor.gray
+    
     /** 테마 번호 0. basic 1. sliver 2. cotton candy 3. cherry blossoms 4. fall 5. ocean */
     func selectTheme(theme:Int) {
         if theme == 0 {
@@ -81,7 +84,6 @@ class ColorManager: NSObject {
 //        date = UIColor(rgb: 0xdedede)
         special = UIColor(rgb: 0xd6d6d6)
         paper = UIColor(rgb: 0xdedede)
-//        paper = UIColor(rgb: 0xebebeb)
     }
     
     func cherryBlossoms() {

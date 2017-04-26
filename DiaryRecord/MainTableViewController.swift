@@ -55,10 +55,8 @@ class MainTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
         
-        if true == fristLoad {
-            fristLoad = false
-            animateTable()
-        }
+        showCellAnimate()
+
     }
     
     override func viewDidLoad() {
@@ -158,6 +156,11 @@ class MainTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LabelCell", for: indexPath) as! MainTableViewCell
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainTableViewCell
         cell.selectionStyle = .none
+        cell.backgroundColor = colorManager.paper
+        if true == checkSecretMode() && false == correctPassword() {
+            setcheckSecretCell(cell:cell)
+            return cell
+        }
         
         let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
         
@@ -193,12 +196,22 @@ class MainTableViewController: UITableViewController {
         cell.contentsLabel.text = diary.content
         cell.contentsLabel.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
         cell.contentsLabel.backgroundColor = .clear
+        cell.contentsLabel.textColor = colorManager.mainText
         
         cell.timeLabel.backgroundColor = .clear
         cell.timeLabel.textAlignment = .right
         cell.timeLabel.text = diary.timeStamp.getHHMM()
         cell.timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
-        cell.timeLabel.textColor = .gray
+        cell.timeLabel.textColor = colorManager.subText
+    }
+    
+    func setcheckSecretCell(cell:MainTableViewCell) {
+        cell.contentsLabel.text = "Secret Mode"
+        cell.contentsLabel.textColor = colorManager.subText
+        cell.contentsLabel.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
+        cell.contentsLabel.backgroundColor = .clear
+        cell.timeLabel.backgroundColor = .clear
+        cell.timeLabel.textColor = .clear
     }
     
     private func removeSpace(text:String) -> String {
@@ -380,33 +393,45 @@ class MainTableViewController: UITableViewController {
         }
         
         var index = 0
-        var frist = true
         
         for a in cells {
             let cell: UITableViewCell = a as UITableViewCell
             UIView.animate(withDuration: 1.8, delay: 0.2 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
                 cell.transform = CGAffineTransform(translationX: 0, y: 0);
-            }, completion: { (Bool) in
-                if (true == frist) {
-                    self.useSecretMode()
-                    frist = false
-                }
-            })
+            }, completion: nil)
             index += 1
         }
     }
+
     
-    private func useSecretMode() {
-        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
-            lockMainPage()
+    private func showCellAnimate() {
+        if true == fristLoad {
+            if true == checkSecretMode() {
+                if false == correctPassword() {
+                    return;
+                }
+                fristLoad = false
+                animateTable()
+            }
+            else {
+                fristLoad = false
+                animateTable()
+            }
         }
     }
     
-    private func lockMainPage() {
-        let EnterPasswordVC = self.storyboard?.instantiateViewController(withIdentifier: "EnterPasswordVC") as? EnterPasswordViewController
-        self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-        self.modalPresentationStyle = .currentContext
-        self.present(EnterPasswordVC!, animated: true, completion: nil)
+    private func checkSecretMode() -> Bool {
+        if true == SharedMemoryContext.get(key: "isSecretMode") as? Bool {
+            return true
+        }
+        return false
+    }
+    
+    private func correctPassword() -> Bool {
+        if true == SharedMemoryContext.get(key: "correctPassword") as? Bool {
+            return true
+        }
+        return false
     }
     
     

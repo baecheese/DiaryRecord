@@ -61,27 +61,27 @@ class FontManager: NSObject {
     func changeSize(sizeMode:Int) {
         if 0 == sizeMode {
             headerTextSize = 10.0
-            cellTextSize = getCellSizeToMode(mode: sizeMode)
+            cellTextSize = getCellSizeToMode(mode: sizeMode)// 15
             cellSubTextSize = 10.0
-            pageTextSize = 15.0
+            pageTextSize = getCellSizeToMode(mode: sizeMode)
         }
         if 1 == sizeMode {
             headerTextSize = 11.0
             cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 11.0
-            pageTextSize = 15.0
+            pageTextSize = getCellSizeToMode(mode: sizeMode)
         }
         if 2 == sizeMode {
             headerTextSize = 13.0
             cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 12.0
-            pageTextSize = 19.0
+            pageTextSize = getCellSizeToMode(mode: sizeMode)
         }
         if 3 == sizeMode {
             headerTextSize = 15.0
             cellTextSize = getCellSizeToMode(mode: sizeMode)
             cellSubTextSize = 13.0
-            pageTextSize = 25.0
+            pageTextSize = getCellSizeToMode(mode: sizeMode)
         }
     }
     
