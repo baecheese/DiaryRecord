@@ -165,7 +165,7 @@ class MainTableViewController: UITableViewController {
         let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
         
         // 가장 좋아하는 일기 취소 시
-        if wedgetManager.getMode() == 2 && cellDiaryID == beforeSpecialDay {
+        if wedgetManager.isSpecialDayMode() && cellDiaryID == beforeSpecialDay {
             UIView.transition(with: cell, duration: 0.5, options: .curveEaseOut, animations: {
                 cell.backgroundColor = .clear
             }, completion: nil)
@@ -179,7 +179,7 @@ class MainTableViewController: UITableViewController {
         setContentsCell(cell: cell, diary: (diarys[targetDate]?[indexPath.row])!)
         
         // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
-        if  wedgetManager.getMode() == 2 && true == specialDayRepository.isRight(id: cellDiaryID) {
+        if  wedgetManager.isSpecialDayMode() && true == specialDayRepository.isRight(id: cellDiaryID) {
             UIView.transition(with: cell, duration: 0.3, options: .curveEaseIn, animations: {
                 cell.backgroundColor = self.colorManager.special
                 cell.textLabel?.backgroundColor = .clear
@@ -256,7 +256,7 @@ class MainTableViewController: UITableViewController {
     }
     
     private func setSpecialDay(indexPath: IndexPath) {
-        if wedgetManager.getMode() == 2 {
+        if true == wedgetManager.isSpecialDayMode() {
             let selectedDiaryID = SharedMemoryContext.setAndGet(key: "selectedDiaryID"
                 , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
             

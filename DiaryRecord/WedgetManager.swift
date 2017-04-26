@@ -8,9 +8,9 @@
 
 import UIKit
 
-/** 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 */
+/** 0. 스페셜데이: 1개만 (default) / 1. 과거의 오늘 / 2. 랜덤 */
 struct WedgetMode {
-    let list = ["랜덤", "과거의 오늘", "특별한 날 (사용자 지정)"]
+    let list = ["특별한 날 (사용자 지정)", "과거의 오늘 (1년 전 오늘)", "랜덤 (시크릿 모드시 불가)"]
 }
 
 struct LocalKey {
@@ -55,7 +55,7 @@ class WedgetManager: NSObject {
     
     static let sharedInstance: WedgetManager = WedgetManager()
     
-    /* 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 **/
+    /** 0. 스페셜데이: 1개만 (default) / 1. 과거의 오늘 / 2. 랜덤 */
     func setMode(number:Int) {
         localDefaults.set(number, forKey: wedgetLocalKey.mode)
         log.info(message: "wedgetMode 저장 완료 : \(getMode())")
@@ -69,7 +69,7 @@ class WedgetManager: NSObject {
         return getMode()
     }
     
-    /** 현재 위젯 모드 0. 랜덤 (default) / 1. 과거의 오늘 / 2.스페셜데이: 1개만 */
+    /** 0. 스페셜데이: 1개만 (default) / 1. 과거의 오늘 / 2. 랜덤 */
     func getMode() -> Int {
         if localDefaults.value(forKey: wedgetLocalKey.mode) == nil {
             return setAndGetMode(number: 0)
@@ -77,6 +77,7 @@ class WedgetManager: NSObject {
         return localDefaults.value(forKey: wedgetLocalKey.mode) as! Int
     }
     
+    /** 0. 스페셜데이: 1개만 (default) / 1. 과거의 오늘 / 2. 랜덤 */
     func setContentsInWedget(mode:Int) {
         var diary:Diary? = nil
         
@@ -91,10 +92,10 @@ class WedgetManager: NSObject {
         }
         
         if (mode == 0) {
-            // default 위젯 (랜덤)
-            diary = getRandom()
-            if nil == getRandom() {
-                saveContents(contents: "일기장이 비어있습니다.")
+            // 특별한 날 가져오기
+            diary = specialDay()
+            if nil == diary {
+                saveContents(contents: "기억하고 싶은 날을 위젯으로 설정해보세요.")
                 return;
             }
         }
@@ -107,11 +108,12 @@ class WedgetManager: NSObject {
             }
         }
         if (mode == 2) {
-            // 저장한 특별한 날 가져오기
-            diary = specialDay()
-            if nil == diary {
-                saveContents(contents: "기억하고 싶은 날을 위젯으로 설정해보세요.")
+            // 랜덤
+            diary = getRandom()
+            if nil == getRandom() {
+                saveContents(contents: "일기장이 비어있습니다.")
                 return;
+
             }
             // cheesing 유료 위젯 멤버 업데이트용
 //            if true == (specialDayRepository.isChargedMember()) {
@@ -173,6 +175,13 @@ class WedgetManager: NSObject {
             return selectDiary
         }
         return nil
+    }
+    
+    func isSpecialDayMode() -> Bool {
+        if 0 == getMode() {
+            return true
+        }
+        return false
     }
     
     // -- cheesing
