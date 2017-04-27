@@ -8,6 +8,10 @@
 
 import UIKit
 
+struct WedgetMessage {
+    let protectSecret = "For privacy, You can't use random and past of today for using secret mode"
+}
+
 class SelectWedgetTableViewController: UITableViewController {
 
     let log = Logger(logPlace: SelectThemeViewController.self)
@@ -15,6 +19,7 @@ class SelectWedgetTableViewController: UITableViewController {
     private let wedgetModeList = WedgetMode().list
     private let lastWedgetMode = WedgetManager.sharedInstance.getMode()
     private var selectedWedgetMode:Int?
+    private let message = WedgetMessage()
     
     
     override func viewDidLoad() {
@@ -48,6 +53,10 @@ class SelectWedgetTableViewController: UITableViewController {
     func save() {
         let wedgetManager = WedgetManager.sharedInstance
         if lastWedgetMode != selectedWedgetMode && selectedWedgetMode != nil {
+            if true == protectSecret() {
+                showAlert(message: message.protectSecret, haveCancel: false, doneHandler: nil, cancelHandler: nil)
+                return;
+            }
             wedgetManager.setMode(number: selectedWedgetMode!)
         }
         
@@ -63,6 +72,14 @@ class SelectWedgetTableViewController: UITableViewController {
 
     func back() {
         _ = navigationController?.popViewController(animated: true)
+    }
+    
+    private func protectSecret() -> Bool {
+        // 시크릿모드일 때는 위젯을 사용자 지정만 할 수 있음. (사생활 보호)
+        if (true == SharedMemoryContext.get(key: "isSecretMode") as? Bool) && (0 != selectedWedgetMode) {
+            return true
+        }
+        return false
     }
 
 
@@ -96,7 +113,7 @@ class SelectWedgetTableViewController: UITableViewController {
         }
         tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
         selectedWedgetMode = indexPath.row
-        log.info(message: "selectedWedgetMode : \(selectedWedgetMode)")
+        log.info(message: "selectedWedgetMode : \(String(describing: selectedWedgetMode))")
         let selected = tableView.cellForRow(at: indexPath)
         selected?.setSelected(false, animated: true)
     }
@@ -104,5 +121,17 @@ class SelectWedgetTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .none
     }
+    
+    private func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
+    {
+        let alertController = UIAlertController(title: "Notice", message:
+            message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default,handler: doneHandler))
+        if haveCancel {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: cancelHandler))
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     
 }
