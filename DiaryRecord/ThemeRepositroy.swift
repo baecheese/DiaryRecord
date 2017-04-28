@@ -21,11 +21,13 @@ class ThemeRepositroy: NSObject {
     
     func set(number:Int) {
         defaults.set(number, forKey: "theme")
+        sendWedget(number: number)
         log.info(message: "테마 저장 완료 : \(get())")
     }
     
     func setAndGet(number:Int) -> Int {
         defaults.set(number, forKey: "theme")
+        sendWedget(number: number)
         log.info(message: "테마 저장 완료 : \(get())")
         return get()
     }
@@ -35,6 +37,10 @@ class ThemeRepositroy: NSObject {
             return setAndGet(number: 0)
         }
         return defaults.value(forKey: "theme") as! Int
+    }
+    
+    private func sendWedget(number:Int) {
+        WedgetManager.sharedInstance.saveTheme(theme: number)
     }
     
 }

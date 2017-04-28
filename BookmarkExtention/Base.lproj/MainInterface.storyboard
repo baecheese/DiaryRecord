@@ -1,19 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="NanumMyeongjo.ttc">
-            <string>NanumMyeongjo</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Today View Controller-->
         <scene sceneID="cwh-vc-ff4">
@@ -26,48 +20,6 @@
                     <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AxE-xC-oSg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="41"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="text1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSB-Nw-gcs">
-                                <rect key="frame" x="53" y="0.0" width="37" height="21"/>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="text3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lfx-OM-RwW">
-                                <rect key="frame" x="51" y="29" width="40" height="21"/>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="text2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-Rq-b01">
-                                <rect key="frame" x="132" y="10" width="39" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="ZJe-xR-Va5"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="NanumMyeongjo" family="Nanum Myeongjo" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="Lfx-OM-RwW" firstAttribute="height" secondItem="hXu-Rq-b01" secondAttribute="height" id="Aek-SU-lgW"/>
-                            <constraint firstItem="AxE-xC-oSg" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="BjI-ul-oXp"/>
-                            <constraint firstItem="SSB-Nw-gcs" firstAttribute="centerX" secondItem="AxE-xC-oSg" secondAttribute="centerX" id="EJX-oG-sEC"/>
-                            <constraint firstItem="Lfx-OM-RwW" firstAttribute="top" secondItem="hXu-Rq-b01" secondAttribute="bottom" constant="2" id="FfE-PL-UeL"/>
-                            <constraint firstItem="Lfx-OM-RwW" firstAttribute="width" secondItem="AxE-xC-oSg" secondAttribute="width" multiplier="3:4" id="I16-aM-5U6"/>
-                            <constraint firstAttribute="bottom" secondItem="AxE-xC-oSg" secondAttribute="bottom" id="I1T-rn-UKd"/>
-                            <constraint firstItem="hXu-Rq-b01" firstAttribute="centerX" secondItem="AxE-xC-oSg" secondAttribute="centerX" id="IhK-cE-KYp"/>
-                            <constraint firstItem="hXu-Rq-b01" firstAttribute="width" secondItem="AxE-xC-oSg" secondAttribute="width" multiplier="3:4" id="ZJV-5x-g9Q"/>
-                            <constraint firstItem="Lfx-OM-RwW" firstAttribute="centerX" secondItem="AxE-xC-oSg" secondAttribute="centerX" id="ZNd-qy-B8c"/>
-                            <constraint firstItem="hXu-Rq-b01" firstAttribute="top" secondItem="SSB-Nw-gcs" secondAttribute="bottom" constant="2" id="bnX-MV-ha7"/>
-                            <constraint firstItem="AxE-xC-oSg" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="cMd-AK-zQq"/>
-                            <constraint firstItem="hXu-Rq-b01" firstAttribute="centerY" secondItem="AxE-xC-oSg" secondAttribute="centerY" id="suu-tO-MPg"/>
-                            <constraint firstItem="SSB-Nw-gcs" firstAttribute="width" secondItem="AxE-xC-oSg" secondAttribute="width" multiplier="3:4" id="tvQ-T5-Nxn"/>
-                            <constraint firstAttribute="trailing" secondItem="AxE-xC-oSg" secondAttribute="trailing" id="zaI-9N-Jzy"/>
-                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -75,12 +27,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="37"/>
-                    <connections>
-                        <outlet property="backgroundImage" destination="AxE-xC-oSg" id="7Vu-UU-Tml"/>
-                        <outlet property="labelBottom" destination="Lfx-OM-RwW" id="Mwx-Dk-rHn"/>
-                        <outlet property="labelCenter" destination="hXu-Rq-b01" id="LyZ-WF-Ebc"/>
-                        <outlet property="labelTop" destination="SSB-Nw-gcs" id="lBC-IV-CXj"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

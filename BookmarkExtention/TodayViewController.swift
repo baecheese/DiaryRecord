@@ -9,13 +9,6 @@
 import UIKit
 import NotificationCenter
 
-struct GroupKeys {
-    let suiteName = "group.com.baecheese.DiaryRecord"
-    let contents = "WedgetContents"
-    let date = "Date"
-    let image = "ImageFile"
-}
-
 struct WedgetStatus {
     let fontName = "NanumMyeongjo"
     let fontSize:CGFloat = 15.0
@@ -23,21 +16,14 @@ struct WedgetStatus {
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
-    @IBOutlet var backgroundImage: UIImageView!
-
-    @IBOutlet var labelTop: UILabel!
-    @IBOutlet var labelCenter: UILabel!
-    @IBOutlet var labelBottom: UILabel!
-    
-    let groupKeys = GroupKeys()
     let wedgetStatus = WedgetStatus()
+    let contentManager = SendContentsManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setWedgetSize()
-        setContentData()
-        setLabelStatus()
-        setBackImage()
+        setBackground()
+        setContents()
     }
     
     func setWedgetSize() {
@@ -49,18 +35,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // wedget max size memo : float maxHeight = [[ UIScreen mainScreen ] bounds ].size.height - 126;
     }
     
-    func setLabelStatus() {
-        let labels = [labelTop, labelCenter, labelBottom]
-        for label in labels {
-            label?.font = UIFont(name: wedgetStatus.fontName, size: wedgetStatus.fontSize)
-            label?.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0, alpha: 0.6)
-            label?.textColor = .white
-            
-            if (label?.text?.characters.count)! < 1 {
-                label?.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0, alpha: 0)
-            }
-        }
-    }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         if activeDisplayMode == .expanded {
@@ -70,75 +44,32 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
-    func setBackImage() {
-        if nil != getImage() {
-            backgroundImage.image = getImage()
+    var backImage = UIImageView()
+    
+    func setBackground() {
+        if true == contentManager.haveImage() {
+            backImage.frame = self.view.bounds
+            backImage.image = contentManager.getImage()
+            view.addSubview(backImage)
         }
         else {
-            backgroundImage.image = UIImage(named: "wedget.jpg")
+            let colorManger = ColorManager(theme: contentManager.getTheme())
+            view.backgroundColor = colorManger.background
         }
     }
     
-    func getImage() -> UIImage? {
-        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
-            let data = groupDefaults.value(forKey: groupKeys.image) as? Data {
-            let image = UIImage(data: data)
-            return image
-        }
-        return nil
-    }
-    
-    
-    func setContentData() {
-        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
-            let data = groupDefaults.value(forKey: groupKeys.contents) as? String {
-            let characters = data.characters
-            if characters.count < 16 {
-                labelCenter.text = data
-                labelTop.text = ""
-                setDate()
-                return;
-            }
-            
-            if data == "과거의 오늘 일기가 없습니다." || data == "특별한 날 지정이 없습니다." {
-                labelCenter.text = data
-                labelTop.text = ""
-                labelBottom.text = ""
-                return;
-            }
-            
-            var top = ""
-            var center = ""
-            var count = 0
-            
-            for character in characters {
-                if count <= 13 {
-                    top += String(character)
-                }
-                if 14 <= count && count <= 26 {
-                    center += String(character)
-                }
-                count += 1
-            }
-            
-            center += "..."
-            
-            labelTop.text = top
-            labelCenter.text = center
-        }
-        setDate()
-    }
-    
-    func setDate() {
-        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
-            let date = groupDefaults.value(forKey: groupKeys.date) as? String {
-            labelBottom.text = date
+    func setContents() {
+        let label = UILabel(frame: CGRect(x: 10, y: 10, width: 100, height: 100))
+        label.backgroundColor = .red
+        label.text = "123123"
+        
+        if true == contentManager.haveImage() {
+            backImage.addSubview(label)
         }
         else {
-            labelBottom.text = ""
+            view.addSubview(label)
         }
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

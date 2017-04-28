@@ -24,6 +24,7 @@ struct GroupKeys {
     let image = "ImageFile"
     let date = "Date"
     let nowWedgetID = "ID"
+    let theme = "theme"
 //     let vipContetns = "VIPWedgetContents"
 //     let vipImage = "VIPImageFile"
 
@@ -210,7 +211,7 @@ class WedgetManager: NSObject {
     
     private func saveWedgetID(id:Int) {
         groupDefaults?.set(id, forKey: wedgetGroupKey.nowWedgetID)
-        log.info(message: " get nowWedgetID : \(groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID))")
+        log.info(message: " get nowWedgetID : \(String(describing: groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID)))")
     }
     
     private func saveContents(contents:String) {
@@ -244,6 +245,20 @@ class WedgetManager: NSObject {
     func saveDate(timestamp:TimeInterval) {
         let date = timestamp.getDateLongStyle()
         groupDefaults?.set(date, forKey: wedgetGroupKey.date)
+    }
+    
+    func saveTheme(theme:Int) {
+        if theme == getNowWedgetTheme() {
+            return;
+        }
+        groupDefaults?.set(theme, forKey: wedgetGroupKey.theme)
+    }
+    
+    private func getNowWedgetTheme() -> Int? {
+        if nil != groupDefaults?.value(forKey: wedgetGroupKey.theme) {
+            return groupDefaults?.value(forKey: wedgetGroupKey.theme) as? Int
+        }
+        return nil
     }
     
     private func deleteBeforeImage() {
