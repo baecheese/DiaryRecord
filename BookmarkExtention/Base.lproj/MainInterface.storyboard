@@ -20,6 +20,18 @@
                     <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C0Z-Yx-e3J">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="C0Z-Yx-e3J" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="BwK-f8-9CK"/>
+                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="C0Z-Yx-e3J" secondAttribute="bottom" id="NxP-W2-cD9"/>
+                            <constraint firstItem="C0Z-Yx-e3J" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="a4H-3o-n9o"/>
+                            <constraint firstAttribute="trailing" secondItem="C0Z-Yx-e3J" secondAttribute="trailing" id="bqM-a9-RpX"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -27,6 +39,9 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="37"/>
+                    <connections>
+                        <outlet property="background" destination="C0Z-Yx-e3J" id="JBW-QB-9uQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

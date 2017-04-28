@@ -36,7 +36,7 @@ class ColorManager: NSObject {
     
     var background = UIColor()
     let textBackground = UIColor.black.withAlphaComponent(0.6)
-    let text = UIColor.black
+    let text = UIColor.white
     
     /** 테마 번호 0. basic 1. sliver 2. cotton candy 3. cherry blossoms 4. fall 5. ocean */
     func selectTheme(theme:Int) {

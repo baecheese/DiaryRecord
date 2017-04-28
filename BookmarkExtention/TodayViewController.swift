@@ -14,16 +14,26 @@ struct WedgetStatus {
     let fontSize:CGFloat = 15.0
 }
 
+struct wedgetFont {
+    let size:CGFloat = 13.0
+}
+
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     let wedgetStatus = WedgetStatus()
     let contentManager = SendContentsManager()
+    let font = wedgetFont()
     
+    @IBOutlet var background: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         setWedgetSize()
         setBackground()
         setContents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        changeTextView()
     }
     
     func setWedgetSize() {
@@ -42,6 +52,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         } else if activeDisplayMode == .compact {
             preferredContentSize = maxSize
         }
+        changeTextViewToOffsetY(wedgetHeight: preferredContentSize.height)
     }
     
     var backImage = UIImageView()
@@ -50,25 +61,57 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         if true == contentManager.haveImage() {
             backImage.frame = self.view.bounds
             backImage.image = contentManager.getImage()
-            view.addSubview(backImage)
+            backImage.contentMode = .scaleAspectFill//
+            background.addSubview(backImage)
         }
         else {
             let colorManger = ColorManager(theme: contentManager.getTheme())
-            view.backgroundColor = colorManger.background
+            background.backgroundColor = colorManger.background
         }
     }
     
+    private let textview = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+    
     func setContents() {
-        let label = UILabel(frame: CGRect(x: 10, y: 10, width: 100, height: 100))
-        label.backgroundColor = .red
-        label.text = "123123"
-        
+        textview.font = UIFont.systemFont(ofSize: font.size)
+        textview.text = contentManager.getContentData()
+        textview.alpha = 0.0
         if true == contentManager.haveImage() {
-            backImage.addSubview(label)
+            backImage.addSubview(textview)
         }
         else {
-            view.addSubview(label)
+            background.addSubview(textview)
         }
+    }
+    
+    func changeTextView() {
+        textview.sizeToFit()
+        textview.alpha = 1.0
+        let colorManger = ColorManager(theme: contentManager.getTheme())
+        textview.textColor = colorManger.text
+        textview.backgroundColor = colorManger.textBackground
+        
+        let textWidth = textview.frame.width
+        let textHeight = textViewHeightToSizeFit()
+        
+        let offsetX:CGFloat = (background.frame.width/2) - (textWidth/2)
+        let offsetY:CGFloat = (background.frame.height/2) - (textHeight/2)
+        
+        textview.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: textHeight)
+
+    }
+    
+    func changeTextViewToOffsetY(wedgetHeight:CGFloat) {
+        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseOut, animations: {
+            let offsetY:CGFloat = (wedgetHeight/2) - (self.textViewHeightToSizeFit()/2)
+            self.textview.frame.origin.y = offsetY
+        }, completion: nil)
+        
+    }
+    
+    private func textViewHeightToSizeFit() -> CGFloat {
+        textview.sizeToFit()
+        return textview.frame.height
     }
     
     override func didReceiveMemoryWarning() {

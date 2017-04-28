@@ -45,13 +45,26 @@ class SendContentsManager: NSObject {
         return nil
     }
     
+    func getWedgetContent() -> String {
+        let textEditor = TextEditor()
+        let editText = textEditor.getOrganizedContents(content: getContentData(), date: getDate())
+        return editText
+    }
     
-    func getContentData() -> String {
+    private func getContentData() -> String {
         if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
             let data = groupDefaults.value(forKey: groupKeys.contents) as? String {
             return data
         }
         return message.empty
+    }
+    
+    private func getDate() -> String? {
+        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
+            let data = groupDefaults.value(forKey: groupKeys.date) as? String {
+            return data
+        }
+        return nil
     }
     
     func getTheme() -> Int {
