@@ -13,6 +13,10 @@ struct WedgetMode {
     let list = ["특별한 날 (사용자 지정)", "과거의 오늘 (1년 전 오늘)", "랜덤 (시크릿 모드시 불가)"]
 }
 
+struct WedgetFont {
+    let size:CGFloat = 13.0
+}
+
 struct LocalKey {
     let mode = "wedgetMode"
 }
@@ -22,7 +26,6 @@ struct GroupKeys {
     let suiteName = "group.com.baecheese.DiaryRecord"
     let contents = "WedgetContents"
     let image = "ImageFile"
-    let date = "Date"
     let nowWedgetID = "ID"
     let theme = "theme"
 //     let vipContetns = "VIPWedgetContents"
@@ -85,9 +88,6 @@ class WedgetManager: NSObject {
         if haveBeforeImage() {
             deleteBeforeImage()
         }
-        if haveBeforeDate() {
-            deleteBeforeDate()
-        }
         if haveBeforeWedgetID() {
             deleteBeforeWedgetID()
         }
@@ -96,7 +96,7 @@ class WedgetManager: NSObject {
             // 특별한 날 가져오기
             diary = specialDay()
             if nil == diary {
-                saveContents(contents: "기억하고 싶은 날을 위젯으로 설정해보세요.")
+                saveEmptyContents(contents: "기억하고 싶은 날을\n위젯으로 설정해보세요.")
                 return;
             }
         }
@@ -104,7 +104,7 @@ class WedgetManager: NSObject {
             // 과거의 오늘
             diary = todayOfPast()
             if nil == todayOfPast() {
-                saveContents(contents: "과거의 오늘 쓴 일기가 없습니다.")
+                saveEmptyContents(contents: "과거의 오늘 일기가 없습니다.")
                 return;
             }
         }
@@ -112,7 +112,7 @@ class WedgetManager: NSObject {
             // 랜덤
             diary = getRandom()
             if nil == getRandom() {
-                saveContents(contents: "일기장이 비어있습니다.")
+                saveEmptyContents(contents: "일기장이 비어있습니다.")
                 return;
 
             }
@@ -125,9 +125,8 @@ class WedgetManager: NSObject {
         }
         
         saveWedgetID(id: (diary?.id)!)
-        saveContents(contents: (diary?.content)!)
+        saveContents(contents: (diary?.content)!, date: diary?.timeStamp)
         saveImage(imageName: diary?.imageName)
-        saveDate(timestamp: (diary?.timeStamp)!)
 //        saveID(id: ??) chessing
         log.info(message: "getWedgetContents : \(getWedgetContents())")
     }
@@ -214,25 +213,83 @@ class WedgetManager: NSObject {
         log.info(message: " get nowWedgetID : \(String(describing: groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID)))")
     }
     
-    private func saveContents(contents:String) {
-        let endter = "\n"
-        var newContents = ""
-        var count = 0
-        for character in contents.characters {
-            if 26 < count {
-                break;
-            }
-            if String(character) != endter {
-                newContents += String(character)
-            }
-            if String(character) == endter {
-               newContents += " "
-            }
-            count += 1
+    private func saveEmptyContents(contents:String) {
+        groupDefaults?.set(contents, forKey: wedgetGroupKey.contents)
+    }
+    
+    private func saveContents(contents:String, date:TimeInterval?) {
+        var saveDate:String? = nil
+        if date != nil {
+            saveDate = date?.getDateLongStyle()
         }
+        let newContents = cutContents(contents: contents, date: saveDate)
+        log.info(message: newContents)
         groupDefaults?.set(newContents, forKey: wedgetGroupKey.contents)
     }
-
+    
+    private func cutContents(contents:String, date:String?) -> String {
+        
+        let oneLineMax = getTextMaxCharactersCountToLabelWidth(maxWidth: getSreenWidth()*0.6, systemFontSize: WedgetFont().size)
+        
+        var result = ""
+        // 한 줄인 경우
+        if contents.characters.count <= oneLineMax {
+            result = contents
+        }
+        else {
+            // 한줄 이상인 경우 (30자만 보내기)
+            let newContentIndex = contents.index(contents.startIndex, offsetBy: 30)
+            let newContents = contents.substring(to: newContentIndex)
+            let removeBlankContents = removeIndent(contents: newContents)
+            let fristLast = Int(CGFloat(oneLineMax) * 0.7)
+            let fristIndex = removeBlankContents.index(removeBlankContents.startIndex, offsetBy: fristLast)
+            let frist = removeBlankContents.substring(to: fristIndex)
+            var etc = removeBlankContents.substring(from: fristIndex)// 자르고 나머지
+            let etcCount = etc.characters.count
+            if oneLineMax < etcCount {
+                let etcIndex = removeBlankContents.index(etc.startIndex, offsetBy: oneLineMax - 4)
+                etc = etc.substring(to: etcIndex)
+                etc += "..."
+            }
+            let fixConents = "\(frist)\n\(etc)"
+            result = fixConents
+        }
+        
+        if date != nil {
+            return "\(result)\n\n\(date!)"
+        }
+        return result
+    }
+    
+    private func getTextMaxCharactersCountToLabelWidth(maxWidth:CGFloat, systemFontSize:CGFloat) -> Int {
+        let exam = UILabel()
+        exam.font = UIFont.systemFont(ofSize: systemFontSize)
+        exam.text = "벽"
+        exam.sizeToFit()
+        
+        let oneTextWidth = exam.frame.width
+        
+        log.info(message: "maxWidth - \(maxWidth) oneTextWidth - \(oneTextWidth)   result - \((maxWidth / oneTextWidth))")
+        return Int(maxWidth / oneTextWidth)
+    }
+    
+    
+    private func getSreenWidth() -> CGFloat {
+        let bounds = UIScreen.main.bounds
+        let width = bounds.size.width
+        log.info(message: "UIScreen.main.bounds - \(UIScreen.main.bounds)")
+        return width
+    }
+    
+    private func removeIndent(contents:String) -> String {
+        if " " == contents.characters.first {
+            let newContentIndex = contents.index(contents.startIndex, offsetBy: 1)
+            return contents.substring(from: newContentIndex)
+        }
+        return contents
+    }
+    
+    
     private func saveImage(imageName:String?) {
         if nil != imageName {
             let image = imageManager.showImage(imageName: imageName!)
@@ -240,11 +297,6 @@ class WedgetManager: NSObject {
             groupDefaults?.set(imageData, forKey: wedgetGroupKey.image)
 //            log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")
         }
-    }
-    
-    func saveDate(timestamp:TimeInterval) {
-        let date = timestamp.getDateLongStyle()
-        groupDefaults?.set(date, forKey: wedgetGroupKey.date)
     }
     
     func saveTheme(theme:Int) {
@@ -267,17 +319,6 @@ class WedgetManager: NSObject {
     
     private func haveBeforeImage() -> Bool {
         if nil == groupDefaults?.value(forKey: wedgetGroupKey.image) {
-            return false
-        }
-        return true
-    }
-    
-    private func deleteBeforeDate() {
-        groupDefaults?.removeObject(forKey: wedgetGroupKey.date)
-    }
-    
-    private func haveBeforeDate() -> Bool {
-        if nil == groupDefaults?.value(forKey: wedgetGroupKey.date) {
             return false
         }
         return true

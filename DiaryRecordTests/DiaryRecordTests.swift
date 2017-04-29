@@ -17,10 +17,6 @@ class DiaryRecordTests: XCTestCase {
         let testDiary = DiaryRepository.sharedInstance.findOne(id: 6)
         log.debug(message: testDiary)
         
-        
-        
-        
-        
     }
     
     func testTimeIntervalNow() {
@@ -81,5 +77,10 @@ class DiaryRecordTests: XCTestCase {
         let afterYearToday = now.plusYear(yearAmount: 1)
         
         log.debug(message: "now : \(now.getYYMMDD())   pastYearToday \(pastYearToday.getYYMMDD())   afterYearToday  \(afterYearToday.getYYMMDD())")
+    }
+    
+    func testTextCut() {
+        let contents = "그렇지 않겠소? 어찌해도 당신은 내게 속아 넘어갈 뿐,대체로 내가 당신을 사랑한다는 사실을 용서하지 마시오"
+        log.debug(message: "dd")
     }
 }

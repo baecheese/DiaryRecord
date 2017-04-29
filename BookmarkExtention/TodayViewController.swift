@@ -33,7 +33,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        changeTextView()
+        changeTextView(contents: contentManager.getContentData())
     }
     
     func setWedgetSize() {
@@ -70,12 +70,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
-    private let textview = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+    private let textview = UITextView()
     
     func setContents() {
         textview.font = UIFont.systemFont(ofSize: font.size)
-        textview.text = contentManager.getContentData()
-        textview.alpha = 0.0
+//        textview.text = contentManager.getContentData()
+        changeTextView(contents: contentManager.getContentData())
         if true == contentManager.haveImage() {
             backImage.addSubview(textview)
         }
@@ -84,9 +84,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
-    func changeTextView() {
+    func changeTextView(contents:String) {
+        textview.text = contents
+        textview.textAlignment = .center
         textview.sizeToFit()
-        textview.alpha = 1.0
         let colorManger = ColorManager(theme: contentManager.getTheme())
         textview.textColor = colorManger.text
         textview.backgroundColor = colorManger.textBackground
@@ -98,7 +99,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let offsetY:CGFloat = (background.frame.height/2) - (textHeight/2)
         
         textview.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: textHeight)
-
+        textview.alpha = 1.0
     }
     
     func changeTextViewToOffsetY(wedgetHeight:CGFloat) {
@@ -113,6 +114,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         textview.sizeToFit()
         return textview.frame.height
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

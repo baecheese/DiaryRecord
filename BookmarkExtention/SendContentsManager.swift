@@ -11,7 +11,6 @@ import UIKit
 struct GroupKeys {
     let suiteName = "group.com.baecheese.DiaryRecord"
     let contents = "WedgetContents"
-    let date = "Date"
     let image = "ImageFile"
     let theme = "theme"
 }
@@ -45,13 +44,7 @@ class SendContentsManager: NSObject {
         return nil
     }
     
-    func getWedgetContent() -> String {
-        let textEditor = TextEditor()
-        let editText = textEditor.getOrganizedContents(content: getContentData(), date: getDate())
-        return editText
-    }
-    
-    private func getContentData() -> String {
+    func getContentData() -> String {
         if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
             let data = groupDefaults.value(forKey: groupKeys.contents) as? String {
             return data
@@ -59,13 +52,13 @@ class SendContentsManager: NSObject {
         return message.empty
     }
     
-    private func getDate() -> String? {
-        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
-            let data = groupDefaults.value(forKey: groupKeys.date) as? String {
-            return data
-        }
-        return nil
-    }
+//    private func getDate() -> String? {
+//        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
+//            let data = groupDefaults.value(forKey: groupKeys.date) as? String {
+//            return data
+//        }
+//        return nil
+//    }
     
     func getTheme() -> Int {
         if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),

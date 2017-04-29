@@ -193,7 +193,7 @@ class MainTableViewController: UITableViewController {
         cell.contentsLabel.text = diary.content
         cell.timeLabel.text = diary.timeStamp.getHHMM()
         
-        cell.contentsLabel.text = diary.content
+        cell.contentsLabel.text = removeIndent(contents: diary.content)
         cell.contentsLabel.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
         cell.contentsLabel.backgroundColor = .clear
         cell.contentsLabel.textColor = colorManager.mainText
@@ -214,15 +214,12 @@ class MainTableViewController: UITableViewController {
         cell.timeLabel.textColor = .clear
     }
     
-    private func removeSpace(text:String) -> String {
-        var contents = text
-        log.info(message: "before : \(contents)")
-        if text.characters.first == " " {
-            return String(contents.characters.dropFirst())
+    private func removeIndent(contents:String) -> String {
+        if " " == contents.characters.first {
+            let newContentIndex = contents.index(contents.startIndex, offsetBy: 1)
+            return contents.substring(from: newContentIndex)
         }
-        else {
-            return text
-        }
+        return contents
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

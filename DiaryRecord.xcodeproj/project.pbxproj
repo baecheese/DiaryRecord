@@ -35,7 +35,6 @@
 		032EA52A1EAFAC83007022A4 /* SelectFontSizeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA5291EAFAC83007022A4 /* SelectFontSizeTableViewController.swift */; };
 		032EA52C1EB2E006007022A4 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA52B1EB2E006007022A4 /* ColorManager.swift */; };
 		032EA52E1EB2E44D007022A4 /* SendContentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA52D1EB2E44D007022A4 /* SendContentsManager.swift */; };
-		032EA5301EB319BE007022A4 /* TextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA52F1EB319BE007022A4 /* TextEditor.swift */; };
 		03462A3F1E913B9E00A2E5D1 /* wedget.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 03462A3E1E913B9E00A2E5D1 /* wedget.jpg */; };
 		034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA21EA06EDE00DE1262 /* dontKnow.png */; };
 		034AFBA51EA06EDE00DE1262 /* know.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA31EA06EDE00DE1262 /* know.png */; };
@@ -173,7 +172,6 @@
 		032EA5291EAFAC83007022A4 /* SelectFontSizeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFontSizeTableViewController.swift; sourceTree = "<group>"; };
 		032EA52B1EB2E006007022A4 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		032EA52D1EB2E44D007022A4 /* SendContentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendContentsManager.swift; sourceTree = "<group>"; };
-		032EA52F1EB319BE007022A4 /* TextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditor.swift; sourceTree = "<group>"; };
 		03462A3E1E913B9E00A2E5D1 /* wedget.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wedget.jpg; sourceTree = "<group>"; };
 		034AFBA21EA06EDE00DE1262 /* dontKnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dontKnow.png; sourceTree = "<group>"; };
 		034AFBA31EA06EDE00DE1262 /* know.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know.png; sourceTree = "<group>"; };
@@ -411,7 +409,6 @@
 				03522BB11E8E3BEB00D86E90 /* BookmarkExtention.entitlements */,
 				037522951E850BE20001B24F /* TodayViewController.swift */,
 				032EA52D1EB2E44D007022A4 /* SendContentsManager.swift */,
-				032EA52F1EB319BE007022A4 /* TextEditor.swift */,
 				032EA52B1EB2E006007022A4 /* ColorManager.swift */,
 				03462A3E1E913B9E00A2E5D1 /* wedget.jpg */,
 				037522971E850BE20001B24F /* MainInterface.storyboard */,
@@ -1014,7 +1011,6 @@
 				032EA52E1EB2E44D007022A4 /* SendContentsManager.swift in Sources */,
 				037522961E850BE20001B24F /* TodayViewController.swift in Sources */,
 				032EA52C1EB2E006007022A4 /* ColorManager.swift in Sources */,
-				032EA5301EB319BE007022A4 /* TextEditor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
