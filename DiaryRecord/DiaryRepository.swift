@@ -33,6 +33,55 @@ class DiaryRepository: NSObject {
         return diarys
     }
     
+    func getSelectedDiaryID(section:Int, row:Int) -> Int {
+        let diarys:[String : Array<Diary>] = getAllByTheDate()
+        let sortedDate = Array(diarys.keys).sorted(by: >)
+        let targetDate = sortedDate[section]
+        return ((diarys[targetDate]?[row])?.id)!
+    }
+    
+    func getDiarysOfOneDay(section:Int) -> [Diary] {
+        let diarys:[String : Array<Diary>] = getAllByTheDate()
+        let targetDate = getSortedAllDate()[section]
+        return diarys[targetDate]!
+    }
+    
+    func getSortedAllDate() -> Array<String> {
+        let diarys:[String : Array<Diary>] = getAllByTheDate()
+        return Array(diarys.keys).sorted(by: >)
+    }
+    
+    func isFrist(diaryInfo:(Int, Int)) -> Bool {
+        if fristDiaryInfo() == diaryInfo {
+            return true
+        }
+        return false
+    }
+    
+    func isLast(diaryInfo:(Int, Int)) -> Bool {
+        if diaryInfo == (0, 0) {
+            return true
+        }
+        return false
+    }
+    
+    /** 가장 첫 번째로 쓴, 메인에서는 맨 아래에 있는 section, row */
+    func fristDiaryInfo() -> (Int, Int) {
+        let section = getSortedAllDate().count - 1
+        let row = getSortedAllDate().count - 1
+        return (section, row)
+    }
+    
+    /** 어떤 날(하루)의 마지막 다이어리인가? */
+    func isLastDiaryOfOneDay(diaryInfo:(Int, Int)) -> Bool {
+        let date = diaryInfo.0
+        let diary = diaryInfo.1
+        if diary == getDiarysOfOneDay(section: date).count - 1 {
+            return true
+        }
+        return false
+    }
+    
     func save(timeStamp:Double, content:String, imageData:Data?) -> (Bool, String) {
         let diary = Diary()
         var latestId = 0

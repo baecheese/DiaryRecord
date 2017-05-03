@@ -20,8 +20,12 @@ class ReadViewController: UIViewController {
     @IBOutlet var backgroundView: UIView!
     var card = CardView()
     var readState = ReadState()
+    @IBOutlet var readToolbar: UIToolbar!
+    
+    
     var cover = UIView()
     var tap = UITapGestureRecognizer()
+    
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,12 +39,14 @@ class ReadViewController: UIViewController {
         makeContentCard()
 //        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
+        setToolbar()
     }
-    
     
     /* 필요한 data */
     private func getSelectedDairy() -> Diary {
-        return diaryRepository.findOne(id: SharedMemoryContext.get(key: "selectedDiaryID") as! Int)!
+        let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+        let selectedDiaryID = diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
+        return diaryRepository.findOne(id: selectedDiaryID)!
     }
     
     /* contents setting 관련 */
@@ -91,7 +97,7 @@ class ReadViewController: UIViewController {
         let back = UIImage(named: "down")?.withRenderingMode(.alwaysTemplate)
         backBtn.setImage(back, for: .normal)
         backBtn.tintColor = colorManager.tint
-        backBtn.addTarget(self, action: #selector(ReadViewController.back), for: .touchUpInside)
+        backBtn.addTarget(self, action: #selector(ReadViewController.goBackIndexPage), for: .touchUpInside)
         let item2 = UIBarButtonItem(customView: backBtn)
         
         navigationItem.leftBarButtonItem = item2
@@ -103,12 +109,91 @@ class ReadViewController: UIViewController {
         self.navigationController?.pushViewController(editVC!, animated: true)
     }
     
-    func back() {
+    func goBackIndexPage() {
         UIView.transition(with: self.navigationController!.view, duration: 0.7, options: UIViewAnimationOptions.transitionCurlDown, animations: {
-            _ = self.navigationController?.popViewController(animated: false)
+            let viewControllers:[UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+            self.navigationController!.popToViewController(viewControllers[viewControllers.count - (viewControllers.count - 1)], animated: false);
         }, completion: nil)
     }
     
+    func setToolbar() {
+        readToolbar.barStyle = UIBarStyle.default
+        readToolbar.isTranslucent = true
+        readToolbar.clipsToBounds = true
+        readToolbar.barTintColor = colorManager.paper
+        readToolbar.tintColor = colorManager.tint
+        showAnimationToolbarItem()
+    }
+    
+    func showAnimationToolbarItem() {
+        UIView.transition(with: readToolbar, duration: 5.0, options: .curveEaseInOut, animations: {
+            //            self.readToolbar.barTintColor = self.colorManager.bar
+            self.readToolbar.tintColor = self.colorManager.bar
+        }, completion: {(Bool) in
+            UIView.transition(with: self.readToolbar, duration: 3.0, options: .curveEaseInOut, animations: {
+                //                self.readToolbar.barTintColor = self.colorManager.paper
+                self.readToolbar.tintColor = self.colorManager.tint
+            }, completion: nil)
+        })
+    }
+    
+    @IBAction func moveToDifferentDiary(_ sender: UIBarButtonItem) {
+        log.info(message: "before: \(SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int))")
+        if sender.tag == 0 {
+            log.info(message: "<")
+            previousDiary()
+            // view did load 다시 하는 방법으로 
+        }
+        if sender.tag == 1 {
+            log.info(message: ">")
+            afterDiary()
+        }
+    }
+    
+    func previousDiary() {
+        let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+        var section = selectedDiaryInfo.0
+        var row = selectedDiaryInfo.1
+        if diaryRepository.isFrist(diaryInfo: selectedDiaryInfo) {
+            log.info(message: "처음")
+            return;
+        }
+        
+        // 해당 색션의 row가 있나 없나? -> 있으면 그거 / 없으면 다음 섹션의 마지막으로
+        if true == diaryRepository.isLastDiaryOfOneDay(diaryInfo: selectedDiaryInfo) {
+            section += 1
+            let diarysOfOneDay = diaryRepository.getDiarysOfOneDay(section: section)
+            row = diarysOfOneDay.count - 1
+            log.info(message: "after : \((section, row))")
+        }
+        else {
+            row += 1
+            log.info(message: "after : \((section, row))")
+        }
+        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
+    }
+    
+    func afterDiary() {
+        let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+        var section = selectedDiaryInfo.0
+        var row = selectedDiaryInfo.1
+        if diaryRepository.isLast(diaryInfo: selectedDiaryInfo) {
+            log.info(message: "끝")
+            return;
+        }
+        
+        if row == 0 {
+            section -= 1
+            let diarysOfOneDay = diaryRepository.getDiarysOfOneDay(section: section)
+            row = diarysOfOneDay.count - 1
+            log.info(message: "after : \((section, row))")
+        }
+        else {
+            row -= 1
+            log.info(message: "after : \((section, row))")
+        }
+        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

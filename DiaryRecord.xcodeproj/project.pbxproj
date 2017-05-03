@@ -36,6 +36,8 @@
 		032EA52C1EB2E006007022A4 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA52B1EB2E006007022A4 /* ColorManager.swift */; };
 		032EA52E1EB2E44D007022A4 /* SendContentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA52D1EB2E44D007022A4 /* SendContentsManager.swift */; };
 		032EA5631EB9C627007022A4 /* sky_widgetbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA5621EB9C627007022A4 /* sky_widgetbackground.png */; };
+		032EA56B1EB9F6AE007022A4 /* after_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA56A1EB9F6AE007022A4 /* after_30.png */; };
+		032EA56D1EB9F70B007022A4 /* before_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA56C1EB9F70B007022A4 /* before_30.png */; };
 		034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA21EA06EDE00DE1262 /* dontKnow.png */; };
 		034AFBA51EA06EDE00DE1262 /* know.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA31EA06EDE00DE1262 /* know.png */; };
 		034AFBAB1EA0776800DE1262 /* Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 034AFBAA1EA0776800DE1262 /* Keychain.m */; };
@@ -173,6 +175,8 @@
 		032EA52B1EB2E006007022A4 /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		032EA52D1EB2E44D007022A4 /* SendContentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendContentsManager.swift; sourceTree = "<group>"; };
 		032EA5621EB9C627007022A4 /* sky_widgetbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_widgetbackground.png; sourceTree = "<group>"; };
+		032EA56A1EB9F6AE007022A4 /* after_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = after_30.png; sourceTree = "<group>"; };
+		032EA56C1EB9F70B007022A4 /* before_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = before_30.png; sourceTree = "<group>"; };
 		034AFBA21EA06EDE00DE1262 /* dontKnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dontKnow.png; sourceTree = "<group>"; };
 		034AFBA31EA06EDE00DE1262 /* know.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know.png; sourceTree = "<group>"; };
 		034AFBA91EA0776800DE1262 /* Keychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keychain.h; sourceTree = "<group>"; };
@@ -347,6 +351,8 @@
 		031DC6051EA9C18700BEC763 /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				032EA56A1EB9F6AE007022A4 /* after_30.png */,
+				032EA56C1EB9F70B007022A4 /* before_30.png */,
 				036B6A211E9D13A0006A044E /* gallery.png */,
 				036B6A221E9D13A0006A044E /* cloud.png */,
 				036B6A231E9D13A0006A044E /* coffee.png */,
@@ -475,9 +481,9 @@
 				03A7A28D1E8271210074CCFE /* ThemeRepositroy.swift */,
 				03EAD7701EADBC5900C4F774 /* FontManager.swift */,
 				034AFBD41EA08AB600DE1262 /* KeychainManager.swift */,
+				034AFBB11EA07C7C00DE1262 /* DiaryRecord-Bridging-Header.h */,
 				034AFBA91EA0776800DE1262 /* Keychain.h */,
 				034AFBAA1EA0776800DE1262 /* Keychain.m */,
-				034AFBB11EA07C7C00DE1262 /* DiaryRecord-Bridging-Header.h */,
 				03B6EA901E61677B002CFB29 /* Logger */,
 				03B6EA8E1E616768002CFB29 /* Support */,
 			);
@@ -736,9 +742,11 @@
 				03C043671E78F30E0075C09E /* Main.storyboard in Resources */,
 				037343161E9C82D300FDFF91 /* speicalCell.jpg in Resources */,
 				036B6A2F1E9D13A0006A044E /* cloud.png in Resources */,
+				032EA56D1EB9F70B007022A4 /* before_30.png in Resources */,
 				031DC5DF1EA73AF200BEC763 /* LanchScreen_cat_after.png in Resources */,
 				037522A51E856F7B0001B24F /* LanchScreen_1.jpg in Resources */,
 				03A7A27A1E82518D0074CCFE /* update.png in Resources */,
+				032EA56B1EB9F6AE007022A4 /* after_30.png in Resources */,
 				036B6A1C1E9D1015006A044E /* setting.png in Resources */,
 				030DB0D61E407381004E3532 /* LaunchScreen.storyboard in Resources */,
 				031DC5D51EA7241E00BEC763 /* donKnow1_m.png in Resources */,

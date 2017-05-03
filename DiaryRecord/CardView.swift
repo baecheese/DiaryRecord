@@ -12,7 +12,7 @@ struct CardFrame {
     var contentLabelHeight:CGFloat = 0
     var dateLabelHight:CGFloat = 60.0
     var contentlineSpacing:CGFloat = 10.0
-    let imageHeight:CGFloat = 250.0
+    let imageHeight:CGFloat = 200.0
     let mainMargen:CGFloat = 30.0
     let subMargen:CGFloat = 20.0
 }
@@ -88,6 +88,7 @@ class CardView: UIView {
         imageSection = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: cardFrame.imageHeight))
         imageSection.image = image
         imageSection.contentMode = .scaleAspectFill
+//        imageSection.contentMode = .scaleAspectFit
         imageSection.clipsToBounds = true
         backScrollView.addSubview(imageSection)
     }

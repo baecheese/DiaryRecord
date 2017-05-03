@@ -238,8 +238,11 @@ class WedgetManager: NSObject {
         }
         else {
             // 한줄 이상인 경우 (30자만 보내기)
-            let newContentIndex = contents.index(contents.startIndex, offsetBy: 30)
-            let newContents = contents.substring(to: newContentIndex)
+            var newContents = contents
+            if 30 < contents.characters.count {
+                let newContentIndex = contents.index(contents.startIndex, offsetBy: 30)
+                newContents = contents.substring(to: newContentIndex)
+            }
             let removeBlankContents = removeIndent(contents: newContents)
             let fristLast = Int(CGFloat(oneLineMax) * 0.7)
             let fristIndex = removeBlankContents.index(removeBlankContents.startIndex, offsetBy: fristLast)

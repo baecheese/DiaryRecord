@@ -162,7 +162,7 @@ class MainTableViewController: UITableViewController {
             return cell
         }
         
-        let cellDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
+        let cellDiaryID = diaryRepository.getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
         
         // 가장 좋아하는 일기 취소 시
         if wedgetManager.isSpecialDayMode() && cellDiaryID == beforeSpecialDay {
@@ -223,8 +223,7 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedDiaryID = getSelectedDiaryID(section: indexPath.section, row: indexPath.row)
-        SharedMemoryContext.set(key: "selectedDiaryID", setValue: selectedDiaryID)
+        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (indexPath.section, indexPath.row))
         
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
             let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
@@ -254,8 +253,9 @@ class MainTableViewController: UITableViewController {
     
     private func setSpecialDay(indexPath: IndexPath) {
         if true == wedgetManager.isSpecialDayMode() {
-            let selectedDiaryID = SharedMemoryContext.setAndGet(key: "selectedDiaryID"
-                , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
+            let selectedDiaryInfo = SharedMemoryContext.setAndGet(key: "selectedDiaryInfo"
+                , setValue: (indexPath.section, indexPath.row)) as! (Int, Int)
+            let selectedDiaryID = diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
             
             /* 이미 스페셜 데이인 것을 한 번 더 누른 건 스페셜 데이 취소 */
             if specialDayRepository.isRight(id: selectedDiaryID) {
@@ -306,9 +306,9 @@ class MainTableViewController: UITableViewController {
     }
     
     private func deleteCell(indexPath: IndexPath) {
-        let selectedDiaryID = SharedMemoryContext.setAndGet(key: "selectedDiaryID"
-            , setValue: getSelectedDiaryID(section: indexPath.section, row: indexPath.row)) as! Int
-        
+        let selectedDiaryInfo = SharedMemoryContext.setAndGet(key: "selectedDiaryInfo"
+            , setValue: (indexPath.section, indexPath.row)) as! (Int, Int)
+        let selectedDiaryID = diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
         diaryRepository.delete(id: selectedDiaryID)
         imageManager.deleteImageFile(diaryID: selectedDiaryID)
         
@@ -338,11 +338,7 @@ class MainTableViewController: UITableViewController {
         return true
     }
     
-    private func getSelectedDiaryID(section:Int, row:Int) -> Int {
-        let diarys:[String : Array<Diary>] = diaryRepository.getAllByTheDate()
-        let targetDate = sortedDate[section]
-        return ((diarys[targetDate]?[row])?.id)!
-    }
+    
     
     func navigationFont() {
         navigationItem.title = "index"
