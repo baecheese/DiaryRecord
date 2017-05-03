@@ -204,7 +204,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         
         let chosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
         self.imageBox.imageSpace.image = chosenImage
-        self.imageBox.imageSpace.contentMode = .scaleAspectFill
+        self.imageBox.imageSpace.contentMode = .scaleAspectFit
         self.imageBox.imageSpace.clipsToBounds = true
         self.imageBox.alpha = 0.0
         self.imageData = self.imageManager.getImageData(info: info)
