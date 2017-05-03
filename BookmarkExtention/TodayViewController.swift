@@ -58,21 +58,23 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     var backImage = UIImageView()
     
     func setBackground() {
+        backImage.frame = self.view.bounds
+        backImage.contentMode = .scaleAspectFill
+        background.addSubview(backImage)
         if true == contentManager.haveImage() {
-            backImage.frame = self.view.bounds
             backImage.image = contentManager.getImage()
-            backImage.contentMode = .scaleAspectFill//
-            background.addSubview(backImage)
         }
         else {
-            let colorManger = ColorManager(theme: contentManager.getTheme())
-            background.backgroundColor = colorManger.background
+            backImage.image = UIImage(named: "sky_widgetbackground.png")
+//            let colorManger = ColorManager(theme: contentManager.getTheme())
+//            background.backgroundColor = colorManger.background
         }
     }
     
     private let textview = UITextView()
     
     func setContents() {
+        textview.isEditable = false
         textview.font = UIFont.systemFont(ofSize: font.size)
 //        textview.text = contentManager.getContentData()
         changeTextView(contents: contentManager.getContentData())
