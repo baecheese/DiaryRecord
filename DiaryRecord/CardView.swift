@@ -41,19 +41,31 @@ class CardView: UIView {
     func makeReadView(date:String, content:String, imageName:String?) {
         makeBackground()
         makeContentLabel(content: content, imageName: imageName)
-        makeDateLabel(dateText: date, imageName:imageName)
         changeContentsSize(imageName: imageName)
     }
-
+    
+    func changingDiary() {
+        for view in self.subviews {
+            view.removeFromSuperview()
+        }
+        makeBackground()
+    }
+    
+    func showChangedDiaryContents(content:String, imageName:String?) {
+        makeContentLabel(content: content, imageName: imageName)
+        changeContentsSize(imageName: imageName)
+    }
+    
     private func makeBackground() {
         backScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
         backScrollView.contentSize = CGSize(width: self.frame.width, height: self.frame.height)
         backScrollView.isScrollEnabled = true
         backScrollView.backgroundColor = colorManager.paper
+        
         self.addSubview(backScrollView)
     }
     
-    private func makeContentLabel(content:String, imageName:String?) {
+    func makeContentLabel(content:String, imageName:String?) {
         if (nil == imageName) {
             contentsLabel = UILabel(frame: CGRect(x: cardFrame.mainMargen, y: cardFrame.mainMargen, width: self.frame.width - cardFrame.mainMargen * 2, height: 60))// height는 바꿀 값
         }
@@ -82,6 +94,12 @@ class CardView: UIView {
         
         backScrollView.addSubview(contentsLabel)
         
+    }
+    
+    private func setChangeTextAnimation () {
+        if true == SharedMemoryContext.get(key: "moveDiaryInReadPage") as? Bool {
+            contentsLabel.alpha = 0.0
+        }
     }
     
     private func makeImageSection(image:UIImage) {

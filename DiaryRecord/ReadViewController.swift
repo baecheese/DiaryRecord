@@ -22,6 +22,7 @@ class ReadViewController: UIViewController {
     var readState = ReadState()
     @IBOutlet var readToolbar: UIToolbar!
     
+    var notice = UILabel()
     
     var cover = UIView()
     var tap = UITapGestureRecognizer()
@@ -29,17 +30,19 @@ class ReadViewController: UIViewController {
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
     override func viewWillAppear(_ animated: Bool) {
-        if true == (SharedMemoryContext.get(key: "saveNewDairy")) as! Bool {
+        if (true == (SharedMemoryContext.get(key: "saveNewDairy")) as? Bool) {
             changeContents(newDiary: getSelectedDairy())
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = colorManager.paper
         makeContentCard()
 //        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
         setToolbar()
+        makeNoticeLabel()
     }
     
     /* 필요한 data */
@@ -67,7 +70,12 @@ class ReadViewController: UIViewController {
     }
     
     func changeContents(newDiary:Diary) {
-        card.makeReadView(date: newDiary.timeStamp.getDateLongStyle(), content: newDiary.content, imageName: newDiary.imageName)
+        if true == SharedMemoryContext.get(key: "moveDiaryInReadPage") as? Bool {
+            self.card.changingDiary()
+        }
+        else {
+            self.card.makeReadView(date: newDiary.timeStamp.getDateLongStyle(), content: newDiary.content, imageName: newDiary.imageName)
+        }
     }
     
     
@@ -137,30 +145,63 @@ class ReadViewController: UIViewController {
         })
     }
     
+    func makeNoticeLabel() {
+        notice.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        notice.text = "33"
+        notice.backgroundColor = .red
+        card.addSubview(notice)
+    }
+    
     @IBAction func moveToDifferentDiary(_ sender: UIBarButtonItem) {
         log.info(message: "before: \(SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int))")
         if sender.tag == 0 {
             log.info(message: "< 이전에 썼던 다이어리")
-            previousDiary()
-            // view did load 다시 하는 방법으로 
+            if true == previousDiary() {
+                movePage(message: "moving prevous page")
+            }
+            else {
+                showNoticeAnimation(message: "It's frist dairy")
+            }
         }
         if sender.tag == 1 {
             log.info(message: "> 이후에 쓴 다이어리")
-            afterDiary()
+            if true == afterDiary() {
+                movePage(message: "moving after page")
+            }
+            else {
+                showNoticeAnimation(message: "It's last dairy")
+            }
         }
+        
+    }
+    
+    func showNoticeAnimation(message:String) {
+        
+    }
+    
+    func showNoticeLabel(message:String) {
+        notice.text = message
+        notice.sizeToFit()
+        notice.frame.origin = CGPoint(x: self.view.frame.width/2 - notice.frame.width/2, y: self.view.frame.height/2 - notice.frame.height/2)
+        notice.backgroundColor = .black
+        notice.textColor = .white
+        notice.alpha = 0.6
+    }
+    
+    func disappearNoticeLabel() {
+        notice.alpha = 0.0
     }
     
     // < 이전에 썼던 다이어리 (테이블 순서로는 아래로, 숫자는 +)
-    func previousDiary() {
+    func previousDiary() -> Bool {
         let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
         var section = selectedDiaryInfo.0
         var row = selectedDiaryInfo.1
         if diaryRepository.isFrist(diaryInfo: selectedDiaryInfo) {
             log.info(message: "처음")
-            return;
+            return false
         }
         
-        // 해당 색션의 row가 있나 없나? -> 있으면 그거 / 없으면 다음 섹션의 마지막으로
         if true == diaryRepository.isLastDiaryOfOneDay(diaryInfo: selectedDiaryInfo) {
             section += 1
             let diarysOfOneDay = diaryRepository.getDiarysOfOneDay(section: section)
@@ -172,16 +213,18 @@ class ReadViewController: UIViewController {
             log.info(message: "after : \((section, row))")
         }
         SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
+        
+        return true
     }
     
     // > 이후에 쓴 다이어리 (테이블 순서론 위로, 숫자는 - )
-    func afterDiary() {
+    func afterDiary() -> Bool {
         let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
         var section = selectedDiaryInfo.0
         var row = selectedDiaryInfo.1
         if diaryRepository.isLast(diaryInfo: selectedDiaryInfo) {
             log.info(message: "끝")
-            return;
+            return false
         }
         
         if row == 0 {
@@ -195,6 +238,25 @@ class ReadViewController: UIViewController {
             log.info(message: "after : \((section, row))")
         }
         SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
+        
+        return true
+    }
+    
+    func movePage(message:String) {
+        UIView.transition(with: self.view, duration: 1.0, options: .transitionCurlDown, animations: {
+            SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: true)
+            self.changeContents(newDiary: self.getSelectedDairy())
+//            self.showNoticeLabel(message: message)
+        }, completion: { (Bool) in
+            let transition = CATransition()
+            transition.duration = 1.0
+            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            transition.type = kCATransitionFade
+            self.navigationController?.view.layer.add(transition, forKey: nil)
+            let diary = self.getSelectedDairy()
+            self.card.showChangedDiaryContents(content: diary.content, imageName: diary.imageName)
+//            self.disappearNoticeLabel()
+        })
     }
     
     override func didReceiveMemoryWarning() {
