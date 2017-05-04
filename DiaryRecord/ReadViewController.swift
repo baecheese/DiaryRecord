@@ -140,16 +140,17 @@ class ReadViewController: UIViewController {
     @IBAction func moveToDifferentDiary(_ sender: UIBarButtonItem) {
         log.info(message: "before: \(SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int))")
         if sender.tag == 0 {
-            log.info(message: "<")
+            log.info(message: "< 이전에 썼던 다이어리")
             previousDiary()
             // view did load 다시 하는 방법으로 
         }
         if sender.tag == 1 {
-            log.info(message: ">")
+            log.info(message: "> 이후에 쓴 다이어리")
             afterDiary()
         }
     }
     
+    // < 이전에 썼던 다이어리 (테이블 순서로는 아래로, 숫자는 +)
     func previousDiary() {
         let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
         var section = selectedDiaryInfo.0
@@ -173,6 +174,7 @@ class ReadViewController: UIViewController {
         SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
     }
     
+    // > 이후에 쓴 다이어리 (테이블 순서론 위로, 숫자는 - )
     func afterDiary() {
         let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
         var section = selectedDiaryInfo.0

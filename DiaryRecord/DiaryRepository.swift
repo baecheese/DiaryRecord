@@ -68,7 +68,7 @@ class DiaryRepository: NSObject {
     /** 가장 첫 번째로 쓴, 메인에서는 맨 아래에 있는 section, row */
     func fristDiaryInfo() -> (Int, Int) {
         let section = getSortedAllDate().count - 1
-        let row = getSortedAllDate().count - 1
+        let row = getDiarysOfOneDay(section: section).count - 1
         return (section, row)
     }
     
