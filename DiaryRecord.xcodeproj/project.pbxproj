@@ -38,6 +38,7 @@
 		032EA5631EB9C627007022A4 /* sky_widgetbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA5621EB9C627007022A4 /* sky_widgetbackground.png */; };
 		032EA56B1EB9F6AE007022A4 /* after_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA56A1EB9F6AE007022A4 /* after_30.png */; };
 		032EA56D1EB9F70B007022A4 /* before_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA56C1EB9F70B007022A4 /* before_30.png */; };
+		032EA56F1EBB6FEB007022A4 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EA56E1EBB6FEB007022A4 /* ProgressHUD.swift */; };
 		034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA21EA06EDE00DE1262 /* dontKnow.png */; };
 		034AFBA51EA06EDE00DE1262 /* know.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA31EA06EDE00DE1262 /* know.png */; };
 		034AFBAB1EA0776800DE1262 /* Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 034AFBAA1EA0776800DE1262 /* Keychain.m */; };
@@ -177,6 +178,7 @@
 		032EA5621EB9C627007022A4 /* sky_widgetbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_widgetbackground.png; sourceTree = "<group>"; };
 		032EA56A1EB9F6AE007022A4 /* after_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = after_30.png; sourceTree = "<group>"; };
 		032EA56C1EB9F70B007022A4 /* before_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = before_30.png; sourceTree = "<group>"; };
+		032EA56E1EBB6FEB007022A4 /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		034AFBA21EA06EDE00DE1262 /* dontKnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dontKnow.png; sourceTree = "<group>"; };
 		034AFBA31EA06EDE00DE1262 /* know.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know.png; sourceTree = "<group>"; };
 		034AFBA91EA0776800DE1262 /* Keychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keychain.h; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 				037692921E54885500C0CCCB /* CardView.swift */,
 				0399B20A1E656472003E8672 /* WriteBox.swift */,
 				03C702B31E84CE6E00B15033 /* ImageBox.swift */,
+				032EA56E1EBB6FEB007022A4 /* ProgressHUD.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -957,6 +960,7 @@
 			files = (
 				031DC5E61EA9AD9900BEC763 /* LaunchViewController.swift in Sources */,
 				03AAC6B71EA46DE700C2BF4D /* EmailViewController.swift in Sources */,
+				032EA56F1EBB6FEB007022A4 /* ProgressHUD.swift in Sources */,
 				030DB0CC1E407381004E3532 /* AppDelegate.swift in Sources */,
 				037624761E7E553F002C069A /* SettingTableViewController.swift in Sources */,
 				03AAC6DB1EA5B38300C2BF4D /* SecretQuestionViewController.swift in Sources */,

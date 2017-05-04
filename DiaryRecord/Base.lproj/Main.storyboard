@@ -723,6 +723,8 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="aqw-39-rdF"/>
+                                    <barButtonItem title="Item" id="RxK-39-ELc"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="EP3-7l-kOh"/>
                                     <barButtonItem tag="1" image="after_30.png" id="CoL-WU-c8N">
                                         <inset key="imageInsets" minX="25" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
@@ -746,6 +748,7 @@
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="09J-7J-J2p" id="Kw1-jc-Tq2"/>
+                        <outlet property="messageItem" destination="RxK-39-ELc" id="gx1-KP-8t5"/>
                         <outlet property="readToolbar" destination="TnW-cJ-ILD" id="6mg-4H-ngt"/>
                     </connections>
                 </viewController>

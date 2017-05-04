@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiaryRecord/ReadViewController.swift"
-            timestampString = "515572852.962867"
+            timestampString = "515604493.949032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "afterDiary()"
             landmarkType = "7">
          </BreakpointContent>

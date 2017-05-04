@@ -10,6 +10,11 @@ import UIKit
 
 struct ReadState {
     let margen:CGFloat = 30.0
+    let defaultMessage = ".."
+    let movePrevousMessage = "moving prevous page.."
+    let moveAfterMessage = "moving after page.."
+    let dontMovePrevousMessage = "It's frist dairy!"
+    let dontMoveAfterMessage = "It's last dairy!"
 }
 
 class ReadViewController: UIViewController {
@@ -22,7 +27,7 @@ class ReadViewController: UIViewController {
     var readState = ReadState()
     @IBOutlet var readToolbar: UIToolbar!
     
-    var notice = UILabel()
+    @IBOutlet var messageItem: UIBarButtonItem!
     
     var cover = UIView()
     var tap = UITapGestureRecognizer()
@@ -38,11 +43,12 @@ class ReadViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = colorManager.paper
+        
         makeContentCard()
 //        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
-        setToolbar()
-        makeNoticeLabel()
+        setToolbar(message: readState.defaultMessage)
+        
     }
     
     /* 필요한 data */
@@ -124,32 +130,28 @@ class ReadViewController: UIViewController {
         }, completion: nil)
     }
     
-    func setToolbar() {
+    func setToolbar(message:String) {
+        self.messageItem.title = readState.defaultMessage
         readToolbar.barStyle = UIBarStyle.default
         readToolbar.isTranslucent = true
         readToolbar.clipsToBounds = true
         readToolbar.barTintColor = colorManager.paper
         readToolbar.tintColor = colorManager.tint
-        showAnimationToolbarItem()
+        showAnimationToolbarItem(message: message)
     }
     
-    func showAnimationToolbarItem() {
-        UIView.transition(with: readToolbar, duration: 5.0, options: .curveEaseInOut, animations: {
+    func showAnimationToolbarItem(message:String) {
+        UIView.transition(with: readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
             //            self.readToolbar.barTintColor = self.colorManager.bar
+            self.messageItem.title = message
             self.readToolbar.tintColor = self.colorManager.bar
         }, completion: {(Bool) in
-            UIView.transition(with: self.readToolbar, duration: 3.0, options: .curveEaseInOut, animations: {
+            UIView.transition(with: self.readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
                 //                self.readToolbar.barTintColor = self.colorManager.paper
+                self.messageItem.title = self.readState.defaultMessage
                 self.readToolbar.tintColor = self.colorManager.tint
             }, completion: nil)
         })
-    }
-    
-    func makeNoticeLabel() {
-        notice.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        notice.text = "33"
-        notice.backgroundColor = .red
-        card.addSubview(notice)
     }
     
     @IBAction func moveToDifferentDiary(_ sender: UIBarButtonItem) {
@@ -157,39 +159,22 @@ class ReadViewController: UIViewController {
         if sender.tag == 0 {
             log.info(message: "< 이전에 썼던 다이어리")
             if true == previousDiary() {
-                movePage(message: "moving prevous page")
+                movePage(message: readState.movePrevousMessage)
             }
             else {
-                showNoticeAnimation(message: "It's frist dairy")
+                showAnimationToolbarItem(message: readState.dontMovePrevousMessage)
             }
         }
         if sender.tag == 1 {
             log.info(message: "> 이후에 쓴 다이어리")
             if true == afterDiary() {
-                movePage(message: "moving after page")
+                movePage(message: readState.moveAfterMessage)
             }
             else {
-                showNoticeAnimation(message: "It's last dairy")
+                showAnimationToolbarItem(message: readState.dontMoveAfterMessage)
             }
         }
         
-    }
-    
-    func showNoticeAnimation(message:String) {
-        
-    }
-    
-    func showNoticeLabel(message:String) {
-        notice.text = message
-        notice.sizeToFit()
-        notice.frame.origin = CGPoint(x: self.view.frame.width/2 - notice.frame.width/2, y: self.view.frame.height/2 - notice.frame.height/2)
-        notice.backgroundColor = .black
-        notice.textColor = .white
-        notice.alpha = 0.6
-    }
-    
-    func disappearNoticeLabel() {
-        notice.alpha = 0.0
     }
     
     // < 이전에 썼던 다이어리 (테이블 순서로는 아래로, 숫자는 +)
@@ -243,19 +228,20 @@ class ReadViewController: UIViewController {
     }
     
     func movePage(message:String) {
-        UIView.transition(with: self.view, duration: 1.0, options: .transitionCurlDown, animations: {
+        showAnimationToolbarItem(message: message)
+        UIView.transition(with: self.backgroundView, duration: 1.0, options: .transitionCurlDown, animations: {
             SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: true)
             self.changeContents(newDiary: self.getSelectedDairy())
-//            self.showNoticeLabel(message: message)
         }, completion: { (Bool) in
             let transition = CATransition()
-            transition.duration = 1.0
+            transition.duration = 0.4
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             transition.type = kCATransitionFade
             self.navigationController?.view.layer.add(transition, forKey: nil)
             let diary = self.getSelectedDairy()
             self.card.showChangedDiaryContents(content: diary.content, imageName: diary.imageName)
-//            self.disappearNoticeLabel()
+            
+            SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: false)
         })
     }
     
