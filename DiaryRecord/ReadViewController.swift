@@ -162,7 +162,7 @@ class ReadViewController: UIViewController {
         if sender.tag == 0 {
             log.info(message: "< 이전에 썼던 다이어리")
             if true == previousDiary() {
-                movePage(message: readState.movePrevousMessage)
+                movePage(isPrevous: true, message: readState.movePrevousMessage)
             }
             else {
                 showAnimationToolbarItem(message: readState.dontMovePrevousMessage)
@@ -171,7 +171,7 @@ class ReadViewController: UIViewController {
         if sender.tag == 1 {
             log.info(message: "> 이후에 쓴 다이어리")
             if true == afterDiary() {
-                movePage(message: readState.moveAfterMessage)
+                movePage(isPrevous: false, message: readState.moveAfterMessage)
             }
             else {
                 showAnimationToolbarItem(message: readState.dontMoveAfterMessage)
@@ -230,9 +230,13 @@ class ReadViewController: UIViewController {
         return true
     }
     
-    func movePage(message:String) {
+    func movePage(isPrevous:Bool, message:String) {
+        var animation = UIViewAnimationOptions.transitionCurlDown
+        if isPrevous == false {
+            animation = UIViewAnimationOptions.transitionCurlUp
+        }
         showAnimationToolbarItem(message: message)
-        UIView.transition(with: self.backgroundView, duration: 1.0, options: .transitionCurlDown, animations: {
+        UIView.transition(with: self.backgroundView, duration: 1.0, options: animation, animations: {
             SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: true)
             self.changeContents(newDiary: self.getSelectedDairy())
         }, completion: { (Bool) in
