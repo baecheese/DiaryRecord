@@ -22,6 +22,7 @@ class ReadViewController: UIViewController {
     private let log = Logger.init(logPlace: ReadViewController.self)
     private let diaryRepository = DiaryRepository.sharedInstance
     private let imageManager = ImageFileManager.sharedInstance
+    private let fontManager = FontManager.sharedInstance
     @IBOutlet var backgroundView: UIView!
     var card = CardView()
     var readState = ReadState()
@@ -131,6 +132,8 @@ class ReadViewController: UIViewController {
     }
     
     func setToolbar(message:String) {
+        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: fontManager.toolbarFontSize)!], for: UIControlState.normal)
+        
         self.messageItem.title = readState.defaultMessage
         readToolbar.barStyle = UIBarStyle.default
         readToolbar.isTranslucent = true
