@@ -10,7 +10,7 @@ import UIKit
 
 struct ReadState {
     let margen:CGFloat = 30.0
-    let defaultMessage = ".."
+    let defaultMessage = " "
     let movePrevousMessage = "moving prevous page.."
     let moveAfterMessage = "moving after page.."
     let dontMovePrevousMessage = "It's frist dairy!"
@@ -47,8 +47,7 @@ class ReadViewController: UIViewController {
         
         makeContentCard()
         makeNavigationItem()
-        setToolbar(message: readState.defaultMessage)
-        
+        setToolbar(date: readState.defaultMessage)
     }
     
     /* 필요한 data */
@@ -116,15 +115,14 @@ class ReadViewController: UIViewController {
         }, completion: nil)
     }
     
-    func setToolbar(message:String) {
+    func setToolbar(date:String) {
         
-        makeButtonOnToolbar(message: message)
+        makeButtonOnToolbar(message: date)
         
         readToolbar.barStyle = UIBarStyle.default
         readToolbar.isTranslucent = true
         readToolbar.clipsToBounds = true
         readToolbar.barTintColor = colorManager.paper
-        readToolbar.tintColor = colorManager.tint
  
         var items = [UIBarButtonItem]()
         items.append(
@@ -143,19 +141,16 @@ class ReadViewController: UIViewController {
             UIBarButtonItem(customView: afterBtn)
         )
         readToolbar.setItems(items, animated: true)
-        
-        showAnimationToolbarItem(message: message)
     }
     
-    func showAnimationToolbarItem(message:String) {
-        UIView.transition(with: readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
-            //            self.readToolbar.barTintColor = self.colorManager.bar
+    func showAnimationToolbarItem(message:String, date:String) {
+        UIView.transition(with: readToolbar, duration: 1.0, options: .curveEaseOut, animations: {
             self.setToolBarMessage(message: message)
             self.setTintColorOnToolbar(color: self.colorManager.bar)
         }, completion: {(Bool) in
-            UIView.transition(with: self.readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
+            UIView.transition(with: self.readToolbar, duration: 1.0, options: .curveEaseIn, animations: {
                 //                self.readToolbar.barTintColor = self.colorManager.paper
-                self.setToolBarMessage(message: self.readState.defaultMessage)
+                self.setToolBarMessage(message: date)
                 self.setTintColorOnToolbar(color: self.colorManager.tint)
             }, completion: nil)
         })
@@ -167,7 +162,7 @@ class ReadViewController: UIViewController {
     
     private func setTintColorOnToolbar(color:UIColor) {
         prevousBtn.tintColor = color
-        messageBtn.tintColor = color
+        messageBtn.titleLabel?.textColor = color
         afterBtn.tintColor = color
     }
     
@@ -180,9 +175,9 @@ class ReadViewController: UIViewController {
         prevousBtn.addTarget(self, action: #selector(ReadViewController.moveToDifferentDiary(_:)), for: .touchUpInside)
         
         messageBtn = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width * 0.5, height: 20))
-        messageBtn.tintColor = colorManager.tint
-        messageBtn.setTitle(readState.defaultMessage, for: .normal)
+        messageBtn.setTitle(message, for: .normal)
         messageBtn.titleLabel?.font = UIFont(name: fontManager.toolbarFont, size: fontManager.toolbarFontSize)
+        messageBtn.titleLabel?.textColor = colorManager.bar
         
         afterBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
         let afterImg = UIImage(named: "after_30_new.png")?.withRenderingMode(.alwaysTemplate)
@@ -193,14 +188,16 @@ class ReadViewController: UIViewController {
     }
     
     func moveToDifferentDiary(_ sender: UIButton) {
-        log.info(message: "before: \(SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int))")
+        
+        let before = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+        
         if sender.tag == 0 {
             log.info(message: "< 이전에 썼던 다이어리")
             if true == previousDiary() {
                 movePage(isPrevous: true, message: readState.movePrevousMessage)
             }
             else {
-                showAnimationToolbarItem(message: readState.dontMovePrevousMessage)
+                showAnimationToolbarItem(message: readState.dontMovePrevousMessage, date: getSelectedDairy().timeStamp.getDateLongStyle())
             }
         }
         if sender.tag == 1 {
@@ -209,10 +206,13 @@ class ReadViewController: UIViewController {
                 movePage(isPrevous: false, message: readState.moveAfterMessage)
             }
             else {
-                showAnimationToolbarItem(message: readState.dontMoveAfterMessage)
+                showAnimationToolbarItem(message: readState.dontMoveAfterMessage, date: getSelectedDairy().timeStamp.getDateLongStyle())
             }
         }
         
+        let after = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+        
+        log.info(message: "before : \(before)   after : \(after)")
     }
     
     // < 이전에 썼던 다이어리 (테이블 순서로는 아래로, 숫자는 +)
@@ -225,18 +225,16 @@ class ReadViewController: UIViewController {
             return false
         }
         
-        if true == diaryRepository.isLastDiaryOfOneDay(diaryInfo: selectedDiaryInfo) {
+        // 0.0 0.1 0.2 1.0 1.1 1.2
+        if row == diaryRepository.getLastDiaryOfSomeDay(dateInfo: section) {
             section += 1
-            let diarysOfOneDay = diaryRepository.getDiarysOfOneDay(section: section)
-            row = diarysOfOneDay.count - 1
-            log.info(message: "after : \((section, row))")
+            row = 0
         }
         else {
             row += 1
-            log.info(message: "after : \((section, row))")
         }
-        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
         
+        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
         return true
     }
     
@@ -254,11 +252,9 @@ class ReadViewController: UIViewController {
             section -= 1
             let diarysOfOneDay = diaryRepository.getDiarysOfOneDay(section: section)
             row = diarysOfOneDay.count - 1
-            log.info(message: "after : \((section, row))")
         }
         else {
             row -= 1
-            log.info(message: "after : \((section, row))")
         }
         SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (section, row))
         
@@ -266,11 +262,12 @@ class ReadViewController: UIViewController {
     }
     
     func movePage(isPrevous:Bool, message:String) {
+        let diary = self.getSelectedDairy()
         var animation = UIViewAnimationOptions.transitionCurlDown
         if isPrevous == false {
             animation = UIViewAnimationOptions.transitionCurlUp
         }
-        showAnimationToolbarItem(message: message)
+        showAnimationToolbarItem(message: message, date: diary.timeStamp.getDateLongStyle())
         UIView.transition(with: self.backgroundView, duration: 1.0, options: animation, animations: {
             SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: true)
             self.changeContents(newDiary: self.getSelectedDairy())
@@ -280,9 +277,7 @@ class ReadViewController: UIViewController {
             transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             transition.type = kCATransitionFade
             self.navigationController?.view.layer.add(transition, forKey: nil)
-            let diary = self.getSelectedDairy()
             self.card.showChangedDiaryContents(content: diary.content, imageName: diary.imageName)
-            
             SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: false)
         })
     }

@@ -225,10 +225,19 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (indexPath.section, indexPath.row))
         
+        
+        let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
+        
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
-            let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
             self.navigationController?.pushViewController(readVC!, animated: false)
-        }, completion: nil)
+        }, completion: {(Bool) in
+            let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+            let selectedDiaryID = self.diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
+            let diary = self.diaryRepository.findOne(id: selectedDiaryID)!
+//            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
+            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getDateLongStyle(), date: diary.timeStamp.getDateLongStyle())
+
+        })
         
     }
     

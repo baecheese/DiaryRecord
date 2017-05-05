@@ -33,6 +33,11 @@ extension TimeInterval {
         return longformatString()
     }
     
+    func getAllTimeInfo() -> String {
+        // "Jun 27, 2015, 11:30 PM"
+        return formatString(format: "yyyy.MM.dd a h:mm")
+    }
+    
     func formatString(format:String) -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()

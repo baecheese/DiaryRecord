@@ -72,14 +72,8 @@ class DiaryRepository: NSObject {
         return (section, row)
     }
     
-    /** 어떤 날(하루)의 마지막 다이어리인가? */
-    func isLastDiaryOfOneDay(diaryInfo:(Int, Int)) -> Bool {
-        let date = diaryInfo.0
-        let diary = diaryInfo.1
-        if diary == getDiarysOfOneDay(section: date).count - 1 {
-            return true
-        }
-        return false
+    func getLastDiaryOfSomeDay(dateInfo:Int) -> Int {
+        return getDiarysOfOneDay(section: dateInfo).count - 1
     }
     
     func save(timeStamp:Double, content:String, imageData:Data?) -> (Bool, String) {
