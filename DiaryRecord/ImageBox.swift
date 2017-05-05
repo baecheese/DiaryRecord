@@ -29,6 +29,7 @@ class ImageBox: UIView {
     
     func makeImageBox(frame: CGRect) {
         imageSpace.frame = self.bounds
+        imageSpace.backgroundColor = .red
         imageSpace.isUserInteractionEnabled = true
         self.addSubview(imageSpace)
     }

@@ -15,6 +15,8 @@ private extension Selector {
 
 struct WriteState {
     var keyboardHeight:CGFloat = 0.0
+    let margen:CGFloat = 30.0
+    var imageBoxHeight:CGFloat = 0.0
     var writeBoxHeightToEditing:CGFloat = 0.0
     var fullHeight:CGFloat = 0.0
     var isFrist:Bool = true
@@ -231,6 +233,8 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         })
     }
     
+    
+    
     /* UI & 애니메이션 */
     
     func getNavigationBarHeight() -> CGFloat {
@@ -254,7 +258,8 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     
     func changeWriteBoxHeight(height:CGFloat, option:UIViewAnimationOptions) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: option, animations: {
-            self.writeBox.writeSpace.frame.size.height =  height
+            self.writeBox.frame.size.height = height
+            self.writeBox.writeSpace.frame = CGRect(x: self.writeState.margen, y: self.writeState.margen, width: self.background.frame.width - self.writeState.margen*2, height: height - self.writeState.margen*2)
         }, completion: nil)
         
     }
@@ -262,14 +267,16 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     func makeWriteBox() {
         let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
         view.backgroundColor = colorManager.paper
-        let margenX:CGFloat = 30.0
-        let writeWidth = self.view.frame.size.width
+        writeBox.backgroundColor = .blue//
+        let width = background.frame.width
+        let height = background.frame.height
         if 0.0 == writeState.keyboardHeight {
-            writeState.fullHeight = self.view.frame.size.height - ((navigationController?.navigationBar.frame.size.height)! + UIApplication.shared.statusBarFrame.height)
-            writeBox = WriteBox(frame: CGRect(x: margenX, y: margenX, width: writeWidth - margenX*2, height: writeState.fullHeight - margenX*2))
+            writeState.fullHeight = height
+            writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: width, height: writeState.fullHeight))
         }
         if 0.0 < writeState.keyboardHeight {
-            writeState.writeBoxHeightToEditing = writeState.fullHeight - (writeState.keyboardHeight) - margenX*2
+            writeState.writeBoxHeightToEditing = writeState.fullHeight - (writeState.keyboardHeight)
+            writeState.imageBoxHeight = writeState.keyboardHeight
             changeWriteBoxHeight(height: writeState.writeBoxHeightToEditing, option: .transitionCurlUp)
         }
         
@@ -289,8 +296,8 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     func makeImageBox() {
-        let imageBoxHeight = self.view.frame.height - writeState.writeBoxHeightToEditing
-        imageBox = ImageBox(frame: CGRect(x: 0, y: writeState.writeBoxHeightToEditing, width: self.view.frame.width, height: imageBoxHeight))
+        let imageBoxY = writeState.writeBoxHeightToEditing
+        imageBox = ImageBox(frame: CGRect(x: 0, y: imageBoxY, width: background.frame.width, height: writeState.imageBoxHeight))
         imageBox.delegate = self
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
@@ -361,6 +368,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
                 writeState.keyboardHeight = keyboardRectValue.height
                 writeState.isFrist = false
                 makeWriteBox()
+                // 수정모드일 때
                 if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
                     let diaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
                     let diaryID = diaryRepository.getSelectedDiaryID(section: diaryInfo.0, row: diaryInfo.1)
