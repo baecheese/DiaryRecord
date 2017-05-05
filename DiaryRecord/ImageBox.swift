@@ -29,7 +29,7 @@ class ImageBox: UIView {
     
     func makeImageBox(frame: CGRect) {
         imageSpace.frame = self.bounds
-        imageSpace.backgroundColor = .red
+        imageSpace.backgroundColor = .black
         imageSpace.isUserInteractionEnabled = true
         self.addSubview(imageSpace)
     }
@@ -38,7 +38,7 @@ class ImageBox: UIView {
         let margen:CGFloat = 5.0
         let deleteSize:CGFloat = 38.0
         let deleteButton = UIButton(frame: CGRect(x: self.frame.size.width - deleteSize - margen, y: margen, width: deleteSize, height: deleteSize))
-        let no = UIImage(named: "no")
+        let no = UIImage(named: "delete_x.png")
         deleteButton.setImage(no, for: .normal)
         deleteButton.tintColor = .white
         deleteButton.addTarget(self, action: #selector(ImageBox.clickButton), for: .touchUpInside)

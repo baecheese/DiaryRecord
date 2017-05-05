@@ -144,8 +144,9 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     override func photoPressed() {
-        
-        changeWriteBoxHeight(height: writeState.fullHeight, option: .transitionCurlDown)
+        if false == haveImage() {
+            changeWriteBoxHeight(height: writeState.fullHeight, option: .transitionCurlDown)
+        }
         writeBox.writeSpace.endEditing(true)
         
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -192,7 +193,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     
     override func cancelPressed() {
         writeBox.endEditing(true)
-        if imageData == nil {
+        if false == haveImage() {
             changeWriteBoxHeight(height: writeState.fullHeight, option: .transitionCurlDown)
         }
     }
@@ -284,7 +285,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     func changeWriteBoxHeight(height:CGFloat, option:UIViewAnimationOptions) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: option, animations: {
             self.writeBox.frame.size.height = height
-            self.writeBox.writeSpace.frame = CGRect(x: self.writeState.margen, y: self.writeState.margen, width: self.background.frame.width - self.writeState.margen*2, height: height - self.writeState.margen*2)
+            self.writeBox.writeSpace.frame = CGRect(x: self.writeState.margen, y: self.writeState.margen, width: self.view.frame.width - self.writeState.margen*2, height: height - self.writeState.margen*2)
         }, completion: nil)
         
     }
@@ -292,9 +293,9 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     func makeWriteBox() {
         let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
         view.backgroundColor = colorManager.paper
-        writeBox.backgroundColor = .blue//
-        let width = background.frame.width
-        let height = background.frame.height
+        writeBox.backgroundColor = .red
+        let width = self.view.frame.width
+        let height = self.view.frame.height - UIApplication.shared.statusBarFrame.height - (self.navigationController?.navigationBar.frame.size.height)!
         if 0.0 == writeState.keyboardHeight {
             writeState.fullHeight = height
             writeBox = WriteBox(frame: CGRect(x: 0, y: 0, width: width, height: writeState.fullHeight))
@@ -322,7 +323,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     
     func makeImageBox() {
         let imageBoxY = writeState.writeBoxHeightToEditing
-        imageBox = ImageBox(frame: CGRect(x: 0, y: imageBoxY, width: background.frame.width, height: writeState.imageBoxHeight))
+        imageBox = ImageBox(frame: CGRect(x: 0, y: imageBoxY, width: view.frame.width, height: writeState.imageBoxHeight))
         imageBox.delegate = self
         imageBox.imageSpace.image = nil
         // edit 모드일 때 설정
@@ -332,6 +333,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
             let diary = diaryRepository.findOne(id: diaryID)
             if nil != diary?.imageName {
                 imageBox.imageSpace.image = imageManager.showImage(imageName: (diary?.imageName)!)
+                imageBox.imageSpace.contentMode = .scaleAspectFit
             }
         }
         background.addSubview(imageBox)
