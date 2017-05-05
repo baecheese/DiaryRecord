@@ -29,6 +29,7 @@ class FontManager: NSObject {
     
     let sizeList = ["작게", "중간", "크게", "아주 크게"]
     let naviTitleFont:String = "SeoulHangangM"
+    let toolbarFont:String = "SeoulHangangM"
     let headerFont:String = "SeoulHangangM"
     let cellFont:String = "NanumMyeongjo"
     let cellSubFont:String = "SeoulHangangM"

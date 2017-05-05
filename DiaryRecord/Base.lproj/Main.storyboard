@@ -715,23 +715,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="yon-vy-MPH"/>
                                 </constraints>
-                                <items>
-                                    <barButtonItem image="before_30.png" id="K2t-qj-jJY">
-                                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="25" maxY="0.0"/>
-                                        <connections>
-                                            <action selector="moveToDifferentDiary:" destination="fEv-zR-ucC" id="5Ae-i0-lqs"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aqw-39-rdF"/>
-                                    <barButtonItem title="Item" id="RxK-39-ELc"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="EP3-7l-kOh"/>
-                                    <barButtonItem tag="1" image="after_30.png" id="CoL-WU-c8N">
-                                        <inset key="imageInsets" minX="25" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <connections>
-                                            <action selector="moveToDifferentDiary:" destination="fEv-zR-ucC" id="gMn-r6-YGl"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
+                                <items/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -748,7 +732,6 @@
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="09J-7J-J2p" id="Kw1-jc-Tq2"/>
-                        <outlet property="messageItem" destination="RxK-39-ELc" id="gx1-KP-8t5"/>
                         <outlet property="readToolbar" destination="TnW-cJ-ILD" id="6mg-4H-ngt"/>
                     </connections>
                 </viewController>
@@ -1013,7 +996,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nnp-ki-P8N">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1031,7 +1014,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="awI-uM-MQL" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uZP-Xa-Mi3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uZP-Xa-Mi3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1049,7 +1032,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ow1-A5-Rxx" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wsw-ko-UiP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wsw-ko-UiP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1067,7 +1050,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="izI-xD-NXc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RbD-ee-Z0b">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="RbD-ee-Z0b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1085,7 +1068,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="4Yo-9q-N7x" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Lq-AJ-PNX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="2Lq-AJ-PNX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1134,7 +1117,7 @@
         <scene sceneID="aEG-MO-OXj">
             <objects>
                 <navigationController id="dBG-Oh-0Va" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="013-EG-EjB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="013-EG-EjB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1147,8 +1130,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="after_30.png" width="30" height="30"/>
-        <image name="before_30.png" width="30" height="30"/>
         <image name="down.png" width="30" height="30"/>
         <image name="gallery.png" width="40" height="40"/>
         <image name="moon1.png" width="128" height="128"/>

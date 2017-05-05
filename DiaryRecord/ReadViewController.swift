@@ -28,7 +28,7 @@ class ReadViewController: UIViewController {
     var readState = ReadState()
     @IBOutlet var readToolbar: UIToolbar!
     
-    @IBOutlet var messageItem: UIBarButtonItem!
+    var messageBtn = UIButton()
     
     var cover = UIView()
     var tap = UITapGestureRecognizer()
@@ -132,32 +132,60 @@ class ReadViewController: UIViewController {
     }
     
     func setToolbar(message:String) {
-        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: fontManager.naviTitleFont, size: fontManager.toolbarFontSize)!], for: UIControlState.normal)
         
-        self.messageItem.title = readState.defaultMessage
+        messageBtn = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width * 0.5, height: 20))
+        messageBtn.tintColor = colorManager.tint
+        messageBtn.backgroundColor = .red
+        messageBtn.setTitle(readState.defaultMessage, for: .normal)
+        messageBtn.titleLabel?.font = UIFont(name: fontManager.toolbarFont, size: fontManager.toolbarFontSize)
+        
         readToolbar.barStyle = UIBarStyle.default
         readToolbar.isTranslucent = true
         readToolbar.clipsToBounds = true
         readToolbar.barTintColor = colorManager.paper
         readToolbar.tintColor = colorManager.tint
+ 
+        var items = [UIBarButtonItem]()
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ReadViewController.moveToDifferentDiary(_:)))
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(customView: messageBtn)
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ReadViewController.moveToDifferentDiary(_:)))
+        )
+        
+        readToolbar.setItems(items, animated: true)
+        
         showAnimationToolbarItem(message: message)
     }
     
     func showAnimationToolbarItem(message:String) {
         UIView.transition(with: readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
             //            self.readToolbar.barTintColor = self.colorManager.bar
-            self.messageItem.title = message
+            self.setToolBarMessage(message: message)
             self.readToolbar.tintColor = self.colorManager.bar
         }, completion: {(Bool) in
             UIView.transition(with: self.readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
                 //                self.readToolbar.barTintColor = self.colorManager.paper
-                self.messageItem.title = self.readState.defaultMessage
+                self.setToolBarMessage(message: self.readState.defaultMessage)
                 self.readToolbar.tintColor = self.colorManager.tint
             }, completion: nil)
         })
     }
     
-    @IBAction func moveToDifferentDiary(_ sender: UIBarButtonItem) {
+    private func setToolBarMessage(message:String) {
+        messageBtn.setTitle(message, for: .normal)
+    }
+    
+    func moveToDifferentDiary(_ sender: UIButton) {
         log.info(message: "before: \(SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int))")
         if sender.tag == 0 {
             log.info(message: "< 이전에 썼던 다이어리")
