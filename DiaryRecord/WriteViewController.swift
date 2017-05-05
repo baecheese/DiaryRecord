@@ -203,15 +203,14 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        makeImageBox()
+        
+        if false == haveImage() {
+            makeImageBox()
+        }
         
         let chosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
-        self.imageBox.imageSpace.image = chosenImage
-        self.imageBox.imageSpace.contentMode = .scaleAspectFit
-        self.imageBox.imageSpace.clipsToBounds = true
-        self.imageBox.alpha = 0.0
-        self.imageData = self.imageManager.getImageData(info: info)
-        self.log.info(message: " imageData keep : \(self.imageData)")
+        setImageInImageBox(image: chosenImage)
+        pickImageData(info: info)
         
         picker.dismiss(animated: true, completion: {
             self.changeWriteBoxHeight(height: self.writeState.writeBoxHeightToEditing, option: .transitionCurlDown)
@@ -220,6 +219,32 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
             }, completion: nil)
             
         })
+    }
+    
+    
+    func setImageInImageBox(image:UIImage) {
+        if true == haveImage() {
+            self.imageBox.imageSpace.image = nil
+        }
+        self.imageBox.imageSpace.image = image
+        self.imageBox.imageSpace.contentMode = .scaleAspectFit
+        self.imageBox.imageSpace.clipsToBounds = true
+        self.imageBox.alpha = 0.0
+    }
+    
+    func pickImageData(info: [String : Any]) {
+        if true == haveImage() {
+            self.imageData = nil
+        }
+        self.imageData = self.imageManager.getImageData(info: info)
+        log.info(message: " imageData keep : \(String(describing: imageData))")
+    }
+    
+    func haveImage() -> Bool {
+        if (imageBox.imageSpace.image == nil) && (imageData == nil) {
+            return false
+        }
+        return true
     }
     
     func deleteImage() {
@@ -299,6 +324,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         let imageBoxY = writeState.writeBoxHeightToEditing
         imageBox = ImageBox(frame: CGRect(x: 0, y: imageBoxY, width: background.frame.width, height: writeState.imageBoxHeight))
         imageBox.delegate = self
+        imageBox.imageSpace.image = nil
         // edit 모드일 때 설정
         if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
             let diaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
