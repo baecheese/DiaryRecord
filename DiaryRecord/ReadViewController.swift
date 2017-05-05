@@ -28,11 +28,11 @@ class ReadViewController: UIViewController {
     var readState = ReadState()
     @IBOutlet var readToolbar: UIToolbar!
     
+    var prevousBtn = UIButton()
     var messageBtn = UIButton()
+    var afterBtn = UIButton()
     
     var cover = UIView()
-    var tap = UITapGestureRecognizer()
-    
     private let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +46,6 @@ class ReadViewController: UIViewController {
         view.backgroundColor = colorManager.paper
         
         makeContentCard()
-//        settingTapGesture() <-> edite 버튼 생성함
         makeNavigationItem()
         setToolbar(message: readState.defaultMessage)
         
@@ -85,20 +84,6 @@ class ReadViewController: UIViewController {
         }
     }
     
-    
-    func settingTapGesture() {
-        // Double Tap
-        tap = UITapGestureRecognizer(target: self, action: #selector(ReadViewController.handleDoubleTap))
-        tap.numberOfTapsRequired = 2
-        cover.addGestureRecognizer(tap)
-    }
-    
-    func handleDoubleTap() {
-        SharedMemoryContext.set(key: "isWriteMode", setValue: false)
-        let editVC = self.storyboard?.instantiateViewController(withIdentifier: "WriteViewController") as? WriteViewController
-        self.navigationController?.pushViewController(editVC!, animated: true)
-    }
-    
     func makeNavigationItem() {
         let fontManager = FontManager.sharedInstance
         let editBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
@@ -133,11 +118,7 @@ class ReadViewController: UIViewController {
     
     func setToolbar(message:String) {
         
-        messageBtn = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width * 0.5, height: 20))
-        messageBtn.tintColor = colorManager.tint
-        messageBtn.backgroundColor = .red
-        messageBtn.setTitle(readState.defaultMessage, for: .normal)
-        messageBtn.titleLabel?.font = UIFont(name: fontManager.toolbarFont, size: fontManager.toolbarFontSize)
+        makeButtonOnToolbar(message: message)
         
         readToolbar.barStyle = UIBarStyle.default
         readToolbar.isTranslucent = true
@@ -147,7 +128,7 @@ class ReadViewController: UIViewController {
  
         var items = [UIBarButtonItem]()
         items.append(
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ReadViewController.moveToDifferentDiary(_:)))
+            UIBarButtonItem(customView: prevousBtn)
         )
         items.append(
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
@@ -159,9 +140,8 @@ class ReadViewController: UIViewController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         )
         items.append(
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ReadViewController.moveToDifferentDiary(_:)))
+            UIBarButtonItem(customView: afterBtn)
         )
-        
         readToolbar.setItems(items, animated: true)
         
         showAnimationToolbarItem(message: message)
@@ -171,18 +151,45 @@ class ReadViewController: UIViewController {
         UIView.transition(with: readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
             //            self.readToolbar.barTintColor = self.colorManager.bar
             self.setToolBarMessage(message: message)
-            self.readToolbar.tintColor = self.colorManager.bar
+            self.setTintColorOnToolbar(color: self.colorManager.bar)
         }, completion: {(Bool) in
             UIView.transition(with: self.readToolbar, duration: 1.0, options: .curveEaseInOut, animations: {
                 //                self.readToolbar.barTintColor = self.colorManager.paper
                 self.setToolBarMessage(message: self.readState.defaultMessage)
-                self.readToolbar.tintColor = self.colorManager.tint
+                self.setTintColorOnToolbar(color: self.colorManager.tint)
             }, completion: nil)
         })
     }
     
     private func setToolBarMessage(message:String) {
         messageBtn.setTitle(message, for: .normal)
+    }
+    
+    private func setTintColorOnToolbar(color:UIColor) {
+        prevousBtn.tintColor = color
+        messageBtn.tintColor = color
+        afterBtn.tintColor = color
+    }
+    
+    private func makeButtonOnToolbar(message:String) {
+        prevousBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        let beforeImg = UIImage(named: "before_30_new.png")?.withRenderingMode(.alwaysTemplate)
+        prevousBtn.setImage(beforeImg, for: .normal)
+        prevousBtn.tag = 0
+        prevousBtn.tintColor = colorManager.tint
+        prevousBtn.addTarget(self, action: #selector(ReadViewController.moveToDifferentDiary(_:)), for: .touchUpInside)
+        
+        messageBtn = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width * 0.5, height: 20))
+        messageBtn.tintColor = colorManager.tint
+        messageBtn.setTitle(readState.defaultMessage, for: .normal)
+        messageBtn.titleLabel?.font = UIFont(name: fontManager.toolbarFont, size: fontManager.toolbarFontSize)
+        
+        afterBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        let afterImg = UIImage(named: "after_30_new.png")?.withRenderingMode(.alwaysTemplate)
+        afterBtn.setImage(afterImg, for: .normal)
+        afterBtn.tintColor = colorManager.tint
+        afterBtn.tag = 1
+        afterBtn.addTarget(self, action: #selector(ReadViewController.moveToDifferentDiary(_:)), for: .touchUpInside)
     }
     
     func moveToDifferentDiary(_ sender: UIButton) {

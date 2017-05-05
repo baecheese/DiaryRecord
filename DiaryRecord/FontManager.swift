@@ -21,7 +21,7 @@ class FontManager: NSObject {
     
     let naviTitleFontSize:CGFloat = 20.0
     let naviItemFontSize:CGFloat = 15.0
-    let toolbarFontSize:CGFloat = 10.0
+    let toolbarFontSize:CGFloat = 11.0
     var headerTextSize:CGFloat = 0.0
     var cellTextSize:CGFloat = 0.0
     var cellSubTextSize:CGFloat = 0.0
