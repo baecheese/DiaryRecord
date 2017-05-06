@@ -20,7 +20,7 @@ class SelectWedgetTableViewController: UITableViewController {
     private let lastWedgetMode = WedgetManager.sharedInstance.getMode()
     private var selectedWedgetMode:Int?
     private let message = WedgetMessage()
-    
+    private let fontManager = FontManager.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +97,8 @@ class SelectWedgetTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectWedgetCell", for: indexPath)
         cell.textLabel?.text = wedgetModeList[indexPath.row]
+        cell.textLabel?.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellTextSize)
+        
         if indexPath.row == lastWedgetMode {
             cell.accessoryType = .checkmark
         }

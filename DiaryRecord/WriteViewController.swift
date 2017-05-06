@@ -293,7 +293,6 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     func makeWriteBox() {
         let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
         view.backgroundColor = colorManager.paper
-        writeBox.backgroundColor = .red
         let width = self.view.frame.width
         let height = self.view.frame.height - UIApplication.shared.statusBarFrame.height - (self.navigationController?.navigationBar.frame.size.height)!
         if 0.0 == writeState.keyboardHeight {

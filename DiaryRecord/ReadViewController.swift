@@ -44,10 +44,9 @@ class ReadViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = colorManager.paper
-        
         makeContentCard()
         makeNavigationItem()
-        setToolbar(date: readState.defaultMessage)
+        setToolbar(date: getSelectedDairy().timeStamp.getAllTimeInfo())
     }
     
     /* 필요한 data */
@@ -144,15 +143,21 @@ class ReadViewController: UIViewController {
     }
     
     func showAnimationToolbarItem(message:String, date:String) {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        readToolbar.layer.add(transition, forKey: nil)
+        self.setToolBarMessage(message: message)
+        
         UIView.transition(with: readToolbar, duration: 1.0, options: .curveEaseOut, animations: {
-            self.setToolBarMessage(message: message)
             self.setTintColorOnToolbar(color: self.colorManager.bar)
         }, completion: {(Bool) in
             UIView.transition(with: self.readToolbar, duration: 1.0, options: .curveEaseIn, animations: {
-                //                self.readToolbar.barTintColor = self.colorManager.paper
-                self.setToolBarMessage(message: date)
                 self.setTintColorOnToolbar(color: self.colorManager.tint)
-            }, completion: nil)
+            }, completion: { (Bool) in
+                self.setToolBarMessage(message: date)
+            })
         })
     }
     
@@ -162,11 +167,11 @@ class ReadViewController: UIViewController {
     
     private func setTintColorOnToolbar(color:UIColor) {
         prevousBtn.tintColor = color
-        messageBtn.titleLabel?.textColor = color
         afterBtn.tintColor = color
+        messageBtn.tintColor = color
     }
     
-    private func makeButtonOnToolbar(message:String) {
+    func makeButtonOnToolbar(message:String) {
         prevousBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
         let beforeImg = UIImage(named: "before_30_new.png")?.withRenderingMode(.alwaysTemplate)
         prevousBtn.setImage(beforeImg, for: .normal)
@@ -176,8 +181,8 @@ class ReadViewController: UIViewController {
         
         messageBtn = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width * 0.5, height: 20))
         messageBtn.setTitle(message, for: .normal)
+        messageBtn.setTitleColor(colorManager.bar, for: .normal)
         messageBtn.titleLabel?.font = UIFont(name: fontManager.toolbarFont, size: fontManager.toolbarFontSize)
-        messageBtn.titleLabel?.textColor = colorManager.bar
         
         afterBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
         let afterImg = UIImage(named: "after_30_new.png")?.withRenderingMode(.alwaysTemplate)
@@ -197,7 +202,7 @@ class ReadViewController: UIViewController {
                 movePage(isPrevous: true, message: readState.movePrevousMessage)
             }
             else {
-                showAnimationToolbarItem(message: readState.dontMovePrevousMessage, date: getSelectedDairy().timeStamp.getDateLongStyle())
+                showAnimationToolbarItem(message: readState.dontMovePrevousMessage, date: getSelectedDairy().timeStamp.getAllTimeInfo())
             }
         }
         if sender.tag == 1 {
@@ -206,7 +211,7 @@ class ReadViewController: UIViewController {
                 movePage(isPrevous: false, message: readState.moveAfterMessage)
             }
             else {
-                showAnimationToolbarItem(message: readState.dontMoveAfterMessage, date: getSelectedDairy().timeStamp.getDateLongStyle())
+                showAnimationToolbarItem(message: readState.dontMoveAfterMessage, date: getSelectedDairy().timeStamp.getAllTimeInfo())
             }
         }
         
@@ -267,7 +272,7 @@ class ReadViewController: UIViewController {
         if isPrevous == false {
             animation = UIViewAnimationOptions.transitionCurlUp
         }
-        showAnimationToolbarItem(message: message, date: diary.timeStamp.getDateLongStyle())
+        showAnimationToolbarItem(message: message, date: diary.timeStamp.getAllTimeInfo())
         UIView.transition(with: self.backgroundView, duration: 1.0, options: animation, animations: {
             SharedMemoryContext.set(key: "moveDiaryInReadPage", setValue: true)
             self.changeContents(newDiary: self.getSelectedDairy())

@@ -234,9 +234,7 @@ class MainTableViewController: UITableViewController {
             let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
             let selectedDiaryID = self.diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
             let diary = self.diaryRepository.findOne(id: selectedDiaryID)!
-//            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
-            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getDateLongStyle(), date: diary.timeStamp.getDateLongStyle())
-
+            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
         })
         
     }
