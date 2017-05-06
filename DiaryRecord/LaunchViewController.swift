@@ -13,8 +13,7 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
     private let log = Logger(logPlace: LaunchViewController.self)
     private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     
-    @IBOutlet var launchTitle: UILabel!
-    @IBOutlet var launchSubTitle: UILabel!
+    @IBOutlet var launchTitle: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +23,7 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
     
     func setColor() {
         view.backgroundColor = colorManager.cover
-        launchTitle.textColor = colorManager.tint
-        launchSubTitle.textColor = colorManager.tint
+        launchTitle.tint = colorManager.tint
     }
     
     func showCover() {

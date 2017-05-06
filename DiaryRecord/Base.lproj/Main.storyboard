@@ -70,14 +70,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="8qH-te-YWE">
-                        <barButtonItem key="leftBarButtonItem" image="setting.png" id="g4p-hB-LA4">
-                            <inset key="imageInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                        <barButtonItem key="leftBarButtonItem" image="setting_30.png" id="g4p-hB-LA4">
+                            <inset key="imageInsets" minX="1" minY="1" maxX="1" maxY="1"/>
                             <connections>
                                 <action selector="moveSettingPage:" destination="96T-12-buO" id="jig-Xl-srd"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="write.png" id="tPn-VB-Izj">
-                            <inset key="imageInsets" minX="18" minY="7" maxX="6" maxY="8"/>
+                        <barButtonItem key="rightBarButtonItem" image="write_30.png" id="tPn-VB-Izj">
+                            <inset key="imageInsets" minX="5" minY="1" maxX="0.0" maxY="2"/>
                             <connections>
                                 <action selector="moveWritePage:" destination="96T-12-buO" id="clp-Pe-WTK"/>
                             </connections>
@@ -953,39 +953,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LITTLE MOMENTS OF ETERNITY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrR-rX-WlU">
-                                <rect key="frame" x="16" y="73" width="313" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Waa-8z-Gfj"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="NanumMyeongjoExtraBold" family="Nanum Myeongjo" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="영원의 작은 순간들을 기록하세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haX-Dz-1w6">
-                                <rect key="frame" x="16" y="117" width="262" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="2ul-JX-eOI"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="NanumMyeongjoBold" family="Nanum Myeongjo" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover_title.png" translatesAutoresizingMaskIntoConstraints="NO" id="lee-9r-n2V">
+                                <rect key="frame" x="0.0" y="70" width="375" height="133.5"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="haX-Dz-1w6" secondAttribute="trailing" constant="5" id="JhQ-WE-KFQ"/>
-                            <constraint firstItem="haX-Dz-1w6" firstAttribute="top" secondItem="WrR-rX-WlU" secondAttribute="bottom" id="KTv-EN-Qj0"/>
-                            <constraint firstItem="WrR-rX-WlU" firstAttribute="leading" secondItem="JM2-Qs-esv" secondAttribute="leadingMargin" constant="5" id="TUe-BK-8Yw"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="WrR-rX-WlU" secondAttribute="trailing" constant="5" id="WtI-Eg-eAX"/>
-                            <constraint firstItem="WrR-rX-WlU" firstAttribute="top" secondItem="SDs-gR-bs1" secondAttribute="bottom" constant="50" id="djz-8d-3cF"/>
-                            <constraint firstItem="haX-Dz-1w6" firstAttribute="leading" secondItem="JM2-Qs-esv" secondAttribute="leadingMargin" constant="5" id="tsi-wt-eLx"/>
+                            <constraint firstItem="lee-9r-n2V" firstAttribute="height" secondItem="JM2-Qs-esv" secondAttribute="height" multiplier="1:5" id="9xm-F2-uod"/>
+                            <constraint firstItem="lee-9r-n2V" firstAttribute="leading" secondItem="JM2-Qs-esv" secondAttribute="leading" id="Ci6-fK-XNP"/>
+                            <constraint firstItem="lee-9r-n2V" firstAttribute="top" secondItem="SDs-gR-bs1" secondAttribute="bottom" constant="50" id="LBx-IT-Bc7"/>
+                            <constraint firstAttribute="trailing" secondItem="lee-9r-n2V" secondAttribute="trailing" id="q3d-dJ-Jsr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="AGo-vL-feA"/>
                     <connections>
-                        <outlet property="launchSubTitle" destination="haX-Dz-1w6" id="ugM-cO-MbR"/>
-                        <outlet property="launchTitle" destination="WrR-rX-WlU" id="FJZ-NQ-ocN"/>
+                        <outlet property="launchTitle" destination="lee-9r-n2V" id="x0W-eK-1TH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tT5-68-un8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -997,7 +979,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="M58-fl-3ht" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nnp-ki-P8N">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nnp-ki-P8N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1015,7 +997,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="awI-uM-MQL" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uZP-Xa-Mi3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="uZP-Xa-Mi3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1033,7 +1015,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ow1-A5-Rxx" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wsw-ko-UiP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wsw-ko-UiP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1051,7 +1033,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="izI-xD-NXc" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RbD-ee-Z0b">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="RbD-ee-Z0b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1069,7 +1051,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="4Yo-9q-N7x" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Lq-AJ-PNX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="2Lq-AJ-PNX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1118,7 +1100,7 @@
         <scene sceneID="aEG-MO-OXj">
             <objects>
                 <navigationController id="dBG-Oh-0Va" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="013-EG-EjB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="013-EG-EjB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1131,13 +1113,16 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cover_title.png" width="1000" height="211"/>
         <image name="down.png" width="30" height="30"/>
         <image name="gallery.png" width="40" height="40"/>
         <image name="moon1.png" width="128" height="128"/>
         <image name="moon2.png" width="128" height="128"/>
         <image name="no.png" width="40" height="40"/>
         <image name="setting.png" width="40" height="40"/>
+        <image name="setting_30.png" width="40" height="40"/>
         <image name="update.png" width="128" height="128"/>
         <image name="write.png" width="60" height="40"/>
+        <image name="write_30.png" width="40" height="40"/>
     </resources>
 </document>

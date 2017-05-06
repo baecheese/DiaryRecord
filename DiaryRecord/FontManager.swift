@@ -19,7 +19,7 @@ class FontManager: NSObject {
     private let localDefaults = UserDefaults.standard
     private let log = Logger(logPlace: FontManager.self)
     
-    let naviTitleFontSize:CGFloat = 20.0
+    let naviTitleFontSize:CGFloat = 17.0
     let naviItemFontSize:CGFloat = 15.0
     let toolbarFontSize:CGFloat = 11.0
     var headerTextSize:CGFloat = 0.0
