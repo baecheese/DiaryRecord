@@ -53,37 +53,36 @@ class ColorManager: NSObject {
             basic()
         }
         if theme == 1 {
-            sliver()
+            spring()
         }
         if theme == 2 {
-            cottonCandy()
-        }
-        if theme == 3 {
             cherryBlossoms()
         }
+        if theme == 3 {
+            jos()
+        }
         if theme == 4 {
-            fall()
+            ocean()
         }
         if theme == 5 {
-            ocean()
+            snow()
         }
     }
     
     func basic() {
-        cover = .darkGray
+        cover = UIColor(rgb: 0x404040)
         bar = .darkGray
         tint = UIColor.white.withAlphaComponent(0.7)
-        special = UIColor(rgb: 0xebebeb)
-        paper = .white
+        special = UIColor(rgb: 0x9cc6d4)
+        paper = UIColor(rgb: 0xe4edf0)
     }
     
-    func sliver() {
-        bar = UIColor(rgb: 0xc1c0c1)
-        cover = bar
-        tint = UIColor.white.withAlphaComponent(0.7)
-//        date = UIColor(rgb: 0xdedede)
-        special = UIColor(rgb: 0xd6d6d6)
-        paper = UIColor(rgb: 0xdedede)
+    func spring() {
+        cover = UIColor(rgb: 0xf29c9c)
+        bar = UIColor(rgb: 0xf3b59b)
+        tint = .white
+        special = UIColor(rgb: 0xf3e59a)
+        paper = UIColor(rgb: 0xf3f0d6)
     }
     
     func cherryBlossoms() {
@@ -91,29 +90,19 @@ class ColorManager: NSObject {
         cover = bar
         tint = .white
 //        date = UIColor(rgb: 0xfacbe2)
-        special = UIColor(rgb: 0xffeef1)
+        special = UIColor(rgb: 0xffe2f1)
 //        paper = UIColor(rgb: 0xF9F9FF)
-        paper = UIColor(rgb: 0xfacbe2)
+        paper = UIColor(rgb: 0xfff4fd)
     }
     
-    func fall() {
-        bar = UIColor(rgb: 0x746D5B)
+    func jos() {
+        bar = UIColor(rgb: 0x685c79)
         cover = bar
-        tint = UIColor(rgb: 0x323232)
-//        date = UIColor(rgb: 0x9E967F)
-        special = UIColor(rgb: 0xCBC19E).withAlphaComponent(0.7)
-//        paper = UIColor(rgb: 0xEAEAEA)
-        paper = UIColor(rgb: 0x9E967F)
-    }
-    
-    func cottonCandy() {
-        bar = UIColor(rgb: 0xC7B3F2)
-        cover = bar
+        title = UIColor(rgb: 0x00374b)
         tint = .white
-//        date = UIColor(rgb: 0xE4F4FF)
-        special = UIColor(rgb: 0x62D9D9).withAlphaComponent(0.5)
-//        paper = UIColor(rgb: 0xF9F9FF)
-        paper = UIColor(rgb: 0xE4F4FF)
+        special = UIColor(rgb: 0xDa727e)
+        //        paper = UIColor(rgb: 0xF9F9FF)
+        paper = UIColor(rgb: 0xac8690)
     }
     
     func ocean() {
@@ -124,6 +113,15 @@ class ColorManager: NSObject {
         special = UIColor(rgb: 0xc4d7ed)
 //        paper = UIColor(rgb: 0xe1e6fa)
         paper = UIColor(rgb: 0xabc8e2)
+    }
+    
+    func snow() {
+        cover = .white
+        bar = .white
+        title = .darkGray
+        tint = .lightGray
+        special = UIColor(rgb: 0xC4D7ED)
+        paper = .white
     }
     
     
