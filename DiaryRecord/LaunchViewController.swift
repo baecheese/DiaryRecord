@@ -18,7 +18,12 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setColor()
+//        showCover()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         showCover()
+        navigationController?.isNavigationBarHidden = true
     }
     
     func setColor() {

@@ -56,7 +56,7 @@ class MainTableViewController: UITableViewController {
         }
         
         showCellAnimate()
-        //moveSelectedDariyToWedget()
+        moveSelectedDariyToWedget()
     }
     
     override func viewDidLoad() {

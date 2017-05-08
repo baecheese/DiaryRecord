@@ -61,12 +61,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        let readVC = ReadViewController()
-        let navController = UINavigationController(rootViewController: readVC)
-        self.window?.rootViewController?.present(navController, animated: true, completion: nil)
-        
+        if true == haveSelectDiaryInWedget() {
+            setSelectDiaryInfo()
+            let navigationController = self.window?.rootViewController as? UINavigationController
+            navigationController?.popToRootViewController(animated: true)
+        }
         return true
     }
-
+    
+    let wedgetManager = WedgetManager.sharedInstance
+    let diaryRepository = DiaryRepository.sharedInstance
+    
+    func haveSelectDiaryInWedget() -> Bool {
+        if true == wedgetManager.isComeIntoTheWedget() && nil != wedgetManager.getNowWedgetID() {
+            return true
+        }
+        return false
+    }
+    
+    func setSelectDiaryInfo() {
+        let info = diaryRepository.getDiaryInfo(diaryID: wedgetManager.getNowWedgetID()!)
+        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (info.0, info.1))
+    }
 }
 
