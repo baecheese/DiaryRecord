@@ -28,6 +28,7 @@ struct GroupKeys {
     let image = "ImageFile"
     let nowWedgetID = "ID"
     let theme = "theme"
+    let comeIntoTheWedget = "ComeIntoTheWedget"
 //     let vipContetns = "VIPWedgetContents"
 //     let vipImage = "VIPImageFile"
 
@@ -354,5 +355,12 @@ class WedgetManager: NSObject {
         return "위젯 설정 내용 없음"
     }
     
+    func comeIntoTheWedget() -> Bool {
+        if let groupDefaults = UserDefaults(suiteName: wedgetGroupKey.suiteName),
+            let data = groupDefaults.value(forKey: wedgetGroupKey.comeIntoTheWedget) as? Bool {
+            return data
+        }
+        return false
+    }
     
 }

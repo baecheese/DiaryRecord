@@ -88,10 +88,9 @@ class ColorManager: NSObject {
     func cherryBlossoms() {
         bar = UIColor(rgb: 0xFAA4C8)
         cover = bar
+        title = UIColor(rgb: 0x721340)
         tint = .white
-//        date = UIColor(rgb: 0xfacbe2)
         special = UIColor(rgb: 0xffe2f1)
-//        paper = UIColor(rgb: 0xF9F9FF)
         paper = UIColor(rgb: 0xfff4fd)
     }
     

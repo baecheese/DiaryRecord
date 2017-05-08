@@ -17,11 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
         let keychain = KeychainManager.sharedInstance
+        if keychain.loadPassword() != nil {
+            if true == keychain.haveBeforePassword() {
+                keychain.deletePassword()
+                SharedMemoryContext.set(key: "isSecretMode", setValue: false)
+            } else {
+                SharedMemoryContext.set(key: "isSecretMode", setValue: true)
+            }
+        }
         if keychain.loadPassword() == nil {
             SharedMemoryContext.set(key: "isSecretMode", setValue: false)
-        }
-        if keychain.loadPassword() != nil {
-            SharedMemoryContext.set(key: "isSecretMode", setValue: true)
         }
         
         let fontManager = FontManager.sharedInstance

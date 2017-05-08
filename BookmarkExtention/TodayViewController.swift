@@ -74,7 +74,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     private let textview = UITextView()
     
     func setContents() {
-        textview.isEditable = false
         textview.font = UIFont.systemFont(ofSize: font.size)
 //        textview.text = contentManager.getContentData()
         changeTextView(contents: contentManager.getContentData())
@@ -87,6 +86,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func changeTextView(contents:String) {
+        textview.isEditable = false
         textview.text = contents
         textview.textAlignment = .center
         textview.sizeToFit()
@@ -126,6 +126,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         completionHandler(NCUpdateResult.newData)
+    }
+    
+    @IBAction func tapContents(_ sender: UITapGestureRecognizer) {
+        print(" ☺️ tap : \(String(describing: contentManager.getID()))")
+        extensionContext?.open(URL(string: "diaryRecord://")! , completionHandler: nil)
     }
     
 }

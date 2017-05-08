@@ -105,6 +105,10 @@ class SecretQuestionViewController: UIViewController, UIPickerViewDelegate, UIPi
     private func setColor() {
         view.backgroundColor = colorManager.cover
         SecretQuestionView.backgroundColor = colorManager.cover
+        question.backgroundColor = UIColor.white.withAlphaComponent(0.4)
+        question.layer.cornerRadius = 5
+        question.layer.borderWidth = 1
+        question.layer.borderColor = UIColor.lightGray.cgColor
         answer.backgroundColor = UIColor.white.withAlphaComponent(0.4)
     }
     

@@ -13,6 +13,8 @@ struct GroupKeys {
     let contents = "WedgetContents"
     let image = "ImageFile"
     let theme = "theme"
+    let nowWedgetID = "ID"
+    let comeIntoTheWedget = "ComeIntoTheWedget"
 }
 
 struct WedgetMessage {
@@ -66,6 +68,20 @@ class SendContentsManager: NSObject {
             return data
         }
         return 0
+    }
+    
+    func getID() -> Int? {
+        if let groupDefaults = UserDefaults(suiteName: groupKeys.suiteName),
+            let data = groupDefaults.value(forKey: groupKeys.nowWedgetID) as? Int {
+            return data
+        }
+        return nil
+    }
+    
+    func openAppNotice() {
+        let groupDefaults = UserDefaults(suiteName: GroupKeys().suiteName)
+        groupDefaults?.set(id, forKey: wedgetGroupKey.nowWedgetID)
+        log.info(message: " get nowWedgetID : \(String(describing: groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID)))")
     }
     
 }

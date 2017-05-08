@@ -441,16 +441,9 @@
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8hO-1f-Ltw">
                                 <rect key="frame" x="56" y="154" width="263" height="47"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="down.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ywx-EC-z62">
-                                        <rect key="frame" x="226" y="12" width="21" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="20" id="KNd-oi-2AQ"/>
-                                            <constraint firstAttribute="height" constant="20" id="O4y-V0-dFa"/>
-                                        </constraints>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B20-xp-cvP">
                                         <rect key="frame" x="0.0" y="8" width="263" height="30"/>
-                                        <state key="normal" title="가장 기억에 남는 장소는?">
+                                        <state key="normal" title="질문을 선택해주세요">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
@@ -461,11 +454,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="B20-xp-cvP" firstAttribute="top" secondItem="8hO-1f-Ltw" secondAttribute="top" id="4Nk-aA-cd6"/>
-                                    <constraint firstAttribute="height" constant="50" id="CyQ-w3-exb"/>
+                                    <constraint firstAttribute="height" constant="40" id="CyQ-w3-exb"/>
                                     <constraint firstAttribute="bottom" secondItem="B20-xp-cvP" secondAttribute="bottom" id="FHE-X3-O9H"/>
-                                    <constraint firstItem="Ywx-EC-z62" firstAttribute="centerY" secondItem="8hO-1f-Ltw" secondAttribute="centerY" id="WnA-t3-E2M"/>
                                     <constraint firstItem="B20-xp-cvP" firstAttribute="leading" secondItem="8hO-1f-Ltw" secondAttribute="leading" id="Y7e-Pp-LBU"/>
-                                    <constraint firstAttribute="trailing" secondItem="Ywx-EC-z62" secondAttribute="trailing" constant="16" id="hDX-zx-fJW"/>
                                     <constraint firstAttribute="trailing" secondItem="B20-xp-cvP" secondAttribute="trailing" id="y4y-kJ-ZkH"/>
                                 </constraints>
                             </view>
@@ -605,7 +596,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfG-vJ-ckC">
-                                <rect key="frame" x="62" y="335" width="256" height="30"/>
+                                <rect key="frame" x="62" y="324" width="256" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="nzU-5M-lWI"/>
                                     <constraint firstAttribute="height" constant="30" id="yAe-Wo-Uaj"/>
@@ -623,13 +614,13 @@
                         <constraints>
                             <constraint firstItem="lto-gx-tIS" firstAttribute="leading" secondItem="mOW-xs-STM" secondAttribute="leading" id="1kn-Iq-oCR"/>
                             <constraint firstItem="IWd-RL-C9z" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="4OB-X6-M4E"/>
-                            <constraint firstItem="bd5-Jg-vE7" firstAttribute="top" secondItem="VwF-Pl-3LW" secondAttribute="bottom" constant="64" id="Alc-Dg-qMx"/>
+                            <constraint firstItem="bd5-Jg-vE7" firstAttribute="top" secondItem="VwF-Pl-3LW" secondAttribute="bottom" constant="50" id="Alc-Dg-qMx"/>
                             <constraint firstItem="pfG-vJ-ckC" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="Aoi-2C-MPs"/>
                             <constraint firstItem="bd5-Jg-vE7" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="ETj-0d-DAX"/>
                             <constraint firstItem="lto-gx-tIS" firstAttribute="top" secondItem="MVu-D0-yyg" secondAttribute="bottom" constant="50" id="Ubg-6a-g54"/>
                             <constraint firstItem="VwF-Pl-3LW" firstAttribute="leading" secondItem="mOW-xs-STM" secondAttribute="leading" id="dNr-Uv-ecb"/>
                             <constraint firstItem="VwF-Pl-3LW" firstAttribute="top" secondItem="lto-gx-tIS" secondAttribute="bottom" constant="15" id="fu9-03-szw"/>
-                            <constraint firstItem="pfG-vJ-ckC" firstAttribute="top" secondItem="bd5-Jg-vE7" secondAttribute="bottom" constant="45" id="qDr-Rj-c2p"/>
+                            <constraint firstItem="pfG-vJ-ckC" firstAttribute="top" secondItem="bd5-Jg-vE7" secondAttribute="bottom" constant="30" id="qDr-Rj-c2p"/>
                             <constraint firstAttribute="trailing" secondItem="VwF-Pl-3LW" secondAttribute="trailing" id="vb6-CH-FiO"/>
                             <constraint firstAttribute="trailing" secondItem="lto-gx-tIS" secondAttribute="trailing" id="xZj-LP-oCo"/>
                             <constraint firstItem="lto-gx-tIS" firstAttribute="centerX" secondItem="mOW-xs-STM" secondAttribute="centerX" id="yFy-SX-DHe"/>
@@ -954,14 +945,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cover_title.png" translatesAutoresizingMaskIntoConstraints="NO" id="lee-9r-n2V">
-                                <rect key="frame" x="0.0" y="70" width="375" height="133.5"/>
+                                <rect key="frame" x="0.0" y="50" width="375" height="133.5"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lee-9r-n2V" firstAttribute="height" secondItem="JM2-Qs-esv" secondAttribute="height" multiplier="1:5" id="9xm-F2-uod"/>
                             <constraint firstItem="lee-9r-n2V" firstAttribute="leading" secondItem="JM2-Qs-esv" secondAttribute="leading" id="Ci6-fK-XNP"/>
-                            <constraint firstItem="lee-9r-n2V" firstAttribute="top" secondItem="SDs-gR-bs1" secondAttribute="bottom" constant="50" id="LBx-IT-Bc7"/>
+                            <constraint firstItem="lee-9r-n2V" firstAttribute="top" secondItem="SDs-gR-bs1" secondAttribute="bottom" constant="30" id="LBx-IT-Bc7"/>
                             <constraint firstAttribute="trailing" secondItem="lee-9r-n2V" secondAttribute="trailing" id="q3d-dJ-Jsr"/>
                         </constraints>
                     </view>
@@ -1114,7 +1105,6 @@
     </scenes>
     <resources>
         <image name="cover_title.png" width="1000" height="211"/>
-        <image name="down.png" width="30" height="30"/>
         <image name="gallery.png" width="40" height="40"/>
         <image name="moon1.png" width="128" height="128"/>
         <image name="moon2.png" width="128" height="128"/>

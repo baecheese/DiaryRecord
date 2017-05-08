@@ -23,16 +23,14 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
     
     func setColor() {
         view.backgroundColor = colorManager.cover
-        launchTitle.tint = colorManager.tint
+        launchTitle.tintColor = colorManager.tint
     }
     
     func showCover() {
         launchTitle.alpha = 0.0
-        launchSubTitle.alpha = 0.0
         
         UIView.transition(with: view, duration: 3.0, options: .curveEaseInOut, animations: {
             self.launchTitle.alpha = 1.0
-            self.launchSubTitle.alpha = 1.0
         }, completion: { (Bool) in
             self.openCover()
         })
