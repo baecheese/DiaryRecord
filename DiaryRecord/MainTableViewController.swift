@@ -56,7 +56,7 @@ class MainTableViewController: UITableViewController {
         }
         
         showCellAnimate()
-        moveSelectedDariyToWedget()
+        //moveSelectedDariyToWedget()
     }
     
     override func viewDidLoad() {
@@ -441,6 +441,9 @@ class MainTableViewController: UITableViewController {
     func moveSelectedDariyToWedget() {
         if true == wedgetManager.isComeIntoTheWedget() {
             let id = wedgetManager.getNowWedgetID()
+            if nil == id {
+                return;
+            }
             let info = diaryRepository.getDiaryInfo(diaryID: id!)
             SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (info.0, info.1))
             

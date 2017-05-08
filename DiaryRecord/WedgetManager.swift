@@ -337,6 +337,7 @@ class WedgetManager: NSObject {
     
     private func deleteBeforeWedgetID() {
         groupDefaults?.removeObject(forKey: wedgetGroupKey.nowWedgetID)
+        log.info(message: "delete wedget id -> getNowWedgetID - \(getNowWedgetID())")
     }
     
     func getNowWedgetID() -> Int? {

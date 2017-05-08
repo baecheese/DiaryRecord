@@ -130,7 +130,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBAction func tapContents(_ sender: UITapGestureRecognizer) {
         contentManager.openAppNotice()
-        extensionContext?.open(URL(string: "diaryRecord://ReadViewController")! , completionHandler: nil)
+        extensionContext?.open(URL(string: "diaryRecord://")! , completionHandler: nil)
     }
     
 }
