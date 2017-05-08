@@ -129,8 +129,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     @IBAction func tapContents(_ sender: UITapGestureRecognizer) {
-        print(" ☺️ tap : \(String(describing: contentManager.getID()))")
-        extensionContext?.open(URL(string: "diaryRecord://")! , completionHandler: nil)
+        contentManager.openAppNotice()
+        extensionContext?.open(URL(string: "diaryRecord://ReadViewController")! , completionHandler: nil)
     }
     
 }

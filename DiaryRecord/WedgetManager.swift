@@ -355,12 +355,26 @@ class WedgetManager: NSObject {
         return "위젯 설정 내용 없음"
     }
     
-    func comeIntoTheWedget() -> Bool {
+    
+    private func haveOpenKeyToWedget() -> Bool? {
         if let groupDefaults = UserDefaults(suiteName: wedgetGroupKey.suiteName),
             let data = groupDefaults.value(forKey: wedgetGroupKey.comeIntoTheWedget) as? Bool {
             return data
         }
+        return nil
+    }
+    
+    func isComeIntoTheWedget() -> Bool {
+        if true == haveOpenKeyToWedget() {
+            return true
+        }
         return false
     }
     
+    func setOpenAppNormalMode() {
+        let groupDefaults = UserDefaults(suiteName: GroupKeys().suiteName)
+        groupDefaults?.set(false, forKey: wedgetGroupKey.comeIntoTheWedget)
+    }
+    
+
 }

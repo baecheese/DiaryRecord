@@ -39,6 +39,26 @@ class DiaryRepository: NSObject {
         let targetDate = sortedDate[section]
         return ((diarys[targetDate]?[row])?.id)!
     }
+ 
+    func getDiaryInfo(diaryID:Int) -> (Int?, Int?) {
+        let diarysData:[String : Array<Diary>] = getAllByTheDate()
+        let sortedDate = Array(diarysData.keys).sorted(by: >)
+        
+        var infoSection:Int? = nil
+        var infoRow:Int? = nil
+        
+        for section in sortedDate {
+            let diarys = diarysData[section]
+            for diary in diarys! {
+                if diary.id == diaryID {
+                    infoSection = sortedDate.index(of: section)
+                    infoRow = diarys?.index(of: diary)
+                    break;
+                }
+            }
+        }
+        return (infoSection, infoRow)
+    }
     
     func getDiarysOfOneDay(section:Int) -> [Diary] {
         let diarys:[String : Array<Diary>] = getAllByTheDate()

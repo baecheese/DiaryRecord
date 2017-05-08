@@ -56,7 +56,7 @@ class MainTableViewController: UITableViewController {
         }
         
         showCellAnimate()
-
+        moveSelectedDariyToWedget()
     }
     
     override func viewDidLoad() {
@@ -224,7 +224,6 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (indexPath.section, indexPath.row))
-        
         
         let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
         
@@ -405,6 +404,11 @@ class MainTableViewController: UITableViewController {
 
     
     private func showCellAnimate() {
+        if true == wedgetManager.isComeIntoTheWedget() {
+            fristLoad = false
+            return;
+        }
+        
         if true == fristLoad {
             if true == checkSecretMode() {
                 if false == correctPassword() {
@@ -434,5 +438,22 @@ class MainTableViewController: UITableViewController {
         return false
     }
     
+    func moveSelectedDariyToWedget() {
+        if true == wedgetManager.isComeIntoTheWedget() {
+            let id = wedgetManager.getNowWedgetID()
+            let info = diaryRepository.getDiaryInfo(diaryID: id!)
+            SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (info.0, info.1))
+            
+            let readVC = self.storyboard?.instantiateViewController(withIdentifier: "ReadViewController") as? ReadViewController
+            UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
+                self.navigationController?.pushViewController(readVC!, animated: false)
+            }, completion: {(Bool) in
+                let selectedDiaryID = self.wedgetManager.getNowWedgetID()
+                let diary = self.diaryRepository.findOne(id: selectedDiaryID!)!
+                readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
+                self.wedgetManager.setOpenAppNormalMode()
+            })
+        }
+    }
     
 }

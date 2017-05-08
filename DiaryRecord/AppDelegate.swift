@@ -11,6 +11,8 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let log = Logger(logPlace: AppDelegate.self)
+    
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -46,10 +48,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        log.info(message: "applicationWillEnterForeground")
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        log.info(message: "applicationDidBecomeActive")
+        if true == WedgetManager.sharedInstance.isComeIntoTheWedget() {
+            
+
+            // 첫 페이지로 가게 (그래야 메인에서 바로 갈 수 잇음)
+//            UINavigationController.popToRootViewController(UINavigationController.init().storyboard.)
+        }
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 

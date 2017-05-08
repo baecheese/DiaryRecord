@@ -80,8 +80,7 @@ class SendContentsManager: NSObject {
     
     func openAppNotice() {
         let groupDefaults = UserDefaults(suiteName: GroupKeys().suiteName)
-        groupDefaults?.set(id, forKey: wedgetGroupKey.nowWedgetID)
-        log.info(message: " get nowWedgetID : \(String(describing: groupDefaults?.value(forKey: wedgetGroupKey.nowWedgetID)))")
+        groupDefaults?.set(true, forKey: groupKeys.comeIntoTheWedget)
     }
     
 }

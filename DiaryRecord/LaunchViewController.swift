@@ -41,7 +41,8 @@ class LaunchViewController: UIViewController, CAAnimationDelegate {
             let main = self.storyboard?.instantiateViewController(withIdentifier: "Main") as? MainTableViewController
             self.navigationController?.pushViewController(main!, animated: false)
         }, completion: {
-            (Bool) in self.checkSecretMode()
+            (Bool) in
+            self.checkSecretMode()
         })
     }
     
