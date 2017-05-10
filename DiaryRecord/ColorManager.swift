@@ -73,7 +73,8 @@ class ColorManager: NSObject {
         cover = UIColor(rgb: 0x404040)
         bar = .darkGray
         tint = UIColor.white.withAlphaComponent(0.7)
-        special = UIColor(rgb: 0x9cc6d4)
+//        special = UIColor(rgb: 0x9cc6d4)
+        special = cover
         paper = UIColor(rgb: 0xe4edf0)
     }
     
@@ -90,7 +91,8 @@ class ColorManager: NSObject {
         cover = bar
         title = UIColor(rgb: 0x721340)
         tint = .white
-        special = UIColor(rgb: 0xffe2f1)
+//        special = UIColor(rgb: 0xffe2f1)
+        special = cover
         paper = UIColor(rgb: 0xfff4fd)
     }
     
@@ -99,7 +101,8 @@ class ColorManager: NSObject {
         cover = bar
         title = UIColor(rgb: 0x00374b)
         tint = .white
-        special = UIColor(rgb: 0xDa727e)
+//        special = UIColor(rgb: 0xDa727e)
+        special = cover
         //        paper = UIColor(rgb: 0xF9F9FF)
         paper = UIColor(rgb: 0xac8690)
     }
@@ -109,7 +112,8 @@ class ColorManager: NSObject {
         cover = bar
         tint = .white
 //        date = UIColor(rgb: 0xabc8e2)
-        special = UIColor(rgb: 0xc4d7ed)
+//        special = UIColor(rgb: 0xc4d7ed)
+        special = cover
 //        paper = UIColor(rgb: 0xe1e6fa)
         paper = UIColor(rgb: 0xabc8e2)
     }
@@ -119,7 +123,8 @@ class ColorManager: NSObject {
         bar = .white
         title = .darkGray
         tint = .lightGray
-        special = UIColor(rgb: 0xC4D7ED)
+//        special = UIColor(rgb: 0xC4D7ED)
+        special = cover
         paper = .white
     }
     

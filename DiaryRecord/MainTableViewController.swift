@@ -202,7 +202,7 @@ class MainTableViewController: UITableViewController {
         
         if true == isShowSpeacialDay(diaryID: diary.id) {
             content = "◈" + diary.content
-            contentColor = colorManager.bar
+            contentColor = colorManager.special
         }
         cell.contentsLabel.text = content
         cell.contentsLabel.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)

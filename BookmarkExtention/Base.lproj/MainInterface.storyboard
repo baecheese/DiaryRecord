@@ -21,21 +21,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C0Z-Yx-e3J">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvk-I3-tLb">
+                                <rect key="frame" x="0.0" y="-0.5" width="320" height="37"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="edX-Lc-gum" appends="YES" id="6ZL-Tl-R5d"/>
-                                </connections>
                             </view>
                         </subviews>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="C0Z-Yx-e3J" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="BwK-f8-9CK"/>
-                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="C0Z-Yx-e3J" secondAttribute="bottom" id="NxP-W2-cD9"/>
-                            <constraint firstItem="C0Z-Yx-e3J" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="a4H-3o-n9o"/>
-                            <constraint firstAttribute="trailing" secondItem="C0Z-Yx-e3J" secondAttribute="trailing" id="bqM-a9-RpX"/>
+                            <constraint firstItem="vvk-I3-tLb" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="LP6-fG-73z"/>
+                            <constraint firstItem="vvk-I3-tLb" firstAttribute="height" secondItem="S3S-Oj-5AN" secondAttribute="height" id="RHr-Kn-ZpD"/>
+                            <constraint firstItem="vvk-I3-tLb" firstAttribute="width" secondItem="S3S-Oj-5AN" secondAttribute="width" id="UdH-wl-u12"/>
+                            <constraint firstItem="vvk-I3-tLb" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="aEb-YC-N7N"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Hxl-VD-0Zl" appends="YES" id="tjW-2P-33H"/>
+                        </connections>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -44,13 +44,13 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="37"/>
                     <connections>
-                        <outlet property="background" destination="C0Z-Yx-e3J" id="JBW-QB-9uQ"/>
+                        <outlet property="background" destination="vvk-I3-tLb" id="peq-6w-aj8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="edX-Lc-gum">
+                <tapGestureRecognizer id="Hxl-VD-0Zl">
                     <connections>
-                        <action selector="tapContents:" destination="M4Y-Lb-cyx" id="aXR-X5-24t"/>
+                        <action selector="tapContents:" destination="M4Y-Lb-cyx" id="XvT-qd-yri"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

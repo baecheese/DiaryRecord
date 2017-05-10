@@ -12,28 +12,28 @@ import NotificationCenter
 struct WedgetStatus {
     let fontName = "NanumMyeongjo"
     let fontSize:CGFloat = 15.0
-}
-
-struct wedgetFont {
-    let size:CGFloat = 13.0
+    let expandedMaxHeight:CGFloat = 200.0
 }
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     let wedgetStatus = WedgetStatus()
     let contentManager = SendContentsManager()
-    let font = wedgetFont()
     
     @IBOutlet var background: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+//        background.backgroundColor = .red
         setWedgetSize()
-        setBackground()
-        setContents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        changeTextView(contents: contentManager.getContentData())
+        if true == changeContents() {
+            setBackground()
+            setContents()
+            changeTextView(contents: contentManager.getContentData())
+        }
     }
     
     func setWedgetSize() {
@@ -42,13 +42,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         } else {
             // Fallback on earlier versions
         }
-        // wedget max size memo : float maxHeight = [[ UIScreen mainScreen ] bounds ].size.height - 126;
     }
-    
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         if activeDisplayMode == .expanded {
-            preferredContentSize = CGSize(width: 0.0, height: 200.0)
+            preferredContentSize = CGSize(width: 0.0, height: wedgetStatus.expandedMaxHeight)
         } else if activeDisplayMode == .compact {
             preferredContentSize = maxSize
         }
@@ -58,7 +56,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     var backImage = UIImageView()
     
     func setBackground() {
-        backImage.frame = self.view.bounds
+        backImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: wedgetStatus.expandedMaxHeight)
         backImage.contentMode = .scaleAspectFill
         background.addSubview(backImage)
         if true == contentManager.haveImage() {
@@ -66,16 +64,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
         else {
             backImage.image = UIImage(named: "sky_widgetbackground.png")
-//            let colorManger = ColorManager(theme: contentManager.getTheme())
-//            background.backgroundColor = colorManger.background
         }
     }
     
     private let textview = UITextView()
     
     func setContents() {
-        textview.font = UIFont.systemFont(ofSize: font.size)
-//        textview.text = contentManager.getContentData()
         changeTextView(contents: contentManager.getContentData())
         if true == contentManager.haveImage() {
             backImage.addSubview(textview)
@@ -86,26 +80,33 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func changeTextView(contents:String) {
+        textview.frame.size = CGSize(width: view.frame.width * 0.7, height: 100.0)
         textview.isEditable = false
-        textview.text = contents
+        
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 2.0
+        let attributes = [NSParagraphStyleAttributeName : style]
+        textview.attributedText = NSAttributedString(string: contents, attributes:attributes)
+        
+        textview.font = UIFont.systemFont(ofSize: wedgetStatus.fontSize)
         textview.textAlignment = .center
-        textview.sizeToFit()
         let colorManger = ColorManager(theme: contentManager.getTheme())
         textview.textColor = colorManger.text
         textview.backgroundColor = colorManger.textBackground
         
-        let textWidth = textview.frame.width
-        let textHeight = textViewHeightToSizeFit()
+        textview.alpha = 1.0
         
-        let offsetX:CGFloat = (background.frame.width/2) - (textWidth/2)
-        let offsetY:CGFloat = (background.frame.height/2) - (textHeight/2)
+        let textWidth:CGFloat = textViewWidthToSizeFit()
+        let textHeight:CGFloat = textViewHeightToSizeFit()
+        
+        let offsetX:CGFloat = (view.frame.width/2) - (textWidth/2)
+        let offsetY:CGFloat = (preferredContentSize.height/2) - (textHeight/2)
         
         textview.frame = CGRect(x: offsetX, y: offsetY, width: textWidth, height: textHeight)
-        textview.alpha = 1.0
     }
     
     func changeTextViewToOffsetY(wedgetHeight:CGFloat) {
-        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseOut, animations: {
             let offsetY:CGFloat = (wedgetHeight/2) - (self.textViewHeightToSizeFit()/2)
             self.textview.frame.origin.y = offsetY
         }, completion: nil)
@@ -117,6 +118,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return textview.frame.height
     }
     
+    private func textViewWidthToSizeFit() -> CGFloat {
+        textview.sizeToFit()
+        return textview.frame.width
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -126,6 +131,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         completionHandler(NCUpdateResult.newData)
+    }
+    
+    func changeContents() -> Bool {
+        if textview.text != contentManager.getContentData() {
+            return true
+        }
+        return false
     }
     
     @IBAction func tapContents(_ sender: UITapGestureRecognizer) {
