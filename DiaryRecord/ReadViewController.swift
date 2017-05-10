@@ -121,7 +121,7 @@ class ReadViewController: UIViewController {
         readToolbar.barStyle = UIBarStyle.default
         readToolbar.isTranslucent = true
         readToolbar.clipsToBounds = true
-        readToolbar.barTintColor = colorManager.paper
+        readToolbar.barTintColor = colorManager.toolbarBarTint
  
         var items = [UIBarButtonItem]()
         items.append(
@@ -166,8 +166,6 @@ class ReadViewController: UIViewController {
     }
     
     private func setTintColorOnToolbar(color:UIColor) {
-        prevousBtn.tintColor = color
-        afterBtn.tintColor = color
         messageBtn.tintColor = color
     }
     
@@ -176,18 +174,18 @@ class ReadViewController: UIViewController {
         let beforeImg = UIImage(named: "before_30_new.png")?.withRenderingMode(.alwaysTemplate)
         prevousBtn.setImage(beforeImg, for: .normal)
         prevousBtn.tag = 0
-        prevousBtn.tintColor = colorManager.tint
+        prevousBtn.tintColor = colorManager.toolbarTint
         prevousBtn.addTarget(self, action: #selector(ReadViewController.moveToDifferentDiary(_:)), for: .touchUpInside)
         
         messageBtn = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.width * 0.5, height: 20))
         messageBtn.setTitle(message, for: .normal)
-        messageBtn.setTitleColor(colorManager.bar, for: .normal)
+        messageBtn.setTitleColor(colorManager.toolbarTint, for: .normal)
         messageBtn.titleLabel?.font = UIFont(name: fontManager.toolbarFont, size: fontManager.toolbarFontSize)
         
         afterBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
         let afterImg = UIImage(named: "after_30_new.png")?.withRenderingMode(.alwaysTemplate)
         afterBtn.setImage(afterImg, for: .normal)
-        afterBtn.tintColor = colorManager.tint
+        afterBtn.tintColor = colorManager.toolbarTint
         afterBtn.tag = 1
         afterBtn.addTarget(self, action: #selector(ReadViewController.moveToDifferentDiary(_:)), for: .touchUpInside)
     }

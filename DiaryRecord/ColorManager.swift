@@ -43,6 +43,8 @@ class ColorManager: NSObject {
     var paper = UIColor()// 합칠 예정
     
     var special = UIColor()
+    var toolbarBarTint = UIColor()
+    var toolbarTint = UIColor()
     
     var mainText = UIColor.black
     var subText = UIColor.gray
@@ -76,6 +78,9 @@ class ColorManager: NSObject {
 //        special = UIColor(rgb: 0x9cc6d4)
         special = cover
         paper = UIColor(rgb: 0xe4edf0)
+        
+        toolbarBarTint = paper
+        toolbarTint = bar
     }
     
     func spring() {
@@ -84,6 +89,9 @@ class ColorManager: NSObject {
         tint = .white
         special = UIColor(rgb: 0xf3e59a)
         paper = UIColor(rgb: 0xf3f0d6)
+        
+        toolbarBarTint = paper
+        toolbarTint = bar
     }
     
     func cherryBlossoms() {
@@ -94,6 +102,9 @@ class ColorManager: NSObject {
 //        special = UIColor(rgb: 0xffe2f1)
         special = cover
         paper = UIColor(rgb: 0xfff4fd)
+        
+        toolbarBarTint = paper
+        toolbarTint = bar
     }
     
     func jos() {
@@ -105,6 +116,9 @@ class ColorManager: NSObject {
         special = cover
         //        paper = UIColor(rgb: 0xF9F9FF)
         paper = UIColor(rgb: 0xac8690)
+        
+        toolbarBarTint = paper
+        toolbarTint = bar
     }
     
     func ocean() {
@@ -116,6 +130,9 @@ class ColorManager: NSObject {
         special = cover
 //        paper = UIColor(rgb: 0xe1e6fa)
         paper = UIColor(rgb: 0xabc8e2)
+        
+        toolbarBarTint = paper
+        toolbarTint = bar
     }
     
     func snow() {
@@ -126,6 +143,9 @@ class ColorManager: NSObject {
 //        special = UIColor(rgb: 0xC4D7ED)
         special = cover
         paper = .white
+        
+        toolbarBarTint = paper
+        toolbarTint = bar
     }
     
     

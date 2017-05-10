@@ -38,6 +38,7 @@ class SettingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = colorManager.paper
         navigationItem.title = "setting"
         makeNavigationItem()
     }

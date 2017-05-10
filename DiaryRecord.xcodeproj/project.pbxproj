@@ -231,7 +231,6 @@
 		037624751E7E553F002C069A /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		037692901E51BA1E00C0CCCB /* ReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
 		037692921E54885500C0CCCB /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttc; sourceTree = "<group>"; };
 		0399B20A1E656472003E8672 /* WriteBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteBox.swift; sourceTree = "<group>"; };
 		03A6E3551E8414430039056D /* down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down.png; sourceTree = "<group>"; };
@@ -407,7 +406,6 @@
 			isa = PBXGroup;
 			children = (
 				031DC6081EA9C28B00BEC763 /* SeoulHangangM.otf */,
-				0376929C1E55DE2200C0CCCB /* NanumMyeongjo.ttc */,
 				0376929D1E55DE3F00C0CCCB /* NanumMyeongjo.ttc */,
 			);
 			name = font;

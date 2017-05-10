@@ -262,10 +262,10 @@ class MainTableViewController: UITableViewController {
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
             self.navigationController?.pushViewController(readVC!, animated: false)
         }, completion: {(Bool) in
-            let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
-            let selectedDiaryID = self.diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
-            let diary = self.diaryRepository.findOne(id: selectedDiaryID)!
-            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
+//            let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
+//            let selectedDiaryID = self.diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
+//            let diary = self.diaryRepository.findOne(id: selectedDiaryID)!
+//            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
         })
         
     }
