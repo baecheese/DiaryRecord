@@ -49,6 +49,9 @@
 		032EA58D1EBDDA10007022A4 /* setting_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA58B1EBDDA10007022A4 /* setting_30.png */; };
 		032EA58E1EBDDA10007022A4 /* write_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 032EA58C1EBDDA10007022A4 /* write_30.png */; };
 		032FD8C31EBE175500F488E9 /* cover_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 032FD8C21EBE175500F488E9 /* cover_title.png */; };
+		032FD8C71EC2CAE200F488E9 /* special_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 032FD8C61EC2CAE200F488E9 /* special_1.png */; };
+		032FD8CA1EC2DA7300F488E9 /* special_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 032FD8C81EC2DA7300F488E9 /* special_2.png */; };
+		032FD8CB1EC2DA7300F488E9 /* special_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 032FD8C91EC2DA7300F488E9 /* special_3.png */; };
 		034AFBA41EA06EDE00DE1262 /* dontKnow.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA21EA06EDE00DE1262 /* dontKnow.png */; };
 		034AFBA51EA06EDE00DE1262 /* know.png in Resources */ = {isa = PBXBuildFile; fileRef = 034AFBA31EA06EDE00DE1262 /* know.png */; };
 		034AFBAB1EA0776800DE1262 /* Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 034AFBAA1EA0776800DE1262 /* Keychain.m */; };
@@ -196,6 +199,9 @@
 		032EA58B1EBDDA10007022A4 /* setting_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_30.png; sourceTree = "<group>"; };
 		032EA58C1EBDDA10007022A4 /* write_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = write_30.png; sourceTree = "<group>"; };
 		032FD8C21EBE175500F488E9 /* cover_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_title.png; sourceTree = "<group>"; };
+		032FD8C61EC2CAE200F488E9 /* special_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = special_1.png; sourceTree = "<group>"; };
+		032FD8C81EC2DA7300F488E9 /* special_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = special_2.png; sourceTree = "<group>"; };
+		032FD8C91EC2DA7300F488E9 /* special_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = special_3.png; sourceTree = "<group>"; };
 		034AFBA21EA06EDE00DE1262 /* dontKnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dontKnow.png; sourceTree = "<group>"; };
 		034AFBA31EA06EDE00DE1262 /* know.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = know.png; sourceTree = "<group>"; };
 		034AFBA91EA0776800DE1262 /* Keychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keychain.h; sourceTree = "<group>"; };
@@ -367,6 +373,9 @@
 		031DC6051EA9C18700BEC763 /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				032FD8C61EC2CAE200F488E9 /* special_1.png */,
+				032FD8C81EC2DA7300F488E9 /* special_2.png */,
+				032FD8C91EC2DA7300F488E9 /* special_3.png */,
 				032FD8C21EBE175500F488E9 /* cover_title.png */,
 				032EA58B1EBDDA10007022A4 /* setting_30.png */,
 				032EA58C1EBDDA10007022A4 /* write_30.png */,
@@ -773,6 +782,7 @@
 				032EA5871EBDA37B007022A4 /* snow.png in Resources */,
 				037522AD1E862D860001B24F /* moon1.png in Resources */,
 				03C043671E78F30E0075C09E /* Main.storyboard in Resources */,
+				032FD8CA1EC2DA7300F488E9 /* special_2.png in Resources */,
 				037343161E9C82D300FDFF91 /* speicalCell.jpg in Resources */,
 				032EA57B1EBCDDA9007022A4 /* delete_x.png in Resources */,
 				036B6A2F1E9D13A0006A044E /* cloud.png in Resources */,
@@ -781,6 +791,7 @@
 				031DC5DF1EA73AF200BEC763 /* LanchScreen_cat_after.png in Resources */,
 				037522A51E856F7B0001B24F /* LanchScreen_1.jpg in Resources */,
 				03A7A27A1E82518D0074CCFE /* update.png in Resources */,
+				032FD8C71EC2CAE200F488E9 /* special_1.png in Resources */,
 				032EA5731EBC5C43007022A4 /* after_30_new.png in Resources */,
 				032EA5841EBDA37B007022A4 /* cherryBlossoms.png in Resources */,
 				032EA5751EBC5C55007022A4 /* before_30_new.png in Resources */,
@@ -809,6 +820,7 @@
 				032EA5861EBDA37B007022A4 /* ocean.png in Resources */,
 				031DC5E01EA73AF200BEC763 /* LanchScreen_cat_before.png in Resources */,
 				036B6A321E9D13A0006A044E /* download.png in Resources */,
+				032FD8CB1EC2DA7300F488E9 /* special_3.png in Resources */,
 				032EA58E1EBDDA10007022A4 /* write_30.png in Resources */,
 				032EA5831EBDA37B007022A4 /* basic1.png in Resources */,
 				031DC5D81EA7241E00BEC763 /* know_m.png in Resources */,

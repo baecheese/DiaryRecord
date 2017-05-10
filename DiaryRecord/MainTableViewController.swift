@@ -15,6 +15,11 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet var timeLabel: UILabel!
 }
 
+struct MessageInMain {
+    let changeWedgetMode = "change wedget mode '사용자지정'"
+    let delete = "Are you sure you want to delete this diary?"
+}
+
 class MainTableViewController: UITableViewController {
     
     private let log = Logger(logPlace: MainTableViewController.self)
@@ -23,6 +28,7 @@ class MainTableViewController: UITableViewController {
     private let imageManager = ImageFileManager.sharedInstance
     private var colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
     private let wedgetManager = WedgetManager.sharedInstance
+    private let message = MessageInMain()
     private var sortedDate = [String]()
     private let fontManager = FontManager.sharedInstance
     var changeTheme = false
@@ -181,8 +187,9 @@ class MainTableViewController: UITableViewController {
         // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
         if  wedgetManager.isSpecialDayMode() && true == specialDayRepository.isRight(id: cellDiaryID) {
             UIView.transition(with: cell, duration: 0.3, options: .curveEaseIn, animations: {
-                cell.backgroundColor = self.colorManager.special
                 cell.textLabel?.backgroundColor = .clear
+//                cell.backgroundColor = self.colorManager.special
+//                self.showSpecialDayMark(cell: cell)
             }, completion: nil)
         }
         
@@ -190,19 +197,26 @@ class MainTableViewController: UITableViewController {
     }
     
     func setContentsCell(cell:MainTableViewCell, diary:Diary) {
-        cell.contentsLabel.text = diary.content
-        cell.timeLabel.text = diary.timeStamp.getHHMM()
+        var content = removeIndent(contents: diary.content)
+        var contentColor = colorManager.mainText
         
-        cell.contentsLabel.text = removeIndent(contents: diary.content)
+        if true == isShowSpeacialDay(diaryID: diary.id) {
+            content = "◈" + diary.content
+            contentColor = colorManager.bar
+        }
+        cell.contentsLabel.text = content
         cell.contentsLabel.font = UIFont(name: fontManager.cellFont, size: fontManager.cellTextSize)
         cell.contentsLabel.backgroundColor = .clear
-        cell.contentsLabel.textColor = colorManager.mainText
+        cell.contentsLabel.textColor = contentColor
         
+
+        cell.timeLabel.text = diary.timeStamp.getHHMM()
         cell.timeLabel.backgroundColor = .clear
         cell.timeLabel.textAlignment = .right
         cell.timeLabel.text = diary.timeStamp.getHHMM()
         cell.timeLabel.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellSubTextSize)
         cell.timeLabel.textColor = colorManager.subText
+        
     }
     
     func setcheckSecretCell(cell:MainTableViewCell) {
@@ -212,6 +226,24 @@ class MainTableViewController: UITableViewController {
         cell.contentsLabel.backgroundColor = .clear
         cell.timeLabel.backgroundColor = .clear
         cell.timeLabel.textColor = .clear
+    }
+    
+    func isShowSpeacialDay(diaryID:Int) -> Bool {
+        // 위젯 선택모드 + 가장 좋아하는 일기 선택 시
+        if  wedgetManager.isSpecialDayMode() && true == specialDayRepository.isRight(id: diaryID) {
+            return true
+        }
+        return false
+    }
+    
+    // test
+    func showSpecialDayMark(cell:MainTableViewCell) {
+        let width = cell.timeLabel.frame.width
+        let mark = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: 36))
+        mark.image = UIImage(named: "special_1.png")?.withRenderingMode(.alwaysTemplate)
+        mark.tintColor = colorManager.special
+        mark.alpha = 0.7
+        cell.timeLabel.addSubview(mark)
     }
     
     private func removeIndent(contents:String) -> String {
@@ -295,7 +327,7 @@ class MainTableViewController: UITableViewController {
         }
         else {
             // 사용자 설정 모드 아니면 알림
-            showAlert(message: "change wedget mode '사용자지정'", haveCancel: true, doneHandler:
+            showAlert(message: message.changeWedgetMode, haveCancel: true, doneHandler:
                 { (UIAlertAction) in
                     self.moveSelectWedgetPage()
                 }, cancelHandler: nil)
@@ -312,9 +344,16 @@ class MainTableViewController: UITableViewController {
     }
     
     private func deleteCell(indexPath: IndexPath) {
+        showAlert(message: message.delete, haveCancel: true, doneHandler: { (UIAlertAction) in
+            self.deleteDiaryWithCell(indexPath: indexPath)
+        }, cancelHandler: nil)
+    }
+    
+    private func deleteDiaryWithCell(indexPath:IndexPath) {
         let selectedDiaryInfo = SharedMemoryContext.setAndGet(key: "selectedDiaryInfo"
             , setValue: (indexPath.section, indexPath.row)) as! (Int, Int)
         let selectedDiaryID = diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
+        
         diaryRepository.delete(id: selectedDiaryID)
         imageManager.deleteImageFile(diaryID: selectedDiaryID)
         
@@ -326,25 +365,16 @@ class MainTableViewController: UITableViewController {
         let diarys = self.diaryRepository.getAllByTheDate()
         /* 마지막 Diary 일 때 row를 지우면 NSInternalInconsistencyException이 일어남
          -> 마지막 diary일 땐 그냥 비어있는 diary 데이터로 tableView reload data */
-        if false == isLastDairy(diarys: diarys) {
-            // 마지막 diary가 아니면 deleteRow를 한다.
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
+//        if false == diaryRepository.haveLastOne() {
+//            // 마지막 diary가 아니면 deleteRow를 한다.
+//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//        }
         UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
             self.sortedDate = Array(diarys.keys).sorted(by: >)
             self.tableView.reloadData()
             self.wedgetManager.setContentsInWedget(mode: self.wedgetManager.getMode())
         }, completion: nil)
     }
-    
-    func isLastDairy(diarys : [String : Array<Diary>]) -> Bool {
-        if 1 < diarys.count {
-            return false
-        }
-        return true
-    }
-    
-    
     
     func navigationFont() {
         navigationItem.title = "index"
@@ -366,7 +396,6 @@ class MainTableViewController: UITableViewController {
             log.info(message: "pass a day and changeWedget")
         }
     }
-
     
     func showAlert(message:String, haveCancel:Bool, doneHandler:((UIAlertAction) -> Swift.Void)?, cancelHandler:((UIAlertAction) -> Swift.Void)?)
     {

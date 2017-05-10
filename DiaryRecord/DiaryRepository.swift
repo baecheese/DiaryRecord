@@ -71,6 +71,7 @@ class DiaryRepository: NSObject {
         return Array(diarys.keys).sorted(by: >)
     }
     
+    /** 순서 */
     func isFrist(diaryInfo:(Int, Int)) -> Bool {
         if fristDiaryInfo() == diaryInfo {
             return true
@@ -78,8 +79,17 @@ class DiaryRepository: NSObject {
         return false
     }
     
+    /** 순서 */
     func isLast(diaryInfo:(Int, Int)) -> Bool {
         if diaryInfo == (0, 0) {
+            return true
+        }
+        return false
+    }
+    
+    /** 갯수 */
+    func haveLastOne() -> Bool {
+        if getAllList().count == 1 {
             return true
         }
         return false
