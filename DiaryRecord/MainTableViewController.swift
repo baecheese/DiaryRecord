@@ -236,16 +236,6 @@ class MainTableViewController: UITableViewController {
         return false
     }
     
-    // test
-    func showSpecialDayMark(cell:MainTableViewCell) {
-        let width = cell.timeLabel.frame.width
-        let mark = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: 36))
-        mark.image = UIImage(named: "special_1.png")?.withRenderingMode(.alwaysTemplate)
-        mark.tintColor = colorManager.special
-        mark.alpha = 0.7
-        cell.timeLabel.addSubview(mark)
-    }
-    
     private func removeIndent(contents:String) -> String {
         if " " == contents.characters.first {
             let newContentIndex = contents.index(contents.startIndex, offsetBy: 1)

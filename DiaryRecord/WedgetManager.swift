@@ -273,7 +273,6 @@ class WedgetManager: NSObject {
         
         let oneTextWidth = exam.frame.width
         
-        log.info(message: "maxWidth - \(maxWidth) oneTextWidth - \(oneTextWidth)   result - \((maxWidth / oneTextWidth))")
         return Int(maxWidth / oneTextWidth)
     }
     
@@ -281,7 +280,6 @@ class WedgetManager: NSObject {
     private func getSreenWidth() -> CGFloat {
         let bounds = UIScreen.main.bounds
         let width = bounds.size.width
-        log.info(message: "UIScreen.main.bounds - \(UIScreen.main.bounds)")
         return width
     }
     
