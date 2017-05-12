@@ -295,6 +295,9 @@ class WedgetManager: NSObject {
     private func saveImage(imageName:String?) {
         if nil != imageName {
             let image = imageManager.showImage(imageName: imageName!)
+            if image == nil {
+                return;
+            }
             let imageData = UIImagePNGRepresentation(image!)
             groupDefaults?.set(imageData, forKey: wedgetGroupKey.image)
 //            log.info(message: " get wedgetImage : \(groupDefaults?.value(forKey: wedgetGroupKey.image))")

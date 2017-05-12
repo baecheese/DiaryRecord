@@ -9,11 +9,12 @@
 import UIKit
 
 struct SettingMenu {
-    let setionList:[String] = ["test", "setting", "help", "Resorce Licenses"]
-    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "비밀번호"]
+//    let setionList:[String] = ["test", "setting", "help", "Resorce Licenses"]
+    let setionList:[String] = ["setting", "help"]
+//    let testList:[String] = ["전체 다이어리 정보 로그", "전체 이미지 리스트 로그", "전체 이미지 파일 삭제", "스페셜 데이 전체", "비밀번호"]
     let basicList:[String] = ["Theme", "Widget", "Font size", "Password", "Touch ID"]
     let infoList:[String] = ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
-    let licensesInfo:[String] = ["licenses info"]
+//    let licensesInfo:[String] = ["licenses info"]
 }
 
 class SettingTableCell: UITableViewCell {
@@ -56,7 +57,9 @@ class SettingTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
+//        let menuList = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
+        let menuList = [settingMenu.basicList, settingMenu.infoList]
+
         return menuList[section].count
     }
     
@@ -103,7 +106,7 @@ class SettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingTableCell
         
-        let menuList:[[String]] = [settingMenu.testList, settingMenu.basicList, settingMenu.infoList, settingMenu.licensesInfo]
+        let menuList:[[String]] = [settingMenu.basicList, settingMenu.infoList]
         cell.title.font = UIFont(name: fontManager.cellSubFont, size: fontManager.cellTextSize)
         cell.backgroundColor = colorManager.paper
         let menuNameListInSection = menuList[indexPath.section]
@@ -127,26 +130,8 @@ class SettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selected = tableView.cellForRow(at: indexPath)
         
-        /* test용 로그 */
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                allDiaryList()
-            }
-            if indexPath.row == 1 {
-                allImageList()
-            }
-            if indexPath.row == 2 {
-                deleteAllImageFile()
-            }
-            if indexPath.row == 3 {
-                log.info(message: "\(SpecialDayRepository.sharedInstance.getAll())")
-            }
-            if indexPath.row == 4{
-                log.info(message: "Password: \(String(describing: KeychainManager.sharedInstance.loadPassword()))")
-            }
-        }
         /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
             // 테마 선택
             if indexPath.row == 0 {
                 let selectTheme = self.storyboard?.instantiateViewController(withIdentifier: "SelectThemeViewController") as? SelectThemeViewController
@@ -164,9 +149,7 @@ class SettingTableViewController: UITableViewController {
             }
             // 비밀번호 설정
             if indexPath.row == 3 {
-                /*test용 - 비번 수정용 */
-//                let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
-//                self.navigationController?.pushViewController(passwordVC, animated: true)                
+                // switch로 제어
                 selected?.selectionStyle = .none
                 return;
             }
@@ -175,15 +158,9 @@ class SettingTableViewController: UITableViewController {
                 
             }
         }
-        // infoList - ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
-        if indexPath.section == 2 {
+        
+        if indexPath.section == 1 {
             
-        }
-        // licenses - ["licenses info"]
-        if indexPath.section == 3 {
-            let storyBoard = UIStoryboard(name: "Main", bundle:nil)
-            let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController
-            self.navigationController?.pushViewController(LicenseVC, animated: true)
         }
         
         selected?.setSelected(false, animated: true)
@@ -280,6 +257,77 @@ class SettingTableViewController: UITableViewController {
     
     func deleteAllImageFile() {
         imageManager.deleteAllImageFile()
+    }
+    
+    // test 포함 didSelectRowAt
+    private func testSelectTable() {
+        /*
+        
+        let selected = tableView.cellForRow(at: indexPath)
+        
+        /* test용 로그 */
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                allDiaryList()
+            }
+            if indexPath.row == 1 {
+                allImageList()
+            }
+            if indexPath.row == 2 {
+                deleteAllImageFile()
+            }
+            if indexPath.row == 3 {
+                log.info(message: "\(SpecialDayRepository.sharedInstance.getAll())")
+            }
+            if indexPath.row == 4{
+                log.info(message: "Password: \(String(describing: KeychainManager.sharedInstance.loadPassword()))")
+            }
+        }
+        /* setting - "테마", "위젯 설정", "글자 크기", "비밀번호 설정", "Touch로 잠금" */
+        if indexPath.section == 1 {
+            // 테마 선택
+            if indexPath.row == 0 {
+                let selectTheme = self.storyboard?.instantiateViewController(withIdentifier: "SelectThemeViewController") as? SelectThemeViewController
+                self.navigationController?.pushViewController(selectTheme!, animated: true)
+            }
+            // 위젯 설정
+            if indexPath.row == 1{
+                let wedgetMode = self.storyboard?.instantiateViewController(withIdentifier: "SelectWedgetTableViewController") as! SelectWedgetTableViewController
+                self.navigationController?.pushViewController(wedgetMode, animated: true)
+            }
+            // 폰트 사이즈
+            if indexPath.row == 2 {
+                let selectFontSizeVC = self.storyboard?.instantiateViewController(withIdentifier: "SelectFontSizeTableViewController")
+                self.navigationController?.pushViewController(selectFontSizeVC!, animated: true)
+            }
+            // 비밀번호 설정
+            if indexPath.row == 3 {
+                /*test용 - 비번 수정용 */
+                //                let passwordVC = self.storyboard?.instantiateViewController(withIdentifier: "PasswordViewController") as! PasswordViewController
+                //                self.navigationController?.pushViewController(passwordVC, animated: true)
+                selected?.selectionStyle = .none
+                return;
+            }
+            // 터치 ID
+            if indexPath.row == 4 {
+                
+            }
+        }
+        // infoList - ["help / 버그 신고", "개발자에게 커피 한 잔 ☕️"]
+        if indexPath.section == 2 {
+            
+        }
+        // licenses - ["licenses info"]
+        if indexPath.section == 3 {
+            let storyBoard = UIStoryboard(name: "Main", bundle:nil)
+            let LicenseVC = storyBoard.instantiateViewController(withIdentifier: "LicenseVC") as UIViewController
+            self.navigationController?.pushViewController(LicenseVC, animated: true)
+        }
+        
+        selected?.setSelected(false, animated: true)
+         
+         
+         */
     }
     
 }

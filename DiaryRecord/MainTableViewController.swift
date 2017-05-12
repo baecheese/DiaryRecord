@@ -8,8 +8,25 @@
 
 import UIKit
 
-/** MainTableViewController */
+class TableViewRowAction: UITableViewRowAction
+{
+    var image: UIImage?
+    
+    func _setButton(button: UIButton)
+    {
+        if let image = image, let titleLabel = button.titleLabel
+        {
+            let labelString = NSString(string: titleLabel.text!)
+            let titleSize = labelString.size(attributes: [NSFontAttributeName: titleLabel.font])
+            
+            button.tintColor = UIColor.white
+            button.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal )
+            button.imageEdgeInsets.right = -titleSize.width
+        }
+    }
+}
 
+/** MainTableViewController */
 class MainTableViewCell: UITableViewCell {
     @IBOutlet var contentsLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
@@ -251,12 +268,7 @@ class MainTableViewController: UITableViewController {
         
         UIView.transition(with: self.navigationController!.view, duration: 1.0, options: UIViewAnimationOptions.transitionCurlUp, animations: {
             self.navigationController?.pushViewController(readVC!, animated: false)
-        }, completion: {(Bool) in
-//            let selectedDiaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
-//            let selectedDiaryID = self.diaryRepository.getSelectedDiaryID(section: selectedDiaryInfo.0, row: selectedDiaryInfo.1)
-//            let diary = self.diaryRepository.findOne(id: selectedDiaryID)!
-//            readVC?.showAnimationToolbarItem(message: diary.timeStamp.getAllTimeInfo(), date: diary.timeStamp.getAllTimeInfo())
-        })
+        }, completion: nil)
         
     }
     
@@ -266,17 +278,26 @@ class MainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        let favorite = UITableViewRowAction(style: .normal, title: "⭐️") { action, index in
+        
+        let favorite = UITableViewRowAction(style: .default, title: "       ") { action, index in
             self.setSpecialDay(indexPath: editActionsForRowAt)
         }
-        favorite.backgroundColor = .gray
         
-        let delete = UITableViewRowAction(style: .normal, title: "delete") { action, index in
+        let cellDiaryID = diaryRepository.getSelectedDiaryID(section: editActionsForRowAt.section, row: editActionsForRowAt.row)
+        if  wedgetManager.isSpecialDayMode() && true == specialDayRepository.isRight(id: cellDiaryID) {
+            favorite.backgroundColor = UIColor(patternImage: UIImage(named: "like.png")!)
+        }
+        else {
+            favorite.backgroundColor = UIColor(patternImage: UIImage(named: "like_no.png")!)
+        }
+        
+        let delete = UITableViewRowAction(style: .default, title: "       ") { action, index in
             self.deleteCell(indexPath: editActionsForRowAt)
         }
-        delete.backgroundColor = .red
+        delete.backgroundColor = UIColor(patternImage: UIImage(named: "delete.png")!)
         
         return [delete, favorite]
+    
     }
     
     private func setSpecialDay(indexPath: IndexPath) {
@@ -312,7 +333,9 @@ class MainTableViewController: UITableViewController {
                 
                 // 테이블 리로드 & 스페셜 데이 색깔 변화
                 log.info(message: "스페셜 데이 지정 성공 - \(specialDayRepository.getAll())")
-                self.tableView.reloadData()
+                UIView.transition(with: self.tableView, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                }, completion: nil)
             }
         }
         else {
@@ -359,7 +382,7 @@ class MainTableViewController: UITableViewController {
 //            // 마지막 diary가 아니면 deleteRow를 한다.
 //            self.tableView.deleteRows(at: [indexPath], with: .automatic)
 //        }
-        UIView.transition(with: self.tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: self.tableView, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.sortedDate = Array(diarys.keys).sorted(by: >)
             self.tableView.reloadData()
             self.wedgetManager.setContentsInWedget(mode: self.wedgetManager.getMode())

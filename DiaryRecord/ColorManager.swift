@@ -86,7 +86,6 @@ class ColorManager: NSObject {
         cover = UIColor(rgb: 0xf29c9c)
         bar = UIColor(rgb: 0xf3b59b)
         tint = .white
-//        special = UIColor(rgb: 0xd06864)
         special = UIColor(rgb: 0xf3656b)
         paper = UIColor(rgb: 0xf3f0d6)
         
@@ -99,9 +98,7 @@ class ColorManager: NSObject {
         cover = bar
         title = UIColor(rgb: 0x721340)
         tint = .white
-//        special = UIColor(rgb: 0xffe2f1)
-        special = UIColor(rgb: 0xff52a0)
-//        special = UIColor(rgb: 0xff5572)
+        special = UIColor(rgb: 0xff5572)
         paper = UIColor(rgb: 0xfff4fd)
         
         toolbarBarTint = paper
@@ -114,7 +111,6 @@ class ColorManager: NSObject {
         title = UIColor(rgb: 0x00374b)
         tint = .white
         special = UIColor(rgb: 0x941751)
-        //        paper = UIColor(rgb: 0xF9F9FF)
         paper = UIColor(rgb: 0xac8690)
         
         toolbarBarTint = paper
@@ -125,10 +121,7 @@ class ColorManager: NSObject {
         bar = UIColor(rgb: 0x375d81)
         cover = bar
         tint = .white
-//        date = UIColor(rgb: 0xabc8e2)
         special = UIColor(rgb: 0x005493)
-//        special = cover
-//        paper = UIColor(rgb: 0xe1e6fa)
         paper = UIColor(rgb: 0xabc8e2)
         
         toolbarBarTint = paper
