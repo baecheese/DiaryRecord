@@ -223,14 +223,16 @@ class WedgetManager: NSObject {
         if date != nil {
             saveDate = date?.getDateLongStyle()
         }
-        let newContents = cutContents(contents: contents, date: saveDate)
+        let newContents = cutContents(contentsAll: contents, date: saveDate)
         log.info(message: newContents)
         groupDefaults?.set(newContents, forKey: wedgetGroupKey.contents)
     }
     
-    private func cutContents(contents:String, date:String?) -> String {
+    private func cutContents(contentsAll:String, date:String?) -> String {
         
         let oneLineMax = getTextMaxCharactersCountToLabelWidth(maxWidth: getSreenWidth()*0.6, systemFontSize: WedgetFont().size)
+        let contents = contentsAll.replacingOccurrences(of: "\n", with: " ")
+
         
         var result = ""
         // 한 줄인 경우
