@@ -206,7 +206,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if false == haveImage() {
-            makeImageBox()
+            makeImageBox(havePickerImage: true)
         }
         
         let chosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
@@ -320,13 +320,13 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         background.addSubview(writeBox)
     }
     
-    func makeImageBox() {
+    func makeImageBox(havePickerImage:Bool) {
         let imageBoxY = writeState.writeBoxHeightToEditing
         imageBox = ImageBox(frame: CGRect(x: 0, y: imageBoxY, width: view.frame.width, height: writeState.imageBoxHeight))
         imageBox.delegate = self
         imageBox.imageSpace.image = nil
         // edit 모드일 때 설정
-        if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+        if true == haveLoadImage(havePickerImage: havePickerImage) {
             let diaryInfo = SharedMemoryContext.get(key: "selectedDiaryInfo") as! (Int, Int)
             let diaryID = diaryRepository.getSelectedDiaryID(section: diaryInfo.0, row: diaryInfo.1)
             let diary = diaryRepository.findOne(id: diaryID)
@@ -337,6 +337,23 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
         }
         background.addSubview(imageBox)
         
+    }
+    
+    func haveLoadImage(havePickerImage:Bool) -> Bool {
+        // 수정모드로 들어왔을 때,
+        // 처음에는 수정모드 확인 - 저장된 이미지 섹션 보여줘야함
+        // 수정하는 도중에는 이미지 픽커에서 받은 이미지 섹션 만들때 이와 관계 없어도됨
+        if true == isEditeMode() && false == havePickerImage {
+            return true
+        }
+        return false
+    }
+    
+    func isEditeMode() -> Bool {
+        if false == SharedMemoryContext.get(key: "isWriteMode") as! Bool {
+            return true
+        }
+        return false
     }
     
     func disappearPopAnimation() {
@@ -401,7 +418,7 @@ class WriteViewController: UIViewController, UINavigationControllerDelegate, UII
                     let diaryID = diaryRepository.getSelectedDiaryID(section: diaryInfo.0, row: diaryInfo.1)
                     let diary = diaryRepository.findOne(id: diaryID)
                     if nil != diary?.imageName {
-                        makeImageBox()
+                        makeImageBox(havePickerImage: false)
                     }
                 }
             }

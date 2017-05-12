@@ -372,6 +372,7 @@ class MainTableViewController: UITableViewController {
         
         if specialDayRepository.isRight(id: selectedDiaryID) {
             specialDayRepository.delete(id: selectedDiaryID)
+            self.wedgetManager.setContentsInWedget(mode: self.wedgetManager.getMode())
         }
         
         // 삭제 후, 다이어리를 찾았을 때
@@ -385,7 +386,6 @@ class MainTableViewController: UITableViewController {
         UIView.transition(with: self.tableView, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.sortedDate = Array(diarys.keys).sorted(by: >)
             self.tableView.reloadData()
-            self.wedgetManager.setContentsInWedget(mode: self.wedgetManager.getMode())
         }, completion: nil)
     }
     
