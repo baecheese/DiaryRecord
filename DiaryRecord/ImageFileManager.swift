@@ -89,7 +89,7 @@ class ImageFileManager: NSObject {
         deleteImageFile(imageName: imageName)
     }
 
-    func showImage(imageName:String) -> UIImage? {        
+    func showImage(imageName:String) -> UIImage? {
         let imageURL = getDocumentsDirectoryWithFileURL(fileName: imageName)
         let image = UIImage(contentsOfFile: imageURL.path)
         
