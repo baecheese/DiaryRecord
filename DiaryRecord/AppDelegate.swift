@@ -11,16 +11,32 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let log = Logger(logPlace: AppDelegate.self)
+    
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         SharedMemoryContext.set(key: "saveNewDairy", setValue: false)
+        let keychain = KeychainManager.sharedInstance
+        if keychain.loadPassword() != nil {
+            if true == keychain.haveBeforePassword() {
+                keychain.deletePassword()
+                SharedMemoryContext.set(key: "isSecretMode", setValue: false)
+            } else {
+                SharedMemoryContext.set(key: "isSecretMode", setValue: true)
+            }
+        }
+        if keychain.loadPassword() == nil {
+            SharedMemoryContext.set(key: "isSecretMode", setValue: false)
+        }
         
+        let fontManager = FontManager.sharedInstance
+        fontManager.changeSize(sizeMode: fontManager.getSizeMode())
+//        fontManager.changeSize(sizeMode: 3)
         return true
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -42,7 +58,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        if true == haveSelectDiaryInWedget() {
+            setSelectDiaryInfo()
+            let navigationController = self.window?.rootViewController as? UINavigationController
+            navigationController?.popToRootViewController(animated: true)
+        }
+        return true
+    }
+    
+    let wedgetManager = WedgetManager.sharedInstance
+    let diaryRepository = DiaryRepository.sharedInstance
+    
+    func haveSelectDiaryInWedget() -> Bool {
+        if true == wedgetManager.isComeIntoTheWedget() && nil != wedgetManager.getNowWedgetID() {
+            return true
+        }
+        return false
+    }
+    
+    func setSelectDiaryInfo() {
+        let info = diaryRepository.getDiaryInfo(diaryID: wedgetManager.getNowWedgetID()!)
+        SharedMemoryContext.set(key: "selectedDiaryInfo", setValue: (info.0, info.1))
+    }
 }
 

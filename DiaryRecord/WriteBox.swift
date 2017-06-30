@@ -10,18 +10,18 @@ import UIKit
 
 struct WriteFrame {
     var lineSpace:CGFloat = 10.0
-    let fontSize:CGFloat = 17.0
 }
 
 extension UIViewController : UITextViewDelegate {
-
+    
     /** 키보드 위 toolBar */
-    func addToolBar(textField: UITextView){
+    func addToolBar(textField: UITextView, barTintColor:UIColor, tintColor:UIColor) {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 37/255, green: 35/255, blue: 37/255, alpha: 1)
-
+        
+        toolBar.barTintColor = barTintColor
+        toolBar.tintColor = tintColor
         
         let galleryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "gallery.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.photoPressed))
         let cancelButton = UIBarButtonItem(image: #imageLiteral(resourceName: "down.png"), style: UIBarButtonItemStyle.done, target: self, action: #selector(UIViewController.cancelPressed))
@@ -61,10 +61,13 @@ class WriteBox: UIView, UITextViewDelegate {
     }
 
     func makeWriteBox() {
-        writeSpace = UITextView(frame:CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+        let margen:CGFloat = 30.0
+        writeSpace = UITextView(frame:CGRect(x: margen, y: margen, width: self.frame.size.width - margen*2, height: self.frame.size.height - margen*2))
         writeSpace.isEditable = true
         let colorManager = ColorManager(theme: ThemeRepositroy.sharedInstance.get())
         writeSpace.backgroundColor = colorManager.paper
+        
+        let fontManager = FontManager.sharedInstance
         // 줄간격
         let attributedString = NSMutableAttributedString(string: " ")
         let paragraphStyle = NSMutableParagraphStyle()
@@ -75,7 +78,7 @@ class WriteBox: UIView, UITextViewDelegate {
         writeSpace.contentOffset = CGPoint.zero
         writeSpace.translatesAutoresizingMaskIntoConstraints = false
         // 폰트 및 크기
-        writeSpace.font = UIFont(name: "NanumMyeongjo", size: writeframe.fontSize)
+        writeSpace.font = UIFont(name: fontManager.pageTextFont, size: fontManager.pageTextSize)
         // 키보드 자동완성 turn off
         writeSpace.autocorrectionType = UITextAutocorrectionType.no
         self.addSubview(writeSpace)

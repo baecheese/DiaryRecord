@@ -44,26 +44,30 @@ class ImageFileManager: NSObject {
     }
 
     private func isNotExistImage(imageName:String) -> Bool {
-        let imagePath = getImageFilePath(imageName: imageName)
-        if imagePath == nil {
+        let imageURL = getDocumentsDirectoryWithFileURL(fileName: imageName)
+        let image = UIImage(contentsOfFile: imageURL.path)
+        if image == nil {
             return true
         }
-        return false == fileManager.fileExists(atPath: imagePath!)
+        return false
     }
 
     func saveImage(data:Data, id:Int) -> String {
-        let imageName = "\(id).jpeg"
+        let imageName = "\(id).jpeg"        
         let isNotExists = isNotExistImage(imageName: imageName)
         log.debug(message: "\(imageName) is not exists \(isNotExists)")
-
-        if isNotExists {
-            let filename = getDocumentsDirectoryURL().appendingPathComponent(imageName)
-            log.debug(message: "fileName: \(filename)")
-            try? data.write(to: filename)
+        
+        if false == isNotExists {
+            deleteImageFile(imageName: imageName)
         }
+        
+        let filename = getDocumentsDirectoryURL().appendingPathComponent(imageName)
+        log.debug(message: "fileName: \(filename)")
+        try? data.write(to: filename)
+        
         return imageName
     }
-
+    
     func deleteImageFile(imageName:String?) {
         if false == isNotExistImage(imageName: imageName!) {
             do {
@@ -86,11 +90,13 @@ class ImageFileManager: NSObject {
     }
 
     func showImage(imageName:String) -> UIImage? {
-        if isNotExistImage(imageName: imageName) {
-            return nil
-        }
         let imageURL = getDocumentsDirectoryWithFileURL(fileName: imageName)
-        return UIImage(contentsOfFile: imageURL.path)
+        let image = UIImage(contentsOfFile: imageURL.path)
+        
+        if image == nil {
+            return UIImage(named: "Error.png")
+        }
+        return image
     }
     
     

@@ -27,10 +27,83 @@ class DiaryRepository: NSObject {
     
     static let sharedInstance: DiaryRepository = DiaryRepository()
     
-    /* for test **/
-    func getAll() -> Results<Diary> {
+    /* Results<Diary> **/
+    func getAllList() -> Results<Diary> {
         let diarys:Results<Diary> = realm.objects(Diary.self)
         return diarys
+    }
+    
+    func getSelectedDiaryID(section:Int, row:Int) -> Int {
+        let diarys:[String : Array<Diary>] = getAllByTheDate()
+        let sortedDate = Array(diarys.keys).sorted(by: >)
+        let targetDate = sortedDate[section]
+        return ((diarys[targetDate]?[row])?.id)!
+    }
+ 
+    func getDiaryInfo(diaryID:Int) -> (Int?, Int?) {
+        let diarysData:[String : Array<Diary>] = getAllByTheDate()
+        let sortedDate = Array(diarysData.keys).sorted(by: >)
+        
+        var infoSection:Int? = nil
+        var infoRow:Int? = nil
+        
+        for section in sortedDate {
+            let diarys = diarysData[section]
+            for diary in diarys! {
+                if diary.id == diaryID {
+                    infoSection = sortedDate.index(of: section)
+                    infoRow = diarys?.index(of: diary)
+                    break;
+                }
+            }
+        }
+        return (infoSection, infoRow)
+    }
+    
+    func getDiarysOfOneDay(section:Int) -> [Diary] {
+        let diarys:[String : Array<Diary>] = getAllByTheDate()
+        let targetDate = getSortedAllDate()[section]
+        return diarys[targetDate]!
+    }
+    
+    func getSortedAllDate() -> Array<String> {
+        let diarys:[String : Array<Diary>] = getAllByTheDate()
+        return Array(diarys.keys).sorted(by: >)
+    }
+    
+    /** 순서 */
+    func isFrist(diaryInfo:(Int, Int)) -> Bool {
+        if fristDiaryInfo() == diaryInfo {
+            return true
+        }
+        return false
+    }
+    
+    /** 순서 */
+    func isLast(diaryInfo:(Int, Int)) -> Bool {
+        if diaryInfo == (0, 0) {
+            return true
+        }
+        return false
+    }
+    
+    /** 갯수 */
+    func haveLastOne() -> Bool {
+        if getAllList().count == 1 {
+            return true
+        }
+        return false
+    }
+    
+    /** 가장 첫 번째로 쓴, 메인에서는 맨 아래에 있는 section, row */
+    func fristDiaryInfo() -> (Int, Int) {
+        let section = getSortedAllDate().count - 1
+        let row = getDiarysOfOneDay(section: section).count - 1
+        return (section, row)
+    }
+    
+    func getLastDiaryOfSomeDay(dateInfo:Int) -> Int {
+        return getDiarysOfOneDay(section: dateInfo).count - 1
     }
     
     func save(timeStamp:Double, content:String, imageData:Data?) -> (Bool, String) {
@@ -48,7 +121,7 @@ class DiaryRepository: NSObject {
                 }
                 diary.timeStamp = timeStamp
                 diary.content = content
-                if (content == "") {
+                if (content == "" || content == " ") {
                     throw ContentsSaveError.contentsIsEmpty
                 }
                 else if (content.characters.count > 1000) {
@@ -62,7 +135,7 @@ class DiaryRepository: NSObject {
         }
         catch ContentsSaveError.contentsIsEmpty {
             log.warn(message: "contentsIsEmpty")
-            return (false, "내용이 비어있습니다.")
+            return (false, "The pages are blank.")
         }
         catch ContentsSaveError.contentsSizeIsOver {
             log.warn(message: "contentsIsOver")
@@ -138,7 +211,7 @@ class DiaryRepository: NSObject {
        ]
      ]
      */
-    func findAll() -> [String : Array<Diary>] {
+    func getAllByTheDate() -> [String : Array<Diary>] {
         var diaryDict = [String : Array<Diary>]()
         let diarys:Results<Diary> = realm.objects(Diary.self)
         
@@ -151,7 +224,7 @@ class DiaryRepository: NSObject {
         // [diary1, diary2] -> dayDiaries (같은 날 다른 시간에 쓰여진 일기)
         for index in 0...diarys.count-1 {
             let diary:Diary = diarys[index]
-            let key:String = diary.timeStamp.getYYMMDD()
+            let key:String = diary.timeStamp.getDotDate()
             if nil == diaryDict[key] {
                 diaryDict.updateValue([diary], forKey: key)
             } else {
@@ -179,6 +252,18 @@ class DiaryRepository: NSObject {
             return nil
         }
         return selectedDiary[0]
+    }
+    
+    func getIdAll() -> [Int]? {
+        let ids = realm.objects(Diary.self).value(forKey: "id") as! Array<Int>
+        if (ids.count == 0) {
+            return nil
+        }
+        var idList = [Int]()
+        for id in ids {
+            idList.append(id)
+        }
+        return idList
     }
     
     //TODO cheesing 구현, [String : Array<Diary>] 로 변형하는 기능은 함수로 분리하여서 findAll과 공통으로 사용하도록 구현
